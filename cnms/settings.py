@@ -123,8 +123,7 @@ WSGI_APPLICATION = 'cnms.wsgi.application'
 
 
 
-conn_str = env('AZURE_POSTGRESQL_CONNECTIONSTRING')                 
-conn_str_params = {pair.split('=')[0]: pair.split('=')[1] for pair in conn_str.split(' ')}
+
 
 # Example connection string: "host=localhost dbname=paqcnms user=postgres password=Letmein@2023_1"
 
@@ -140,6 +139,8 @@ DATABASES = {
         }
     }
 """
+conn_str = env('AZURE_POSTGRESQL_CONNECTIONSTRING')                 
+conn_str_params = {pair.split('=')[0]: pair.split('=')[1] for pair in conn_str.split(' ')}
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
