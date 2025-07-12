@@ -1,0 +1,284 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+ <!-- page content -->
+ <div class="right_col" role="main">
+
+      
+      <div class="clearfix"></div>
+
+      <div class="row">
+        <div class="col-md-12 col-sm-12 ">
+          <div class="x_panel">
+            <div class="x_title">
+              <h2>Program Detail</h2>
+              <ul class="nav navbar-right panel_toolbox">
+                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                </li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <a class="dropdown-item" href="#">Settings 1</a>
+                      <a class="dropdown-item" href="#">Settings 2</a>
+                    </div>
+                </li>
+                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                </li>
+              </ul>
+              <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+              <div class="col-md-3 col-sm-3 profile_left" id="profile">
+               
+                <h3><i class="fa fa-briefcase user-profile-icon"> </i> {{ program.title }}</h3></br>
+                <h4><i class="fa fa-university user-profile-icon"> </i> {{ program.portfolio }}</h4></br>
+                <h6>{{ program.description }}</h6>
+                <ul class="list-unstyled user_data">
+                <li>
+                    
+                  </li>
+                  {% for reg in imp_reg %}
+
+                  <li>
+                    
+                    <i class="fa fa-map-marker user-profile-icon"> {{ reg.region__name }}:{{ reg.woreda__count }} Woreda </i> 
+                  </li>
+                  {% endfor %}
+                 
+
+               
+                </ul>
+
+            
+
+                <!-- start skills -->
+              
+                <ul class="list-unstyled user_data">
+                
+                  <li>
+                    <p>Start Date: {{ program.start_date}}</p>
+                
+                  </li>
+                    <li>
+                    <p>End Date: {{ program.end_date}}</p>
+                
+                  </li>
+                  <li>
+                    <p>Duration</p>
+                  <div class="progress progress_sm">
+                        <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="{{ program.get_date_diff }}"></div>
+                      </div>
+                  </li>
+               
+                
+                </ul>
+    <a class="btn btn-success" href="{% url 'edit_program' program.id %}" ><i class="fa fa-edit m-right-xs"></i>Edit Profile</a>
+                <br />
+              </div>
+                <!-- end of skills -->
+
+             
+              <div class="col-md-9 col-sm-9 ">
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="x_panel">
+                      <div class="x_title">
+                        <h2>Activity Summary <small>Weekly progress</small></h2>
+                     
+                        <div class="clearfix"></div>
+                      </div>
+                      <div class="x_content">
+                        <div class="col-md-12 col-sm-12 ">
+                          <div class="demo-container" style="height:280px">
+                            <div id="chart_plot_02" class="demo-placeholder"></div>
+                          </div>
+                          
+                          </div>
+    
+                        </div>
+    
+                      </div>
+    
+                      </div>
+               </div>
+             
+              
+    
+                <!-- start of user-activity-graph -->
+               
+                <!-- end of user-activity-graph -->
+                <div class="toast-container position-fixed top-0 end-0 p-3">
+                  <div id="toast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="d-flex">
+                      <div id="toast-body" class="toast-body"></div>
+                      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                  </div>
+                </div>
+                <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                  <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Recent Activity</a>
+                    </li>
+                    <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Implementation Areas</a>
+                    </li>
+                    <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Concept Note Team</a>
+                    </li>
+                    <li role="presentation" class=""><a href="#tab_content4" role="tab" id="profile-tab3" data-toggle="tab" aria-expanded="false">Program Indicator</a>
+                    </li>
+                  </ul>
+                  <div id="myTabContent" class="tab-content">
+                    <div role="tabpanel" class="tab-pane active " id="tab_content1" aria-labelledby="home-tab">
+
+                      <!-- start recent activity -->
+                      <ul class="messages">
+                        <li>
+                          <img src="{% static 'images/user.png' %}" class="avatar" alt="Avatar">
+                          <div class="message_date">
+                            <h3 class="date text-info">24</h3>
+                            <p class="month">May</p>
+                          </div>
+                          <div class="message_wrapper">
+                            <h4 class="heading">Desmond Davison</h4>
+                            <blockquote class="message">Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua butcher retro keffiyeh dreamcatcher synth.</blockquote>
+                            <br />
+                            <p class="url">
+                              <span class="fs1 text-info" aria-hidden="true" data-icon=""></span>
+                              <a href="#"><i class="fa fa-paperclip"></i> User Acceptance Test.doc </a>
+                            </p>
+                          </div>
+                        </li>
+                        <li>
+                          <img src="{% static 'images/user.png' %}" class="avatar" alt="Avatar">
+                          <div class="message_date">
+                            <h3 class="date text-error">21</h3>
+                            <p class="month">May</p>
+                          </div>
+                          <div class="message_wrapper">
+                            <h4 class="heading">Brian Michaels</h4>
+                            <blockquote class="message">Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua butcher retro keffiyeh dreamcatcher synth.</blockquote>
+                            <br />
+                            <p class="url">
+                              <span class="fs1" aria-hidden="true" data-icon=""></span>
+                              <a href="#" data-original-title="">Download</a>
+                            </p>
+                          </div>
+                        </li>
+                        <li>
+                          <img src="{% static 'images/user.png' %}" class="avatar" alt="Avatar">
+                          <div class="message_date">
+                            <h3 class="date text-info">24</h3>
+                            <p class="month">May</p>
+                          </div>
+                          <div class="message_wrapper">
+                            <h4 class="heading">Desmond Davison</h4>
+                            <blockquote class="message">Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua butcher retro keffiyeh dreamcatcher synth.</blockquote>
+                            <br />
+                            <p class="url">
+                              <span class="fs1 text-info" aria-hidden="true" data-icon=""></span>
+                              <a href="#"><i class="fa fa-paperclip"></i> User Acceptance Test.doc </a>
+                            </p>
+                          </div>
+                        </li>
+                        <li>
+                          <img src="{% static 'images/user.png' %}" class="avatar" alt="Avatar">
+                          <div class="message_date">
+                            <h3 class="date text-error">21</h3>
+                            <p class="month">May</p>
+                          </div>
+                          <div class="message_wrapper">
+                            <h4 class="heading">Brian Michaels</h4>
+                            <blockquote class="message">Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua butcher retro keffiyeh dreamcatcher synth.</blockquote>
+                            <br />
+                            <p class="url">
+                              <span class="fs1" aria-hidden="true" data-icon=""></span>
+                              <a href="#" data-original-title="">Download</a>
+                            </p>
+                          </div>
+                        </li>
+
+                      </ul>
+                      <!-- end recent activity -->
+
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+
+                      <!-- start user projects -->
+                                       
+                    
+
+                                 <div id="AreaList" hx-trigger="load, areaListChanged from:body" hx-get="{% url 'area_list' program.id %}" hx-target="this">
+
+                                  
+                                </div>
+                             
+                                      <button  hx-get="/program/region/{{program.id}}/" hx-target="#dialog" class="btn btn-primary btn-sm">
+                                      Add Woreda
+                                    </button>
+                              
+
+                                
+
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
+                        
+                      <div id="userlist" hx-trigger="load, UserListChanged from:body" hx-get="{% url 'user_list' program.id %}" hx-target="this">
+                          
+                      </div>
+                     
+                        <button class="btn btn-primary btn-sm" hx-get="/program/user_add/{{program.id}}/" hx-target="#dialog" class="btn btn-primary">
+                          Add User Roles
+                        </button>
+                      
+                    </div>
+
+    
+   
+                    <div role="tabpanel" class="tab-pane fade" id="tab_content4" aria-labelledby="profile-tab">
+                        
+                       <div class="container">
+   
+                        <table class="data table table-striped table-sm no-margin" style="width:100%">
+                          <thead>
+                            <tr>
+                              <th> Code</th>
+                              <th> Title</th>
+                              <th> Level</th>
+                              <th> Unit</th>
+                              <th>Baseline</th>
+                              <th>LoP</th>
+                              <th>Action</th>
+                            </tr>
+                          </thead>
+                          <tbody hx-trigger="load, IndicatorListChanged from:body" hx-get="{% url 'indicator_list' program.id %}" hx-target="this">
+                            <tr>
+                              <td class="spinner-border" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <button class="btn-primary btn-sm" hx-get="{% url 'add_indicator' program.id %}" hx-target="#dialog" class="btn btn-primary">
+                          Add Indicator
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                 <div class="modal fade bs-example-modal-lg" id="modal" class="modal fade">
+                    <div id="dialog" class="modal-dialog modal-lg" hx-target="this"></div>
+                  </div>
+                  </div>
+
+              </div>
+           </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+ 
+  <!-- /page content -->
+
+  {% endblock %}

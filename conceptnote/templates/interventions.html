@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+<!-- page content -->
+<div class="right_col" role="main">
+    <div class="">
+      <div class="page-title">
+        <div class="title_left">
+          <h3>Concept Note :: Intervention</h3>
+        </div>
+
+        <div class="title_right">
+        
+          <form hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}'>
+            {% csrf_token %}
+            <div class="col-md-5 col-sm-5   form-group pull-right top_search">
+
+               <div class="input-group">
+                  <input name="search" type="text" class="form-control" placeholder="Search for ..." 
+                  hx-get="/conceptnote/icn_filter/"
+                  hx-trigger="keyup changed, search"
+                  hx-target="#icn_list">
+                  <span class="input-group-btn">
+                   
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+                    <span style="font-size:smaller;">New</span>
+                    </button>
+                    <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                      <a class="dropdown-item {%  for userroles in request.user.userroles_set.all %}
+        {% if userroles.is_pcn_initiator != True %}disabled{% endif %} {% endfor %}"  href="{% url 'icn_new' %}">Add New Intervention</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="{% url 'activities'%}">Activity List</a>
+                     
+                     
+                      
+                     
+                    </div>
+                  </div>
+                   
+                     
+                  </span>
+             
+            </div>        
+          </form>
+         
+       </div>
+      </div>
+  
+    <div class="clearfix"></div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="x_panel">
+            <div class="x_title">
+									<h2>Intervention List</h2>
+									<ul class="nav navbar-right panel_toolbox">
+                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                </li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <a class="dropdown-item" href="#">Settings 1</a>
+                      <a class="dropdown-item" href="#">Settings 2</a>
+                    </div>
+                </li>
+                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                </li>
+              </ul>
+									<div class="clearfix"></div>
+								</div>
+             
+          
+            <div class="x_content" id="icn_list">
+
+
+            <style>
+    th {
+      text-align: center;
+
+    }
+    </style>
+
+              <!-- start project list -->
+
+             <table class="table table-striped">
+                     
+                  
+                <thead>
+                              <tr>
+                    <th style="width:">#</th>
+                     
+                    
+                    <th style="width: 38%">Intervention ID/Title</th>
+                    <th style="width: 18%">Team Members</th>
+               
+                    <th style="width:12%">Date<small> (Start/End)</small></th>
+                   <th style="width:12%">Status <small>(ICN)</small></th>
+                      <th style="width:12%">Status <small>(Report)</small></th>
+                     <th ></th>
+                     </tr>
+                     
+                </thead>
+                <tbody>
+                {% if icns %}
+                    {% for icn in icns %}
+                  <tr>
+                    <td>{{ forloop.counter }}</td>
+
+                    <td>{{icn.icn_number}}</br>
+                      <small>{{ icn.title }}</small>
+                     
+                    </td>
+                    <td>
+                      <ul class="list-inline text-center">
+                        
+                            
+                          <img class="img-responsive img-circle profile_img" src="{% static 'images/user.png' %}" alt="avatar" title="{{ icn.user.profile.full_name}} - Initiator" style="width: 30px; height:30px; margin-top: 0px; margin-bottom:2px; margin-left: 0px;margin-right: 0px;">
+                            
+                           <div class="ln_solid" style="margin-top: 0px; margin-bottom:0px; margin-left: 0px;margin-right: 0px;"></div>
+                            <img class="img-responsive  img-circle profile_img" src="{% static 'images/user.png' %}" alt="avatar" title="{{ icn.technical_lead.user.profile.full_name}} - Technical Lead" style="width: 30px; height:30px; margin-top: 4px; margin-bottom:1px; margin-left: 0px;margin-right: 0px;">
+                              <img class="img-responsive  img-circle profile_img" src="{% static 'images/user.png' %}" alt="avatar" title="{{ icn.mel_lead.user.profile.full_name}} - MEL Lead" style="width: 30px; height:30px; margin-top: 4px; margin-bottom:1px; margin-left: 0px;margin-right: 0px;">
+                                <img class="img-responsive  img-circle profile_img" src="{% static 'images/user.png' %}" alt="avatar" title="{{ icn.finance_lead.user.profile.full_name}} - Finance Lead" style="width: 30px; height:30px; margin-top: 4px; margin-bottom:1px; margin-left: 0px;margin-right: 0px;">
+                                  <img class="img-responsive  img-circle profile_img" src="{% static 'images/user.png' %}" alt="avatar" title="{{ icn.program_lead.user.profile.full_name}} - Program Lead" style="width: 30px; height:30px; margin-top: 4px; margin-bottom:1px; margin-left: 0px;margin-right: 0px;">
+                       
+        
+                        
+                        
+                      </ul>
+                    </td>
+                    <td>
+                        <small>{{ icn.proposed_start_date }}</small>
+                        <br />
+                        <small>{{ icn.proposed_end_date }}</small>
+                    </td>
+                    <td>
+                    {% if icn.status == True %}
+                      <span class="badge {% if 'Rejected' in icn.approval_status %} bg-red {% elif 'Approved' in icn.approval_status %} bg-green {% else %} bg-warning {% endif %}">{% if icn.approval_status %} {{ icn.approval_status}} {% else %} Pending {% endif %}</span>
+                      {% else %}
+                      <span class="badge {% if icn.status == True %}badge bg-green {% else %} badge bg-red {% endif %}">{{ icn.get_status_display}}</span>
+                      {% endif %}
+                   </td>
+                  <td>
+                     {% if not icn.icnreport or icn.approval_status != '100% Approved' %}
+                      <span class="badge badge {% if icn.final_report_due_date|timesince > '1 min' %} bg-red {% else %} bg-default{% endif %}">{{icn.final_report_due_date}} </span>
+                   {% elif icn.icnreport.status == True %}
+                      <span class="badge {% if 'Rejected' in icn.icnreport.approval_status %} bg-red {% elif 'Approved' in icn.icnreport.approval_status %} bg-green {% else %} bg-warning {% endif %}">{% if icn.icnreport.approval_status %} {{ icn.icnreport.approval_status}} {% else %} Pending {% endif %}</span>
+                     {% elif icn.icnreport.status == False %}
+                    <span class="badge {% if icn.icnreport and icn.icnreport.status == True %}badge bg-green {% else %} badge bg-warning {% endif %}">{{ icn.icnreport.get_status_display}}</span>
+                     {% endif %}
+                    </td>
+                    <td >
+                      
+                    <div class="btn-group">
+  <button type="button" class="btn btn-sm btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Action
+  </button>
+  <div class="dropdown-menu dropdown-menu-right">
+     <a class="dropdown-item" href="{% url 'icn_detail' icn.id %}">View</a>
+                     
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item {% if request.user != icn.user or icn.impact_set.all.count > 0 %}disabled{% endif %}" hx-get="{% url 'icn_delete' icn.id %}"  hx-target="#icn_list" hx-confirm="Are you sure you wish to delete ?">Delete</a>
+  </div>
+</div>
+                    
+                     
+                    </td>
+                  </tr>
+                  {% endfor %}
+                  {% endif %}
+                </tbody>
+              </table>
+              <!-- end project list -->
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /page content -->
+
+  {% endblock %}

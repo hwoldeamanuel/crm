@@ -1,0 +1,367 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+ 
+ <!-- page content -->
+ <div class="right_col" role="main">
+ <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h3>Program</h3>
+              </div>
+
+              
+            </div>
+      
+      <div class="clearfix"></div>
+
+      <div class="row">
+        <div class="col-md-12 col-sm-12 ">
+          <div class="x_panel">
+            <div class="x_title">
+              <h2>Profile </h2>
+              <ul class="nav navbar-right panel_toolbox">
+                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                </li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <a class="dropdown-item" href="#">Settings 1</a>
+                      <a class="dropdown-item" href="#">Settings 2</a>
+                    </div>
+                </li>
+                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                </li>
+              </ul>
+              <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+              <div class="col-md-3 col-sm-3" >
+                 <div  hx-trigger="ProgramListChanged from:body " hx-get="{% url 'program_profile' program.id %}" hx-target="this">
+                        <section class="panel">
+
+                        <div class="x_title">
+                        <h3 class="green"><i class="fa fa-archive"></i> {{program.title}}</h3>
+                         
+                          <div class="clearfix"></div>
+                        </div>
+                        <div class="panel-body">
+                        
+<p>{{ program.working_title}}</p>
+
+                      
+                        
+
+                          <div class="project_detail">
+                          
+                            <p class="title"> Fund Code</p>
+                            <p>{{program.fund_code}}</p>
+                             <p class="title"> Donor</p>
+                            <p>{{program.donor}}</p>
+                      
+                    <p class="title">Duration</p>
+                     {{program.start_date}} -  {{program.end_date}}
+                
+ 
+                  <div class="progress">
+                  <div class="progress-bar bg-green" style="width:{{ program.get_date_diff }}">
+                        {{ program.get_date_diff }}
+                      
+                      </div></div>
+                  </br> <p class="title">Desciption</p>
+                          <p>{{ program.description}}</p>
+                    </div>
+                  
+                          
+                      </section>
+                    </div>
+                     
+                  
+                     
+                          <div class="text-left mtop20">
+                            <a class="btn btn-sm btn-success" hx-get="{% url 'edit_program_profile' program.id %}" hx-target="#dialog" ><i class="fa fa-edit m-right-xs"></i>Edit Profile</a>
+                      <br /> 
+                            
+                          </div>
+
+                    </div>
+                <!-- end of skills -->
+
+             
+             <div class="col-md-9 col-sm-9  ">
+
+                      <ul class="stats-overview">
+                        <li>
+                          <span class="name"> Intervention Concept Note</span>
+                          <span class="value text-success"> {{ total_icn}} </span>
+                        </li>
+                        <li>
+                          <span class="name"> Activity Concept Note</span>
+                          <span class="value text-success"> {{total_acn}} </span>
+                        </li>
+                        <li class="hidden-phone">
+                          <span class="name"> Approved<small>(Intervention, Activity)</small></span>
+                         
+                          <span class="value text-success">{% if total_icn == 0 %}<small>NA</small>{% else %}{% widthratio total_icn_app total_icn 100 %}% {% endif%} ,
+                          {% if total_acn == 0 %}<small>NA</small>{% else%} {% widthratio total_acn_app total_acn 100 %}%</span>{% endif %}
+                        </li>
+                        
+                      </ul>
+                      <br>
+
+                      <div id="container" style="width: 100%;"  >
+      <canvas id="canvas" height="240" width="679" style="width: 503px; height: 251px;"></canvas>
+    </div>
+
+                      <div>
+
+                      
+
+
+                </br>
+
+                 
+    
+                <!-- start of user-activity-graph -->
+               
+                <!-- end of user-activity-graph -->
+                
+                <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                  <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Recent Concept N.</a>
+                    </li>
+                    <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Imp. Areas</a>
+                    </li>
+                    <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Concept N. Team</a>
+                    </li>
+                    <li role="presentation" class=""><a href="#tab_content4" role="tab" id="profile-tab3" data-toggle="tab" aria-expanded="false">Program Indicator</a>
+                    </li>
+                     <li role="presentation" class=""><a href="#tab_content5" role="tab" id="profile-tab4" data-toggle="tab" aria-expanded="false">Travel A. Team</a>
+                    </li>
+                  </ul>
+                  <div id="myTabContent" class="tab-content">
+                    <div role="tabpanel" class="tab-pane active " id="tab_content1" aria-labelledby="home-tab">
+
+                      <!-- start recent activity -->
+                      <table class="table table-sm table-striped projects">
+    <thead>
+      <tr>
+     
+        <th style="width:15%">Concept Note</th>
+  <th>Title</th>
+        
+        <th>Status<small>(Concept N.)</small></th>
+        <th>Status<small>(Report)</small></th>
+      
+       
+      </tr>
+    </thead>
+    <tbody>
+    {% if conceptnotes %}   
+     {% for cn in conceptnotes %}
+     <tr>
+        
+      
+       <td>{{ cn.get_name }}</td>
+       <td>{% if cn.get_name == "Intervention" %} <a href="{% url 'icn_detail' cn.id %}">{{ cn.title }}{% elif cn.get_name == "Activity" %}<a href="{% url 'activity_detail' cn.id %}">{{cn.title}} {% endif %} </a></td>
+      <td>
+                     <span class="badge {% if 'Rejected' in cn.approval_status %} bg-red {% elif 'Approved' in cn.approval_status %} bg-green {% else %} bg-warning {% endif %}">{% if cn.approval_status %} {{ cn.approval_status}} {% else %} Pending Submission {% endif %}</span>
+                   </td>
+       <td>
+       {% if cn.report  %}
+                      <span class="badge {% if 'Rejected' in cn.report %} bg-red {% elif 'Approved' in cn.report %} bg-green {% else %} bg-warning {% endif %}">{% if cn.report %} {{ cn.report}} {% else %} Pending Submission {% endif %}</span>
+                    {% else %}
+                    <span class="badge badge {% if cn.final_report_due_date|timesince > '1 min' %} bg-red {% else %} bg-default{% endif %}">{{cn.final_report_due_date}} </span>
+                     {% endif %}
+                    </td>
+       </tr>
+     {% endfor %}
+ {% endif %}
+    </tbody>
+  </table>
+
+
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+
+                      <!-- start user projects -->
+                                       
+                    
+
+                                 <div id="AreaList" hx-trigger="load, areaListChanged from:body" hx-get="{% url 'area_list' program.id %}" hx-target="this">
+
+                                  
+                                </div>
+                             
+                                      <button  hx-get="/program/region/{{program.id}}/" hx-target="#dialog" class="btn btn-primary btn-sm">
+                                      Add Woreda
+                                    </button>
+                              
+
+                                
+
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
+                        
+                      <div id="userlist" hx-trigger="load, UserListChanged from:body" hx-get="{% url 'user_list' program.id %}" hx-target="this">
+                          
+                      </div>
+                     
+                        <button class="btn btn-primary btn-sm" hx-get="/program/user_add/{{program.id}}/" hx-target="#dialog" class="btn btn-primary">
+                          Add User Roles
+                        </button>
+                      
+                    </div>
+
+    
+   
+                    <div role="tabpanel" class="tab-pane fade" id="tab_content4" aria-labelledby="profile-tab">
+                        
+                       <div class="container">
+   
+                        <table class="data table table-striped table-sm no-margin" style="width:100%">
+                          <thead>
+                            <tr>
+                              <th> Code</th>
+                              <th> Title</th>
+                              <th> Level</th>
+                              <th> Unit</th>
+                              <th>Baseline</th>
+                              <th>LoP</th>
+                              <th></th>
+                            </tr>
+                          </thead>
+                          <tbody hx-trigger="load, IndicatorListChanged from:body" hx-get="{% url 'indicator_list' program.id %}" hx-target="this">
+                            <tr>
+                              <td class="spinner-border" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <button class="btn-primary btn-sm" hx-get="{% url 'add_indicator' program.id %}" hx-target="#dialog" class="btn btn-primary">
+                          Add Indicator
+                        </button>
+                      </div>
+                      </div>
+                      <div role="tabpanel" class="tab-pane fade" id="tab_content5" aria-labelledby="profile-tab4">
+                        
+                      <div id="userlist" hx-trigger="load, TravelUserListChanged from:body" hx-get="{% url 'user_travel_list' program.id %}" hx-target="this">
+                          
+                      </div>
+                     
+                        <button class="btn btn-primary btn-sm" hx-get="/program/add_travel_user/{{program.id}}/" hx-target="#dialog" class="btn btn-primary">
+                          Add User Roles
+                        </button>
+                      
+                    </div>
+                    </div>
+                  </div>
+                </div>
+                 <div class="modal fade bs-example-modal-lg" id="modal" class="modal fade">
+                    <div id="dialog" class="modal-dialog modal-lg" hx-target="this"></div>
+                  </div>
+                  </div>
+
+              </div>
+           </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+ 
+  <!-- /page content -->
+
+  {% endblock %}
+
+  {% block content_page_js %}
+  {% load static %}
+
+<!-- NProgress -->
+
+<script>
+
+    var MONTHS =   [{%  for m in all_request.created_at_month %} "{{ m|date:'M-Y' }}", {% endfor %}];
+   
+
+    var randomScalingFactor = function() {
+      return Math.round(Math.random() * 100 * (Math.random() > 0.5 ? -1 : 1));
+    };
+    var randomColorFactor = function() {
+      return Math.round(Math.random() * 255);
+    };
+    var randomColor = function(opacity) {
+      return 'rgba(' + randomColorFactor() + ',' + randomColorFactor() + ',' + randomColorFactor() + ',' + (opacity || '1') + ')';
+    };
+ 
+    var ctx = document.getElementById("canvas").getContext("2d");
+    var myChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: [{%  for m in all_request.created_at_month %} "{{ m|date:'M-Y' }}", {% endfor %}],
+
+        datasets: [{
+          label: "Intervention",
+          data: [{% for cn in all_request.icn_count %} {{ cn }}, {% endfor %}],
+          borderColor:'rgba(51, 137, 173, .6)',
+          backgroundColor:'rgba(51, 137, 173, .6)',
+          pointBorderColor :'rgba(51, 137, 173, .4)',
+          pointBackgroundColor : 'rgba(51, 137, 173, .4)',
+          pointBorderWidth : .5,
+
+        },  {
+          label: "Activity",
+         data: [{% for cn in all_request.icn_count %} {{ cn }}, {% endfor %}],
+         borderColor:'rgba(51, 137, 173, .6)',
+         backgroundColor:'rgba(51, 137, 173, .4)',
+         pointBorderColor :'rgba(51, 137, 173, .4)',
+         pointBackgroundColor : 'rgba(51, 137, 173, .4)',
+         pointBorderWidth : .5,
+
+        },]
+      },
+      options: {
+        responsive: true,
+        title:{
+          display:false,
+          text:"Chart.js Line Chart - Stacked Area"
+        },
+        tooltips: {
+          mode: 'label',
+        },
+        hover: {
+          mode: 'label'
+        },
+        scales: {
+          xAxes: [{
+            scaleLabel: {
+              display: false,
+              labelString: 'Month'
+            }
+          }],
+          yAxes: [{
+            stacked: true,
+            scaleLabel: {
+              display: true,
+              labelString: '# of conceptnote'
+            }
+          }]
+        }
+      }
+    });
+      
+
+   
+
+  
+
+
+      
+
+</script>
+    
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  {% endblock %}

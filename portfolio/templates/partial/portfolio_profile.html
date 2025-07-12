@@ -1,0 +1,56 @@
+
+{% load static %}
+   
+
+
+                      <section class="panel">
+
+                        <div class="x_title">
+                           <h3> {{portfolio.title_short}}</h3>
+                          <div class="clearfix"></div>
+
+                        
+                        </div>
+                        <div class="panel-body">
+                          
+                          <!-- Current avatar -->
+                          {% if portfolio.logo %}
+                          <div id="crop-avatar">
+                          <img class="img-responsive avatar-view" src="{{portfolio.logo.url}}" alt="Avatar" title="Change the avatar" style="width: 200px; height: auto;">
+                        </div>
+                        {% else %}
+                          <h1 class="default"><i class="fa fa-university"> {{portfolio.title_short}}</i> </h1>
+                        {% endif %}
+                         
+                        </br>
+
+                          <div class="project_detail">
+                           <p class="title">Title</p>
+                            <p>{{portfolio.title}}</p>
+                            <p class="title">Type</p>
+                            <p>{{portfolio.type}}</p>
+                            
+                           <p class="title">Category</p>
+                            <p>{{portfolio.category}}</p>
+                          
+                          <p class="title">Start Date<small><i>(Partnership)</i></small></p>
+                            <p>{{portfolio.start_date}}</p>
+                          <p class="title">Address/URL</p>
+                            <a href="{{ portfolio.address_url }}" target="_blank">{{ portfolio.address_url }}</a>
+                          
+                          </p>
+                        
+                          <p class="title">Desciption</p>
+ <p>{{portfolio.description}}</p></div> </div>
+                          <div class="text-left mtop20">
+                         
+                            <a class="btn btn-success" hx-get="{% url 'edit_portfolio' portfolio.id %}" hx-target = "#dialog"><i class="fa fa-edit m-right-xs"></i>Edit Profile</a>
+                      <br />
+                     
+                            
+                          </div>
+                        </div>
+
+                      </section>
+
+               

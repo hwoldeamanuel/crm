@@ -1,0 +1,147 @@
+{% extends "travel_step.html" %}
+
+{% block content_travel_step %}
+{% load static %}
+{% load humanize%}
+<style>
+        table,
+       td {
+           
+            text-align: left;
+            padding: 0px;
+        }
+
+        tr {
+            height: 10px;
+            padding: 0px;
+        }
+        th {
+            height: 10px;
+            padding: 0px;
+            font-size: 11px;
+            color:#5A738E;
+        }
+          td {
+            height: 10px;
+            padding: 0px;
+            font-size: 12px;
+            color:#5A738E;
+        }
+    </style>
+
+    <div class="col-md-7 col-sm-7  profile_left">
+              <div class="profile_img">
+                        <div id="crop-avatar">
+                          <!-- Current avatar -->
+                          <img class="img-responsive avatar-view" src="{% static 'images/logo.png' %}" alt="Avatar" title="Change the avatar" style="width: 100px; height: auto;" >
+                        </div>
+              </div>
+                     
+                      <!-- end of skills -->
+
+    </div>
+  <div class="col-md-5 col-sm-5 ">
+
+              <div class="title">
+                        <div class="col-md-12">
+                          <h6>Travel Approval Request</h6>
+                        </div>
+ <div class="col-md-12">
+                          <h6> Field Finance Manual - Form 6.5A</h5>
+                        </div>
+                         
+                        
+                      </div>
+                      <!-- start of user-activity-graph -->
+                     
+                       
+                  </div>
+
+                 
+                  
+    <div class="container">
+      <div class="card">
+          <div class="card-header py-0" style="margin-top:0px; margin-bottom:0px">
+
+           <strong>A. Travel Information</strong> 
+ 
+
+          </div>
+ 
+<div class="col-sm-12 col-md-12" >
+
+
+<form method="post" >
+    {% csrf_token %}
+<table class="table table-sm  " style="margin-top:0px; margin-bottom:0px">
+                      <thead>
+                       
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <th>Name</th>
+                          <td class="text-left" colspan="3">{{request.user.profile.full_name}}</td>
+                          
+                        </tr>
+                        <tr>
+                          <th >Emply ID Code:
+</th>
+                          <td>00000{{request.user.id}}</td>
+                          <th>Office</th>
+                          <td>{{request.user.profile.portfolio}}</td>
+                        </tr>
+                        <tr>
+                          <th>Destination(s):
+</th>
+                          <td class="text-left" colspan="3">  {{ form.destination }} {{ form.destination.errors }}</td>
+                        </tr>
+                          <tr>
+                          <th>Purpose:
+</th>
+                          <td class="text-left" colspan="3">{{form.purpose}}{{form.purpose.errors}}</td>
+                        </tr>
+                        <tr>
+                          <th >Departure Date:
+</th>
+                          <td>{{form.departure_date}}{{form.departure_date.errors}}</td>
+                          <th>Return Date</th>
+                          <td>{{form.return_date}}{{form.return_date.errors}}</td>
+                        </tr>
+                        <tr>
+                          <td >
+                        {{form.business}}{{form.business.errors}}Business</td>
+                         <td >
+                        {{form.relocation}}{{form.relocation.errors}}Relocation</td>
+                        <td >
+                        {{form.randr}}{{form.randr.errors}}R and R</td>
+                        <td >
+                        {{form.other}}{{form.other.errors}}Other</td>
+                        
+                        </tr>
+                        <tr>
+                      </tbody>
+                    </table>
+                    <div class="ln_solid"></div>
+                          
+											<div class="col-md-9 col-sm-9  offset-md-3">
+												<button class="btn btn-sm btn-primary" type="reset">Reset</button>
+            <button type="submit"    class="btn btn-sm btn-success">Submit</button>
+  <button type="button" class="btn btn-sm btn-secondary" value="Previous Page" onClick="javascript:history.go(0);">Cancel</button>
+											</div>
+										
+</div>
+
+
+
+</div>
+
+
+
+</div>
+</div>
+
+
+</div>
+</div>
+
+{% endblock content_travel_step %}

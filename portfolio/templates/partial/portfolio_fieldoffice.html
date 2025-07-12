@@ -1,0 +1,32 @@
+
+
+  <table class="data table table-sm table-striped no-margin" style="width:100%">
+                              <thead>
+                                <tr>
+                                  <th>#</th>
+                                  <th>Field Office Name</th>
+                                  <th>Region</th>
+                                  <th class="hidden-phone">Zone</th>
+                                  <th>Woreda</th>
+                                  <th>Action</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                              {% for fieldoffice in fieldoffices %}
+                                <tr>
+                                  <td>{{forloop.counter}}</td>
+                                  <td>{{fieldoffice.name}}</td>
+                                  <td>{{fieldoffice.region}}</td>
+                                  <td> {{fieldoffice.zone}}</td>
+                                  <td>{{fieldoffice.woreda}}
+                                    
+                                  </td>
+                                  <td>
+                                  <button class="btn btn-info btn-sm" hx-get="{% url 'fieldoffice_edit' fieldoffice.pk %}" hx-target="#dialog" ><i class="fa fa-edit"></i></button>
+                                    
+                                  </td>
+                                  {% endfor %}
+                                </tr>
+                                
+                              </tbody>
+                            </table>

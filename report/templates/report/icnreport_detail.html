@@ -1,0 +1,166 @@
+{% extends "intervention_step.html" %}
+
+{% block content_intervention_step %}
+{% load humanize%}
+<div class="row">
+              <div class="col-md-12 col-sm-12  ">
+                <div class="x_panel">
+                  <div class="x_title">
+                   <h2>Intervention<small>Profile</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Settings 1</a>
+                            <a class="dropdown-item" href="#">Settings 2</a>
+                          </div>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+  
+
+								</div>
+								<div class="x_content">
+                       
+                
+                      <div class="col-md-12 col-sm-12">
+
+                        <!-- start of user-activity-graph -->
+                        <div  style="width:100%; height:300px;">
+                          <div class="panel-body">
+                           
+  
+                                                      <div class="col-md-12 col-sm-12 project_detail">
+                       <div class="col-md-9 col-sm-9 project_detail">
+                          
+                          <p>Title:<strong> {{ icnreport.icn.title }}</strong></p>
+                          <p>ID:<strong> {{ icnreport.icn.icn_number }}</strong> </p>
+                         </div>
+                         <div class="col-md-3 col-sm-3 project_detail">
+                         <p>Program:<strong>  {{ icnreport.icn.program }}</strong></p>
+                          <p>Intervention:<strong> {{ icnreport.icn.icn_number }}</strong> </p>
+                          
+                          
+                        </div>
+                        </div>
+                            <div class="col-md-4 col-sm-4 project_detail">
+                           
+  <p>Program:<strong>  {{ icnreport.icn.program }}</strong></p>
+                             <p>Lead Agency:<strong> {{ icnreport.icn.ilead_agency }}</strong></p>
+                              <p>Co-Lead Agency:
+                      {% for colead in icnreport.icn.ilead_co_agency.all %}
+                      <strong>{{colead}},</strong>
+                      {% endfor %}</p>
+                      <p>Reporting date: <strong>  {{ icnreport.actual_report_date}}</strong></p>
+                       <p>Actual Imp. Woredas:
+                      {% for woreda in icnreport.iworeda.all %}
+                      <strong>{{woreda}},</strong>
+                      {% endfor %}</p>
+                            
+                     
+                            
+                            
+                              
+                            </div>
+                       
+                          
+                            <div class="col-md-4 col-sm-4 project_detail">
+                              
+                              <p class="">Actual Start Date<strong>
+                      {{icnreport.actual_start_date}}</strong></p>
+                      <p class="">Actual End Date<strong>
+                      {{icnreport.actual_end_date}}</strong></p>
+                              <p>Actual Mercy Corps budget:<strong> ${{ icnreport.actual_mc_budget_usd|intcomma }}</strong></p>
+                              <p>ActualCost-share budget:<strong>  ${{ icnreport.actual_cost_sharing_budget_usd|intcomma }}</strong></p>
+                               
+ 
+
+                           
+                            </div>
+                            <div class="col-md-4 col-sm-4 project_detail">
+  
+                              <p>Report initiated by: <strong>  {{ icnreport.user }}</strong></p>
+                              <p>Report's Technical Lead: <strong>  {{ icnreport.technical_lead }}</strong></p>
+                              <p>Report's Program Lead: <strong> {{ icnreport.program_lead }}</strong></p>
+                                <p>Report's Finance Lead: <strong> {{ icnreport.finance_lead }}</strong></p>
+                                
+                              <p >Submission Status: <strong>{{ icnreport.get_status_display }}</strong></p> 
+                              
+
+
+                           
+                            </div>
+  
+                         
+                            
+  
+                    
+                     
+                         
+                        
+                        
+                        <!-- end of user-activity-graph -->
+         
+                      
+                        <div class="col-md-9 col-sm-9">
+                     
+                        <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                          <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                            <li role="presentation" class=""><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Intervention Impact/Actual</a>
+                            </li>
+                            
+                          </ul>
+                          <div id="myTabContent" class="tab-content">
+                            <div role="tabpanel" class="tab-pane active " id="tab_content1" aria-labelledby="home-tab">
+  
+                              <!-- start recent activity -->
+                              <div id="ImpactList" hx-trigger="load, ImpactListChanged from:body" hx-get="{% url 'icnreport_impact_list' icnreport.id %}" hx-target="this">
+                            
+                                  
+                                </div>
+                              <!-- end recent activity -->
+  
+                            </div>
+                            
+                            </div>
+                          </div>
+                          <div class="modal fade bs-example-modal-lg" id="modal" class="modal fade">
+                                                  <div id="dialog" class="modal-dialog modal-lg" hx-target="this"></div>
+                                              </div>
+                        </div>
+                      </div>
+                     
+                    </div>
+                  </div>
+                </div> <div class="ln_solid"></div>
+  <div class="col-md-12 col-sm-12">
+<div class="col-md-9 col-sm-9">
+</div>
+                          <a class="btn btn-success source" {% if icnreport.status == True or icnreport.user != request.user %} IareaListChanged from:body, onclick="new PNotify({
+                                  title: 'Permission',
+                                  text: 'Current User doesnot match with ICN Owner and/or ICN submission status should be Draft;',
+                                  type: 'info',
+                                  styling: 'bootstrap3'
+                              });" {% else %} href="{% url 'icnreport_edit' icnreport.id %} {% endif %}" ><i class="fa fa-edit m-right-xs"></i>Edit Report</a>
+                          <a class="btn btn-primary " href="{% url 'icnreport_submit_approval' icnreport.id %}" ><i class="fa fa-step-forward m-right-xs"></i>Approval</a>
+                        </div>
+
+                        </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+          <!-- /page content -->
+  <!-- /page content -->
+  {% endblock %}
+
+
+
+
+
+

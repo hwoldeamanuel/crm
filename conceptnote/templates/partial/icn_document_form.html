@@ -1,0 +1,15 @@
+<form  hx-post="{{ request.path }}" hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}' hx-target="#documentlist" enctype="multipart/form-data"  
+hx-on="htmx:afterRequest: this.remove()" >
+    {% csrf_token %}
+
+                          {{ dform.as_p}}
+
+ <button class="btn btn-primary" type="reset">Reset</button>
+            <button type="submit" class="btn btn-success">Submit</button>
+                       
+  
+    
+
+           
+    
+</form>

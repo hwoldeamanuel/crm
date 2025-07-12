@@ -1,0 +1,84 @@
+
+{% load static %}
+<table class="data table table-striped no-margin">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th style="width:14%">Team Lead</th>
+        <th style="width:10%">Date</th>
+        <th>Concept Note Ver#</th>
+          <th style="width:38%">Submission Note</th>
+        <th>Status</th>
+      
+      </tr>
+    </thead>
+    <tbody hx-trigger="load, SubmitApprovalListChanged from:body" >
+      <tr>
+        <td>1</td>
+        <td>
+          <a>Initiator</a>
+          <br />
+          <small>{{ icn.user.profile.full_name }}</small>
+        </td>
+        {% if icnsubmit %}
+        <td>{{icnsubmit.submission_date|date:"M d,Y"}}</br><small>{{icnsubmit.submission_date|time}}</small></td>
+        <td>{{icnsubmit.document }}</td>
+           <td>{{icnsubmit.submission_note }}</td>
+        <td>
+          <button type="button" class="btn btn-success btn-sm btn-xs" >{% if icnsubmit.submission_status == 1 %}Pending Submission{% else %}{{ icnsubmit.get_submission_status_display}}{% endif %}</button>
+          {% if request.user.id == icn.user.id and icn.approval_status != '100% Approved'%}<span type="button" class="glyphicon glyphicon-repeat" aria-hidden="true"  hx-get="{% url 'icn_submit_form' icn.id %}" hx-target="#SubmitList" ></span>{% endif %}
+        
+       
+ </td>
+        
+        {% else %}
+        <td></td>
+        <td></td>
+      <td></td>
+        <td>
+            <button type="button" class="btn btn-primary btn-sm btn-xs" {% if request.user.id == icn.user.id %} hx-get="{% url 'icn_submit_form' icn.id %}" hx-target="#SubmitList" {% endif %}>Pending Submission </button>
+        </td>
+        {% endif%}
+
+
+
+
+    
+</tr>
+</tbody>
+</table>
+
+<div>
+
+                        <h4>Recent Activity</h4>
+
+                        <!-- end of user messages -->
+                        <ul class="messages">
+                          <li>
+                            <img src="{% static 'images/user.png' %}" class="avatar" alt="Avatar">
+                            <div class="message_date">
+                              <h3 class="date text-info">{{icnsubmit.submission_date|date:"d"}}</h3>
+                              <p class="month">{{icnsubmit.submission_date|date:"M"}}</p>
+                            </div>
+                            <div class="message_wrapper">
+                              <h4 class="heading">{{icnsubmit.icn.user.profile.full_name}}</h4>
+                              <blockquote class="message">{{icnsubmit.submission_note}}</blockquote>
+                              <br>
+                              <p class="url">
+                               <span class="badge badge-success">{{icnsubmit.get_submission_status_display }}</span> with ICN:{{ icnsubmit.document }} @{{icnsubmit.submission_date|time}}</br>
+                                <span class="fs1 text-info" aria-hidden="true" data-icon=""></span>
+                                   <a href="{% url 'download' icnsubmit.document.id %}"><i class="fa fa-paperclip"></i>  download </a>Concept Note Version:{{icnsubmit.document.ver}} uploaded@{{ icnsubmit.document.uploaded_at}}
+                              </p>
+                            </div>
+                          </li>
+                          
+                        </ul>
+                        <div class="text-center mtop20">
+                            <button type="button" class="btn btn-success btn-sm btn-xs" >{% if icnsubmit.submission_status == 1 %}Pending Submission{% else %}{{ icnsubmit.get_submission_status_display}}{% endif %}</button>
+          {% if request.user.id == icn.user.id and icn.approval_status != '100% Approved'%}<span type="button" class="glyphicon glyphicon-repeat" aria-hidden="true"  hx-get="{% url 'icn_submit_form' icn.id %}" hx-target="#SubmitList" ></span>{% endif %}
+                          </div>
+                       
+                        <!-- end of user messages -->
+
+
+                      </div>

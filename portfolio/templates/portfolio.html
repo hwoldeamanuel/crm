@@ -1,0 +1,332 @@
+
+{% extends 'base.html'%}
+{% block content %}
+{% load static %}
+  <!-- page content -->
+        <!-- page content -->
+        <div class="right_col" role="main">
+          <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h3>Portfolio</h3>
+              </div>
+
+              
+            </div>
+            
+            <div class="clearfix"></div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Profile</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Settings 1</a>
+                            <a class="dropdown-item" href="#">Settings 2</a>
+                          </div>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+
+                  <div class="x_content">
+  <div class="col-md-3 col-sm-3  ">
+                   <div  hx-trigger="load, PortfolioListChanged from:body " hx-get="{% url 'portfolio_profile' portfolio.id %}" hx-target="this">
+                     
+                    </div>
+                    </div>
+                    <div class="col-md-9 col-sm-9  ">
+
+                      <ul class="stats-overview">
+                      <li>
+                          <span class="name"> Program </span>
+                          <span class="value text-success"> {{total_program}} </span>
+                        </li>
+                        <li>
+                          <span class="name"> Intervention Concept Note </span>
+                          <span class="value text-success"> {{total_icn}} </span>
+                        </li>
+                        <li>
+                          <span class="name">  Activity Concept Note </span>
+                          <span class="value text-success"> {{total_acn}} </span>
+                        </li>
+                        
+                      </ul>
+                      <br />
+
+                     <div id="container" style="width: 100%;"  >
+      <canvas id="canvas" height="240" width="679" style="width: 503px; height: 251px;"></canvas>
+    </div>
+    <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                        <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                          <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true" class="active" aria-selected="false">Partnerships</a>
+                          </li>
+                          <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false" class="" aria-selected="false">Monitoring</a>
+                          </li>
+                          <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false" class="" aria-selected="true">Payments</a>
+                          </li>
+                            <li role="presentation" class=""><a href="#tab_content4" role="tab" id="profile-tab3" data-toggle="tab" aria-expanded="false" class="" aria-selected="true">Concept Notes</a>
+                          </li>
+                        </ul>
+                        <div id="myTabContent" class="tab-content">
+                          <div role="tabpanel" class="tab-pane  fade active show" id="tab_content1" aria-labelledby="home-tab">
+
+                            <!-- start recent activity -->
+                             <div class="row">
+                        <div class="  table">
+               <table class="data table table-striped no-margin">
+                              <thead>
+                                <tr>
+                                  <th>#</th>
+                                  <th>Program</th>
+                                   <th>Partnership Type</th>
+                                  <th>Start Date</th>
+                                   <th>End Date</th>
+                                  <th>Desciption</th>
+                                
+                                  <th>Contribution</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td>1</td>
+                                  <td>New Company </td>
+                                  <td>Deveint Inc</td>
+                                  <td>Deveint Inc</td>
+                                  <td>Deveint Inc</td>
+                                  <td class="hidden-phone">18</td>
+                                  <td class="vertical-align-mid">
+                                    <div class="progress">
+                                      <div class="progress-bar progress-bar-success" data-transitiongoal="35" aria-valuenow="35" style="width: 35%;"></div>
+                                    </div>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>2</td>
+                                  <td>New Partner</td>
+                                  <td>Deveint Inc</td>
+                                  <td>Deveint Inc</td>
+                                  <td>Deveint Inc</td>
+                                  <td class="hidden-phone">13</td>
+                                  <td class="vertical-align-mid">
+                                    <div class="progress">
+                                      <div class="progress-bar progress-bar-danger" data-transitiongoal="15" aria-valuenow="15" style="width: 15%;"></div>
+                                    </div>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>3</td>
+                                  <td>Partners </td>
+                                  <td>Deveint Inc</td>
+                                  <td>Deveint Inc</td>
+                                  <td>Deveint Inc</td>
+                                  <td class="hidden-phone">30</td>
+                                  <td class="vertical-align-mid">
+                                    <div class="progress">
+                                      <div class="progress-bar progress-bar-success" data-transitiongoal="45" aria-valuenow="45" style="width: 45%;"></div>
+                                    </div>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>4</td>
+                                  <td>New Company </td>
+                                  <td>Deveint Inc</td>
+                                  <td>Deveint Inc</td>
+                                  <td>Deveint Inc</td>
+                                  <td class="hidden-phone">28</td>
+                                  <td class="vertical-align-mid">
+                                    <div class="progress">
+                                      <div class="progress-bar progress-bar-success" data-transitiongoal="75" aria-valuenow="75" style="width: 75%;"></div>
+                                    </div>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                            <!-- end recent activity -->
+
+                          </div>  </div>  </div>
+                          <div role="tabpanel" class="tab-pane fade " id="tab_content2" aria-labelledby="profile-tab">
+
+                            <!-- start user projects -->
+                            <table class="data table table-striped no-margin">
+                              <thead>
+                                <tr>
+                                  <th>#</th>
+                                  <th>Project Name</th>
+                                  <th>Client Company</th>
+                                  <th class="hidden-phone">Hours Spent</th>
+                                  <th>Contribution</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td>1</td>
+                                  <td>New Company </td>
+                                  <td>Deveint Inc</td>
+                                  <td class="hidden-phone">18</td>
+                                  <td class="vertical-align-mid">
+                                    <div class="progress">
+                                      <div class="progress-bar progress-bar-success" data-transitiongoal="35" aria-valuenow="35" style="width: 35%;"></div>
+                                    </div>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>2</td>
+                                  <td>New Partner </td>
+                                  <td>Deveint Inc</td>
+                                  <td class="hidden-phone">13</td>
+                                  <td class="vertical-align-mid">
+                                    <div class="progress">
+                                      <div class="progress-bar progress-bar-danger" data-transitiongoal="15" aria-valuenow="15" style="width: 15%;"></div>
+                                    </div>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>3</td>
+                                  <td>Partners </td>
+                                  <td>Deveint Inc</td>
+                                  <td class="hidden-phone">30</td>
+                                  <td class="vertical-align-mid">
+                                    <div class="progress">
+                                      <div class="progress-bar progress-bar-success" data-transitiongoal="45" aria-valuenow="45" style="width: 45%;"></div>
+                                    </div>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>4</td>
+                                  <td>New Company </td>
+                                  <td>Deveint Inc</td>
+                                  <td class="hidden-phone">28</td>
+                                  <td class="vertical-align-mid">
+                                    <div class="progress">
+                                      <div class="progress-bar progress-bar-success" data-transitiongoal="75" aria-valuenow="75" style="width: 75%;"></div>
+                                    </div>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                            <!-- end user projects -->
+
+                          </div>
+                          <div role="tabpanel" class="tab-pane fade " id="tab_content3" aria-labelledby="profile-tab">
+                            <p>xxFood truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui
+                              photo booth letterpress, commodo enim craft beer mlkshk </p>
+                          </div>
+                           <div role="tabpanel" class="tab-pane fade " id="tab_content4" aria-labelledby="profile-tab">
+                            <div id="conceptnotes" hx-trigger="load,  from:body " hx-get="{% url 'portfolio_conceptnotes' portfolio.id %}" hx-target="this">
+                          </div>
+                          </div>
+                        </div>
+                      </div>
+ 
+                        </div>
+                        <!-- /.col -->
+                      </div>
+
+                      <div>
+
+                      
+                     
+
+
+                        <!-- end of user messages -->
+                      </div>
+                    <!-- start project-detail sidebar -->
+                  
+                    <!-- end project-detail sidebar -->
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div><div class="modal fade bs-example-modal-lg" id="modal" class="modal fade">
+                       <div id="dialog" class="modal-dialog modal-lg" hx-target="this"></div>
+                    </div>
+        </div>
+        </div>
+        <!-- /page content -->
+
+{% endblock%}
+{% block content_page_js %}
+<script>
+
+
+    var MONTHS =   [{%  for m in all_request.created_at_month %} "{{ m|date:'M-Y' }}", {% endfor %}];
+   
+
+    var randomScalingFactor = function() {
+      return Math.round(Math.random() * 100 * (Math.random() > 0.5 ? -1 : 1));
+    };
+    var randomColorFactor = function() {
+      return Math.round(Math.random() * 255);
+    };
+    var randomColor = function(opacity) {
+      return 'rgba(' + randomColorFactor() + ',' + randomColorFactor() + ',' + randomColorFactor() + ',' + (opacity || '1') + ')';
+    };
+ 
+    var ctx = document.getElementById("canvas").getContext("2d");
+    var myChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: [{%  for m in all_request.created_at_month %} "{{ m|date:'M-Y' }}", {% endfor %}],
+
+        datasets: [{
+          label: "Intervention",
+          data: [{% for cn in all_request.icn_count %} {{ cn }}, {% endfor %}],
+          borderColor:'rgba(51, 137, 173, .6)',
+          backgroundColor:'rgba(51, 137, 173, .6)',
+          pointBorderColor :'rgba(51, 137, 173, .4)',
+          pointBackgroundColor : 'rgba(51, 137, 173, .4)',
+          pointBorderWidth : .5,
+
+        },  {
+          label: "Activity",
+         data: [{% for cn in all_request.icn_count %} {{ cn }}, {% endfor %}],
+         borderColor:'rgba(51, 137, 173, .6)',
+         backgroundColor:'rgba(51, 137, 173, .4)',
+         pointBorderColor :'rgba(51, 137, 173, .4)',
+         pointBackgroundColor : 'rgba(51, 137, 173, .4)',
+         pointBorderWidth : .5,
+
+        },]
+      },
+      options: {
+        responsive: true,
+        title:{
+          display:false,
+          text:"Chart.js Line Chart - Stacked Area"
+        },
+        tooltips: {
+          mode: 'label',
+        },
+        hover: {
+          mode: 'label'
+        },
+        scales: {
+          xAxes: [{
+            scaleLabel: {
+              display: false,
+              labelString: 'Month'
+            }
+          }],
+          yAxes: [{
+            stacked: true,
+            scaleLabel: {
+              display: true,
+              labelString: '# of conceptnote'
+            }
+          }]
+        }
+      }
+    });
+    
+</script>
+  {% endblock %}

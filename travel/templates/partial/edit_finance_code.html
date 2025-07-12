@@ -1,0 +1,23 @@
+<tr><td>*</td>
+
+    <td  >{{ form.dept }}
+        {{ form.dept.errors}}
+    </td>
+    <td hx-get="/travel/lincodes/" hx-target="#id_lin_code" hx-swap="innerHTML" hx-include="closest tr" >{{ form.fund }} 
+        {{ form.fund.errors }}
+        
+    </td>
+    <td  >{{ form.lin_code }}
+        {{ form.lin_code.errors }}
+    </td>
+    <td  >
+        {{ form.value }}
+        {{ form.value.errors }}
+    </td>
+    <td  style="width:20%">
+   
+    <a hx-post="/travel/edit_finance_code/{{ finance_code.id }}/" class="btn btn-sm btn-success py-1" style="font-size: 0.8em;"  hx-target="closest tr" hx-swap="outerHTML" hx-include="closest tr"><i class="fa fa-save"> </i> </a>
+   <button type="button" class="btn btn-sm btn-secondary py-1" style="font-size: 0.8em;" value="Previous Page" onClick="javascript:history.go(0);"><i class="fa fa-remove"></i></button>
+    <a hx-post="/travel/delete_finance_code/{{ finance_code.id }}/" class="btn btn-sm btn-danger py-1" style="font-size: 0.8em;"  hx-confirm='Are you sure?'  hx-target="closest tr" hx-swap="outerHTML" hx-include="closest tr"><i class="fa fa-trash"> </i> </a>
+    </td>
+</tr>

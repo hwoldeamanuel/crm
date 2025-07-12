@@ -1,0 +1,84 @@
+{% csrf_token %}
+                      {% load widget_tweaks %}
+                      {% with WIDGET_ERROR_CLASS='is-invalid' %}
+
+<form  hx-post="{{ request.path }}" hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}' >
+    {% csrf_token %}
+  
+    <h6 class="text-center">Request Submission Form</h6>
+    <div class="form-group row">
+   
+     <div class="col-md-4 col-sm-4">
+  <label class="col-form-label label-center" >Budget Holder:
+  </label>
+ 
+    {%  render_field form.budget_holder class+="form-control form-control-sm input-xs  required" %}
+    <div class="invalid-feedback">{{ form.budget_holder.errors|first }}</div>
+</div>
+   
+     <div class="col-md-4 col-sm-4">
+  <label class="col-form-label label-center" >Financial Reviewer:
+  </label>
+ 
+    {%  render_field form.finance_reviewer class+="form-control form-control-sm required" %}
+    <div class="invalid-feedback">{{ form.finance_reviewer.errors|first }}</div>
+</div>
+   
+     <div class="col-md-4 col-sm-4">
+  <label class="col-form-label label-center" >Security Clearance:
+  </label>
+ 
+    {%  render_field form.security_reviewer class+="form-control form-control-sm required" %}
+    <div class="invalid-feedback">{{ form.security_reviewer.errors|first }}</div>
+</div>
+</div>
+
+ <div class="form-group row">
+
+  <label class="col-form-label label-align col-md-1 col-sm-1">Status
+  </label>
+  <div class="col-md-3 col-sm-3">
+    {%  render_field form.status class+="form-control form-control-sm  required" %}
+    <div class="invalid-feedback">{{ form.status.errors|first }}</div>
+
+</div>
+
+  <label class="col-form-label label-center label-align col-md-2 col-sm-2" >Comment(S):
+  </label>
+  <div class="col-md-6 col-sm-6">
+    {%  render_field form.submission_note class+="form-control required" %}
+    <div class="invalid-feedback">{{ form.submission_note.errors|first }}</div>
+</div>
+</div>
+
+
+</div>
+
+ <div class="ln_solid"></div>
+    <div class="item form-group">
+        <div class="col-md-6 col-sm-6 offset-md-3">
+ <button type="button" class="btn btn-secondary btn-sm" value="Previous Page" onClick="javascript:history.go(0);">Close</button>
+            <button class="btn btn-primary btn-sm" type="reset">Reset</button>
+            <button type="submit" class="btn btn-success btn-sm">Submit</button>
+            
+ 
+        </div>
+    </div>
+<!-- Large modal -->
+
+         
+
+   
+                  
+
+
+                        
+
+                      
+                     
+</form>
+
+{% endwith %}
+
+
+ 

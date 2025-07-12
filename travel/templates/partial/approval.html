@@ -1,0 +1,84 @@
+<table class="table table-sm  "  style="margin-top:0px; margin-bottom:0px">
+                      <thead>
+                       <tr style="margin-top:0px; margin-bottom:0px">
+                                <th style="width:8%"></th>
+                                  <th class="text-center" style="width:24%">Submitted By:</th>
+                                   <th class="text-center" style="width:24%">Approved By:</th>
+                                    <th class="text-center" style="width:24%">Financial Review:</th>
+                                     <th class="text-center" style="width:24%">Security Clearance:</th>
+                                     </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                    <td>Name:</td>
+                                    <td> {{trequest.user.profile.full_name}} </td>
+                                     <td>{{trequest.requestsubmit.budget_holder.profile.full_name}} </td>
+                                      <td>{{trequest.requestsubmit.finance_reviewer.profile.full_name}} </td>
+                                        <td>{{trequest.requestsubmit.security_reviewer.profile.full_name}} </td>
+                                    </tr>
+                                      <tr>
+                                    <td>Status:</td>
+                                   <td >                         
+                  <span class="badge badge-success">{{trequest.requestsubmit.status.name}}</span> 
+                  </td>
+                                     <td >  
+                                     {% if trequest.requestsubmit.submitapproval_b.approval_status == 1 %}
+                                       <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-info dropdown-toggle py-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                    {% if trequest.requestsubmit.submitapproval_b %} {{trequest.requestsubmit.submitapproval_b.approval_status.name }} {% else %} Pending {% endif %}
+                    </button>
+                    <div class="dropdown-menu">
+                      <a class="dropdown-item" hx-get={% url 'approve_requestb' trequest.requestsubmit.submitapproval_b.id 3 %} hx-target="#submit">Approve Request</a>
+                      <a class="dropdown-item" hx-get={% url 'approve_requestb' trequest.requestsubmit.submitapproval_b.id 2 %} hx-target="#submit">Require Revision</a>
+                      <a class="dropdown-item" hx-get={% url 'approve_requestb' trequest.requestsubmit.submitapproval_b.id 4 %} hx-target="#submit">Reject Request</a>
+                      
+                  </div>
+                  {% else %}  <span class="badge {% if trequest.requestsubmit.submitapproval_b.approval_status_id == 3 %} badge-success {% elif trequest.requestsubmit.submitapproval_b.approval_status_id == 2 %} badge-warning {% elif trequest.requestsubmit.submitapproval_b.approval_status_id == 4 %} badge-danger {% endif %} ">{{trequest.requestsubmit.submitapproval_b.approval_status.name}}</span> {% endif %}
+                  </td>
+                                                                  <td >  
+                                     {% if trequest.requestsubmit.submitapproval_f.approval_status_id == 1 %}
+                                       <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-info dropdown-toggle py-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                    {% if trequest.requestsubmit.submitapproval_f %} {{trequest.requestsubmit.submitapproval_f.approval_status.name }} {% else %} Pending {% endif %}
+                    </button>
+                    <div class="dropdown-menu">
+                      <a class="dropdown-item" hx-get={% url 'approve_requestf' trequest.requestsubmit.submitapproval_f.id 3 %} hx-target="#submit">Approve Request</a>
+                      <a class="dropdown-item" hx-get={% url 'approve_requestf' trequest.requestsubmit.submitapproval_f.id 2 %} hx-target="#submit">Require Revision</a>
+                      <a class="dropdown-item" hx-get={% url 'approve_requestf' trequest.requestsubmit.submitapproval_f.id 4 %} hx-target="#submit">Reject Request</a>
+                      
+                  </div>
+                  {% else %}  <span class="badge {% if trequest.requestsubmit.submitapproval_f.approval_status_id == 3 %} badge-success {% elif trequest.requestsubmit.submitapproval_f.approval_status_id == 2 %} badge-warning {% elif trequest.requestsubmit.submitapproval_f.approval_status_id == 4 %} badge-danger {% endif %} ">{{trequest.requestsubmit.submitapproval_f.approval_status.name}}</span> {% endif %}
+                  </td>
+                                                                    <td >  
+                                     {% if trequest.requestsubmit.submitapproval_s.approval_status_id == 1 %}
+                                       <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-info dropdown-toggle py-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                    {% if trequest.requestsubmit.submitapproval_s %} {{trequest.requestsubmit.submitapproval_s.approval_status.name }} {% else %} Pending {% endif %}
+                    </button>
+                    <div class="dropdown-menu">
+                      <a class="dropdown-item" hx-get={% url 'approve_requests' trequest.requestsubmit.submitapproval_s.id 3 %} hx-target="#submit">Approve Request</a>
+                      <a class="dropdown-item" hx-get={% url 'approve_requests' trequest.requestsubmit.submitapproval_s.id 2 %} hx-target="#submit">Require Revision</a>
+                      <a class="dropdown-item" hx-get={% url 'approve_requests' trequest.requestsubmit.submitapproval_s.id 4 %} hx-target="#submit">Reject Request</a>
+                      
+                  </div>
+                  {% else %}  <span class="badge {% if trequest.requestsubmit.submitapproval_s.approval_status_id == 3 %} badge-success {% elif trequest.requestsubmit.submitapproval_s.approval_status_id == 2 %} badge-warning {% elif trequest.requestsubmit.submitapproval_s.approval_status_id == 4 %} badge-danger {% endif %} ">{{trequest.requestsubmit.submitapproval_s.approval_status.name}}</span> {% endif %}
+                  </td>
+                                    </tr>
+                                      <tr>
+                                    <td>Date:</td>
+                                    <td>  {% if trequest.requestsubmit %} {{trequest.requestsubmit.submission_date}} {% else %}   {% endif %}  </td>
+                                     <td>  {% if trequest.requestsubmit.submitapproval_b.approval_status.id == 1   %} {{trequest.requestsubmit.submission_date|timesince}} {% else %} {{trequest.requestsubmit.submitapproval_b.approval_date}} {% endif %}  </td>
+                                     <td>  {% if trequest.requestsubmit.submitapproval_f.approval_status.id == 1   %} {{trequest.requestsubmit.submission_date|timesince}} {% else %}  {{trequest.requestsubmit.submitapproval_f.approval_date}} {% endif %}  </td>
+                                      <td>  {% if trequest.requestsubmit.submitapproval_s.approval_status.id == 1   %} {{trequest.requestsubmit.submission_date|timesince}} {% else %}  {{trequest.requestsubmit.submitapproval_s.approval_date}} {% endif %}  </td>
+                                    </tr>
+                                    <tr>
+                                    <td></td>
+                                    
+                                    </tr>
+
+            
+                                    </tbody>
+                                  </table>

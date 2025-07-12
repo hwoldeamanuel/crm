@@ -1,0 +1,28 @@
+{% load static %}
+  <ul class="nav nav-tabs  list-unstyled msg_list" >
+             {% for list in trequests %}
+           
+                    <li "nav-item" style="width:100%" class="{% if list.id|stringformat:"i" in  request.path %}nav-link active {% endif %}"aria-selected="{% if list.id|stringformat:"i" in  request.path %}true {% else %}false {% endif %}">
+                      <a style="width:100%" class="nav-link" href = "/travel/request/{{list.id}}/detail/" >
+                        <span >
+                                                       <img class="img-responsive  img-circle profile_img" src="{% static 'images/user.png' %}" alt="avatar" title="{{ list.user.profile.full_name}}" style="width: 30px; height:30px; margin-top: 0px; margin-bottom:1px; margin-left: 0px;margin-right: 0px;">
+                        </span>
+                        <span>
+                          <span style="{% if list.id|stringformat:"i" in  request.path %} color:#245594;{% endif %}">{{list.user.profile.first_name}} {{list.user.profile.last_name|make_list|first}}</span>
+                          <span class="pull-right"><small>{{list.created_at|date:"M d"}}</small></span>
+                        </span>
+                        <span class="message" style="{% if list.id|stringformat:"i" in  request.path %} color:#245594;{% endif %}">
+                         <i class="fa fa-map-marker"></i> {{list.destination}}
+                        </span>
+                        <span class="message" style="{% if list.id|stringformat:"i" in  request.path %} color:#245594;{% endif %}">
+                          <i class="fa fa-ellipsis-v"></i> {{list.purpose}}
+                        </span>
+                        <span class="message" style="{% if list.id|stringformat:"i" in  request.path %} color:#245594;{% endif %}">
+                           <i class="fa fa-calendar"></i> {{list.departure_date}} -  {{list.return_date}}
+                        </span>
+                      </a>
+                    </li>
+                
+                    {% endfor %}
+                   
+                  </ul>

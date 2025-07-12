@@ -1,0 +1,162 @@
+<!-- page content -->
+{% extends "base.html" %}
+{% block content %}
+ <div class="right_col" role="main">
+          <div class="">
+         
+
+            <div class="clearfix"></div>
+
+            <div class="row">
+              <div class="col-md-12 col-sm-12  ">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Intervention Report :: Add New</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Settings 1</a>
+                            <a class="dropdown-item" href="#">Settings 2</a>
+                          </div>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                      {% load widget_tweaks %}
+                      {% with WIDGET_ERROR_CLASS='is-invalid' %}
+                      
+                     <form class="form-horizontal form-label-left" method="post" novalidate action="" enctype="multipart/form-data"   >
+                   
+                     
+                        {% csrf_token %}
+                         <div class="form-group row">
+                                <label class="col-form-label col-md-2 col-sm-2 label-align" for="{{ form.icn.id_for_label }}">Intervention: <span class="required"></span>
+                                </label>
+                                <div class="col-md-8 col-sm-8">
+                                  {%  render_field form.icn class+="form-control form-control-sm required" %}
+                                  <div class="invalid-feedback">{{ form.title.errors|first }}</div>
+
+                                </div>                     
+                                
+                                  <div class="col-md-2 col-sm-2">
+                                   
+                                  </div>
+                                
+                              </div>
+                          <div class="form-group row">
+
+                              <label class="col-form-label col-md-2 col-sm-2 label-align" for="{{ form.ilead_agency.id_for_label }}">Lead Agency: <span class="required">*</span>
+                                  </label>
+                              <div class="col-md-3 col-sm-3">
+                              
+                                 {% render_field   form.ilead_agency class="form-control form-control-sm" required= %}
+                                 <div class="invalid-feedback">{{ form.ilead_agency.errors|first }}</div>
+                              </div>
+                              <label class="col-form-label col-md-2 col-sm-2 label-align" for=" {% render_field form.ilead_co_agency.id_for_label %}"> Co-Lead Agency: <span class="required">*</span>
+                              </label>
+                              <div class="col-md-3 col-sm-3 ">
+                                   {% render_field form.ilead_co_agency class+="form-control form-control-sm form-select form-select-solid" attr="data-control:select2" %}
+                                    <div class="invalid-feedback">{{ form.ilead_co_agency.errors|first }}</div>
+                              </div>
+                            </div>
+                            <div class="form-group row">
+                              <label class="col-form-label col-md-2 col-sm-2 label-align" >Actual Start Date: <span class="required"></span>
+                                  </label>
+                              <div class="col-md-3 col-sm-3 ">
+                                 {% render_field form.actual_start_date class+="form-control form-control-sm" %}
+                                   <div class="invalid-feedback">{{ form.actual_start_date.errors|first }}</div>
+                              </div>
+                              <label class="col-form-label col-md-2 col-sm-2 label-align" >Actual End Date: <span class="required"></span>
+                              </label>
+                              <div class="col-md-3 col-sm-3 ">
+                                 {% render_field form.actual_end_date class+="form-control form-control-sm" %}
+                                  <div class="invalid-feedback">{{ form.actual_end_date.errors|first }}</div>
+                              </div>
+                            </div>
+                          <div class="form-group row">
+                            <label class="col-form-label col-md-2 col-sm-2 label-align" >Actual Report date: <span class+="required"></span>
+                            </label>
+                            <div class="col-md-3 col-sm-3 ">
+                                 {% render_field form.actual_report_date class+="form-control form-control-sm" %}
+                                 <div class="invalid-feedback">{{ form.final_report_date.errors|first }}</div>
+                            </div>
+                          </div>
+                         
+                             <div class="form-group row">
+                            <label class="col-form-label col-md-2 col-sm-2 label-align" >Actual Mercy Corps Budget($): <span class+="required"></span>
+                            </label>
+                            <div class="col-md-3 col-sm-3 ">
+                                   {% render_field form.actual_mc_budget_usd class="form-control form-control-sm" %}
+                                 <div class="invalid-feedback">{{ form.actual_mc_budget_usd.errors|first }}</div>
+                            </div>
+                         
+                            <label class="col-form-label col-md-2 col-sm-2 label-align" >Actual Cost Share Budget($):
+                            </label>
+                            <div class="col-md-3 col-sm-3 ">
+                                    {% render_field form.actual_cost_sharing_budget_usd class="form-control form-control-sm" %}
+                                 <div class="invalid-feedback">{{ form.actual_cost_sharing_budget_usd.errors|first }}</div>
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                            <label class="col-form-label col-md-2 col-sm-2 label-align" >Program:<span class="required"></span>
+                            </label>
+                            <div class="col-md-2 col-sm-2">
+                            
+                                {% render_field form.program_lead class="form-control form-control-sm" %}
+                                  <div class="invalid-feedback">{{ form.program_lead.errors|first }}</div>
+                                </div>
+                                <label class="col-form-label col-md-1 col-sm-1 label-align" >Techncial: <span class="required"></span>
+                                </label>
+                                <div class="col-md-2 col-sm-2">
+                                  {% render_field form.technical_lead class="form-control form-control-sm"  %}
+                                  <div class="invalid-feedback">{{ form.technical_lead.errors|first }}</div>
+                                  </div>
+                            
+                            
+                              <label class="col-form-label col-md-1 col-sm-1 label-align" >Finance:<span class="required"></span>
+                              </label>
+                              <div class="col-md-2 col-sm-2">
+                                {% render_field form.finance_lead class="form-control form-control-sm" %}
+                                  <div class="invalid-feedback">{{ form.finance_lead.errors|first }}</div>
+
+
+                                </div>
+                         </div>
+                        <div class="form-group row">
+                            <label class="col-form-label col-md-2 col-sm-2 label-align" >Description:<span class="required"></span>
+                                </label>
+                            <div class="col-md-8 col-sm-8 ">
+                                 {% render_field form.description class+="form-control form-control-sm" %}
+                            </div>
+                        
+                          </div>
+                        <div class="ln_solid"></div>
+										<div class="form-group row">
+											<div class="col-md-9 col-sm-9 offset-md-4">
+												<button class="btn btn-primary" type="button">Cancel</button>
+												<button class="btn btn-primary" type="reset">Reset</button>
+												<button type="submit" class="btn btn-success">Submit</button>
+											</div>
+										</div>
+
+                  </form>
+                    {% endwith %}
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.css" rel="stylesheet"/>
+
+    {{ form.media.js }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /page content -->
+  
+{% endblock %}

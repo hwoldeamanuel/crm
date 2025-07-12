@@ -1,0 +1,86 @@
+
+
+
+<table class="table table-sm  "  style="margin-top:0px; margin-bottom:0px">
+                      <thead>
+                       
+                      </thead>
+                      <tbody>
+                      <tr>
+                                <th style="width:17%"></th>
+                                  <th style="width:35%"></th>
+                                  <th style="width:10%">Currency</th>
+                                  <td style="width:13%" class="text-center">Birr</td>
+                                 <th style="width:15%" class="text-left" >{{trequest.get_cost_total|floatformat:"2g"}}</th>
+                                                                 </tr>
+                    
+                    
+                      
+                      
+                      </tbody>
+                      </table>
+          </div>            
+</div>
+</div>
+<div class="card">
+          <div class="card-header py-0" style="margin-top:0px; margin-bottom:0px">
+
+           <strong>Approval
+</strong> 
+ 
+
+          </div>
+            <div class="col-sm-12 col-md-12" id="submit" hx-trigger="RequestChanged from:body" hx-get= "{% url 'submit_approval_list' trequest.id %}" hx-target="this" >
+
+
+<table class="table table-sm  "  style="margin-top:0px; margin-bottom:0px">
+                      <thead>
+                       <tr style="margin-top:0px; margin-bottom:0px">
+                                <th style="width:8%"></th>
+                                  <th class="text-center" style="width:24%">Submitted By:</th>
+                                   <th class="text-center" style="width:24%">Approved By:</th>
+                                    <th class="text-center" style="width:24%">Financial Review:</th>
+                                     <th class="text-center" style="width:24%">Security Clearance:</th>
+                                     </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                    <td>Name:</td>
+                                    <td> {{trequest.user.profile.full_name}} </td>
+                                     <td>{{trequest.requestsubmit.budget_holder.profile.full_name}} </td>
+                                      <td>{{trequest.requestsubmit.finance_reviewer.profile.full_name}} </td>
+                                        <td>{{trequest.requestsubmit.security_reviewer.profile.full_name}} </td>
+                                    </tr>
+                                      <tr>
+                                    <td>Status:</td>
+                                   <td >                         <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-info dropdown-toggle py-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {% if trequest.requestsubmit.status %} {{trequest.requestsubmit.status.name }} {% else %} Pending {% endif %}
+                    </button>
+                    <div class="dropdown-menu">
+                      <a class="dropdown-item   {% if trequest.requestsubmit %}disabled{% endif %}" hx-get="{% url 'submit_request' trequest.id 2 %}" hx-target="#submit">Submit</a>
+                      <a class="dropdown-item {% if not trequest.requestsubmit or trequest.requestsubmit.status_id == 1 %}disabled{% endif %}"  hx-get="{% url 'edit_request' trequest.id 1 %}" hx-target="#submit">Cancel</a>
+                      <a class="dropdown-item   {% if not trequest.requestsubmit or trequest.requestsubmit.status_id == 2 %}disabled{% endif %}" hx-get="{% url 'edit_request' trequest.id 2 %}" hx-target="#submit">Re-Submit</a>
+                  
+                     
+                  </div> </td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+            
+                                    </tr>
+                                      <tr>
+                                    <td>Date:</td>
+                                    <td>  {% if trequest.requestsubmit %} {{trequest.requestsubmit.submission_date}} {% else %}   {% endif %}  </td>
+                                     <td></td>
+                                      <td></td>
+                                       <td></td>
+                                    </tr>
+                                    <tr>
+                                    <td></td>
+                                    
+                                    </tr>
+
+            
+                                    </tbody>
+                                  </table>

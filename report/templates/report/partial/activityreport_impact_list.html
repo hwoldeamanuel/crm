@@ -1,0 +1,52 @@
+
+ {% load humanize %}
+                  <!-- end of user messages -->
+   <table class="data table table-sm table-striped no-margin" style="width:100%">
+        <thead>
+            <tr>
+              <th>#</th>
+         <th style="width: 25%">Title</th>
+              <th style="width: 20%">Disaggregates</th>
+                <th style="width: 10%">Unit</th>
+            <th >Pilot(T)</th>
+             <th >Scaleup(T)</th>
+             <th >Pilot(A)</th>
+             <th >Scaleup(A)</th>
+            
+               
+            </tr>
+        </thead>
+        <tbody>
+            {%  if impacts %}
+
+            {% for impact in impacts %}
+            <tr>
+               <td>{{forloop.counter}}</td>
+           
+                <td class="vertical-align-mid">
+                                    
+                                  {{ impact.title }}</td>
+                                  <td class="vertical-align-mid">
+                                    
+                                  {{ impact.description }}</td>
+                <td class="vertical-align-mid">{{ impact.get_unit_display }}</td>
+                <td class="vertical-align-mid">{{ impact.impact_pilot|intcomma }}</td>
+                <td class="vertical-align-mid">{{ impact.impact_scaleup|intcomma }}</td>
+                 <td class="vertical-align-mid">{{ impact.activityreportimpact.actual_impact_pilot|intcomma }}</td>
+                <td class="vertical-align-mid">{{ impact.activityreportimpact.actual_impact_scaleup|intcomma }}</td>
+               
+                <td class="vertical-align-mid">
+
+                   {% if impact.activityreportimpact %}
+                    
+                     <button {% if impact.activityreportimpact.activityreport.status == True or impact.activityreportimpact.activityreport.user.id != request.user.id %} disabled {% endif %} class="btn btn-info btn-sm" hx-get="{% url 'edit_activityreport_impact' pk=impact.activityreportimpact.pk %}" hx-target="#dialog"><i class="fa fa-edit"></i></button>
+                     {% else %}
+                    <button class="btn btn-info btn-sm" hx-get="{% url 'activityreport_add_impact' id=impact.pk %}" hx-target="#dialog"><i class="fa fa-plus"></i></button>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+            
+        </tbody>
+{% endif %}
+    </table>

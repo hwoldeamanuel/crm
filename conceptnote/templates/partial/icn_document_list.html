@@ -1,0 +1,31 @@
+{% block content %}
+{% load static %}
+                  <!-- end of user messages -->
+
+                  <ul class="messages">
+
+                    {% for document in documents %}
+                    
+                    <li>
+                      <img src="{% static 'images/user.png' %}" class="avatar" alt="Avatar">
+                      <div class="message_date">
+                      
+                        <h3 class="date text-info">{{ document.uploaded_at|date:"d" }}</h3>
+                        <p class="month">{{ document.uploaded_at|date:"M" }}</p>
+                      </div>
+                      <div class="message_wrapper">
+                        <h4 class="heading">{{ document.user.profile.full_name }}</h4>
+                        <blockquote class="message">{{ document.description }}</blockquote>
+                        <br />
+                        <p class="url">
+                          <span class="fs1 text-info" aria-hidden="true" data-icon=""></span>
+                          <a href="{% url 'download' document.id %}"><i class="fa fa-paperclip"></i>  download </a>Version:{{document.ver}} uploaded@{{ document.uploaded_at|time}}
+                        </p>
+                      </div>
+                    </li>
+                    {% endfor %}
+                    
+                  </ul>
+                  <!-- end of user messages -->
+
+{% endblock %}

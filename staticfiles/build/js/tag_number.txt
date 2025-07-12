@@ -1,0 +1,17 @@
+tag_number
+month_expense
+year_expense
+expense_type
+expense_volum
+expense_value
+field_office
+
+consumables, Costs of consumables
+
+
+rental-Fuel cost
+
+
+	fuel
+
+ if( ADM1_EN = "Dubti town","Dubti Hospital",if(ADM1_EN = "Berahile","Berahile Hospital","Abaala Hospital"))

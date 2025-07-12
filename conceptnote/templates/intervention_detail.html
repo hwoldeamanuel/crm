@@ -1,0 +1,240 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content_page_css %}
+
+<link href="{% static 'vendors/pnotify/dist/pnotify.css' %}" rel="stylesheet">
+    <link href="{% static 'vendors/pnotify/dist/pnotify.buttons.css' %}" rel="stylesheet">
+    <link href="{% static 'vendors/pnotify/dist/pnotify.nonblock.css' %}" rel="stylesheet">
+
+
+   
+
+{% endblock %}
+
+{% block content %}
+{% load humanize%}
+ <div class="right_col" role="main">
+          <div class="">
+         
+          <div class="page-title">
+              <div class="title_left">
+                <h3>Concept Note :: Intervention</h3>
+              </div>
+
+              
+            </div>
+            <div class="clearfix"></div>
+
+            <div class="row">
+              <div class="col-md-12 col-sm-12  ">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Intervention | Detail | Impact</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Settings 1</a>
+                            <a class="dropdown-item" href="#">Settings 2</a>
+                          </div>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+  
+               
+                  
+                    <div class="x_content">
+                       
+                
+                      <div class="col-md-12 col-sm-12">
+
+                        <!-- start of user-activity-graph -->
+                        <div  style="width:100%; height:300px;">
+                          <div class="panel-body">
+                            <p>Program:<strong>  {{ icn.program }}</strong></p>
+                          <p>Title:<strong> {{ icn.title }}</strong></p>
+                            <p><strong>Description: </strong> {{ icn.description }}</p>
+                          
+  
+                            <div class="col-md-4 col-sm-4 project_detail">
+                           
+
+                             <p>Lead Agency:<strong> {{ icn.ilead_agency }}</strong></p>
+                              <p>Co-Lead Agency:
+                      {% for colead in icn.ilead_co_agency.all %}
+                      <strong>{{colead}},</strong>
+                      {% endfor %}</p>
+                             <p class="">Proposed Start Date<strong>
+                      {{icn.proposed_start_date}}</strong></p>
+                      <p class="">Proposed End Date<strong>
+                      {{icn.proposed_end_date}}</strong></p>
+                      <p>Final Report due date: <strong>  {{ icn.final_report_due_date}}</strong></p>
+                            
+                            
+                              
+                            </div>
+                       
+                          
+                            <div class="col-md-4 col-sm-4 project_detail">
+                              <p>Implementation Woredas:
+                      {% for woreda in icn.iworeda.all %}
+                      <strong>{{woreda}},</strong>
+                      {% endfor %}</p>
+                              <p>Environmnetal Impact: {% if icn.eniromental_impact == '3' %}High{% elif icn.eniromental_impact == '2' %}<strong>Medium</strong>{% elif icn.eniromental_impact == '1' %}<strong>Low</strong>{% endif %}</p>
+                              <p>Environmnetal Impact Doc <i class="fa fa-paperclip"></i>:<strong>{% if icn.environmental_assessment_att %}<a href="{% url 'download_env_att' icn.id %}"><i class="fa fa-paperclip"></i>  download </a> {% else %}NA{% endif%} </strong></p>
+
+                              <p>Total Mercy Corps budget:<strong> {{ icn.mc_budget|floatformat:2|intcomma }}</strong>{{icn.get_mc_currency_display }}</p>
+                              <p>Cost-share budget:<strong> {{ icn.cost_sharing_budget|floatformat:2|intcomma }}</strong>{{icn.get_cs_currency_display }}</p>
+                              
+ 
+
+                           
+                            </div>
+                            <div class="col-md-4 col-sm-4 project_detail">
+  
+                              <p>Initited By: <strong>  {{ icn.user }}</strong></p>
+                              <p>Technical Lead: <strong>  {{ icn.technical_lead }}</strong></p>
+                              <p>Program Lead: <strong> {{ icn.program_lead }}</strong></p>
+                                <p>Finance Lead: <strong> {{ icn.finance_lead }}</strong></p>
+                                
+                              <p >Submission Status: <strong>{{ icn.get_status_display }}</strong></p> 
+                              
+
+
+                           
+                            </div>
+  
+                         
+                            
+  
+                    
+                     
+                          
+                        
+                        <!-- end of user-activity-graph -->
+         
+                      
+                        <div class="col-md-12 col-sm-12">
+                     
+                        <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                          <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                            <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Intervention Impact/Target</a>
+                            </li>
+                            
+                          </ul>
+                          <div id="myTabContent" class="tab-content">
+                            <div role="tabpanel" class="tab-pane active " id="tab_content1" aria-labelledby="home-tab">
+                              
+                              <!-- start recent activity -->
+                               <div id="ImpactList" hx-trigger="ImpactListChanged from:body" hx-get="{% url 'impact_list' icn.id %}" hx-target="this" >
+                               <table class="data table table-sm table-striped no-margin" style="width:100%">
+        <thead>
+            <tr>
+              <th>#</th>
+           <th >Title</th>
+              <th>Description</th>
+            <th >Pilot</th>
+             <th >Scaleup</th>
+            <th >Program indicators</th>
+               
+            </tr>
+        </thead>
+        <tbody>
+            {%  if icn.impact_set.all %}
+            {% for impact in icn.impact_set.all %}
+            <tr>
+               <td>{{forloop.counter}}</td>
+           
+                <td class="vertical-align-mid">
+                                    
+                                  {{ impact.title }}</td>
+                <td class="vertical-align-mid">{{ impact.description }}</td>
+                <td class="vertical-align-mid">{{ impact.impact_pilot|intcomma }}</td>
+                <td class="vertical-align-mid">{{ impact.impact_scaleup|intcomma }}</td>
+                <td class="vertical-align-mid">
+                {% for indicator in impact.indicators.all %}
+                        <li>
+                         {{ indicator.indicator_no }}
+                        </li>
+                         
+                        {% endfor %}
+
+                
+                </td>
+                <td class="vertical-align-mid">
+
+                   {% if icn.status == False and icn.user == request.user %}
+                    <button class="btn btn-info btn-sm" hx-get="{% url 'icn_edit_impact' pk=impact.id %}" hx-target="#dialog"><i class="fa fa-edit"></i></button>
+                   {% endif %}
+                    
+                    
+                </td>
+            </tr>
+            {% endfor %}
+            
+        </tbody>
+{% endif %}
+    </table>
+   
+
+
+                                  
+                                </div>
+                                 {% if icn.status == False and icn.user == request.user %}
+                                  <button  hx-get="/conceptnote/add_impact/{{icn.id}}/" hx-target="#dialog" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i>
+                                      Target/Impact
+                                    </button>
+                                     {% endif %}
+                              <!-- end recent activity -->
+  
+                            </div>
+                            
+                            </div>
+                          </div>
+                         
+                       
+                                               <div class="ln_solid"></div>
+                        </div>
+                      </div>
+                      
+                        <div class="col-md-12 col-sm-12">
+<div class="col-md-8 col-sm-8">
+</div>
+
+                          <a class="btn btn-success source" {% if icn.status == True or icn.user != request.user %} IareaListChanged from:body, onclick="new PNotify({
+                                  title: 'Permission',
+                                  text: 'Current User doesnot match with ICN Owner and/or ICN submission status should be Draft;',
+                                  type: 'info',
+                                  styling: 'bootstrap3'
+                              });" {% else %} href="{% url 'icn_edit' icn.id %} {% endif %}" ><i class="fa fa-edit m-right-xs"></i>Edit ICN</a>
+                          <a class="btn btn-primary " href="{% url 'icn_submit_approval' icn.id %}" ><i class="fa fa-step-forward m-right-xs"></i> {% if icn.status == False %} Submit ICN {% else %} Approval {% endif %}</a>
+                        </div>
+
+                        </div>
+                        
+                  <div class="modal fade bs-example-modal-lg" id="modal" class="modal fade">
+                                                  <div id="dialog" class="modal-dialog modal-lg" hx-target="this"></div>
+                                   </div>          </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /page content -->
+  <!-- /page content -->
+  {% endblock %}
+
+
+
+
+
+

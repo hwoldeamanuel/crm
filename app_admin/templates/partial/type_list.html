@@ -1,0 +1,57 @@
+<table class="table table-striped projects">
+                <thead>
+                  <tr>
+                    <th style="width: 1%">#</th>
+                    <th>Type ID</th>
+                    <th>Type Name</th>
+                    <th>Category ID</th>
+                    <th>Category Name</th>
+                   
+                    <th style="width: 14%">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for types in type %}
+                  <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{ types.type.id }}</td>
+                  
+                    <td> {{ types.type.name }}</td>
+                    <td>{{ types.id }}</td>
+                  
+                    <td> {{ types.name }}</td>
+                    
+                      
+                  
+                    <td>
+                         
+
+                    <button class="btn btn-info btn-sm" hx-get="{% url 'edit_type' types.type.id %}" hx-target="#dialog"><i class="fa fa-edit"></i></button>
+<button class="btn btn-info btn-sm" hx-get="{% url 'edit_category' types.id %}" hx-target="#dialog"><i class="fa fa-edit"></i></button>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                  {% if type2 %}
+                   {% for type2 in type2 %}
+                  <tr>
+                    <td>{{forloop.counter|add:type.count }}</td>
+                    <td>{{ type2.id }}</td>
+                  
+                    <td> {{ type2.name }}</td>
+                    <td></td>
+                  
+                    <td> </td>
+                    
+                      
+                  
+                    <td>
+                         
+
+                    <button class="btn btn-info btn-sm" hx-get="{% url 'edit_type' type2.id %}" hx-target="#dialog"><i class="fa fa-edit"></i></button>
+
+                    </td>
+                  </tr>
+                  {% endfor %}
+                  {% endif %}
+                </tbody>
+              </table>

@@ -1,0 +1,190 @@
+
+{% extends "base.html" %}
+
+{% block content_page_css %}
+
+{% load static %}
+
+
+<link href="{% static 'vendors/pnotify/dist/pnotify.css' %}" rel="stylesheet">
+    <link href="{% static 'vendors/pnotify/dist/pnotify.buttons.css' %}" rel="stylesheet">
+    <link href="{% static 'vendors/pnotify/dist/pnotify.nonblock.css' %}" rel="stylesheet">
+
+
+
+   
+
+
+  
+<style>
+.nav-tabs.wizard {
+  background-color: transparent;
+  padding: 0;
+  width: 100%;
+  margin: 1em auto;
+  border-radius: .25em;
+  clear: both;
+  border-bottom: none;
+}
+
+.nav-tabs.wizard li {
+  width: 100%;
+  float: none;
+  margin-bottom: 3px;
+}
+
+.nav-tabs.wizard li>* {
+  position: relative;
+  padding: 1em .8em .8em 2.5em;
+  color: #999999;
+  background-color: #dedede;
+  border-color: #dedede;
+}
+
+.nav-tabs.wizard li.completed>* {
+  color: #fff !important;
+  background-color: #88b153 !important;
+  border-color: #88b153 !important;
+  border-bottom: none !important;
+}
+
+.nav-tabs.wizard li.active>* {
+  color: #fff !important;
+  background-color: #34495E !important;
+  border-color: #34495E !important;
+  border-bottom: none !important;
+}
+
+.nav-tabs.wizard li::after:last-child {
+  border: none;
+}
+
+.nav-tabs.wizard > li > a {
+  opacity: 1;
+  font-size: 14px;
+}
+
+.nav-tabs.wizard a:hover {
+  color: #fff;
+  background-color:#34495E;
+  border-color:#34495E
+}
+
+span.nmbr {
+  display: inline-block;
+  padding: 5px 0 0 0;
+  background: #ffffff;
+  width: 20px;
+  line-height: 100%;
+  height: 20px;
+  margin: auto;
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: 10px;
+  color: #555;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+@media(min-width:992px) {
+  .nav-tabs.wizard li {
+    position: relative;
+    padding: 0;
+    margin: 4px 4px 4px 0;
+    width: 16.3%;
+    float: left;
+    text-align: center;
+  }
+  .nav-tabs.wizard li.active a {
+    padding-top: 15px;
+  }
+  .nav-tabs.wizard li::after,
+  .nav-tabs.wizard li>*::after {
+    content: '';
+    position: absolute;
+    top: 1px;
+    left: 100%;
+    height: 0;
+    width: 0;
+    border: 38px solid transparent;
+    border-right-width: 0;
+    /*border-left-width: 38px*/
+  }
+  .nav-tabs.wizard li::after {
+    z-index: 1;
+    -webkit-transform: translateX(4px);
+    -moz-transform: translateX(4px);
+    -ms-transform: translateX(4px);
+    -o-transform: translateX(4px);
+    transform: translateX(4px);
+    border-left-color: #fff;
+    margin: 0
+  }
+  .nav-tabs.wizard li>*::after {
+    z-index: 2;
+    border-left-color: inherit
+  }
+  .nav-tabs.wizard > li:nth-of-type(1) > a {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+  }
+  .nav-tabs.wizard li:last-child a {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+  .nav-tabs.wizard li:last-child {
+    margin-right: 0;
+  }
+  .nav-tabs.wizard li:last-child a:after,
+  .nav-tabs.wizard li:last-child:after {
+    content: "";
+    border: none;
+  }
+  span.nmbr {
+    display: block;
+  }
+}
+</style>
+
+{% endblock %}
+
+{% block content %}
+{% load static %}
+
+ <!-- page content -->
+			<div class="right_col" role="main">
+				<div class="">
+				
+           <div class=" col-md-12 col-sm-12 ">
+					<div class="row tabbable" >
+						  
+							
+            <ul class="nav nav-tabs wizard">
+              <li  class="{% if 'profile' in request.path and 'conceptnote' in request.path %}active{% elif activity %}completed{% elif not activity %}nav-link disabled{% endif %}"><a href="{% if activity %}/conceptnote/activity/{{activity.id}}/profile/ {% else %}/conceptnote/activity/profile/new/{% endif %}" ><span class="nmbr">1</span>Profile <small>Activity</small></a></li>
+              <li class="{% if 'impact' in request.path and 'conceptnote' in request.path %}active{% elif activity.activityimpact_set.count > 0 %}completed{% elif not activity %}nav-link disabled{% endif %}"><a href="/conceptnote/activity/{{activity.id}}/impact/" ><span class="nmbr">2</span>Target</a></li>
+             <li class="{% if 'conceptnote' in request.path and 'approval' in request.path %}active{% elif not activity or activity.activityimpact_set.count == 0 %}nav-link disabled{% elif activity.approval_status == '100% Approved' %}completed{%endif %}"><a href="/conceptnote/activity/{{activity.id}}/approval/"><span class="nmbr">3</span>Approval</small></a></li>
+             <li class="{% if 'report' in request.path and 'profile' in request.path %}active{% elif activity.approval_status != '100% Approved' %}nav-link disabled{% elif activityreport or activity.activityreport %}completed{% endif %}"><a href="/report/activity/{{activity.id}}/profile/"><span class="nmbr">4</span>Profile <small>Report</small></a></li>
+              <li class="{% if  'report' in request.path and 'impact' in request.path  %}active{% elif activity.activityreport.activityreportimpact_set.count > 0 %}completed{% elif not activity.activityreport %}nav-link disabled{% endif %}"><a href="/report/activity/{{activity.id}}/impact/" ><span class="nmbr">5</span>Performance</a></li>
+                <li class="{% if 'report' in request.path and 'approval' in request.path %}active{% elif not activity or activity.activityimpact_set.count != activity.activityreport.activityreportimpact_set.count %}nav-link disabled{% elif activity.activityreport.approval_status == '100% Approved' %}completed{%endif %}"><a href="/report/activity/{{activity.id}}/approval/"><span class="nmbr">6</span>Approval</small></a></li>
+
+            </ul>
+        </div>
+					</div>
+					{% block content_intervention_step %}
+					{% endblock %}
+			</div>
+			<!-- /page content -->
+
+{% endblock %}
+{% block content_page_js %}
+
+{% load static %}
+  <!-- PNotify -->
+    <script src="{% static 'vendors/pnotify/dist/pnotify.js' %}"></script>
+    <script src="{% static 'vendors/pnotify/dist/pnotify.buttons.js' %}"></script>
+    <script src="{% static 'vendors/pnotify/dist/pnotify.nonblock.js' %}"></script>
+
+{% endblock %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>

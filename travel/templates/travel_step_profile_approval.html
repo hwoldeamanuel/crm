@@ -1,0 +1,417 @@
+{% extends "travel_step.html" %}
+
+{% block content_travel_step %}
+{% load static %}
+{% load humanize%}
+<style>
+        table,
+       td {
+           
+            text-align: left;
+            padding: 0px;
+        }
+
+        tr {
+            height: 10px;
+            padding: 0px;
+        }
+        th {
+            height: 10px;
+            padding: 0px;
+            font-size: 11px;
+            color:#5A738E;
+        }
+          td {
+           
+            padding: 0px;
+            font-size: 10px;
+            color:#5A738E;
+        }
+    </style>
+
+    <div class="col-md-7 col-sm-7  profile_left">
+              <div class="profile_img">
+                        <div id="crop-avatar">
+                          <!-- Current avatar -->
+                          <img class="img-responsive avatar-view" src="{% static 'images/logo.png' %}" alt="Avatar" title="Change the avatar" style="width: 100px; height: auto;" >
+                        </div>
+              </div>
+                     
+                      <!-- end of skills -->
+
+    </div>
+  <div class="col-md-5 col-sm-5 ">
+
+              <div class="title">
+                        <div class="col-md-12">
+                          <h6>Travel Approval Request</h6>
+                        </div>
+ <div class="col-md-12">
+                          <h6> Field Finance Manual - Form 6.5A</h5>
+                        </div>
+                         
+                        
+                      </div>
+                      <!-- start of user-activity-graph -->
+                     
+                       
+                  </div>
+
+                 
+                  
+    <div class="container">
+      <div class="card">
+          <div class="card-header py-0" style="margin-top:0px; margin-bottom:0px">
+
+           <strong>A. Travel Information</strong> 
+ 
+
+          </div>
+ <div>
+<div class="col-sm-12 col-md-12" >
+<div class="col-sm-8 col-md-8" >
+
+
+<table class="table table-sm  " style="margin-top:0px; margin-bottom:0px">
+                      <thead>
+                       
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <th>Name</th>
+                          <td class="text-left" colspan="3">{{trequest.user.profile.full_name}}</td>
+                          
+                        </tr>
+                        <tr>
+                          <th >Emply ID Code:
+</th>
+                          <td>00000{{trequest.user.id}}</td>
+                          <th>Office</th>
+                          <td>{{trequest.user.profile.portfolio}}</td>
+                        </tr>
+                        <tr>
+                          <th>Destination(s):
+</th>
+                          <td class="text-left" colspan="3">{{trequest.destination}}</td>
+                        </tr>
+                          <tr>
+                          <th>Purpose:
+</th>
+                          <td class="text-left" colspan="3">{{trequest.purpose}}</td>
+                        </tr>
+                        <tr>
+                          <th >Departure Date:
+</th>
+                          <td>{{trequest.departure_date}}</td>
+                          <th>Return Date</th>
+                          <td>{{trequest.return_date}}</td>
+                        </tr>
+                        <tr>
+                          <td ><div class="icheckbox_flat-green {% if trequest.business %}checked{% endif %}" style="position: relative;"><input type="" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 80%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                          Business</td>
+                          <td ><div class="icheckbox_flat-green {% if trequest.relocation %}checked{% endif %}" style="position: relative;"><input type="" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 80%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                          Relocation</td>
+                           <td ><div class="icheckbox_flat-green {% if trequest.randr %}checked{% endif %}" style="position: relative;"><input type="" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 80%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                          R and R</td>
+                           <td ><div class="icheckbox_flat-green {% if trequest.other %}checked{% endif %}" style="position: relative;"><input type="" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 80%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                          Other</td>
+                        </tr>
+                        <tr>
+                      </tbody>
+                    </table>
+</div>
+
+<div class="col-sm-4 col-md-4">
+
+
+<table class="table table-sm" style="margin-top:0px; margin-bottom:0px">
+  <thead>
+ 
+    <th class="text-center" colspan="4">
+   Financial Coding
+   </th>
+  </thead>
+  <tbody>
+    <tr>
+                          
+                      
+      <td colspan="4">
+<table class="table table-responsive table-sm " style="margin-top:0px; margin-bottom:0px">
+                      <thead>
+                        <tr >
+                          
+                          <td>Fund</td>
+                          <td>Dept</td>
+                          <td>Lin Code</td>
+                          <td>%</td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {% for fc in trequest.finance_code_set.all %}
+                        <tr>
+                          <td>{{fc.fund}}</td>
+                          <td>{{fc.dept}}</td>
+                          <td>{{fc.lin_code}}</td>
+                          <td>{{fc.value}}</td>
+                        </tr>
+                        {% endfor %}
+                        
+                      </tbody>
+                    </table>
+                    </td>
+                    </tr>
+                  </tbody>
+                  </table>
+<div>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+</div>
+
+<div class="card">
+          <div class="card-header py-0" style="margin-top:0px; margin-bottom:0px">
+
+           <strong>B. Estimated Travel Cost</strong> 
+ 
+
+          </div>
+
+ <div class="col-sm-12 col-md-12" >
+
+
+<table class="table table-sm  " style="margin-top:0px; margin-bottom:0px">
+                      <thead>
+                      <tr>
+                      <tr style="font-size: 0.8em;">
+                                
+                                  <th style="width:17%"></th>
+                                  <th style="width:35%">Desciption</th>
+                                  <th style="width:10%"># Unit/Day</th>
+                                  <th style="width:13%">Unit Cost</th>
+                                  <th style="width:15%">Total Cost</th>
+                                                                 </tr>
+                      </thead>
+                      <tbody>
+                      {% for tc in trequest.estimated_cost_set.all %}
+                      {% if tc.type.name != 'Per Diem' %}
+                        <tr>
+                          <th>{{tc.type.name}}</th>
+                          <td>{{tc.description }}</td>
+                           <td>{{tc.number_unit_day }}</td>
+                            <td>{{tc.unit_cost|floatformat:"2g" }}</td>
+                             <td>{{tc.total_cost|floatformat:"2g" }}</td>
+                              
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
+                        <tr>
+                        <td></td>
+                       <td class="text-right" colspan="3">Total  Estimated Travel Costs									
+                        <th > {{trequest.get_tcost_total|floatformat:"2g"}}
+                        <tr>
+                      </tbody>
+                    </table>
+</div>
+<div>
+
+<div class="card">
+          <div class="card-header py-0" style="margin-top:0px; margin-bottom:0px">
+
+           <strong>C. Per Dium</strong> 
+ 
+
+          </div>
+
+ <div class="col-sm-12 col-md-12" >
+
+
+<table class="table table-sm  " style="margin-top:0px; margin-bottom:0px">
+                      <thead>
+                      <tr>
+                      <tr style="font-size: 0.8em;">
+                                
+                                  <th style="width:17%"></th>
+                                  <th style="width:35%">Location</th>
+                                  <th style="width:10%">Cost/Day</th>
+                                  <th style="width:13%">Unit Cost</th>
+                                  <th style="width:15%">Total Cost</th>
+                                                                 </tr>
+                      </thead>
+                      <tbody>
+                      {% for tc in trequest.estimated_cost_set.all %}
+                      {% if tc.type.name == 'Per Diem' %}
+                        <tr>
+                          <th>{{tc.type.name}}</th>
+                          <td>{{tc.description }}</td>
+                           <td>{{tc.number_unit_day }}</td>
+                            <td>{{tc.unit_cost|floatformat:"2g" }}</td>
+                             <td>{{tc.total_cost|floatformat:"2g" }}</td>
+                              
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
+                        <tr>
+                        <td></td>
+                        
+                          								
+
+                           <td class="text-right" colspan="3">Total Per Diem	
+</td>
+                        <th > {{trequest.get_tcostp_total|floatformat:"2g"}}
+                        <tr>
+                      </tbody>
+                    </table>
+</div>
+<div>
+
+</div>
+
+
+
+</div>
+
+
+
+</div>
+<div class="card">
+          <div class="card-header py-0" style="margin-top:0px; margin-bottom:0px">
+
+           <strong>D.  Total Estimated Cost Total  (B+C)
+</strong> 
+ 
+
+          </div>
+          <div class="col-sm-12 col-md-12" >
+
+
+<table class="table table-sm  "  style="margin-top:0px; margin-bottom:0px">
+                      <thead>
+                       
+                      </thead>
+                      <tbody>
+                      <tr>
+                                <th style="width:17%"></th>
+                                  <th style="width:35%"></th>
+                                  <th style="width:10%">Currency</th>
+                                  <td style="width:13%" class="text-center">Birr</td>
+                                 <th style="width:15%" class="text-left" >{{trequest.get_cost_total|floatformat:"2g"}}</th>
+                                                                 </tr>
+                    
+                    
+                      
+                      
+                      </tbody>
+                      </table>
+          </div>            
+</div>
+</div>
+<div class="card">
+          <div class="card-header py-0" style="margin-top:0px; margin-bottom:0px">
+
+           <strong>Approval
+</strong> 
+ 
+
+          </div>
+            <div class="col-sm-12 col-md-12" id="submit" hx-trigger="ApprovalChanged from:body" hx-get= "{% url 'approval_list' trequest.id %}" hx-target="this" >
+
+
+<table class="table table-sm  "  style="margin-top:0px; margin-bottom:0px">
+                      <thead>
+                       <tr style="margin-top:0px; margin-bottom:0px">
+                                <th style="width:8%"></th>
+                                  <th class="text-center" style="width:24%">Submitted By:</th>
+                                   <th class="text-center" style="width:24%">Approved By:</th>
+                                    <th class="text-center" style="width:24%">Financial Review:</th>
+                                     <th class="text-center" style="width:24%">Security Clearance:</th>
+                                     </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                    <td>Name:</td>
+                                    <td> {{trequest.user.profile.full_name}} </td> 
+                                     <td>{{trequest.requestsubmit.budget_holder.profile.full_name}} </td>
+                                      <td>{{trequest.requestsubmit.finance_reviewer.profile.full_name}} </td>
+                                        <td>{{trequest.requestsubmit.security_reviewer.profile.full_name}} </td>
+                                    </tr>
+                                      <tr>
+                                    <td>Status:</td>
+                                   <td >                         
+                  <span class="badge badge-success">{{trequest.requestsubmit.status.name}}</span> 
+                  </td>
+                                     <td >  
+                                     {% if trequest.requestsubmit.submitapproval_b.approval_status_id == 1 %}
+                                       <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-info dropdown-toggle py-0 {% if request.user.id != trequest.requestsubmit.budget_holder.profile.user.id %} disabled {% endif %}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                    {% if trequest.requestsubmit.submitapproval_b %} {{trequest.requestsubmit.submitapproval_b.approval_status.name }} {% else %} Pending {% endif %}
+                    </button>
+                    <div class="dropdown-menu">
+                      <a class="dropdown-item" hx-get={% url 'approve_requestb' trequest.requestsubmit.submitapproval_b.id 3 %} hx-target="#submit">Approve Request</a>
+                      <a class="dropdown-item" hx-get={% url 'approve_requestb' trequest.requestsubmit.submitapproval_b.id 2 %} hx-target="#submit">Require Revision</a>
+                      <a class="dropdown-item" hx-get={% url 'approve_requestb' trequest.requestsubmit.submitapproval_b.id 4 %} hx-target="#submit">Reject Request</a>
+                      
+                  </div>
+                  {% else %}  <span class="badge {% if trequest.requestsubmit.submitapproval_b.approval_status_id == 3 %} badge-success {% elif trequest.requestsubmit.submitapproval_b.approval_status_id == 2 %} badge-warning {% elif trequest.requestsubmit.submitapproval_b.approval_status_id == 4 %} badge-danger {% endif %} ">{{trequest.requestsubmit.submitapproval_b.approval_status.name}}</span> {% endif %}
+                  </td>
+                                                                  <td >  
+                                     {% if trequest.requestsubmit.submitapproval_f.approval_status_id == 1 %}
+                                       <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-info dropdown-toggle py-0 {% if request.user.id != trequest.requestsubmit.finance_reviewer.profile.user.id %} disabled {% endif %} " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                    {% if trequest.requestsubmit.submitapproval_f %} {{trequest.requestsubmit.submitapproval_f.approval_status.name }} {% else %} Pending {% endif %}
+                    </button>
+                    <div class="dropdown-menu">
+                      <a class="dropdown-item" hx-get={% url 'approve_requestf' trequest.requestsubmit.submitapproval_f.id 3 %} hx-target="#submit">Approve Request</a>
+                      <a class="dropdown-item" hx-get={% url 'approve_requestf' trequest.requestsubmit.submitapproval_f.id 2 %} hx-target="#submit">Require Revision</a>
+                      <a class="dropdown-item" hx-get={% url 'approve_requestf' trequest.requestsubmit.submitapproval_f.id 4 %} hx-target="#submit">Reject Request</a>
+                      
+                  </div>
+                  {% else %}  <span class="badge {% if trequest.requestsubmit.submitapproval_f.approval_status_id == 3 %} badge-success {% elif trequest.requestsubmit.submitapproval_f.approval_status_id == 2 %} badge-warning {% elif trequest.requestsubmit.submitapproval_f.approval_status_id == 4 %} badge-danger {% endif %} ">{{trequest.requestsubmit.submitapproval_f.approval_status.name}}</span> {% endif %}
+                  </td>
+                                                                    <td >  
+                                     {% if trequest.requestsubmit.submitapproval_s.approval_status_id == 1 %}
+                                       <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-info dropdown-toggle py-0 {% if request.user.id != trequest.requestsubmit.security_reviewer.profile.user.id %} disabled {% endif %}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                    {% if trequest.requestsubmit.submitapproval_s %} {{trequest.requestsubmit.submitapproval_s.approval_status.name }} {% else %} Pending {% endif %}
+                    </button>
+                    <div class="dropdown-menu">
+                      <a class="dropdown-item" hx-get={% url 'approve_requests' trequest.requestsubmit.submitapproval_s.id 3 %} hx-target="#submit">Approve Request</a>
+                      <a class="dropdown-item" hx-get={% url 'approve_requests' trequest.requestsubmit.submitapproval_s.id 2 %} hx-target="#submit">Require Revision</a>
+                      <a class="dropdown-item" hx-get={% url 'approve_requests' trequest.requestsubmit.submitapproval_s.id 4 %} hx-target="#submit">Reject Request</a>
+                      
+                  </div>
+                  {% else %}  <span class="badge {% if trequest.requestsubmit.submitapproval_s.approval_status_id == 3 %} badge-success {% elif trequest.requestsubmit.submitapproval_b.approval_status_id == 2 %} badge-warning {% elif trequest.requestsubmit.submitapproval_b.approval_status_id == 4 %} badge-danger {% endif %} ">{{trequest.requestsubmit.submitapproval_b.approval_status.name}}</span> {% endif %}
+                  </td>
+                                    </tr>
+                                      <tr>
+                                    <td>Date:</td>
+                                    <td>  {% if trequest.requestsubmit %} {{trequest.requestsubmit.submission_date}} {% else %}   {% endif %}  </td>
+                                     <td>  {% if trequest.requestsubmit.submitapproval_b.approval_status.id == 1   %} {{trequest.requestsubmit.submission_date|timesince}} {% else %} {{trequest.requestsubmit.submitapproval_b.approval_date}} {% endif %}  </td>
+                                     <td>  {% if trequest.requestsubmit.submitapproval_f.approval_status.id == 1   %} {{trequest.requestsubmit.submission_date|timesince}} {% else %}  {{trequest.requestsubmit.submitapproval_f.approval_date}} {% endif %}  </td>
+                                      <td>  {% if trequest.requestsubmit.submitapproval_s.approval_status.id == 1   %} {{trequest.requestsubmit.submission_date|timesince}} {% else %}  {{trequest.requestsubmit.submitapproval_s.approval_date}} {% endif %}  </td>
+                                    </tr>
+                                    <tr>
+                                    <td></td>
+                                    
+                                    </tr>
+
+            
+                                    </tbody>
+                                  </table>
+                                  </div>
+</div>
+
+</div>
+</div>
+</div>
+{% endblock content_travel_step %}

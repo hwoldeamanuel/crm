@@ -1,0 +1,90 @@
+{% load static %}
+{% for list in icnreport_submit_list %}
+<ul class="messages"> <b>Round {{ forloop.revcounter  }}</b><div class="ln_solid"></div>
+                          <li>
+                            <img src="{% static 'images/user.png' %}" class="avatar" alt="Avatar">
+                            <div class="message_date">
+                              <h3 class="date text-info">{{ list.submission_date|date:"d" }}</h3>
+                              <p class="month">{{ list.submission_date|date:"M" }}</p>
+                            </div>
+                            <div class="message_wrapper">
+                              <h4 class="heading">{{list.icnreport.user.profile.full_name }}</h4>
+                              <blockquote class="message"> {{list.submission_note }}</blockquote>
+                              <br />
+                              <p class="url">
+                                <span class="fs1 text-info" aria-hidden="true" data-icon=""></span>
+                                <span class="badge {% if list.submission_status_id == 1 %}badge-danger{% elif list.submission_status_id == 2 %}badge-success{% endif %}">{{list.submission_status.name}}</span> with ICN Report:{{ list.document }} @{{list.submission_date|time}}
+                              </p>
+                            </div>
+                          </li>
+
+                          <li>
+                             <img src="{% static 'images/user.png' %}" class="avatar" alt="Avatar" >
+                            <div class="message_date">  {% if list.icnreportsubmitapproval_t.approval_date|time != list.submission_date|time %}
+                              <h3 class="date text-error">{{ list.icnreportsubmitapproval_t.approval_date|date:"d" }}</h3>
+                              <p class="month">{{ list.icnreportsubmitapproval_t.approval_date|date:"M" }}</p> {% endif %}
+                            </div>
+                            <div class="message_wrapper">
+                              <h4 class="heading">{{ list.icnreportsubmitapproval_t.user.user.profile.full_name }}</h4>
+                             {% if list.icnreportsubmitapproval_t.approval_note %} <blockquote class="message">{{list.icnreportsubmitapproval_t.approval_note}}</blockquote> {% endif %}
+                              <br />
+                              <p class="url">
+                                <span class="fs1" aria-hidden="true" data-icon=""></span>
+                                <span class="badge {% if list.icnreportsubmitapproval_t.approval_status_id == 1 %}badge-primary {% elif list.icnreportsubmitapproval_t.approval_status_id == 2 %}badge-warning {% elif list.icnreportsubmitapproval_t.approval_status_id == 3 %}badge-success {% elif list.icnreportsubmitapproval_t.approval_status_id == 4 %}badge-danger {% endif %}">{{ list.icnreportsubmitapproval_t.approval_status.name }}</span> {% if list.icnreportsubmitapproval_t and list.icnreportsubmitapproval_t.approval_status_id != 1 %} with ICN Report: {{ list.icnreportsubmitapproval_t.document}} @ {{list.icnreportsubmitapproval_t.approval_date|time}}{% endif %}
+                              </p>
+                            </div>
+                          </li>
+                            
+
+                             <li>
+                             <img src="{% static 'images/user.png' %}" class="avatar" alt="Avatar" >
+                            <div class="message_date">  {% if list.icnreportsubmitapproval_m.approval_date|time != list.submission_date|time %}
+                              <h3 class="date text-error">{{ list.icnreportsubmitapproval_m.approval_date|date:"d" }}</h3>
+                              <p class="month">{{ list.icnreportsubmitapproval_m.approval_date|date:"M" }}</p> {% endif %}
+                            </div>
+                            <div class="message_wrapper">
+                              <h4 class="heading">{{ list.icnreportsubmitapproval_m.user.user.profile.full_name }}</h4>
+                             {% if list.icnreportsubmitapproval_m.approval_note %} <blockquote class="message">{{list.icnreportsubmitapproval_m.approval_note}}</blockquote> {% endif %}
+                              <br />
+                              <p class="url">
+                                <span class="fs1" aria-hidden="true" data-icon=""></span>
+                                <span class="badge {% if list.icnreportsubmitapproval_m.approval_status_id == 1 %}badge-primary {% elif list.icnreportsubmitapproval_m.approval_status_id == 2 %}badge-warning {% elif list.icnreportsubmitapproval_m.approval_status_id == 3 %}badge-success {% elif list.icnreportsubmitapproval_m.approval_status_id == 4 %}badge-danger {% endif %}">{{ list.icnreportsubmitapproval_m.approval_status.name }}</span> {% if list.icnreportsubmitapproval_m and list.icnreportsubmitapproval_m.approval_status_id != 1 %} with ICN Report: {{ list.icnreportsubmitapproval_m.document}} @ {{list.icnreportsubmitapproval_m.approval_date|time}}{% endif %}
+                              </p>
+                            </div>
+                          </li>
+                           <li>
+                              <img src="{% static 'images/user.png' %}" class="avatar" alt="Avatar">
+                            <div class="message_date">  {% if list.icnreportsubmitapproval_f.approval_date|time != list.submission_date|time %}
+                              <h3 class="date text-error">{{ list.icnreportsubmitapproval_f.approval_date|date:"d" }}</h3>
+                              <p class="month">{{ list.icnreportsubmitapproval_f.approval_date|date:"M" }}</p>{% endif %}
+                            </div>
+                            <div class="message_wrapper">
+                              <h4 class="heading">{{ list.icnreportsubmitapproval_f.user.user.profile.full_name  }}</h4>
+                             {% if list.icnreportsubmitapproval_f.approval_note %} <blockquote class="message">{{list.icnreportsubmitapproval_f.approval_note}}</blockquote> {% endif%}
+                              <br />
+                              <p class="url">
+                                <span class="fs1" aria-hidden="true" data-icon=""></span>
+                               <span class="badge {% if list.icnreportsubmitapproval_f.approval_status_id == 1 %}badge-primary {% elif list.icnreportsubmitapproval_f.approval_status_id == 2 %}badge-warning {% elif list.icnreportsubmitapproval_f.approval_status_id == 3 %}badge-success {% elif list.icnreportsubmitapproval_f.approval_status_id == 4 %}badge-danger {% endif %}">{{ list.icnreportsubmitapproval_f.approval_status.name }}</span> {% if list.icnreportsubmitapproval_f and list.icnreportsubmitapproval_f.approval_status_id != 1 %} with ICN Report: {{ list.icnreportsubmitapproval_f.document}} @ {{list.icnreportsubmitapproval_f.approval_date|time}}{% endif %}
+                              </p>
+                            </div>
+                          </li>
+                          <li>
+                             <img src="{% static 'images/user.png' %}" class="avatar" alt="Avatar">
+                            <div class="message_date">  {% if list.icnreportsubmitapproval_p.approval_date|time != list.submission_date|time %}
+                              <h3 class="date text-error">{{ list.icnreportsubmitapproval_p.approval_date|date:"d" }}</h3>
+                              <p class="month">{{ list.icnreportsubmitapproval_p.approval_date|date:"M" }}</p>{% endif %}
+                            </div>
+                            <div class="message_wrapper">
+                              <h4 class="heading">{{ list.icnreportsubmitapproval_p.user.user.profile.full_name  }}</h4>
+                              {% if list.icnreportsubmitapproval_p.approval_note %} <blockquote class="message">{{list.icnreportsubmitapproval_p.approval_note}}</blockquote> {% endif %}
+                              <br />
+                              <p class="url">
+                                <span class="fs1" aria-hidden="true" data-icon=""></span>
+                                                              <span class="badge {% if list.icnreportsubmitapproval_p.approval_status_id == 1 %}badge-primary {% elif list.icnreportsubmitapproval_p.approval_status_id == 2 %}badge-warning {% elif list.icnreportsubmitapproval_p.approval_status_id == 3 %}badge-success {% elif list.icnreportsubmitapproval_p.approval_status_id == 4s %}badge-danger {% endif %}">{{ list.icnreportsubmitapproval_p.approval_status.name }}</span> {% if list.icnreportsubmitapproval_p and list.icnreportsubmitapproval_p.approval_status_id != 1 %} with ICN Report: {{ list.icnreportsubmitapproval_p.document}} @ {{list.icnreportsubmitapproval_p.approval_date|time}}{% endif %}
+                              </p>
+                            </div>
+                          </li>
+
+                        </ul>
+{% endfor %}
+                        <!-- end of user messages -->

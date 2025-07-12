@@ -1,0 +1,26 @@
+<tr><td>1</td>
+
+    <td  style="width:15%">{{ travel_cost.type.name }}
+      
+    </td>
+    <td  style="width:25%">{{ travel_cost.description }}
+      
+    </td>
+    <td  style="width:10%">
+        {{ travel_cost.number_unit_day }}
+       
+    </td>
+    <td  style="width:15%">
+        {{ travel_cost.unit_cost }}
+        
+    </td>
+    <td  style="width:15%">
+        {{ travel_cost.total_cost }}
+        
+    </td>
+    <td >
+   
+    
+    <a href="#" class="btn btn-sm btn-info py-0" style="font-size: 0.8em;" hx-get="/travel/edit_travel_cost/{{ travel_cost.id }}/" hx-target="closest tr" hx-swap="outerHTML"><i class="fa fa-edit"> </i> </a>
+    </td>
+</tr>

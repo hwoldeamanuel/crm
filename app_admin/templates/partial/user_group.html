@@ -1,0 +1,40 @@
+
+<table class="table table-striped projects">
+                <thead>
+
+                  <tr>
+                  <th>Username</th>
+                   {% for g in group %}
+                   <th>{{g.name}}</th>
+                   {%endfor%}
+                  <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                
+                     
+                  <tr>
+                
+               
+                  <td>{{ user.username }}</td>
+                 
+                  {% for g in group %}
+                    
+                  
+                    <td> <div class="icheckbox_flat-green{% for ug in user.groups.all %} {% if ug.name == g.name %}checked{% endif %}{% endfor %}" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 80%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></td>
+                  {% endfor %}
+        
+                    
+                      
+                  
+                  
+                        <td>
+
+                    <button class="btn btn-info btn-sm" hx-get="{% url 'user_group_edit' user.id %}" hx-target="#dialog"><i class="fa fa-edit"></i></button>
+
+                  </td>
+                  </tr>
+               
+                  
+                </tbody>
+              </table>

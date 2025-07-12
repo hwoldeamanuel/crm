@@ -1,0 +1,104 @@
+
+   
+{% if icnsubmit %}
+    <ul class="list-unstyled timeline widget">
+        <li>
+          <div class="block">
+            <div class="block_content">
+              <h2 class="title">
+                <a>Approval Request</a>
+                            </h2>
+              <div class="byline">
+                <span>{{ icnsubmit.get_submission_status_display }}</span> by <a>{{icn.user.username }}</a></br>
+                <span>{{ icnsubmit.submission_date}}</span>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="block">
+            <div class="block_content">
+              <h2 class="title">
+                                <a>Techncial Lead</a>
+                            </h2>
+              <div class="byline">
+                <span>Pending Review</span> by <a>{{icn.technical_lead.username }}</a></br>
+                <span>13 hours ago</span>
+          </div>
+        </li>
+        <li>
+          <div class="block">
+            <div class="block_content">
+              <h2 class="title">
+                                <a>Program Lead</a>
+                            </h2>
+              <div class="byline">
+                <span>Pending Review</span> by <a>{{icn.program_lead.username }}</a>
+              
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="block">
+            <div class="block_content">
+              <h2 class="title">
+                                <a>Finance Lead</a>
+                            </h2>
+              <div class="byline">
+                <span>Pending Review</span> by <a>{{icn.finance_lead.username }}</a>
+              
+          </div>
+        </li>
+      </ul>
+{% else %}
+
+
+<ul class="list-unstyled timeline widget">
+    <li>
+      <div class="block">
+        <div class="block_content">
+          <h2 class="title">
+            Approval Request 
+                        </h2>
+          <div class="byline">
+            <span>Draft</span> by <a>{{ inc.user.username }}</a>
+          
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="block">
+        <div class="block_content">
+          <h2 class="title">
+                            <a>Techncial Lead</a>
+                        </h2>
+          <div class="byline">
+            <span></span> by <a>{{icn.technical_lead.username }}</a></br>
+          
+      </div>
+    </li>
+    <li>
+      <div class="block">
+        <div class="block_content">
+          <h2 class="title">
+            <a>Program Lead</a>
+                        </h2>
+          <div class="byline">
+            <span>13 hours ago</span> by <a>Jane Smith</a>
+            <span>13 hours ago</span>
+          
+        </div>
+      </div>
+    </li>
+    <li>
+      <div class="block">
+        <div class="block_content">
+          <h2 class="title">
+            <a>Finance Lead</a>
+                        </h2>
+          <div class="byline">
+            <span>13 hours ago</span> by <a>Jane Smith</a>
+          
+      </div>
+    </li>
+  </ul>
+{% endif %}

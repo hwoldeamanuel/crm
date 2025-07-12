@@ -1,0 +1,46 @@
+
+{% load static %}
+{% if user.profile %}
+
+
+                     <div class="profile_img">
+                        <div id="crop-avatar">
+                          <!-- Current avatar -->
+                          <img class="img-responsive avatar-view" src="{% static 'images/user.png' %}" alt="Avatar" title="Change the avatar">
+                        </div>
+                      </div>
+                      </br>
+                      <h6>{{user.profile.full_name }}</h6>
+
+                      <ul class="list-unstyled user_data">
+                        
+                        <li><i class="fa fa-university user-profile-icon"></i> {{user.profile.portfolio}}
+                        </li>
+                        <li>
+                          <i class="fa fa-briefcase user-profile-icon"></i> {{user.profile.job_title}}
+                        </li>
+
+                        <li class="m-top-xs">
+                          <i class="fa fa-envelope-square"></i>
+                          {{user.email}}
+                        </li>
+                         <li class="m-top-xs">
+                          <i class="fa fa-tag"></i>
+                          {{user.username}}
+                        </li>
+                          <li class="m-top-xs">
+                          <i class="fa fa-phone user-profile-icon"></i> {{user.profile.contact_number}}
+                        </li>
+                         </li>
+                          <li class="m-top-xs">
+                          <i class="fa fa-sitemap user-profile-icon"></i> {{user.profile.reports_to}}
+                        </li>
+                      </ul>
+
+                      <a class="btn btn-success" hx-get="{% url 'add_profile' %}" hx-target = "#dialog"><i class="fa fa-edit m-right-xs"></i>Edit Profile</a>
+                      <br />
+{% else %}
+        <a class="btn btn-success" hx-get="{% url 'newuserprofile' %}" hx-target = "#dialog"><i class="fa fa-edit m-right-xs"></i>Add Profile</a>
+                      <br />               <!-- start skills -->
+                     
+{% endif %}

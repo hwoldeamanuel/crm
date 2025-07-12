@@ -1,0 +1,295 @@
+{% extends "base.html" %}
+
+{% block content_page_css %}
+
+{% load static %}
+
+
+<link href="{% static 'vendors/pnotify/dist/pnotify.css' %}" rel="stylesheet">
+    <link href="{% static 'vendors/pnotify/dist/pnotify.buttons.css' %}" rel="stylesheet">
+    <link href="{% static 'vendors/pnotify/dist/pnotify.nonblock.css' %}" rel="stylesheet">
+
+
+
+   
+
+
+  
+<style>
+.nav-tabs.wizard {
+  background-color: transparent;
+  padding: 0;
+  width: 100%;
+  margin: 0em auto;
+  border-radius: .25em;
+  clear: both;
+  border-bottom: none;
+}
+
+.nav-tabs.wizard li {
+  width: 100%;
+  float: none;
+  margin-bottom: 3px;
+}
+
+.nav-tabs.wizard li>* {
+  position: relative;
+  padding: 1em .8em .8em 2.5em;
+  color: #999999;
+  background-color: #dedede;
+  border-color: #dedede;
+}
+
+.nav-tabs.wizard li.completed>* {
+  color: #fff !important;
+  background-color: #88b153 !important;
+  border-color: #88b153 !important;
+  border-bottom: none !important;
+}
+
+.nav-tabs.wizard li.active>* {
+  color: #fff !important;
+  background-color: #34495E !important;
+  border-color: #34495E !important;
+  border-bottom: none !important;
+}
+
+.nav-tabs.wizard li::after:last-child {
+  border: none;
+}
+
+.nav-tabs.wizard > li > a {
+  opacity: 1;
+  font-size: 14px;
+}
+
+.nav-tabs.wizard a:hover {
+  color: #fff;
+  background-color: #34495E;
+  border-color: #34495E
+}
+
+span.nmbr {
+  display: inline-block;
+  padding: 5px 0 0 0;
+  background: #ffffff;
+  width: 20px;
+  line-height: 100%;
+  height: 20px;
+  margin: auto;
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: 10px;
+  color: #555;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+@media(min-width:992px) {
+  .nav-tabs.wizard li {
+    position: relative;
+    padding: 0;
+    margin: 0px 4px 4px 0;
+    width: 24%;
+    float: left;
+    text-align: center;
+  }
+  .nav-tabs.wizard li.active a {
+    padding-top: 15px;
+  }
+  .nav-tabs.wizard li::after,
+  .nav-tabs.wizard li>*::after {
+    content: '';
+    position: absolute;
+    top: 1px;
+    left: 100%;
+    height: 0;
+    width: 0;
+    border: 22px solid transparent;
+    border-right-width: 0;
+    /*border-left-width: 38px*/
+  }
+  .nav-tabs.wizard li::after {
+    z-index: 1;
+    -webkit-transform: translateX(4px);
+    -moz-transform: translateX(4px);
+    -ms-transform: translateX(4px);
+    -o-transform: translateX(4px);
+    transform: translateX(4px);
+    border-left-color: #fff;
+    margin: 0
+  }
+  .nav-tabs.wizard li>*::after {
+    z-index: 2;
+    border-left-color: inherit
+  }
+  .nav-tabs.wizard > li:nth-of-type(1) > a {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+  }
+  .nav-tabs.wizard li:last-child a {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+  .nav-tabs.wizard li:last-child {
+    margin-right: 0;
+  }
+  .nav-tabs.wizard li:last-child a:after,
+  .nav-tabs.wizard li:last-child:after {
+    content: "";
+    border: none;
+  }
+ .input-xs {
+        height: 22px;
+        padding: 2px 2px;
+        font-size: 12px;
+        line-height: 1.5;
+        border-radius: 3px;
+        }
+  .iCheck-helper {
+        position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;
+        
+       
+  
+  }
+  .icheckbox_flat-green1, .iradio_flat-green1 {
+    position: relative;
+    display: inline-block;
+    border: 1px solid #a9a9a9;
+    border-radius: .25em;
+    width: 1.3em;
+    height: 1.3em;
+    float: left;
+    margin-right: .5em;
+    accent-color: #169F85;
+    
+   
+    
+   
+    
+}
+}
+</style>
+
+{% endblock %}
+
+{% block content %}
+{% load static %}
+
+ <!-- page content -->
+	        <!-- page content -->
+        <div class="right_col" role="main">
+          <div class="">
+            
+
+            <div class="clearfix"></div>
+
+            <div class="row">
+              <div class="col-md-3 col-sm-3 ">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Travel Requests</h2>
+                    
+                    <div class="clearfix"></div>
+ 
+                  </div>
+                   <div class="x_content">
+                  <div  class="row">
+                 
+<a href="/travel/request/new/"  class="btn btn-sm btn-primary btn-block" ><i class="fa fa-plus"></i> New Request</a>
+ <form hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}'>
+            {% csrf_token %}  
+             <div class="input-group form-group pull-right top_search">
+           
+                  <input name="search" type="text" class="form-control" placeholder="Search for..." 
+                  hx-get="/travel/request_filter/"
+                  hx-trigger="keyup changed, search"
+                  hx-target="#travel_list">
+                 
+                    
+                    <span class="input-group-btn">
+                      <button class="btn btn-default " type="button">Go!</button>
+                    </span>
+                  </div>
+                  </div>
+                 </form>
+                
+                     <div class="row" id="travel_list">
+                     
+             <ul class="nav nav-tabs  list-unstyled msg_list" >
+             {% for list in trequests %}
+           
+                    <li "nav-item" style="width:100%" class="{% if list.id|stringformat:"i" in  request.path %}nav-link active {% endif %}"aria-selected="{% if list.id|stringformat:"i" in  request.path %}true {% else %}false {% endif %}">
+                      <a style="width:100%" class="nav-link" href = "/travel/request/{{list.id}}/detail/" >
+                        <span >
+                                                       <img class="img-responsive  img-circle profile_img" src="{% static 'images/user.png' %}" alt="avatar" title="{{ list.user.profile.full_name}}" style="width: 30px; height:30px; margin-top: 0px; margin-bottom:1px; margin-left: 0px;margin-right: 0px;">
+                        </span>
+                        <span>
+                          <span style="{% if list.id|stringformat:"i" in  request.path %} color:#245594;{% endif %}">{{list.user.profile.first_name}} {{list.user.profile.last_name|make_list|first}}</span>
+                          <span class="pull-right"><small>{{list.created_at|date:"M d"}}</small></span>
+                        </span>
+                        <span class="message" style="{% if list.id|stringformat:"i" in  request.path %} color:#245594;{% endif %}">
+                         <i class="fa fa-map-marker"></i> {{list.destination}}
+                        </span>
+                        <span class="message" style="{% if list.id|stringformat:"i" in  request.path %} color:#245594;{% endif %}">
+                          <i class="fa fa-ellipsis-v"></i> {{list.purpose}}
+                        </span>
+                        <span class="message" style="{% if list.id|stringformat:"i" in  request.path %} color:#245594;{% endif %}">
+                          <i class="fa fa-calendar"></i> {{list.departure_date}} -  {{list.return_date}}
+                        </span>
+                      </a>
+                    </li>
+                
+                    {% endfor %}
+                   
+                  </ul>
+                       
+                      </div>
+                      
+                  </div>               </div>
+</div>
+<div class="col-md-9 col-sm-9 ">
+
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Travel Information <small>Reqest | Approval</small></h2>
+                 
+                    <div class="clearfix"></div>
+                  </div>
+                 <div class="x_content">
+                     <ul class="nav nav-tabs wizard">
+              <li  class="{% if 'detail' in request.path or 'new' in request.path %}active{% elif trequest.get_finance_total == 100.00   %}completed{% endif %}"><a href="{% if trequest %}/travel/request/{{trequest.id}}/detail/{% else %}/travel/request/new/{% endif %}">Travel <small>Information</small></a></li>
+              <li class="{% if 'cost' in request.path %}active{% elif not trequest or trequest.get_finance_total != 100.00  %}nav-link disabled{% elif trequest.travel_days == trequest.acc_days and trequest.travel_days2 == trequest.pd_days %}completed{% endif %}"><a href="/travel/request/{{trequest.id}}/cost/" >Estimated Cost</a></li></a></li>
+              <li class="{% if 'review' in request.path  %}active{% elif trequest.travel_days != trequest.acc_days and trequest.travel_days2 != trequest.pd_days %}nav-link disabled{% elif trequest.requestsubmit.status_id == 2 %}completed{%endif %}"><a href="/travel/request/{{trequest.id}}/review/">Review & Submit</a></li>
+              <li class="{% if 'approval' in request.path  %}active{% elif trequest.requestsubmit.status_id != 2 %}nav-link disabled{% elif trequest.requestsubmit.submitapproval_b.approval_status_id == 3 and trequest.requestsubmit.submitapproval_f.approval_status_id == 3 and trequest.requestsubmit.submitapproval_s.approval_status_id == 3%}completed{%endif %}"><a href="/travel/request/{{trequest.id}}/approval/"> Approval</a></li>
+             
+
+            </ul>
+
+                   	{% block content_travel_step %}
+					{% endblock %}
+</div>
+
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+        <!-- /page content -->
+			<!-- /page content -->
+
+{% endblock %}
+{% block content_page_js %}
+
+
+  <!-- PNotify -->
+    <script src="{% static 'vendors/pnotify/dist/pnotify.js' %}"></script>
+    <script src="{% static 'vendors/pnotify/dist/pnotify.buttons.js' %}"></script>
+    <script src="{% static 'vendors/pnotify/dist/pnotify.nonblock.js' %}"></script>
+
+{% endblock %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>

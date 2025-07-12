@@ -1,0 +1,90 @@
+  {% load static %}
+
+                    <style>
+    th {
+      text-align: center;
+
+    }
+    </style>
+
+              <!-- start project list -->
+
+              <table class="table table-striped projects">
+             <thead>
+                        <tr>
+                    <th style="width:">#</th>
+                     
+                    <th style="width: 10%">Program</th>
+                    <th style="width: 30%">Intervention Title</th>
+                    <th style="width: 18%">Team Members</th>
+               
+                    <th style="width: 12%">Dates</th>
+                    <th>Submission</th>
+                     <th>Approval</th>
+                     <th></th>
+                     </tr>
+                </thead>
+                <tbody>
+                {% if icnreports %}
+                    {% for icnreport in icnreports %}
+                  <tr>
+                    <td>{{ forloop.counter }}</td>
+<td> {{ icnreport.icn.program }}</br>
+<small>{{ icnreport.icn.program.portfolio }}</small></td>
+                    <td>
+                      <a>{{ icnreport.icn.title }}</a>
+                      <br />
+                      <small>{{ icnreport.created_at }}</small>
+                    </td>
+                    <td >
+                      <ul class="list-inline" >
+                        
+                            <li>
+                          <img src="{% static 'images/user.png' %}" class="avatar" title="{{ icnreport.user }}">
+                        </li>
+                           
+                        <li>
+                          <img src="{% static 'images/user.png' %}" class="avatar" title="{{ icnreport.technical_lead.user }}">
+                        </li>
+                           <li>
+                          <img src="{% static 'images/user.png' %}" class="avatar" title="{{ icnreport.program_lead.user }}">
+                        </li>
+                          <li>
+                          <img src="{% static 'images/user.png' %}" class="avatar" title="{{ icnreport.finance_lead.user }}">
+                        </li>
+                        
+                      </ul>
+                    </td>
+                    <td>
+                        <small>{{ icnreport.actual_start_date }}</small>
+                        <br />
+                        <small>{{ icnreport.actual_end_date }}</small>
+                    </td>
+                    <td>
+                      <span class="badge {% if icnreport.status == True %}badge bg-green {% else %} badge bg-red {% endif %}">{{ icnreport.get_status_display}}</span>
+                   </td>
+                   <td>
+                      <span class="badge {% if 'Rejected' in icreport.approval_status %} bg-red {% elif 'Approved' in icnreport.approval_status %} bg-green {% else %} bg-warning {% endif %}">{% if icnreport.approval_status %} {{ icnreport.approval_status}} {% else %} Pending Submission {% endif %}</span>
+                    </td>
+                    
+                    <td>
+                      <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action
+                     
+                    </button>
+                    <div class="dropdown-menu" x-placement="top-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, -187px, 0px);">
+                      <a class="dropdown-item" href="{% url 'icnreport_detail' icnreport.id %}">View</a>
+                      
+                      
+                      <a class="dropdown-item" href="#">Action</a>
+                      <a class="dropdown-item" href="#">Another action</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="{% url 'icnreport_submit_approval' icnreport.id %}">Approval</a>
+                    </div>
+                  </div>
+                     
+                    </td>
+                  </tr>
+                  {% endfor %}
+                  {% endif %}
+                </tbody>
+              </table>

@@ -1,0 +1,41 @@
+ {% load static %}
+
+    
+
+    <section class="panel">
+
+                        <div class="x_title">
+                        <h3 class="green"><i class="fa fa-archive"></i> {{program.title}}</h3>
+                         
+                          <div class="clearfix"></div>
+                        </div>
+                        <div class="panel-body">
+                        
+<p>{{ program.working_title}}</p>
+
+                      
+                        
+
+                          <div class="project_detail">
+                          
+                            <p class="title"> Fund Code</p>
+                            <p>{{program.fund_code}}</p>
+                            
+                       <p class="title"> Donor</p>
+                            <p>{{program.donor}}</p>
+                    <p class="title">Duration</p>
+                     {{program.start_date}} -  {{program.end_date}}
+                  
+
+                  <div class="progress">
+                   <div class="progress-bar bg-green" style="width:{{ program.get_date_diff }}">
+                        {{ program.get_date_diff }}
+                      
+                      </div></div>
+                      </br>
+                  <p class="title">Desciption</p>
+                          <p>{{ program.description}}</p>
+                    </div>
+                  
+                          
+                      </section>

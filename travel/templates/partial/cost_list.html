@@ -1,0 +1,24 @@
+
+
+       {% for travel_cost in travel_cost %}
+                                <tr>
+                              
+                                  <td>{{travel_cost.type.name }}</td>
+                                  <td>{{travel_cost.description}}</td>
+                                  <td>{{travel_cost.number_unit_day }}</td>
+                                  <td>{{travel_cost.unit_cost|floatformat:"2g"}}</td>
+                                   <td>{{travel_cost.total_cost|floatformat:"2g"}}</td>
+                                   <td>
+                                   <a href="#" hx-get="/travel/edit_travel_cost/{{ travel_cost.id }}/" class="btn btn-sm btn-info py-0 {% if trequest.requestsubmit.status_id == 2 %} disabled {% endif %}" style="font-size: 0.8em;"  hx-target="closest tr" hx-swap="outerHTML"><i class="fa fa-edit"></i></a></td>
+                                </tr>
+                              {% endfor %}  
+                              <tr>
+                               
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                   <td><u><strong>{{total_cost|floatformat:"2g"}}</strong></u></td>
+                                   <td>
+                                   <a href="#" class="btn btn-sm btn-primary py-0 {% if trequest.requestsubmit.status_id == 2 %} disabled {% endif %}" style="font-size: 0.8em;" hx-get="/travel/add_travel_cost/{{ trequest.id }}/" hx-target="closest tr" hx-swap="outerHTML"><i class="fa fa-plus-square"></i></a></td>
+                                </tr>  

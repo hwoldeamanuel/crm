@@ -1,0 +1,27 @@
+
+
+       {% for finance_code in finance_code %}
+                                <tr>
+                                  <td>{{ forloop.counter}}</td>
+                                  <td>{{finance_code.dept }}</td>
+                                  <td>{{finance_code.fund}}</td>
+                                  <td>{{finance_code.lin_code }}</td>
+                                  <td>{{finance_code.value}}</td>
+                                  
+                                   <td>
+                                   <a href="#" hx-get="/travel/edit_finance_code/{{ finance_code.id }}/" class="btn btn-sm btn-info py-0" style="font-size: 0.8em;"  hx-target="closest tr" hx-swap="outerHTML"><i class="fa fa-edit"></i></a></td>
+                                </tr>
+                              {% endfor %}  
+                              <tr>
+                                  <td>*</td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  
+                                   <td><u><strong>{{total_code}}</strong></u></td>
+                                   <td>
+                                   
+                                   <a href="#" class="btn btn-sm btn-primary py-0  {% if trequest.get_finance_total == 100.00 or trequest.requestsubmit.status_id == 2  %} disabled {% endif %}" style="font-size: 0.8em;" hx-get="/travel/add_finance_code/{{ trequest.id }}/" hx-target="closest tr" hx-swap="outerHTML"><i class="fa fa-plus-square"></i></a>
+                                  
+                                   </td>
+                                </tr>  

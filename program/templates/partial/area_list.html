@@ -1,0 +1,39 @@
+
+      <table class="table table-sm table-striped projects">
+        <thead>
+            <tr>
+              <th>#</th>
+           <th >Region</th>
+              <th>Zone</th>
+            <th >Woreda</th>
+             <th >Action</th>
+               
+            </tr>
+        </thead>
+        <tbody>
+            {%  if areas %}
+            {% for area in areas %}
+            <tr>
+               <td>{{forloop.counter}}</td>
+           
+                <td class="vertical-align-mid">
+                                    
+                                  {{ area.region }}</td>
+                <td class="vertical-align-mid">{{ area.zone }}</td>
+                <td class="vertical-align-mid">{{ area.woreda }}</td>
+                <td class="vertical-align-mid">
+
+                   
+                    <button class="btn btn-info btn-sm" hx-get="/program/region/edit_area/{{area.id}}/" hx-target="#dialog" ><i class="fa fa-edit"></i></button>
+
+                   
+                    
+                </td>
+            </tr>
+            {% endfor %}
+            {% endif %}
+        </tbody>
+
+    </table>
+   
+

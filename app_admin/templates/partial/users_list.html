@@ -1,0 +1,52 @@
+<table class="table table-striped projects">
+                <thead>
+                  <tr>
+                    <th style="width: 1%">#</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Dates</th>
+                    <th>Status</th>
+                    <th style="width: 10%">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                  <tr>
+                    <td>{{ user.id }}</td>
+                  
+                    <td> {{ user.first_name }}
+                    </td>
+                    <td> {{ user.last_name }}
+                    <td>
+                      <a>{{ user.email }}</a>
+                      
+                    </td>
+                 
+                    <td>
+                  
+                      created:{{ user.date_joined}}
+                      </br>
+                      <small>last login:{{ user.last_login}}</small>
+                    </td>
+                    
+                    <td>
+                      
+                              <input type="checkbox" {% if user.is_staff %}checked{% endif %} value=""> Staff</br>
+                              <input type="checkbox" {% if user.is_active %}checked{% endif %} value=""> Active</br>
+                              <input type="checkbox" {% if user.is_superuser %}checked{% endif %} value=""> Admin
+                           
+                       
+                     
+                    </td>
+                    <td>
+                         
+
+                    <button class="btn btn-info btn-sm" hx-get="{% url 'edit_user' pk=user.pk %}" hx-target="#dialog"><i class="fa fa-edit"></i></button>
+
+                    </td>
+                  </tr>
+                  {% endfor %}
+                  
+                </tbody>
+              </table>

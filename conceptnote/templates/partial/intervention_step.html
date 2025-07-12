@@ -1,0 +1,15 @@
+
+
+<div class="row tabbable">
+						
+							
+            <ul class="nav nav-tabs wizard">
+              <li  class="{% if 'profile' in request.path %}active{% elif icn %}completed{% endif %}"><a href="/conceptnote/intervention/{{icn.id}}/profile/"><span class="nmbr">1</span>Intervention</a></li>
+              <li class="{% if 'submission' in request.path %}active{% elif icn.impact_set.count > 0 %}completed{% elif icn.impact_set.count == 0 %}nav-link disabled{% endif %}"><a href="/conceptnote/intervention/{{icn.id}}/submission/" ><span class="nmbr">2</span>Submission</a></li>
+             <li class="{% if 'intervention' in request.path and 'approval' in request.path %}active{% elif icn.approval_status == '100% Approved' %}completed{%endif %}"><a href="/conceptnote/intervention/{{icn.id}}/approval/"><span class="nmbr">3</span>Approval</small></a></li>
+             <li class="{% if 'report' in request.path and 'intervention' in request.path %}active{% elif not icnsubmit or icnsubmit.submission_status != 2 or icn.status == False  %}nav-link disabled{% endif %}"><a href="/report/intervention/{{icn.id}}/"><span class="nmbr">4</span>Report</small></a></li>
+               <li class="{% if 'report' in request.path and 'intervention' in request.path %}active{% endif %}"><a href="/report/intervention/{{icn.id}}/"><span class="nmbr">4</span>Submission</small></a></li>
+               <li class="{% if 'report' in request.path and 'approval' in request.path %}active{%endif %}"><a href="/report/intervention/{{icn.id}}/approval/"><span class="nmbr">5</span>Approval</a></li>
+
+            </ul>
+        </div>

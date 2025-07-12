@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %} 
+<!-- page content -->
+        <div class="right_col" role="main">
+          <div class="">
+            
+            
+            <div class="clearfix"></div>
+
+            <div class="row">
+              <div class="col-md-12 col-sm-12 ">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>User Report <small>Activity report</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Settings 1</a>
+                            <a class="dropdown-item" href="#">Settings 2</a>
+                          </div>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <div class="col-md-3 col-sm-3  profile_left" id="admin_list" hx-trigger="load, UserProgramListChanged, UserprofileChanged from:body " hx-get="{% url 'user_detail_profile' user.id %}" hx-target="this">
+                    </div>
+                  <div class="col-md-9 col-sm-9" >
+
+                      <div class="profile_title" >
+                        <div class="col-md-7">
+                          <h2>User Activity Report</h2>
+                        </div>
+                        </div>
+                         
+                     
+                     
+                       
+                      <!-- start of user-activity-graph -->
+                     <div style="width:100%;">
+          <canvas id="myChart" width="400" height="160"></canvas>
+
+    </div>
+                      <!-- end of user-activity-graph -->
+                      </br>
+
+                      <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                        <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                          <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Concept Note Roles</a>
+                          </li>
+                         
+                           <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">User Group/Permission</a>
+                          </li>
+                          
+                          
+                        </ul>
+                        <div id="myTabContent" class="tab-content">
+                          <div role="tabpanel" class="tab-pane active " id="tab_content1" aria-labelledby="home-tab">
+
+                            <!-- start recent activity -->
+                             <div id="usergroup" hx-trigger="load, UserProgramListChanged from:body " hx-get="{% url 'user_roles' user.id %}" hx-target="this">
+                            <!-- end recent activity -->
+                            </div>
+                             <button  hx-get="{% url 'add_user_program_role' user.id %}" hx-target="#dialog" class="btn btn-primary btn-sm">
+                                      Add Roles
+                                    </button>
+                            
+                          </div>
+                         
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
+                        
+                            <div id="usergroup" hx-trigger="load, UserGroupChanged from:body" hx-get="{% url 'user_group' user.id %}" hx-target="this">
+                        </div>
+                        </div>
+                           
+                           
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div><div class="modal fade bs-example-modal-lg" id="modal" class="modal fade">
+                       <div id="dialog" class="modal-dialog modal-lg" hx-target="this"></div>
+                    </div>
+        </div>
+        <!-- /page content -->
+        <!-- /page content -->
+{% endblock %}
+
+{% block content_page_js%}
+
+
+
+<script src="{% static 'dist/Chart.bundle.js' %}"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script>
+var MONTHS = [{% for activity in all_request %} "{{ activity.datetime__date|date:'M-d'}}", {% endfor %}];
+var randomScalingFactor = function() {
+      return Math.round(Math.random() * 100 * (Math.random() > 0.5 ? -1 : 1));
+    };
+var randomColorFactor = function() {
+      return Math.round(Math.random() * 255);
+    };
+var randomColor = function(opacity) {
+      return 'rgba(' + randomColorFactor() + ',' + randomColorFactor() + ',' + randomColorFactor() + ',' + (opacity || '1') + ')';
+    };
+
+var ctx = document.getElementById("myChart").getContext("2d");
+var myChart = new Chart(ctx, {
+    type: 'line',
+    
+    
+     data: {
+        labels: [{% for activity in all_request   %} "{{ activity.datetime__date|date:'M-d'}}", {% endfor %}],
+        datasets: [{
+          label: "User Activity",
+          data: [{% for activity in all_request %} {{ activity.count_login }}, {% endfor %}],
+          backgroundColor: 'rgba(121, 224, 145, .4)',
+          borderColor:'rgba(38, 185, 154, 1)',
+          borderWidth: 1
+        },   ]
+      },
+    options: {
+                 
+                    title:{
+                        display:false,
+                        text:''
+                    },
+                    tooltips: {
+                        mode: 'label',
+                    },
+                    hover: {
+                        mode: 'label'
+                    },
+            scales: {
+                yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: false,
+                            labelString: '# activity'
+                        },
+                    }],
+                xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: false,
+                            labelString: 'Days'
+                        }
+                    }],
+            }
+    },
+  
+
+});
+ 
+
+</script>
+{% endblock%}

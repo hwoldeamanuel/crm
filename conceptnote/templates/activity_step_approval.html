@@ -1,0 +1,94 @@
+
+{% extends "activity_step.html" %}
+
+{% block content_intervention_step %}
+{% load humanize%}
+      
+
+<div class="row">
+						<div class="col-md-12 col-sm-12 ">
+							<div class="x_panel">
+								<div class="x_title">
+									<h2>Approval Workflow<small>Activity</small></h2>
+									<ul class="nav navbar-right panel_toolbox">
+										<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+										</li>
+										<li class="dropdown">
+											<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+											<ul class="dropdown-menu" role="menu">
+												<li><a class="dropdown-item" href="#">Settings 1</a>
+												</li>
+												<li><a class="dropdown-item" href="#">Settings 2</a>
+												</li>
+											</ul>
+										</li>
+										<li><a class="close-link"><i class="fa fa-close"></i></a>
+										</li>
+									</ul>
+									<div class="clearfix"></div>
+								</div>
+								<div class="x_content">
+             
+
+                
+
+                <div style="height:275px;">
+                  <div class="row">
+                    <div class="table" id="SubmitList" hx-trigger="load, SubmitApprovalListChanged from:body" hx-get= "{% url 'current_activity_submit_approval_list' activity.id %}" hx-target="this" >
+
+  
+                    </div>
+                    <!-- /.col -->
+                  </div>
+                  
+                </div>
+ <div class="ln_solid"></div>
+             <div >
+
+
+                      <ul class="nav nav-tabs bar_tabs" id="myTab" data-example-id="togglable-tabs" role="tablist">
+                        <li class="nav-item">
+                          <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Concept Note Version Log</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Submission | Approval Log</a>
+                        </li>
+                        
+                      </ul>
+                      <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                              <div>
+
+               <div id="documentlist" hx-trigger="load, SubmitApprovalListChanged from:body" hx-get="{% url 'activity_document_list' activity.id %}" hx-target="this">
+                
+            
+
+                
+                </div>
+              </div>
+                        </div>
+                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                      
+                        <div  hx-trigger="load, SubmitApprovalListChanged from:body" hx-get="{% url 'activity_submit_approval_list' activity.id %}" hx-target="this">
+
+                        </div>
+</div>
+                        
+                      </div>
+</div>
+                </div>
+              <div class="modal fade bs-example-modal-lg" id="modal" class="modal fade">
+                                                  <div id="dialog" class="modal-dialog modal-lg" hx-target="this"></div>
+                                              </div>   
+
+              <!-- start project-detail sidebar -->
+             <!-- end project-detail sidebar -->
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /page content -->
+{% endblock %}

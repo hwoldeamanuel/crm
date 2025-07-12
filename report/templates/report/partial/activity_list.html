@@ -1,0 +1,81 @@
+  {% load static %}
+
+                  <style>
+    th {
+      text-align: center;
+
+    }
+    </style>
+
+              <!-- start project list -->
+
+             <table class="table table-striped ">
+                     
+                  
+                <thead>
+                        <tr>
+                    <th style="width:">#</th>
+                     
+                    <th style="width: 20%">Intervention Title</th>
+                    <th style="width: 20%">Activity Title</th>
+                    <th style="width: 18%">Team Members</th>
+               
+                    <th style="width: 12%">Dates</th>
+                    <th>Submission</th>
+                     <th>Approval</th>
+                     <th style="width:25%">Action</th>
+                     </tr>
+                </thead>
+                <tbody>
+                {% if activities %}
+                    {% for activity in activities %}
+                  <tr>
+                    <td>{{ forloop.counter }}</td>
+<td> {{ activity.icn }}</br>
+<small>{{ activity.icn.program }}</small></td>
+                    <td>
+                      <a>{{ activity.title }}</a>
+                      <br />
+                      <small>{{ activity.created_at }}</small>
+                    </td>
+                    <td>
+                      <ul class="list-inline">
+                        
+                            <li>
+                          <img src="{% static 'images/user.png' %}" class="avatar" title="{{ activity.user }}">
+                        </li>
+                      
+                        <li>
+                          <img src="{% static 'images/user.png' %}" class="avatar" title="{{ activity.technical_lead.user }}">
+                        </li>
+                           <li>
+                          <img src="{% static 'images/user.png' %}" class="avatar" title="{{ activity.program_lead.user }}">
+                        </li>
+                          <li>
+                          <img src="{% static 'images/user.png' %}" class="avatar" title="{{ activity.finance_lead.user }}">
+                        </li>
+                        
+                      </ul>
+                    </td>
+                    <td>
+                        <small>{{ activity.proposed_start_date }}</small>
+                        <br />
+                        <small>{{ activity.proposed_end_date }}</small>
+                    </td>
+                    <td>
+                      <span class="badge {% if activity.status == True %}badge bg-green {% else %} badge bg-red {% endif %}">{{ activity.get_status_display}}</span>
+                   </td>
+                   <td>
+                      <span class="badge {% if 'Rejected' in activity.approval_status %} bg-red {% elif 'Approved' in activity.approval_status %} bg-green {% else %} bg-warning {% endif %}">{% if activity.approval_status %} {{ activity.approval_status}} {% else %} Pending {% endif %}</span>
+                    </td>
+                    
+                    <td>
+                      <a href="{% url 'activity_detail' activity.id %}" class="btn btn-sm btn-primary btn-xs"><i class="fa fa-eye"></i> View </a>
+                      <a href="{% url 'activity_submit_approval' activity.id %}" class="btn btn-sm btn-info btn-xs"><i class="fa fa-flash"></i> Approval</a>
+                     
+                    </td>
+                  </tr>
+                  {% endfor %}
+                  {% endif %}
+                </tbody>
+              </table>

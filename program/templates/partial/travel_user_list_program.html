@@ -1,0 +1,52 @@
+
+
+<table class="table table-sm table-striped projects">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th style="width:28%">User</th>
+
+        <th style="width:15%">Initiator/Requester</th>
+       
+        <th style="width:15%">Budget Holder</th>
+         <th style="width:15%">Finance Reviewer </th>
+        <th style="width:15%">Security Reviwer</th>
+       
+        <th class="vertical-align-mid"></th>
+      </tr>
+    </thead>
+    <tbody>
+       
+     {% for tul in travel_user_list %}
+     <tr>
+       <td>{{ forloop.counter}}</td>
+       <td>{{tul.profile }}
+       </br><small>{{ tul.profile.job_title  }}</small>
+       </br><small>{{ tul.profile.portfolio  }}</small>
+       
+      
+      
+       </td>
+       <td class="text-center"> <div class="icheckbox_flat-green {% if tul.is_initiator %}checked{% endif %}" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 80%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+       </td>
+        <td class="text-center"> <div class="icheckbox_flat-green {% if tul.is_budget_holder %}checked{% endif %}" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 80%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+       </td>
+        <td class="text-center"> <div class="icheckbox_flat-green {% if tul.is_finance_reviewer %}checked{% endif %}" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 80%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+       </td>
+        <td class="text-center"> <div class="icheckbox_flat-green {% if tul.is_security_reviewer %}checked{% endif %}" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 80%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+       </td>
+      
+       <td  class="align-middle"><button class="btn btn-info btn-sm btn-xs" hx-get="{% url 'update_travel_user_roles' tul.id %}"   hx-target="#dialog" class="btn btn-primary"><i class="fa fa-edit"></i></button></td>
+     
+     </tr>
+      
+     {% endfor %}
+ 
+    </tbody>
+  </table>
+ 
+    <!-- Placeholder for the modal -->
+   
+
+    <!-- Empty toast to show the message -->
+  

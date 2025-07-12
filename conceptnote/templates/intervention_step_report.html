@@ -1,0 +1,205 @@
+
+{% extends "intervention_step.html" %}
+
+{% block content_intervention_step %}
+<div class="row">
+						<div class="col-md-12 col-sm-12 ">
+							<div class="x_panel">
+								<div class="x_title">
+									<h2>Report Profile<small>Intervention</small></h2>
+									<ul class="nav navbar-right panel_toolbox">
+										<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+										</li>
+										<li class="dropdown">
+											<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+											<ul class="dropdown-menu" role="menu">
+												<li><a class="dropdown-item" href="#">Settings 1</a>
+												</li>
+												<li><a class="dropdown-item" href="#">Settings 2</a>
+												</li>
+											</ul>
+										</li>
+										<li><a class="close-link"><i class="fa fa-close"></i></a>
+										</li>
+									</ul>
+									<div class="clearfix"></div>
+								</div>
+								<div class="x_content">
+									{% load humanize %}
+      
+<p>Program: <strong>{{ icn.program }}</strong></p> 
+<p>Title: <strong>{{ icn.title }}</strong></p> 
+<p>ID: <strong>{{ icn.icn_number }}</strong></p> 
+
+                            <p><strong>Description: </strong> {{ icn.description }}</p>
+                    <section class="content invoice">
+                      <!-- title row -->
+                     
+                      <!-- info row -->
+                      <div class="row invoice-info">
+                        <div class="col-sm-3 invoice-col">
+                          Initited By:
+                          <address>
+                                          <strong>{{icn.user.profile.full_name}}</strong>
+                                          <br>{{icn.user.profile.job_title}}
+                                          <br>{{icn.user.profile.portfolio}}
+                                          <br>{{icn.user.profile.contact_number}}
+                                          <br>{{icn.user.email }}
+                                      </address>
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-sm-3 invoice-col">
+                          Techncial Lead:
+                          <address>
+                                          <strong>{{icn.technical_lead.user.profile.full_name}}</strong>
+                                           <br>{{icn.technical_lead.user.profile.job_title}}
+                                          <br>{{icn.technical_lead.user.profile.portfolio}}
+                                          <br>{{icn.technical_lead.user.profile.contact_number}}
+                                          <br>{{icn.technical_lead.user.email }}
+                                      </address>
+                        </div>
+                        <!-- /.col -->
+                       <div class="col-sm-3 invoice-col">
+                          Finance Lead:
+                          <address>
+                                           <strong>{{icn.finance_lead.user.profile.full_name}}</strong>
+                                         <br>{{icn.finance_lead.user.profile.job_title}}
+                                          <br>{{icn.finance_lead.user.profile.portfolio}}
+                                          <br>{{icn.finance_lead.user.profile.contact_number}}
+                                          <br>{{icn.finance_lead.user.email }}
+                                      </address>
+                        </div>
+                           <div class="col-sm-3 invoice-col">
+                          Program Lead:
+                          <address>
+                                          <strong>{{icn.program_lead.user.profile.full_name}}</strong>
+                                          <br>{{icn.program_lead.user.profile.job_title}}
+                                          <br>{{icn.program_lead.user.profile.portfolio}}
+                                          <br>{{icn.program_lead.user.profile.contact_number}}
+                                          <br>{{icn.program_lead.user.email }}
+                                      </address>
+                        </div>
+                        <!-- /.col -->
+                      </div>
+                      <!-- /.row -->
+
+                      <!-- Table row -->
+                      <div class="row">
+                        <div class="  table">
+                          <table class="table table-striped">
+                            <thead>
+                              <tr>
+                                <th>#</th>
+                                <th style="width:18%">Team Lead</th>
+                                <th style="width:22%">Submission/Approval Date</th>
+                                
+                                <th style="width:45%">Submission/Approval Note</th>
+                                <th style="width:15%">Status</th>
+                               
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>1</td>
+                                <td>Initiator</br>{{icn.user.profile.full_name}}</td>
+                                <td>{{icnsubmit.submission_date}}</td>
+                               
+                                <td>{{icnsubmit.submission_note}}</td>
+                                 <td>{{icnsubmit.get_submission_status_display}}
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>2</td>
+                                <td>Techncial Lead</br>{{icn.technical_lead.user.profile.full_name}}</td>
+                                <td>{{icnsubmit.icnsubmitapproval_t.approval_date}}</td>
+                                
+                                <td>{{icnsubmit.icnsubmitapproval_t.approval_note }}</td>
+                                <td>{{icnsubmit.icnsubmitapproval_t.get_approval_status_display}}
+                                </td>
+                              </tr>
+                              <tr>
+                               <td>3</td>
+                                <td>Finance Lead</br>{{icn.finance_lead.user.profile.full_name}}</td>
+                                <td>{{icnsubmit.icnsubmitapproval_f.approval_date}}</td>
+                               
+                                <td>{{icnsubmit.icnsubmitapproval_f.approval_note }}</td>
+                                 <td>{{icnsubmit.icnsubmitapproval_f.get_approval_status_display}}
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>4</td>
+                                <td>Program Lead</br>{{icn.program_lead.user.profile.full_name}}</td>
+                                <td>{{icnsubmit.icnsubmitapproval_f.approval_date}}</td>
+                                
+                                <td>{{icnsubmit.icnsubmitapproval_f.approval_note }}</td>
+                                <td>{{icnsubmit.icnsubmitapproval_f.get_approval_status_display}}
+                                </td>
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                
+                                <td></td>
+                                <td>{{icn.approval_status}}
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <!-- /.col -->
+                      </div>
+                      <!-- /.row -->
+
+                      <div class="row">
+                        <!-- accepted payments column -->
+                        <div class="col-md-6">
+                         
+                          <p class="text-muted well well-sm no-shadow" style="margin-top: 10px;">
+                            Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles, weebly ning heekya handango imeem plugg dopplr jibjab, movity jajah plickers sifteo edmodo ifttt zimbra.
+                          </p>
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-md-6">
+                          <p class="lead">Intervention Budget</p>
+                          <div class="table-responsive">
+                            <table class="table">
+                              <tbody>
+                                <tr>
+                                  <th style="width:50%">Mercy Corps:</th>
+                                  <td> {{ icn.mc_budget|intcomma }} {{icn.get_mc_currency_display }}</td>
+                                 
+                                </tr>
+                                <tr>
+                                  <th>Cost Share contributions</th>
+                                  <td>{% if icn.cost_share_budget %} {{ icn.cost_share_budget|intcomma }} {{icn.get_cs_currency_display }} {% else %} 0.0 {{icn.get_mc_currency_display}} {% endif %}</td>
+                                </tr>
+                               
+                                <tr>
+                                  <th>Total:</th>
+                                  <td> {% if icn.cost_share_budget > 0 %} {{ icn.mc_budget|add:icn.cost_share_budget|intcomma }}{% else %}{{ icn.mc_budget|intcomma}}{% endif%} {{icn.get_cs_currency_display }} </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                        <!-- /.col -->
+                      </div>
+                      <!-- /.row -->
+
+                      <!-- this row will not appear when printing -->
+                      <div class="row no-print">
+                        <div class=" ">
+                          <button class="btn btn-default" onclick="window.print();"><i class="fa fa-print"></i> Print</button>
+                           
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+           
+
+				
+						</div>
+					</div>
+				</div>
+{% endblock %}

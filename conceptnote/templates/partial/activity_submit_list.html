@@ -1,0 +1,247 @@
+
+<table class="data table table-sm table-striped no-margin">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Team Lead</th>
+        <th>Date</th>
+       
+        <th>Activity CN Ver#</th>
+        <th>Status</th>
+        <th>Action</th>
+        <th style="width:17%"></th>
+      
+      
+      </tr>
+    </thead>
+    <tbody hx-trigger="load, SubmitApprovalListChanged from:body" >
+       <tr>
+        <td>1</td>
+        <td>
+          <a>Initiator</a>
+          <br />
+          <small>{{ activity.user.profile.full_name }}</small>
+        </td>
+        {% if not activitysubmit %}
+        <td></td>
+         <td></td>
+          <td>
+           <button type="button" class="btn btn-danger btn-sm btn-xs" >Pending Submission</button>
+          </td>
+           <td>
+            <button type="button" class="{% if request.user.id != activity.user.id %}disabled {% endif %}btn btn-sm btn-primary" aria-hidden="true"  hx-get="{% url 'activity_submit_form' activity.id 2 %}" hx-target="#SubmitList" >Submit Request</button>
+           </td>
+        {% else %}
+        <td>{{activitysubmit.submission_date|date:"M d,Y"}}</br><small>{{activitysubmit.submission_date|time}}</small></td>
+        <td>{{activitysubmit.document }}</td>
+          
+        <td>
+          <span class="badge {% if activitysubmit.submission_status_id == 1 %} badge-danger {% elif activitysubmit.submission_status_id == 2 %}badge-success{% endif %}">{{ activitysubmit.submission_status.name }}</span>
+         
+        
+       
+ </td>
+  <td>
+  {% if activitysubmit.submission_status_id == 1 %}
+  <div class="btn-group">
+                    <button type="button" class="{% if request.user.id != activity.user.id %}disabled {% endif %}btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Action
+                    </button>
+                    <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                      <a class="dropdown-item" hx-get="{% url 'activity_submit_form' activity.id 2 %}" hx-target="#SubmitList" >Re-submit Request</a>
+                     
+                    </div>
+                  </div>
+       
+  {% else %}   
+      <div class="btn-group">
+                    <button type="button" class="{% if request.user.id != activity.user.id or activity.approval_status == '100% Approved' %}disabled {% endif %}btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Action
+                    </button>
+                    <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                      <a class="dropdown-item" hx-get="{% url 'activity_submit_form' activity.id 1 %}" hx-target="#SubmitList" >Cancel Request</a>
+                     
+                    </div>
+                  </div>
+  {% endif %}
+  </td>
+        
+       
+        {% endif %}
+
+
+<td></td>
+
+    
+</tr>
+            <tr>
+        <td>2</td>
+        <td>
+          <a>Techncial</a>
+          <br />
+          <small>{{ activity.technical_lead.user.profile.full_name }}</small>
+        </td>
+        {% if activitysubmit %}
+        <td>{% if activitysubmit.activitysubmitapproval_t.approval_status_id == 1 %}{{ activitysubmit.submission_date|timesince }} {% else %} {{activitysubmit.activitysubmitapproval_t.approval_date|date:"M d,Y"}}</br><small>{{activitysubmit.activitysubmitapproval_t.approval_date|time}}</small> {% endif %}</td>
+       
+        <td>{{activitysubmit.activitysubmitapproval_t.document }}</td>
+        <td>
+          <span class="badge {% if activitysubmit.activitysubmitapproval_t.approval_status_id == 1 %}badge-primary{% elif activitysubmit.activitysubmitapproval_t.approval_status_id == 2 %}badge-warning {% elif activitysubmit.activitysubmitapproval_t.approval_status_id == 3 %}badge-success{% elif activitysubmit.activitysubmitapproval_t.approval_status_id == 4 %}badge-danger{% endif %}" >{% if activitysubmit.activitysubmitapproval_t %} {{ activitysubmit.activitysubmitapproval_t.approval_status.name }} {% endif %}</span>
+        </td>
+         <td><div class="btn-group">
+                    <button type="button" class="{% if request.user != activity.technical_lead.user or activitysubmit.activitysubmitapproval_t.approval_status_id != 1 %}disabled {% endif %}btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Action
+                    </button>
+                    <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                       <a class="dropdown-item" hx-get={% url 'activity_approvalt' activitysubmit.id 3 %} hx-target="#SubmitList">Endorese Request</a>
+                      <a class="dropdown-item" hx-get={% url 'activity_approvalt' activitysubmit.id 2 %} hx-target="#SubmitList">Require Revision</a>
+                     
+                    
+                      <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" hx-get={% url 'activity_approvalt' activitysubmit.id 4 %} hx-target="#SubmitList">Reject Request</a>
+                    </div>
+                  </div></td>
+        {% else %}
+        <td></td>
+        <td></td>
+        <td></td>
+       <td></td>
+        {% endif%}
+
+
+<td></td>
+    
+</tr>
+ <tr>
+        <td>3</td>
+        <td>
+          <a>MEL</a>
+          <br />
+          <small>{{ activity.mel_lead.user.profile.full_name }}</small>
+        </td>
+        {% if activitysubmit %}
+        <td>{% if activitysubmit.activitysubmitapproval_m.approval_status_id == 1 %}{{ activitysubmit.submission_date|timesince }} {% else %} {{activitysubmit.activitysubmitapproval_m.approval_date|date:"M d,Y"}}</br><small>{{activitysubmit.activitysubmitapproval_m.approval_date|time}}</small> {% endif %}</td>
+       
+        <td>{{activitysubmit.activitysubmitapproval_m.document }}</td>
+        <td>
+          <span class="badge {% if activitysubmit.activitysubmitapproval_m.approval_status_id == 1 %}badge-primary{% elif activitysubmit.activitysubmitapproval_m.approval_status_id == 2 %}badge-warning {% elif activitysubmit.activitysubmitapproval_m.approval_status_id == 3 %}badge-success{% elif activitysubmit.activitysubmitapproval_m.approval_status_id == 4 %}badge-danger{% endif %}" >{% if activitysubmit.activitysubmitapproval_m %} {{ activitysubmit.activitysubmitapproval_m.approval_status.name }} {% endif %}</span>
+        </td>
+         <td><div class="btn-group">
+                    <button type="button" class="{% if request.user != activity.mel_lead.user or activitysubmit.activitysubmitapproval_m.approval_status_id != 1 %}disabled {% endif %}btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Action
+                    </button>
+                    <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                      <a class="dropdown-item" hx-get={% url 'activity_approvalm' activitysubmit.id 3 %} hx-target="#SubmitList">Endorese Request</a>
+                      <a class="dropdown-item" hx-get={% url 'activity_approvalm' activitysubmit.id 2 %} hx-target="#SubmitList">Require Revision</a>
+
+                    
+                      <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" hx-get={% url 'activity_approvalm' activitysubmit.id 4 %} hx-target="#SubmitList">Reject Request</a>
+                    </div>
+                  </div></td>
+        {% else %}
+        <td></td>
+        <td></td>
+        <td></td>
+       <td></td>
+        {% endif%}
+
+
+<td></td>
+    
+</tr>
+<tr>
+    <td>4</td>
+    <td>
+      <a>Finance</a>
+      <br />
+      <small>{{ activity.finance_lead.user.profile.full_name }}</small>
+    </td>
+    {% if activitysubmit %}
+    <td> {% if activitysubmit.activitysubmitapproval_f.approval_status_id == 1 %}{{ activitysubmit.submission_date|timesince }}{% else %}{{activitysubmit.activitysubmitapproval_f.approval_date|date:"M d,Y"}}</br><small>{{activitysubmit.activitysubmitapproval_f.approval_date|time}}</small>{% endif %}</td>
+       
+    <td>{{activitysubmit.activitysubmitapproval_f.document }}</td>
+    <td>
+                <span class="badge {% if activitysubmit.activitysubmitapproval_f.approval_status_id == 1 %} badge-primary{% elif activitysubmit.activitysubmitapproval_f.approval_status_id == 2 %}badge-warning{% elif activitysubmit.activitysubmitapproval_f.approval_status_id == 3 %}badge-success{% elif activitysubmit.activitysubmitapproval_f.approval_status_id == 4 %}badge-danger{% endif %}" >{% if activitysubmit.activitysubmitapproval_f %} {{ activitysubmit.activitysubmitapproval_f.approval_status.name }} {% endif %}</span>
+     <td>
+     <div class="btn-group">
+                    <button type="button" class="{% if request.user != activity.finance_lead.user or activitysubmit.activitysubmitapproval_f.approval_status_id != 1 %}disabled {% endif %}btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Action
+                    </button>
+                    <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                       <a class="dropdown-item" hx-get={% url 'activity_approvalf' activitysubmit.id 3 %} hx-target="#SubmitList">Endorese Request</a>
+                      <a class="dropdown-item" hx-get={% url 'activity_approvalf' activitysubmit.id 2 %} hx-target="#SubmitList">Require Revision</a>
+                     
+    
+                      <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" hx-get={% url 'activity_approvalf' activitysubmit.id 4 %} hx-target="#SubmitList">Reject Request</a>
+                    </div>
+                  </div>
+     </td>
+    {% else %}
+    <td></td>
+    <td></td>
+     <td></td>
+   <td></td>
+    {% endif%}
+
+
+<td></td>
+</tr>
+<tr>
+    <td>5</td>
+    <td>
+      <a>Program</a>
+      <br />
+      <small>{{ activity.program_lead.user.profile.full_name }}</small>
+    </td>
+    {% if activitysubmit %}
+    <td>{% if activitysubmit.activitysubmitapproval_p.approval_status_id == 1 %}{{ activitysubmit.submission_date|timesince }}{% else %}{{activitysubmit.activitysubmitapproval_p.approval_date|date:"M d,Y"}}</br><small>{{activitysubmit.activitysubmitapproval_p.approval_date|time}}</small>{% endif %}</td>
+        
+    <td>{{activitysubmit.activitysubmitapproval_p.document}}</td>
+    <td>
+               <span class="badge {% if activitysubmit.activitysubmitapproval_p.approval_status_id == 1 %}badge-primary{% elif activitysubmit.activitysubmitapproval_p.approval_status_id == 2 %}badge-warning{% elif activitysubmit.activitysubmitapproval_p.approval_status_id == 3 %}badge-success{% elif activitysubmit.activitysubmitapproval_p.approval_status_id == 4 %}badge-danger{% endif %}" >{% if activitysubmit.activitysubmitapproval_p %} {{ activitysubmit.activitysubmitapproval_p.approval_status.name }} {% endif %}</span>
+    </td>
+     <td>
+      <div class="btn-group">
+                    <button type="button" class="{% if request.user != activity.program_lead.user or activitysubmit.activitysubmitapproval_p.approval_status_id != 1 or activity.approval_status != '75% Approved' %}disabled {% endif %}btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Action
+                    </button>
+                    <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                                           <a class="dropdown-item" hx-get={% url 'activity_approvalp' activitysubmit.id 3 %} hx-target="#SubmitList">Approve Request</a>
+                     <a class="dropdown-item" hx-get={% url 'activity_approvalp' activitysubmit.id 2 %} hx-target="#SubmitList">Require Revision</a>
+
+                     
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" hx-get={% url 'activity_approvalp' activitysubmit.id 4 %} hx-target="#SubmitList">Reject Request</a>
+                    </div>
+                  </div>
+     </td>
+    {% else %}
+    <td></td>
+    <td></td>
+    <td></td>
+ <td></td>
+    {% endif%}
+
+
+<td>
+    
+													 <div class="btn-group">
+														<button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-sm dropdown-toggle btn-{% if 'Rejected' in activity.approval_status %} bg-red {% elif 'Approved' in activity.approval_status %} bg-green {% else %} bg-warning {% endif %}">{% if activity.approval_status %} {{ activity.approval_status}} {% else %} Pending Approval{% endif %}
+														</button>
+													
+												 <div class="dropdown-menu">
+                      <a class="dropdown-item {% if activity.approval_status != '100% Approved' %}disabled{% endif %}" href="{% url 'activity_approval_invoice' activity.id %}">Approval Invoice</a>
+                    
+                    </div>
+                  </div>
+													
+												
+
+                    </td>
+                     <td>
+</tr>
+
+    </tbody>
+  </table>

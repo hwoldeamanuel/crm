@@ -1,0 +1,16 @@
+ {% load humanize %}
+{% for indicator in indicators %}
+<tr id="indicator-{{ indicator.id }}" class="indicator-row">
+  <td>{{ indicator.indicator_no }}</td>
+  <td>{{ indicator.indicator_title }}</td>
+  <td>{{ indicator.get_indicator_level_display }}</td>
+<td>{{ indicator.get_indicator_unit_display }}</td>
+<td>{{ indicator.indicator_baseline|intcomma  }} </td>
+<td>{{ indicator.indicator_target_LoP|intcomma  }} </td>
+
+  
+  <td>
+    <button class="btn btn-info btn-sm" hx-get="{% url 'edit_indicator' pk=indicator.pk %}" hx-target="#dialog"><i class="fa fa-edit"></i></button>
+  </td>
+</tr>
+{% endfor %}

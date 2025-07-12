@@ -1,0 +1,75 @@
+  <canvas id="myChart" width="400" height="140"></canvas>
+
+{% block content_page_js %}
+<script>
+var MONTHS = [{% for program in program_users %} "{{ program }}", {% endfor %}];
+var randomScalingFactor = function() {
+      return Math.round(Math.random() * 100 * (Math.random() > 0.5 ? -1 : 1));
+    };
+var randomColorFactor = function() {
+      return Math.round(Math.random() * 255);
+    };
+var randomColor = function(opacity) {
+      return 'rgba(' + randomColorFactor() + ',' + randomColorFactor() + ',' + randomColorFactor() + ',' + (opacity || '1') + ')';
+    };
+
+var ctx = document.getElementById("myChart").getContext("2d");
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    
+    
+     data: {
+        labels: [{% for program in program_users %} "{{ program|truncatechars:5 }}", {% endfor %}],
+        datasets: [{
+          label: "Program Users",
+          data: [{% for program in program_users %} {{ program.num_user }}, {% endfor %}],
+          backgroundColor:'rgba(38, 185, 154, .6)',
+          borderColor:'rgba(38, 185, 154, 1)',
+          borderWidth: 1
+        }, ]
+      },
+    options: {
+                    
+       
+                    title:{
+                        display:true,
+                        text:'Chart.js Bar Chart - Skip Points'
+                    },
+                    tooltips: {
+                        mode: 'label',
+                    },
+                    hover: {
+                        mode: 'label'
+                    },
+            scales: {
+                yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: '# Users'
+                        },
+                         ticks: {
+                    beginAtZero:true
+                }
+                    }],
+                xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Programs'
+                        }
+                    }],
+            }
+    },
+  
+
+});
+ 
+var myChartData = new Chart(ctx, config);
+defaults.global.legend.display = true;
+defaults.global.legend.align = "start";
+defaults.global.legend.position = "bottom";
+defaults.global.legend.labels.padding = 30;
+defaults.global.legend.labels.boxWidth = 15;
+</script>
+{% endblock %}

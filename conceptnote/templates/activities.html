@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+<!-- page content -->
+<div class="right_col" role="main">
+    <div class="">
+      <div class="page-title">
+        <div class="title_left">
+            <h3>Concept Note :: Activity</h3>
+        </div>
+
+        <div class="title_right">
+          <form hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}'>
+            {% csrf_token %}
+            <div class="col-md-5 col-sm-5   form-group pull-right top_search">
+
+               <div class="input-group">
+                  <input name="search" type="text" class="form-control" placeholder="Search for..." 
+                  hx-get="/conceptnote/activity_filter/"
+                  hx-trigger="keyup changed, search"
+                  hx-target="#icn_list">
+                  <span class="input-group-btn">
+                      <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <span style="font-size:smaller;">New</span>
+                      </button>
+                      <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                          <a class="dropdown-item {%  for userroles in request.user.userroles_set.all %}
+        {% if userroles.is_pacn_initiator != True %}disabled{% endif %} {% endfor %}" href="{% url 'activity_add' %}">Add New Activity</a>
+                            <div class="dropdown-divider"></div>
+                          <a class="dropdown-item" href="{% url 'icns' %}">Intervention List</a>
+                          
+                         </div>
+                      </div>
+                  </span>
+              </div>   
+            </div>        
+          </form>
+       </div>
+      </div>
+  
+    <div class="clearfix"></div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="x_panel">
+            <div class="x_title">
+              <h2>Activity List</h2>
+              <ul class="nav navbar-right panel_toolbox">
+                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                </li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <a class="dropdown-item" href="#">Settings 1</a>
+                      <a class="dropdown-item" href="#">Settings 2</a>
+                    </div>
+                </li>
+                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                </li>
+              </ul>
+              <div class="clearfix"></div>
+            </div>
+            <div class="x_content" id="icn_list">
+
+
+            <style>
+    th {
+      text-align: center;
+
+    }
+    </style>
+
+              <!-- start project list -->
+
+              <table class="table table-striped">
+                     
+                  
+                <thead>
+                              <tr>
+                    <th style="width:">#</th>
+                     
+                  
+                    <th style="width: 38%">Activity ID/Title</th>
+                    <th style="width: 18%">Team Members</th>
+               
+                    <th style="width:12%">Date<small> (Start/End)</small></th>
+                   <th style="width:12%">Status <small>(ACN)</small></th>
+                      <th style="width:12%">Status <small>(Report)</small></th>
+                     <th ></th>
+                     </tr>
+                     
+                </thead>
+                <tbody>
+                {% if activities %}
+                    {% for activity in activities %}
+                  <tr>
+                    <td>{{ forloop.counter }}</td>
+                 <td>{{activity.acn_number}}</br>
+                      <small>{{ activity.title }}</small>
+                     
+                    </td>
+                         <td>
+                      <ul class="list-inline text-center">
+                        
+                            
+                          <img class="img-responsive img-circle profile_img" src="{% static 'images/user.png' %}" alt="avatar" title="{{ activity.user.profile.full_name}} - Initiator" style="width: 30px; height:30px; margin-top: 0px; margin-bottom:2px; margin-left: 0px;margin-right: 0px;">
+                            
+                           <div class="ln_solid" style="margin-top: 0px; margin-bottom:0px; margin-left: 0px;margin-right: 0px;"></div>
+                            <img class="img-responsive  img-circle profile_img" src="{% static 'images/user.png' %}" alt="avatar" title="{{ activity.technical_lead.user.profile.full_name}} - Technical Lead" style="width: 30px; height:30px; margin-top: 4px; margin-bottom:1px; margin-left: 0px;margin-right: 0px;">
+                              <img class="img-responsive  img-circle profile_img" src="{% static 'images/user.png' %}" alt="avatar" title="{{ activity.mel_lead.user.profile.full_name}} - MEL Lead" style="width: 30px; height:30px; margin-top: 4px; margin-bottom:1px; margin-left: 0px;margin-right: 0px;">
+                                <img class="img-responsive  img-circle profile_img" src="{% static 'images/user.png' %}" alt="avatar" title="{{ activity.finance_lead.user.profile.full_name}} - Finance Lead" style="width: 30px; height:30px; margin-top: 4px; margin-bottom:1px; margin-left: 0px;margin-right: 0px;">
+                                  <img class="img-responsive  img-circle profile_img" src="{% static 'images/user.png' %}" alt="avatar" title="{{ activity.program_lead.user.profile.full_name}} - Program Lead" style="width: 30px; height:30px; margin-top: 4px; margin-bottom:1px; margin-left: 0px;margin-right: 0px;">
+                       
+        
+                        
+                        
+                      </ul>
+                    </td>
+                    <td>
+                        <small>{{ activity.proposed_start_date }}</small>
+                        <br />
+                        <small>{{ activity.proposed_end_date }}</small>
+                    </td>
+                    <td>
+                    {% if activity.status == True %}
+                      <span class="badge {% if 'Rejected' in activity.approval_status %} bg-red {% elif 'Approved' in activity.approval_status %} bg-green {% else %} bg-warning {% endif %}">{% if activity.approval_status %} {{ activity.approval_status}} {% else %} Pending {% endif %}</span>
+                      {% else %}
+                      <span class="badge {% if activity.status == True %}badge bg-green {% else %} badge bg-red {% endif %}">{{ activity.get_status_display}}</span>
+                      {% endif %}
+                   </td>
+                  <td>
+                     {% if not activity.activityreport or activity.approval_status != '100% Approved' %}
+                      <span class="badge badge {% if activity.final_report_due_date|timesince > '1 min' %}  bg-red {% else %} bg-default{% endif %}">{{activity.final_report_due_date}}</span>
+                   {% elif activity.activityreport.status == True %}
+                      <span class="badge {% if 'Rejected' in activity.activityreport.approval_status %} bg-red {% elif 'Approved' in activity.activityreport.approval_status %} bg-green {% else %} bg-warning {% endif %}">{% if activity.activityreport.approval_status %} {{ activity.activityreport.approval_status}} {% else %} Pending {% endif %}</span>
+                     {% elif activity.activityreport.status == False %}
+                    <span class="badge {% if activity.activityreport and activity.activityreport.status == True %}badge bg-green {% else %} badge bg-warning {% endif %}">{{ activity.activityreport.get_status_display}}</span>
+                     {% endif %}
+                    </td>
+                    
+                    
+                      <td>
+                      
+                     
+                    <div class="btn-group">
+  <button type="button" class="btn btn-sm btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Action
+  </button>
+  <div class="dropdown-menu dropdown-menu-right">
+    <a class="dropdown-item" href="{% url 'activity_detail' activity.id %}">View</a>
+                     
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item {% if request.user != activity.user or activity.activityimpact_set.all.count > 0 %}disabled{% endif %}" hx-get="{% url 'activity_delete' activity.id %}"  hx-target="#icn_list" hx-confirm="Are you sure you wish to delete ?">Delete</a>
+  </div>
+</div>
+                    
+                          <!-- end project list -->
+                    </td>
+                  </tr>
+                  {% endfor %}
+                  {% endif %}
+                </tbody>
+              </table>
+              <!-- end project list -->
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /page content -->
+
+  {% endblock %}

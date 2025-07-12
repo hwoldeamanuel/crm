@@ -1,0 +1,90 @@
+
+
+{% load widget_tweaks %}
+{% with WIDGET_ERROR_CLASS='is-invalid' %}
+<form hx-post="{{ request.path }}" hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}' class="modal-content">
+    {% csrf_token %}  
+
+<div class="modal-header">
+    <h5 class="modal-title">Target - Performance Form</h5>
+    <button type="button" class="btn-close" class="close" data-bs-dismiss="modal" aria-label="Close"></button>
+  </div>
+  <div class="modal-body">
+   
+   <div class="item form-group">
+                            <label class="col-form-label col-md-2 col-sm-2 label-align" for="first-name">Title:<span class="required">*</span>
+                            </label>
+                            <div class="col-md-8 col-sm-8 ">
+                                
+                                    <input type="text" class="form-control form-control-sm" readonly="True" placeholder="{{activityimpact.title}}">
+                                    
+                            </div>
+                        
+                        </div>
+     <div class="item form-group">
+                            <label class="col-form-label col-md-2 col-sm-2 label-align" for="first-name">Disaggregates:<span class="required">*</span>
+                            </label>
+                            <div class="col-md-8 col-sm-8 ">
+                                
+                                     <input type="text" class="form-control form-control-sm" readonly="True" placeholder="{{activityimpact.description}}">
+                            </div>
+                        
+                        </div>
+                         <div class="item form-group">
+                            <label class="col-form-label col-md-2 col-sm-2 label-align" for="first-name">Unit:<span class="required">*</span>
+                            </label>
+                            <div class="col-md-8 col-sm-8 ">
+                                
+                                     <input type="text" class="form-control form-control-sm" readonly="True" placeholder="{{activityimpact.get_unit_display}}">
+                            </div>
+                        
+                        </div>
+       <div class="item form-group">
+                            <label class="col-form-label col-md-2 col-sm-2 label-align" for="first-name">Pilot Target:<span class="required">*</span>
+                            </label>
+                            <div class="col-md-3 col-sm-3 ">
+                                
+                                    <input type="text" class="form-control form-control-sm" readonly="True" placeholder="{{activityimpact.impact_pilot}}">
+                            </div>
+                               <label class="col-form-label col-md-2 col-sm-2 label-align" for="first-name">Pilot Actual:<span class="required">*</span>
+                            </label>
+                            <div class="col-md-3 col-sm-3 ">
+                                
+                                     {% render_field form.actual_impact_pilot class+="form-control form-control-sm" %}
+
+
+                                    <div class="invalid-feedback">{{ form.actual_impact_pilot.errors|first }}</div>
+                            </div>
+                        
+                        </div>
+           <div class="item form-group">
+                                                <label class="col-form-label col-md-2 col-sm-2 label-align" for="first-name">Scale-up Target:<span class="required">*</span>
+                                                </label>
+                                                <div class="col-md-3 col-sm-3 ">
+                           <input type="text" class="form-control form-control-sm" readonly="True" placeholder="{{activityimpact.impact_scaleup}}">
+                        </div>
+                        <label class="col-form-label col-md-2 col-sm-2 label-align" for="first-name">Scale-up Actual:<span class="required">*</span>
+                                                </label>
+                                        <div class="col-md-3 col-sm-3 ">
+                                
+                                     {% render_field form.actual_impact_scaleup class+="form-control form-control-sm" %}
+
+
+                                    <div class="invalid-feedback">{{ form.actual_impact_scaleup.errors|first }}</div>
+                            </div>         
+                        </div>
+     
+</div>
+  <div class="modal-footer">
+        
+          <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-primary btn-sm">Save Changes</button>
+  </div>
+</form>
+{% endwith %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.css" rel="stylesheet"/>
+
+    {{ form.media.js }}

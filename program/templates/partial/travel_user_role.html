@@ -1,0 +1,78 @@
+
+{% load widget_tweaks %}
+
+
+{% with WIDGET_ERROR_CLASS='is-invalid' %}
+                                                                
+<form  hx-post="{{ request.path }}" hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}' class="modal-content">
+    {% csrf_token %}
+ <div class="modal-header">
+    <h5 class="modal-title">Travel Approval Role Form</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  </div>
+  <div class="modal-body">
+   
+    <div class="form-group row">
+        <div class="col-6 col-sm-6">
+               <label>Profile<span class="required"></span>
+                </label>
+                   
+                {% render_field form.profile class="form-control form-control-sm"  %}
+        </div>
+
+ 
+      
+    </div>
+
+</br>
+<h4>Travel Approval Roles </h4>
+</br>
+    <div class="form-group row">
+      
+        <div class="col-3 col-sm-3">
+                <label>Initiator<span class="required"></span>
+            
+                {% render_field form.is_initiator class+="form-control form-control-sm icheckbox_flat-green"  %}
+                </label>        
+        </div>
+      <div class="col-3 col-sm-3">
+                <label>Budget Holder <span class="required"></span>
+            
+                {% render_field form.is_budget_holder class+="form-control form-control-sm icheckbox_flat-green"  %}
+                </label>        
+        </div>
+        <div class="col-3 col-sm-3">
+                <label >Finance Reviewer<span class="required"></span>
+             
+                {% render_field form.is_finance_reviewer class="form-control form-control-sm  icheckbox_flat-green" %}
+           </label>        
+        </div>
+         <div class="col-3 col-sm-3">
+                <label class="">Security<span class="required"></span>
+                
+                {% render_field form.is_security_reviewer class="form-control form-control-sm icheckbox_flat-green"  %}
+                 </label>
+        </div>
+      
+      
+
+    </div>
+
+</div>
+<div class="modal-footer">
+   {% if tuser_role %}
+    <button type="button" class="btn btn-danger btn-sm" hx-post="{% url 'remove_travel_user_role' pk=tuser_role.pk %}">Remove</button>
+    <span class="flex-grow-1"></span>
+    {% endif %}
+    <div class="form-group row">							
+        <div class="col-md-12 col-sm-12">
+		 <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal"> Cancel </button>					       
+
+        <button type="submit" class="btn btn-sm btn-xs btn-primary">Save Changes</button>
+        </div>
+     
+    </div>
+</div>
+</form>
+
+{% endwith %}

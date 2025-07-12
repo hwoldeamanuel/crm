@@ -1,0 +1,113 @@
+
+{% load static %}
+{% load widget_tweaks %}
+                                          
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>CNMS! | </title>
+
+    <!-- Bootstrap -->
+    <link href="{% static 'vendors/bootstrap/dist/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="{% static 'vendors/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="{% static 'vendors/nprogress/nprogress.css' %}" rel="stylesheet">
+    <!-- Animate.css -->
+    <link href="{% static 'vendors/animate.css/animate.min.css' %}" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link href="{% static 'build/css/custom.min.css' %}" rel="stylesheet">
+  </head>
+
+  <body class="login">
+    <div>
+      <a class="hiddenanchor" id="signup"></a>
+      <a class="hiddenanchor" id="signin"></a>
+
+      <div class="login_wrapper">
+        <div class="animate form login_form">
+          <section class="login_content">
+             {% if messages %}  
+        <ul>   
+            {% for message in messages %}  
+                <li>{{ message }}</li>  
+                {% endfor %}  
+        </ul>   
+    {% endif %}  
+ {% load widget_tweaks %}
+                                        {% with WIDGET_ERROR_CLASS='is-invalid' %}
+            <form method="POST"  autocomplete="off">
+{% csrf_token %}
+              <h1>Register</h1>
+                              <div class="form-label-group">
+                                               
+                                                        {% render_field form.username class="form-control" placeholder="username" %}
+                                                        {{ form.username.errors|first }}
+                                                       
+                                                    </div>
+                      <div class="form-label-group">
+                <div class="form-label-group">
+                                               
+                                                        {% render_field form.email class="form-control" placeholder="email" %}
+                                                        {{ form.email.errors|first }}
+                                                       
+                                                    </div>
+                      <div class="form-label-group">
+                                       
+                                                        {% render_field form.password1 class="form-control" placeholder="password" %}
+                                                        {{ form.password1.errors|first }}
+                                                        
+                                                    </div>
+                                                    <div class="form-label-group">
+
+                                                        {% render_field form.password2 class="form-control" placeholder="confirm password" %}
+                                                        {{ form.password2.errors|first }}
+                                                        
+                                                    </div>
+              <div>
+                           {% if form.non_field_errors %}
+    <ul>
+        {% for error in form.non_field_errors %}
+            <li>{{ error }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+                <button type="submit" class="btn btn-secondary"> Submit</button>
+                <a class="reset_pass" href="#">Lost your password?</a>
+              </div>
+
+              <div class="clearfix"></div>
+
+              <div class="separator">
+                <p class="change_link">Already have an Account?
+                  <a href="{% url 'login' %}" class="to_register"> Log In </a>
+                </p>
+
+                <div class="clearfix"></div>
+                <br />
+
+               <div>
+                 <img src="{% static 'images/shortlog.png' %}" alt="..." width="100" height="50">
+                  <p>©2024 All Rights Reserved. CNMS! is Mercy Corps Ethiopia Concept Note Management System.</p>
+                </div>
+              </div>
+            </form>
+{% endwith %}
+          </section>
+        </div>
+
+        
+      </div>
+    </div>
+  </body>
+</html>

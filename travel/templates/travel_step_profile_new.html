@@ -1,0 +1,106 @@
+{% extends "travel_step.html" %}
+
+{% block content_travel_step %}
+
+{% load humanize%}
+
+<section class="panel">
+
+                     
+                        <div class="panel-body">
+                       
+                           {% load widget_tweaks %}
+                      {% with WIDGET_ERROR_CLASS='is-invalid' %}
+                      <span class="section">Travel Information</span>
+                        <form class="form-horizontal form-label-left" method="post"   enctype="multipart/form-data"   >
+                           {% csrf_token %}
+                         <div class="form-group row">
+                            <label class="col-form-label col-md-2 col-sm-2 label-align" for="{{ form.title.id_for_label }}">Destination(s): <span class="required"></span>
+                            </label>
+                            <div class="col-md-8 col-sm-8">
+                              {% render_field form.destination class="form-control form-control-sm" required="required"%}
+                              <div class="invalid-feedback">{{ form.destination.errors|first }}</div>
+                              
+
+                            </div>                     
+                                
+                           
+                                
+                          </div>
+                           <div class="form-group row">
+                            <label class="col-form-label col-md-2 col-sm-2 label-align" for="{{ form.title.id_for_label }}">Purpose: <span class="required"></span>
+                            </label>
+                            <div class="col-md-8 col-sm-8">
+                              {% render_field form.purpose class="form-control form-control-sm" required="required"%}
+                              <div class="invalid-feedback">{{ form.purpose.errors|first }}</div>
+                              
+
+                            </div>                     
+                                
+                           
+                                
+                          </div>
+                          <div class="form-group row">
+                            <label class="col-form-label col-md-2 col-sm-2 label-align" for="last-name">Departure Date:
+                            </label>
+                            <div class="col-md-3 col-sm-3 ">
+                                {% render_field form.departure_date class+="form-control form-control-sm" %}
+                                    <div class="invalid-feedback">{{ form.departure_date.errors|first }}</div>
+                            </div>
+                            <label class="col-form-label col-md-2 col-sm-2 label-align" for="last-name">Return Date:
+                            </label>
+                            <div class="col-md-3 col-sm-3 ">
+                                {% render_field form.return_date class+="form-control form-control-sm" %}
+                                    <div class="invalid-feedback">{{ form.return_date.errors|first }}</div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                        
+     <label class="col-form-label col-md-2 col-sm-2 text-right" >Travel:
+                            </label>
+      
+                            <div class="col-2 col-sm-2">
+                            <label class="col-form-label col-md-2 col-sm-2">Business: {% render_field form.business class="form-control-sm "  %}
+                            </label>
+            
+                            
+                             
+                            </div>
+                                <div class="col-2 col-sm-2">
+                            <label class="col-form-label col-md-2 col-sm-2">R&R: {% render_field form.randr class="form-control-sm "  %}
+                            </label>
+            
+                            
+                             
+                            </div>
+                                <div class="col-2 col-sm-2">
+                            <label class="col-form-label col-md-2 col-sm-2">Relocation: {% render_field form.relocation class="form-control-sm "  %}
+                            </label>
+            
+                            
+                             
+                            </div>
+                                <div class="col-2 col-sm-2">
+                            <label class="col-form-label col-md-2 col-sm-2">Other: {% render_field form.other class="form-control-sm "  %}
+                            </label>
+            
+                            
+                             
+                            </div>
+                            
+                          </div>
+                          <div class="ln_solid"></div>
+                          <div class="form-group row">
+											<div class="col-md-9 col-sm-9  offset-md-3">
+												<button class="btn btn-sm btn-primary" type="reset">Reset</button>
+            <button type="submit" class="btn btn-sm btn-success">Submit</button>
+  <button type="button" class="btn btn-sm btn-secondary" value="Previous Page" onClick="javascript:history.go(0);">Cancel</button>
+											</div>
+										</div>
+                          </form>
+                             {% endwith %}
+                        </div>
+
+                      </section>
+
+{% endblock content_travel_step %}

@@ -1,0 +1,333 @@
+{% extends 'base.html' %}
+
+{% block content_page_css %}
+
+{% endblock%}
+{% load static %}
+{% block content %}
+
+
+ <!-- page content -->
+        <div class="right_col" role="main">
+          <!-- top tiles -->
+          <div class="row" style="display: inline-block;" >
+          <div class="tile_count">
+          <div class="col-md-2 col-sm-4  tile_stats_count">
+              <span class="count_top"><i class="fa fa-university"></i> Portfolio</span>
+              <div class="count green">{{ total_portfolio }}</div>
+              <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
+            </div>
+          
+            <div class="col-md-2 col-sm-4  tile_stats_count">
+              <span class="count_top"><i class="fa fa-briefcase"></i> Program </span>
+              <div class="count">{{total_program}}</div>
+              <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> From last Week</span>
+            </div>
+            
+            <div class="col-md-2 col-sm-4  tile_stats_count">
+              <span class="count_top"><i class="fa fa-file"></i> Intervention</span>
+              <div class="count">{{ total_icn }}</div>
+              <span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i>12% </i> From last Week</span>
+            </div>
+            <div class="col-md-2 col-sm-4  tile_stats_count">
+              <span class="count_top"><i class="fa fa-list-ol"></i> Activity</span>
+              <div class="count">{{ total_activity }}</div>
+              <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
+            </div>
+              <div class="col-md-2 col-sm-4  tile_stats_count">
+              <span class="count_top"><i class="fa fa-user"></i>  User</span>
+              <div class="count">{{total_user}}</div>
+              <span class="count_bottom"><i class="green">4% </i> From last Week</span>
+            </div>
+            <div class="col-md-2 col-sm-4  tile_stats_count">
+              <span class="count_top"><i class="fa fa-map-marker"></i> Imp. Woredas</span>
+              <div class="count">{{total_woreda}}</div>
+              <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
+            </div>
+          </div>
+        </div>
+          <!-- /top tiles -->
+
+         <div class="row">
+            <div class="col-md-12 col-sm-12 ">
+              <div class="dashboard_graph">
+
+                <div class="row x_title">
+                  <div class="col-md-6">
+                    <h3>Program <small> Concept Note Team</small></h3>
+                  </div>
+                  <div class="col-md-6">
+                    <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
+                      <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                      <span>August 19, 2024 - September 17, 2024</span> <b class="caret"></b>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-12 col-sm-12 ">
+                  <div style="width: 100%">
+                       <canvas id="myChart" width="400" height="100"></canvas>
+                      </div>
+                </div>
+                
+
+                <div class="clearfix"></div>
+              </div>
+            </div>
+
+          </div>
+          <br />
+
+          <div class="row">
+
+
+            <div class="col-md-4 col-sm-4 ">
+              <div class="x_panel tile fixed_height_320">
+                <div class="x_title">
+                  <h2>Top Program Users</h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                          <a class="dropdown-item" href="#">Settings 1</a>
+                          <a class="dropdown-item" href="#">Settings 2</a>
+                        </div>
+                    </li>
+                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                 
+                     {% for program in program_users %}
+                    <div>
+                    <p>{{program.title}} - {% widthratio program.num_user total_user 100 %}%</p>
+                      <div class="">
+                        <div class="progress progress_sm" style="width: 76%;">
+                          <div class="progress-bar bg-blue" role="progressbar" data-transitiongoal="{% widthratio program.num_user total_user 100 %}"></div>
+                        </div>
+                      </div>
+                    </div>
+                    {% endfor %}
+                    <div class="clearfix"></div>
+                  </div>
+
+              
+              </div>
+            </div>
+
+            <div class="col-md-4 col-sm-4 ">
+              <div class="x_panel tile fixed_height_320 overflow_hidden">
+                <div class="x_title">
+                  <h2>Intervention</h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                          <a class="dropdown-item" href="#">Settings 1</a>
+                          <a class="dropdown-item" href="#">Settings 2</a>
+                        </div>
+                    </li>
+                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                 
+                       <div id="canvas-holder" style="width:85%"> 
+        <canvas id="chart-area" height="100" width="100" style="margin: 5px 10px 10px 0">
+
+    </div>
+                     
+                </div>
+              </div>
+            </div>
+
+
+            <div class="col-md-4 col-sm-4 ">
+              <div class="x_panel tile fixed_height_320 overflow_hidden">
+                <div class="x_title">
+                  <h2>Activity</h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                          <a class="dropdown-item" href="#">Settings 1</a>
+                          <a class="dropdown-item" href="#">Settings 2</a>
+                        </div>
+                    </li>
+                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                 
+                       <div id="canvas-holder" style="width:85%"> 
+        <canvas id="chart-area2" height="100" width="100" style="margin: 5px 10px 10px 0">
+
+    </div>
+                     
+                </div>
+              </div>
+            </div>
+
+
+         
+                <!-- end of weather widget -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /page content -->
+{% endblock%}
+{% block content_page_js %}
+<script>
+
+var ctx = document.getElementById("myChart").getContext("2d");
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    
+    
+    data: {
+        labels: [{% for user in program_users %} "{{user|truncatechars:5 }}",{% endfor %}],
+        datasets: [{
+            label:'# of program users',
+            
+            data: [{% for user in program_users %} {{user.num_user }},{% endfor %}],
+            backgroundColor: [{% for user in program_users %} 'rgba(38, 185, 154, 1)',{% endfor %}
+                
+            ],
+            borderColor: [{% for user in program_users %} 'rgba(38, 185, 154, 1)',{% endfor %}
+                
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+</script>
+<script>
+var randomScalingFactor = function() {
+        return Math.round(Math.random() * 100);
+    };
+    var randomColorFactor = function() {
+        return Math.round(Math.random() * 255);
+    };
+    var randomColor = function(opacity) {
+        return 'rgba(' + randomColorFactor() + ',' + randomColorFactor() + ',' + randomColorFactor() + ',' + (opacity || '.3') + ')';
+    };
+var ctx = document.getElementById("chart-area").getContext("2d");
+myDoughnut = new Chart(ctx, 
+{
+        type: 'doughnut',
+        data: {
+            datasets: [{
+                data: [{% for icn in icn_status %} {{icn.icn_count }},{% endfor %}],
+                backgroundColor: [{% for isn in icn_status %} randomColor(0.7),{% endfor %}
+                ],
+                label: 'Dataset 1'
+            }, {
+                 hidden: true,
+                data: [{% for asn in icn_report_status %} {{asn.icn_count }},{% endfor %}],
+                backgroundColor: [{% for asn in acn_status %} randomColor(0.7),{% endfor %}
+                ],
+                label: 'Dataset 2'
+            }],
+           labels: [{% for isn in icn_status %} {% if isn.approval_status is None %}"Draft - {% widthratio isn.icn_count total_icn 100 %}%"{% else %} "{{isn.approval_status }} - {% widthratio isn.icn_count total_icn 100 %}%" {% endif %},{% endfor %}
+                ],
+                
+        },
+        options: {
+           legend: {
+           responsive:true,
+      display: true,
+      "labels": {
+            "fontSize": 9,
+          }
+    },
+            title: {
+                display: false,
+                text: 'Doughnut Chart'
+            },
+            animation: {
+                animateScale: true,
+                animateRotate: true
+            }
+        }
+    }
+
+   
+
+);
+</script>
+<script>
+var randomScalingFactor = function() {
+        return Math.round(Math.random() * 100);
+    };
+    var randomColorFactor = function() {
+        return Math.round(Math.random() * 255);
+    };
+    var randomColor = function(opacity) {
+        return 'rgba(' + randomColorFactor() + ',' + randomColorFactor() + ',' + randomColorFactor() + ',' + (opacity || '.3') + ')';
+    };
+var ctx = document.getElementById("chart-area2").getContext("2d");
+myDoughnut = new Chart(ctx, 
+{
+        type: 'doughnut',
+        data: {
+            datasets: [{
+                data: [{% for acn in acn_status %} {{acn.acn_count }},{% endfor %}],
+                backgroundColor: [{% for asn in acn_status %} randomColor(0.7),{% endfor %}
+                ],
+                label: 'Dataset 1'
+            }, {
+                hidden: true,
+                data: [{% for asn in acn_report_status %} {{asn.acn_count }},{% endfor %}],
+                backgroundColor: [{% for asn in acn_status %} randomColor(0.7),{% endfor %}
+                ],
+                label: 'Dataset 2'
+            }],
+           labels:  [{% for isn in acn_status %} {% if isn.approval_status is None %}"Draft - {% widthratio isn.acn_count total_activity 100 %}%"{% else %} "{{isn.approval_status}} - {% widthratio isn.acn_count total_activity 100 %}%" {% endif %},{% endfor %}
+                ],
+        },
+        options: {
+           legend: {
+           responsive:true,
+      display: true,
+      "labels": {
+            "fontSize": 9,
+          }
+    },
+            title: {
+                display: false,
+                text: 'Doughnut Chart'
+            },
+            animation: {
+                animateScale: true,
+                animateRotate: true
+            }
+        }
+    }
+
+   
+
+);
+</script>
+{% endblock %}

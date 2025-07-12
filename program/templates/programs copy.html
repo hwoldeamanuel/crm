@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% block content_page_css %}
+ 
+{% endblock %}
+{% block content %}
+{% load static %}
+<!-- page content -->
+<div class="right_col" role="main">
+    <div class="">
+      <div class="page-title">
+        <div class="title_left">
+          <h3>Program </h3>
+        </div>
+
+   <div class="title_right">
+          <form hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}'>
+            {% csrf_token %}
+            <div class="col-md-5 col-sm-5   form-group pull-right top_search">
+
+               <div class="input-group">
+                  <input name="search" type="text" class="form-control" placeholder="Search for..." 
+                  hx-get="/program/program_filter/"
+                  hx-trigger="keyup changed, search"
+                  hx-target="#program_list">
+                  <span class="input-group-btn">
+                      <button type="button" class="btn btn-secondary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Go!
+                      </button>
+                      <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                          <a class="dropdown-item" href="{% url 'add_program' %}">Add New</a>
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item" href="{% url 'icns' %}">Interventions CN</a>
+                          <a class="dropdown-item" href="{% url 'portfolio' %}">Portfolio</a>
+                          
+                            
+                         </div>
+                      </div>
+                  </span>
+              </div>   
+            </div>        
+          </form>
+       </div>
+      
+      <div class="clearfix"></div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="x_panel">
+            <div class="x_title">
+              <h2>Program List</h2>
+              <ul class="nav navbar-right panel_toolbox">
+                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                </li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <a class="dropdown-item" href="#">Settings 1</a>
+                      <a class="dropdown-item" href="#">Settings 2</a>
+                    </div>
+                </li>
+                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                </li>
+              </ul>
+              <div class="clearfix"></div>
+            </div>
+            <div class="x_content" id="program_list" >
+
+            
+
+              <!-- start project list -->
+           <table class="table table-striped projects">
+                <thead>
+                  <tr>
+                    <th style="width: 1%">#</th>
+                    <th>Portfolio</th>
+                    <th style="width: 25%">Program Name</th>
+                    <th>Team Members</th>
+                    
+                    <th>Dates</th>
+                    <th>Progress</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for program in programs %}
+                  <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td> {{program.portfolio}}</td>
+                    <td>
+                      <a>{{ program.title }}</a>
+                      <br />
+                      <small>{{ program.description }}</small>
+                    </td>
+                    <td>
+                      
+                      <ul class="list-inline">
+                        {% for user in program.users_role.all %}
+                        <li>
+                          <img src="{% static 'images/user.png' %}" class="avatar" title="{{ user.email}}">
+                        </li>
+                         
+                        {% endfor %}
+                    </ul>
+                    </td>
+                    <td>
+                        <a>{{ program.start_date }}</a>
+                        <br />
+                        <small>{{ program.end_date }}</small>
+                    </td>
+                    <td class="project_progress">
+                      <div class="progress progress_sm">
+                        <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="{{ program.get_date_diff }}"></div>
+                      </div>
+                      <small>{{ program.get_date_diff }}</small>
+                    </td>
+                    
+                    <td>
+                      <a href="{% url 'program_detail' program.id %}" class="btn btn-sm btn-info btn-xs"><i class="fa fa-eye"></i> View </a>
+                      
+                     
+                    </td>
+                  </tr>
+                  {% endfor %}
+                  
+                </tbody>
+              </table>
+              <!-- end project list -->
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /page content -->
+
+  {% endblock %}
+
+  {% block content_page_js %}
+ 
+{% endblock %}

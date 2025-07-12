@@ -1,0 +1,12 @@
+create table mcet_client_travel
+(
+id int identity ,
+client_id varchar(255) not null,
+service_date date not null,
+departure_date date NOT NULL,
+departure varchar(255) NOT NULL,
+arrival_date date not null,
+destination varchar(255) NOT NULL,
+PRIMARY KEY (departure_date, departure),
+FOREIGN KEY (client_id, service_date) REFERENCES [dbo].[mcet_client_profile] (client_id, service_date)
+)19c2f515d03d19055b8620060ae82710_9fa449d2d2005d3c1e2a4ebbfb9c23ee706c66c7_base data.parque

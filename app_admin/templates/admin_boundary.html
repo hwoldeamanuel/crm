@@ -1,0 +1,148 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- page content -->
+
+        <div class="right_col" role="main">
+          <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h3>App Settings</h3>
+              </div>
+
+              <div class="title_right">
+          <form hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}'>
+            {% csrf_token %}
+            <div class="col-md-6 col-sm-6   form-group pull-right top_search">
+
+               <div class="input-group">
+                  <input name="search" type="text" class="form-control" placeholder="Search for..." 
+                  hx-get="/setting/admin_filter/"
+                  hx-trigger="keyup changed, search"
+                  hx-target="#admin_list">
+                  <span class="input-group-btn">
+                      <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      New
+                      </button>
+                      <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                          <a class="dropdown-item" hx-get="{% url 'add_region' %}" hx-target="#dialog">Add New Region</a>
+                          <a class="dropdown-item" hx-get="{% url 'add_zone' %}" hx-target="#dialog">Add New Zone</a>
+                          <a class="dropdown-item" hx-get="{% url 'add_woreda' %}" hx-target="#dialog">Add New Woreda</a>
+                         
+                        
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item" href="{% url 'programs' %}">Programs</a>
+                            <a class="dropdown-item" href="{% url 'icns' %}">Interventios CN</a>
+                         </div>
+                      </div>
+                  </span>
+              </div>   
+            </div>        
+          </form>
+       </div>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Administrative Boundaries</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Settings 1</a>
+                            <a class="dropdown-item" href="#">Settings 2</a>
+                          </div>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                     
+                 
+                  <div class="x_content" id="admin_list" hx-trigger="AdminListChanged from:body" hx-get="{% url 'admin_list' %}" hx-target="this">
+                    
+ 
+<table class="table table-striped table-hover">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>RID</th>
+                    <th style="width: 20%">Region </th>
+                                          <th style="width: 10%"></th>
+                    <th>ZID</th>
+                    <th  style="width: 20%">Zone </th>
+                     <th style="width: 10%"></th>
+                    <th>WID</th>
+                    <th  style="width: 20%">Woreda </th>
+                    <th  style="width: 10%"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for woredas in woreda %}
+                <tr> <td> {{ forloop.counter}}</td>
+                    <td>{{woredas.zone.region.id }}</td>
+                    <td>{{woredas.zone.region.name }}</td>
+                    <td class="text-center"><button class="btn btn-sm btn-info" hx-get="{% url 'edit_region' woredas.zone.region.id %}" hx-target="#dialog"><i class="fa fa-edit"></i> </button></td>
+                    <td>{{woredas.zone.id }}</td>
+                    <td>{{woredas.zone.name }}</td>
+                    <td class="text-center"><button class="btn btn-sm btn-info" hx-get="{% url 'edit_zone' woredas.zone.id %}" hx-target="#dialog"><i class="fa fa-edit"></i> </button></td>
+                    <td> {{ woredas.id}} </td>
+                    <td> {{ woredas.name}}   </td>
+                    
+                   <td class="text-center">
+                    <button class="btn btn-sm btn-info" hx-get="{% url 'edit_woreda' woredas.id %}" hx-target="#dialog"><i class="fa fa-edit"></i></button>
+                   
+                  
+                    
+                  </td>
+                    
+                </tr>
+                {% endfor %}
+                </tbody>
+                </table>
+           
+{% if woreda.has_other_pages %}
+  <ul class="pagination">
+    {% if woreda.has_previous %}
+      <li><a href="?page={{ woreda.previous_page_number }}"> &laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in woreda.paginator.page_range %}
+      {% if woreda.number == i %}
+        <li class="paginate_button active active"><span>{{ i }} | <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }} | </a></li>
+      {% endif %}
+    {% endfor %}
+    {% if woreda.has_next %}
+      <li><a href="?page={{ woreda.next_page_number }}"> &raquo;</a></li>
+    {% else %}
+      <li class="paginate_button previous disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
+
+                  </div><div class="modal fade bs-example-modal-lg" id="modal" class="modal fade">
+                       <div id="dialog" class="modal-dialog modal-lg" hx-target="this"></div>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /page content -->
+
+{% endblock%}
+
+{% block content_page_js %}
+
+    
+{% endblock %}

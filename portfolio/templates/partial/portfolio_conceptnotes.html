@@ -1,0 +1,48 @@
+
+
+
+
+<table class="table table-sm table-striped projects">
+    <thead>
+      <tr>
+       <th>Program </th>
+        <th>Type</th>
+  <th>Title</th>
+        
+        <th style="width:17%">Status<small>(Concept N.)</small></th>
+        <th style="width:17%">Status<small>(Report)</small></th>
+      
+       
+      </tr>
+    </thead>
+    <tbody>
+    {% if conceptnotes %}   
+     {% for cn in conceptnotes %}
+      {% if cn.user == request.user or cn.technical_lead.user == request.user or cn.finance_lead.user == request.user or cn.program_lead.user == request.user %}
+     <tr>
+        <td>{% if cn.get_name == "Activity" %}{{ cn.icn.program }} {% else %} {{cn.program}}{% endif %}</td>
+      
+       <td>{{ cn.get_name }}</td>
+       <td>{% if cn.get_name == "Intervention" %} <a href="{% url 'icn_detail' cn.id %}">{{ cn.title }}{% elif cn.get_name == "Activity" %}<a href="{% url 'activity_detail' cn.id %}">{{cn.title}} {% endif %} </a></td>
+      <td>
+                     <span class="badge {% if 'Rejected' in cn.approval_status %} bg-red {% elif 'Approved' in cn.approval_status %} bg-green {% else %} bg-warning {% endif %}">{% if cn.approval_status %} {{ cn.approval_status}} {% else %} Pending Submission {% endif %}</span>
+                   </td>
+       <td>
+       {% if cn.report  %}
+                      <span class="badge {% if 'Rejected' in cn.report %} bg-red {% elif 'Approved' in cn.report %} bg-green {% else %} bg-warning {% endif %}">{% if cn.report %} {{ cn.report}} {% else %} Pending Submission {% endif %}</span>
+                    {% else %}
+                    <span class="badge badge {% if cn.final_report_due_date|timesince > '1 min' %} bg-red {% else %} bg-default{% endif %}">{{cn.final_report_due_date}} </span>
+                     {% endif %}
+                    </td>
+       </tr>
+       {% endif %}
+     {% endfor %}
+ {% endif %}
+    </tbody>
+  </table>
+
+    <!-- Placeholder for the modal -->
+   
+
+    <!-- Empty toast to show the message -->
+  

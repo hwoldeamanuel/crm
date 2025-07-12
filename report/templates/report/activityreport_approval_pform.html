@@ -1,0 +1,65 @@
+ {% csrf_token %}
+                      {% load widget_tweaks %}
+                      {% with WIDGET_ERROR_CLASS='is-invalid' %}
+
+<form  hx-put="{{ request.path }}" hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}' hx-target="#SubmitList">
+    {% csrf_token %}
+ <div class="form-group row">
+  <label class="col-form-label col-md-2 col-sm-2 label-align" for="{{ form.approval_note.id_for_label }}">Approval Note <span class="required">*</span>
+  </label>
+  <div class="col-md-8 col-sm-8">
+    {%  render_field form.approval_note class+="form-control required" %}
+    <div class="invalid-feedback">{{ form.approval_note.errors|first }}</div>
+</div>
+</div>
+<div class="form-group row">
+  <label class="col-form-label col-md-2 col-sm-2 label-align" for="{{ form.approval_status.id_for_label }}">Approval Status <span class="required">*</span>
+  </label>
+  <div class="col-md-4 col-sm-4">
+    {%  render_field form.approval_status class+="form-control form-control-sm required" %}
+    <div class="invalid-feedback">{{ form.approval_status.errors|first }}</div>
+</div>
+</div>          
+ <div class="form-group row">
+  <label class="col-form-label col-md-2 col-sm-2 label-align" for="{{ form.document.id_for_label }}">Report Version <span class="required">*</span>
+  </label>
+  <div class="col-md-4 col-sm-4" >
+    <div hx-trigger="DocListChanged from:body" hx-get="{% url 'activityreport_submit_form_partial' activityreport.id %}" hx-target="this"> 
+    {%  render_field form.document class+="form-control form-control-sm" %}
+    </div>
+    <div class="invalid-feedback">{{ form.document.errors|first }}</div>
+</div>
+  <div class="col-md-3 col-sm-3">
+ <button type="button" {% if did != 2 %} disabled {% endif%} hx-get="/report/activityreport_submit_document/{{activityreport.id}}/" hx-target="#dialog" class="btn btn-info btn-sm" ><i class="fa fa-paperclip"></i> Attach Report</button>
+   
+</div>
+
+</div>
+
+ <div class="ln_solid"></div>
+    <div class="item form-group">
+        <div class="col-md-6 col-sm-6 offset-md-3">
+
+            <button class="btn btn-primary" type="reset">Reset</button>
+            <button type="submit" class="btn btn-success">Submit</button>
+  <button type="button" class="btn btn-secondary" value="Previous Page" onClick="javascript:history.go(0);">Close</button>
+        </div>
+    </div>
+<!-- Large modal -->
+
+         
+
+   
+                  
+
+
+                        
+
+                      
+                     
+</form>
+
+{% endwith %}
+
+
+ 

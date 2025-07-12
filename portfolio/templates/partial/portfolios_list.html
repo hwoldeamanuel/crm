@@ -1,0 +1,45 @@
+<table class="table table-striped projects">
+                <thead>
+                  <tr class="text-center" >
+                    <th style="width: 1%">#</th>
+                    
+                    <th style="width: 35%" class="text-left">Partners' Name<small><i> (Address/URL)</i></small></th>
+                    <th style="width: 23%" class="text-left">Type</th>
+                    <th style="width: 16%" class="text-left">Category</th>
+                    <th style="width: 13%">S.Date<small><i>(Partnership)</i></small></th>
+                  
+                   
+                    <th style="width: 12%"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for portfolio in portfolios %}
+                  <tr>
+                    <td>{{forloop.counter}}</td>
+                    
+                  
+                    <td> {{ portfolio.title_short }}</br>
+                    <small>{{portfolio.title}}</small></br>
+                    <small><a href="{{ portfolio.address_url }}" target="_blank">{{ portfolio.address_url }}</a>
+                    </small>
+                    </td>
+                   
+                  
+                    <td> {{ portfolio.type }}</td>
+                     <td> {{ portfolio.category }}</td>
+                      <td> {{ portfolio.start_date }}</td>
+                      
+                    
+                      
+                  
+                    <td class="text-right">
+                      
+
+                      <a href="{% url 'portfolio_detail' portfolio.pk %}" class="btn btn-sm btn-info"><i class="fa fa-eye"></i> View</a>
+
+                    </td>
+                  </tr>
+                  {% endfor %}
+                  
+                </tbody>
+              </table>

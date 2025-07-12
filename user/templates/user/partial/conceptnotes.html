@@ -1,0 +1,90 @@
+
+
+<table class="table table-sm table-striped projects">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Program</th>
+        <th>Type</th>
+  <th>ID</th>
+        <th>CN</th>
+        <th>Report</th>
+      <th>CN</th>
+        <th>Report</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% if qsi %}   
+     {% for cn in qsi %}
+     <tr>
+       <td>{{ forloop.counter}}</td>
+       <td>{{cn.program}}
+       
+       </td>
+       <td>Intervention</td>
+       <td> <a href="{% url 'icn_detail' cn.id %}">{{ cn.icn_number }}</a></td>
+       <td> {% if cn.user == request.user %}Initiator
+            {% elif cn.technical_lead.user == request.user %}Technical.L 
+            {% elif cn.program_lead.user == request.user %}Program.L
+            {% elif cn.finance_lead.user == request.user %}Finance.L
+             {% elif cn.mel_lead.user == request.user %}MEL.L
+            {% endif%}</td> <td>
+            {% if cn.icnreport.user == request.user %}Initiator
+            {% elif cn.icnreport.technical_lead.user == request.user %}Technical.L 
+            {% elif cn.icnreport.program_lead.user == request.user %}Program.L
+            {% elif cn.icnreport.finance_lead.user == request.user %}Finance.L
+            {% elif cn.icnreport.mel_lead.user == request.user %}MEL.L
+            {% endif%}
+            
+        </td>
+
+       <td>
+       <span class="badge {% if 'Rejected' in cn.approval_status %} bg-red {% elif 'Approved' in cn.approval_status %} bg-green {% else %} bg-warning {% endif %}">{% if cn.approval_status %} {{ cn.approval_status}} {% else %}Pending{% endif %}</span></td> <td>
+        <span class="badge {% if 'Rejected' in cn.icnreport.approval_status %} bg-red {% elif 'Approved' in cn.icnreport.approval_status %} bg-green {% else %} bg-warning {% endif %}">{% if cn.icnreport.approval_status %} {{ cn.icnreport.approval_status}} {% else %}Pending{% endif %}</span>
+       </td>
+       
+     </tr>
+     {% endfor %}
+ {% endif %}
+  {% if qsa %}   
+     {% for cn in qsa %}
+ <tr>
+       <td>{{ forloop.counter|add:qsi.count}}</td>
+       <td>{{cn.icn.program}}
+       
+       </td>
+       <td>Activity</td>
+       <td> <a href="{% url 'activity_detail' cn.id %}">{{ cn.acn_number }}</a></td>
+       <td> {% if cn.user == request.user %}Initiator
+            {% elif cn.technical_lead.user == request.user %}Technical.L 
+            {% elif cn.program_lead.user == request.user %}Program.L
+            {% elif cn.finance_lead.user == request.user %}Finance.L
+            {% elif cn.mel_lead.user == request.user %}MEL.L
+            {% endif%}</td> <td>
+            {% if cn.activityreport.user == request.user %}Initiator
+            {% elif cn.activityreport.technical_lead.user == request.user %}Technical.L 
+            {% elif cn.activityreport.program_lead.user == request.user %}Program.L
+            {% elif cn.activityreport.finance_lead.user == request.user %}Finance.L
+             {% elif cn.activityreport.mel_lead.user == request.user %}MEL.L
+            {% endif%}
+            
+        </td>
+
+       <td>
+       
+       <span class="badge {% if 'Rejected' in cn.approval_status %} bg-red {% elif 'Approved' in cn.approval_status %} bg-green {% else %} bg-warning {% endif %}">{% if cn.approval_status %} {{ cn.approval_status}} {% else %}Pending{% endif %}</span>
+</td> <td>
+        <span class="badge {% if 'Rejected' in cn.activityreport.approval_status %} bg-red {% elif 'Approved' in cn.activityreport.approval_status %} bg-green {% else %} bg-warning {% endif %}">{% if cn.activityreport.approval_status %} {{ cn.activityreport.approval_status}}{% else %}Pending{% endif %}</span>
+       </td>
+       
+     </tr>
+     {% endfor %}
+ {% endif %}
+    </tbody>
+  </table>
+
+    <!-- Placeholder for the modal -->
+   
+
+    <!-- Empty toast to show the message -->
+  

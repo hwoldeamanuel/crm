@@ -1,0 +1,221 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+<!-- page content -->
+<div class="right_col" role="main">
+    <div class="">
+      <div class="page-title">
+        <div class="title_left">
+          <h3>Intervention Report</h3>
+        </div>
+
+        <div class="title_right">
+          <form hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}'>
+            {% csrf_token %}
+            <div class="col-md-5 col-sm-5   form-group pull-right top_search">
+
+               <div class="input-group">
+                  <input name="search" type="text" class="form-control" placeholder="Search for..." 
+                  hx-get="/report/icnreport_filter/"
+                  hx-trigger="keyup changed, search"
+                  hx-target="#icnreport_list">
+                  <span class="input-group-btn">
+                      <button type="button" class="btn btn-secondary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Go!
+                      </button>
+                      
+                      </div>
+                  </span>
+              </div>   
+            </div>        
+          </form>
+       </div>
+      </div>
+  
+    <div class="clearfix"></div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="x_panel">
+            <div class="x_title">
+              <h2>Intervention Report List</h2>
+              <ul class="nav navbar-right panel_toolbox">
+                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                </li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <a class="dropdown-item" href="#">Settings 1</a>
+                      <a class="dropdown-item" href="#">Settings 2</a>
+                    </div>
+                </li>
+                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                </li>
+              </ul>
+              <div class="clearfix"></div>
+            </div>
+            <div class="x_content" id="icnreport_list">
+
+
+            <style>
+    th {
+      text-align: center;
+
+    }
+    </style>
+
+              <!-- start project list -->
+
+             <table class="table table-striped ">
+                     
+                  
+                <thead>
+                        <tr>
+                    <th style="width:">#</th>
+                     
+                    <th style="width: 10%">Program</th>
+                    <th style="width: 30%">Intervention Title</th>
+                    <th style="width: 18%">Team Members</th>
+               
+                    <th style="width: 12%">Dates</th>
+                    <th>Submission</th>
+                     <th>Approval</th>
+                     <th></th>
+                     </tr>
+                </thead>
+                <tbody>
+                {% if icns %}
+                    {% for icn in icns %}
+                    {% if icn.icnreport %}
+                  <tr>
+                    <td>{{ forloop.counter }}</td>
+<td> {{ icn.icnreport.icn.program }}</br>
+<small>{{ icn.icnreport.icn.program.portfolio }}</small></td>
+                    <td>
+                      <a>{{ icn.icnreport.icn.title }}</a>
+                      <br />
+                      <small>{{icn.icnreport.created_at }}</small>
+                    </td>
+                    <td>
+                      <ul class="list-inline">
+                        
+                            <li>
+                          <img src="{% static 'images/user.png' %}" class="avatar" title="{{ icn.icnreport.user }}">
+                        </li>
+                      
+                        <li>
+                          <img src="{% static 'images/user.png' %}" class="avatar" title="{{ icn.icnreport.technical_lead.user }}">
+                        </li>
+                           <li>
+                          <img src="{% static 'images/user.png' %}" class="avatar" title="{{ icn.icnreport.program_lead.user }}">
+                        </li>
+                          <li>
+                          <img src="{% static 'images/user.png' %}" class="avatar" title="{{ icn.icnreport.finance_lead.user }}">
+                        </li>
+                        
+                      </ul>
+                    </td>
+                    <td>
+                        <small>{{ icn.icnreport.actual_start_date }}</small>
+                        <br />
+                        <small>{{ icn.icnreport.actual_end_date }}</small>
+                    </td>
+                    <td>
+                      <span class="badge {% if icn.icnreport.status == True %}badge bg-green {% else %} badge bg-red {% endif %}">{{ icn.icnreport.get_status_display}}</span>
+                   </td>
+                   <td>
+                      <span class="badge {% if 'Rejected' in icn.icnreport.approval_status %} bg-red {% elif 'Approved' in icn.icnreport.approval_status %} bg-green {% else %} bg-warning {% endif %}">{% if icn.icnreport.approval_status %} {{ icn.icnreport.approval_status}} {% else %} Pending {% endif %}</span>
+                    </td>
+                    
+                    <td>
+                      
+                    <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action
+                     
+                    </button>
+                    <div class="dropdown-menu" x-placement="top-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, -187px, 0px);">
+                      <a class="dropdown-item" href="{% url 'icnreport_detail' icn.icnreport.id %}">View</a>
+                      
+                      
+                      <a class="dropdown-item" href="#">Action</a>
+                      <a class="dropdown-item" href="#">Another action</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="{% url 'icnreport_submit_approval' icn.icnreport.id %}">Approval</a>
+                    </div>
+                  </div>
+                     
+                     
+                    </td>
+                  </tr>
+                  {% else %}
+                                  <tr>
+                    <td>{{ forloop.counter }}</td>
+<td> {{ icn.program }}</br>
+<small>{{ icn.program.portfolio }}</small></td>
+                    <td>
+                      <a>{{ icn.title }}</a>
+                      <br />
+                      <small>{{icn.created_at }}</small>
+                    </td>
+                    <td>
+                      <ul class="list-inline">
+                        
+                            <li>
+                          <img src="{% static 'images/user.png' %}" class="avatar" title="{{ icn.user }}">
+                        </li>
+                      
+                        <li>
+                          <img src="{% static 'images/user.png' %}" class="avatar" title="{{ icn.technical_lead.user }}">
+                        </li>
+                           <li>
+                          <img src="{% static 'images/user.png' %}" class="avatar" title="{{ icn.program_lead.user }}">
+                        </li>
+                          <li>
+                          <img src="{% static 'images/user.png' %}" class="avatar" title="{{ icn.finance_lead.user }}">
+                        </li>
+                        
+                      </ul>
+                    </td>
+                    <td>
+                        <small>{{ icn.proposed_start_date }}</small>
+                        <br />
+                        <small>{{ icn.proposed_end_date }}</small>
+                    </td>
+                    <td>
+                      <span class="badge badge bg-red">Report Pending </span>
+                   </td>
+                   <td>
+                      
+                    </td>
+                    
+                    <td>
+                      
+                    <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action
+                     
+                    </button>
+                    <div class="dropdown-menu" x-placement="top-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, -187px, 0px);">
+                      <a class="dropdown-item" href="{% url 'icnreport_add' icn.id %}">Add Report</a>
+                      
+                      
+                      
+                    </div>
+                  </div>
+                     
+                     
+                    </td>
+                  </tr>
+                  {% endif %}
+                  {% endfor %}
+                  {% endif %}
+                </tbody>
+              </table>
+              <!-- end project list -->
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /page content -->
+
+  {% endblock %}

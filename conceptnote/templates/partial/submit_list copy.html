@@ -1,0 +1,117 @@
+
+<table class="data table table-striped no-margin">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Team Lead</th>
+        <th>Date</th>
+        <th>Concept Note Ver#</th>
+        <th >Status</th>
+      
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>
+          <a>Initiator</a>
+          <br />
+          <small>{{ icn.user }}</small>
+        </td>
+        {% if icnsubmit %}
+        <td>{{icnsubmit.submission_date}}</td>
+        <td>{{icnsubmit.document }}</td>
+        <td>
+          <button type="button" class="btn btn-success btn-sm btn-xs" >{{ icnsubmit.get_submission_status_display}}</button>
+          {% if request.user.id == icn.user.id %}<span type="button" class="glyphicon glyphicon-repeat" aria-hidden="true"  hx-get="{% url 'icn_submit_form' icn.id %}" hx-target="#SubmitList" ></span>{% endif %}
+        
+       
+ </td>
+        
+        {% else %}
+        <td></td>
+        <td></td>
+     
+        <td>
+            <button type="button" class="btn btn-primary btn-sm btn-xs" {% if request.user.id == icn.user.id %} hx-get="{% url 'icn_submit_form' icn.id %}" hx-target="#SubmitList" {% endif %}>Submit Request </button>
+        =</td>
+        {% endif%}
+
+
+
+
+    
+</tr>
+            <tr>
+        <td>2</td>
+        <td>
+          <a>Techncial</a>
+          <br />
+          <small>{{ icn.technical_lead.username }}</small>
+        </td>
+        {% if icnsubmit %}
+        <td>{{icnsubmit.icnsubmitapproval_t.approval_date}}</td>
+        <td>{{icnsubmit.icnsubmitapproval_t.document }}</td>
+        <td>
+          <button type="button" class="{% if icnsubmit.icnsubmitapproval_t.approval_status == 1 %} btn btn-primary btn-sm btn-xs{% elif icnsubmit.icnsubmitapproval_t.approval_status == 2 %}btn btn-warning btn-sm btn-xs {% elif icnsubmit.icnsubmitapproval_t.approval_status == 3 %}btn btn-success btn-sm btn-xs{% elif icnsubmit.icnsubmitapproval_t.approval_status == 4 %}btn btn-danger btn-sm btn-xs{% endif %}" {% if request.user.id == icn.technical_lead_id %} hx-get={% url 'icn_approvalt' icnsubmit.id %} hx-target="#SubmitList"{% endif %}> {{ icnsubmit.icnsubmitapproval_t.get_approval_status_display}}</button>
+        </td>
+        {% else %}
+        <td></td>
+        <td></td>
+        <td></td>
+    
+        {% endif%}
+
+
+
+
+    
+</tr>
+<tr>
+    <td>3</td>
+    <td>
+      <a>Program</a>
+      <br />
+      <small>{{ icn.program_lead.username }}</small>
+    </td>
+    {% if icnsubmit %}
+    <td>{{icnsubmit.icnsubmitapproval_p.approval_date}}</td>
+    <td>{{icnsubmit.icnsubmitapproval_p.document}}</td>
+    <td>
+      <button type="button" class="{% if icnsubmit.icnsubmitapproval_p.approval_status == 1 %} btn btn-primary btn-sm btn-xs{% elif icnsubmit.icnsubmitapproval_p.approval_status == 2 %}btn btn-warning btn-sm btn-xs {% elif icnsubmit.icnsubmitapproval_p.approval_status == 3 %}btn btn-success btn-sm btn-xs{% elif icnsubmit.icnsubmitapproval_p.approval_status == 4 %}btn btn-danger btn-sm btn-xs{% endif %}" {% if request.user.id == icn.program_lead_id %} hx-get={% url 'icn_approvalp' icnsubmit.id %} hx-target="#SubmitList" {% endif %}>{{ icnsubmit.icnsubmitapproval_p.get_approval_status_display}}</button>
+    </td>
+    {% else %}
+    <td></td>
+    <td></td>
+    <td></td>
+
+    {% endif%}
+
+
+
+</tr>
+<tr>
+    <td>4</td>
+    <td>
+      <a>Finance</a>
+      <br />
+      <small>{{ icn.finance_lead.username }}</small>
+    </td>
+    {% if icnsubmit %}
+    <td>{{icnsubmit.icnsubmitapproval_f.approval_date}}</td>
+    <td>{{icnsubmit.icnsubmitapproval_f.document }}</td>
+    <td>
+      <button type="button" class="{% if icnsubmit.icnsubmitapproval_f.approval_status == 1 %} btn btn-primary btn-sm btn-xs{% elif icnsubmit.icnsubmitapproval_f.approval_status == 2 %}btn btn-warning btn-sm btn-xs {% elif icnsubmit.icnsubmitapproval_f.approval_status == 3 %}btn btn-success btn-sm btn-xs{% elif icnsubmit.icnsubmitapproval_f.approval_status == 4 %}btn btn-danger btn-sm btn-xs{% endif %}" {% if request.user.id == icn.finance_lead_id %} hx-get={% url 'icn_approvalf' icnsubmit.id %} hx-target="#SubmitList" {% endif %}>{{ icnsubmit.icnsubmitapproval_f.get_approval_status_display}}</button>
+    </td>
+    {% else %}
+    <td></td>
+    <td></td>
+    <td></td>
+
+    {% endif%}
+
+
+
+</tr>
+    </tbody>
+  </table>

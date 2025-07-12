@@ -1,0 +1,218 @@
+{% extends "travel_step.html" %}
+
+{% block content_travel_step %}
+{% load static %}
+{% load humanize%}
+<style>
+        table,
+       td {
+           
+            text-align: left;
+            padding: 0px;
+        }
+
+        tr {
+            height: 10px;
+            padding: 0px;
+        }
+        th {
+            height: 10px;
+            padding: 0px;
+            font-size: 11px;
+            color:#5A738E;
+        }
+          td {
+            height: 10px;
+            padding: 0px;
+            font-size: 12px;
+            color:#5A738E;
+        }
+    </style>
+
+    <div class="col-md-7 col-sm-7  profile_left">
+              <div class="profile_img">
+                        <div id="crop-avatar">
+                          <!-- Current avatar -->
+                          <img class="img-responsive avatar-view" src="{% static 'images/logo.png' %}" alt="Avatar" title="Change the avatar" style="width: 100px; height: auto;" >
+                        </div>
+              </div>
+                     
+                      <!-- end of skills -->
+
+    </div>
+  <div class="col-md-5 col-sm-5 ">
+
+              <div class="title">
+                        <div class="col-md-12">
+                          <h6>Travel Approval Request</h6>
+                        </div>
+ <div class="col-md-12">
+                          <h6> Field Finance Manual - Form 6.5A</h5>
+                        </div>
+                         
+                        
+                      </div>
+                      <!-- start of user-activity-graph -->
+                     
+                       
+                  </div>
+
+                 
+                  
+    <div class="container">
+
+
+<div class="card">
+          <div class="card-header py-0" style="margin-top:0px; margin-bottom:0px">
+
+           <strong>B. Estimated Travel Cost</strong> 
+ 
+
+          </div>
+
+ <div class="col-sm-12 col-md-12" >
+
+
+<table class="table table-sm  " style="margin-top:0px; margin-bottom:0px">
+                      <thead>
+                      <tr>
+                      <tr style="font-size: 0.8em;">
+                                
+                                  <th style="width:17%"></th>
+                                  <th style="width:35%">Desciption</th>
+                                  <th style="width:10%"># Unit/Day</th>
+                                  <th style="width:13%">Unit Cost</th>
+                                  <th style="width:15%">Total Cost</th>
+                                  <th></th>
+                                                                 </tr>
+                      </thead>
+                      <tbody hx-trigger="CostChanged from:body" hx-get= "{% url 'cost_list' trequest.id %}" hx-target="this">
+                      {% for tc in trequest.estimated_cost_set.all %}
+                      {% if tc.type.name != 'Per Diem' %}
+                        <tr>
+                          <th>{{tc.type.name}}</th>
+                          <td>{{tc.description }}</td>
+                           <td>{{tc.number_unit_day }}</td>
+                            <td>{{tc.unit_cost|floatformat:"2g" }}</td>
+                             <td>{{tc.total_cost|floatformat:"2g" }}</td>
+                               <td>
+                                   <a href="#" hx-get="/travel/edit_travel_cost/{{ tc.id }}/" class="btn btn-sm btn-info py-0 {% if trequest.requestsubmit.status_id == 2 %} disabled {% endif %}" style="font-size: 0.8em;"  hx-target="closest tr" hx-swap="outerHTML"><i class="fa fa-edit"></i></a></td>
+                              
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
+                        <tr>
+                        <td></td>
+                       <td class="text-right" colspan="3">Total  Estimated Travel Costs									
+                        <th > {{trequest.get_tcost_total|floatformat:"2g"}}</th>
+                         <td style="border: 1px dotted red;">
+                                   <a href="#" class="btn btn-sm btn-primary py-0 {% if trequest.requestsubmit.status_id == 2 %} disabled {% endif %}" style="font-size: 0.8em;" hx-get="/travel/add_travel_cost/{{ trequest.id }}/" hx-target="closest tr" hx-swap="outerHTML"><i class="fa fa-plus-square"></i></a></td>
+                        <tr>
+                       
+                      </tbody>
+                    </table>
+</div>
+<div>
+
+<div class="card">
+          <div class="card-header py-0" style="margin-top:0px; margin-bottom:0px">
+
+           <strong>C. Per Dium</strong> 
+ 
+
+          </div>
+
+ <div class="col-sm-12 col-md-12" >
+
+
+<table class="table table-sm  " style="margin-top:0px; margin-bottom:0px">
+                      <thead>
+                      <tr>
+                      <tr style="font-size: 0.8em;">
+                                
+                                  <th style="width:17%"></th>
+                                  <th style="width:35%">Location</th>
+                                  <th style="width:10%">Cost/Day</th>
+                                  <th style="width:13%">Unit Cost</th>
+                                  <th style="width:15%">Total Cost</th>
+                                  <th></th>
+                                                                 </tr>
+                      </thead>
+                      <tbody>
+                      {% for tc in trequest.estimated_cost_set.all %}
+                      {% if tc.type.name == 'Per Diem' %}
+                        <tr>
+                          <th>{{tc.type.name}}</th>
+                          <td>{{tc.description }}</td>
+                           <td>{{tc.number_unit_day }}</td>
+                            <td>{{tc.unit_cost|floatformat:"2g" }}</td>
+                             <td>{{tc.total_cost|floatformat:"2g" }}</td>
+                            <td>
+                                   <a href="#" hx-get="/travel/edit_travel_costp/{{ tc.id }}/" class="btn btn-sm btn-info py-0 {% if trequest.requestsubmit.status_id == 2 %} disabled {% endif %}" style="font-size: 0.8em;"  hx-target="closest tr" hx-swap="outerHTML"><i class="fa fa-edit"></i></a></td>
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
+                        <tr>
+                        <td></td>
+                        
+                          								
+
+                           <td class="text-right" colspan="3">Total Per Diem	
+</td>
+                        <th >{% if trequest.get_tcostp_total%} {{trequest.get_tcostp_total|floatformat:"2g"}}{% else %}0.00 {% endif %}</th>
+                        <td>
+                                   <a href="#" class="btn btn-sm btn-primary py-0 {% if trequest.requestsubmit.status_id == 2 %} disabled {% endif %}" style="font-size: 0.8em;" hx-get="/travel/add_travel_costp/{{ trequest.id }}/" hx-target="closest tr" hx-swap="outerHTML"><i class="fa fa-plus-square"></i></a></td>
+                        <tr>
+                      </tbody>
+                    </table>
+</div>
+<div>
+
+</div>
+
+
+
+</div>
+
+
+
+</div>
+<div class="card">
+          <div class="card-header py-0" style="margin-top:0px; margin-bottom:0px">
+
+           <strong>D.  Total Estimated Cost Total  (B+C)
+</strong> 
+ 
+
+          </div>
+          <div class="col-sm-12 col-md-12" >
+
+
+<table class="table table-sm  "  style="margin-top:0px; margin-bottom:0px">
+                      <thead>
+                       
+                      </thead>
+                      <tbody>
+                      <tr>
+                                <th style="width:17%"></th>
+                                  <th style="width:35%"></th>
+                                  <th style="width:10%">Currency</th>
+                                  <td style="width:13%" class="text-center">Birr</td>
+                                 <th style="width:15%" class="text-left" >{{trequest.get_cost_total|floatformat:"2g"}}</th>
+                                                                 </tr>
+                    
+                    
+                      
+                      
+                      </tbody>
+                      </table>
+          </div>            
+</div>
+</div>
+
+<div class="modal fade bs-example-modal-sm" id="modal" class="modal fade">
+                       <div id="dialog" class="modal-dialog modal-sm" hx-target="this"></div>
+                    </div>
+</div>
+</div></div>
+{% endblock content_travel_step %}

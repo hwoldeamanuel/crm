@@ -1,0 +1,80 @@
+
+{% extends 'base.html' %}
+
+{% block content_page_css %}
+ 
+{% endblock %}
+{% block content %}
+<!-- page content -->
+        <div class="right_col" role="main">
+          <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h3>App Settings</h3>
+              </div>
+
+             <div class="title_right">
+          <form hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}'>
+            {% csrf_token %}
+            <div class="col-md-5 col-sm-5   form-group pull-right top_search">
+
+               <div class="input-group">
+                  <input name="search" type="text" class="form-control" placeholder="Search for..." 
+                  hx-get="/setting/type_filter/"
+                  hx-trigger="keyup changed, search"
+                  hx-target="#type_list">
+                  <span class="input-group-btn">
+                      <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <span style="font-size:smaller;">New</span>
+                      </button>
+                      <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                          <a class="dropdown-item" hx-get="{% url 'add_type' %}" hx-target="#dialog">Add Type</a>
+                        
+                          <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" hx-get="{% url 'add_category' %}" hx-target="#dialog">Add Category</a>
+                          
+                           
+                         </div>
+                      </div>
+                  </span>
+              </div>   
+            </div>        
+          </form>
+       </div>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <div class="row">
+              <div class="col-md-12 col-sm-12  ">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Portfolio Type and Category</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Settings 1</a>
+                            <a class="dropdown-item" href="#">Settings 2</a>
+                          </div>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content" id="type_list" hx-trigger="load, PortfolioListChanged from:body" hx-get="{% url 'type_list' %}" hx-target="this">
+                      
+                  </div>
+                </div> <div class="modal fade bs-example-modal-lg" id="modal" class="modal fade">
+                       <div id="dialog" class="modal-dialog modal-lg" hx-target="this"></div>
+                    </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /page content -->
+
+{% endblock%}

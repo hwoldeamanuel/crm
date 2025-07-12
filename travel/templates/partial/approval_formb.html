@@ -1,0 +1,59 @@
+{% csrf_token %}
+                      {% load widget_tweaks %}
+                      {% with WIDGET_ERROR_CLASS='is-invalid' %}
+
+<form  hx-post="{{ request.path }}" hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}' >
+    {% csrf_token %}
+  
+    <h6 class="text-center">Approval Form</h6>
+   
+ <div class="form-group row">
+
+  <label class="col-form-label label-align col-md-2 col-sm-2">Approval Status:
+  </label>
+  <div class="col-md-3 col-sm-3">
+    {%  render_field form.approval_status class+="form-control form-control-sm  required" %}
+    <div class="invalid-feedback">{{ form.approval_status.errors|first }}</div>
+
+</div>
+</div>
+ <div class="form-group row">
+  <label class="col-form-label label-center label-align col-md-2 col-sm-2" >Comment(S):
+  </label>
+  <div class="col-md-9 col-sm-9">
+    {%  render_field form.approval_note class+="form-control required" %}
+    <div class="invalid-feedback">{{ form.approval_note.errors|first }}</div>
+</div>
+</div>
+
+
+</div>
+
+ <div class="ln_solid"></div>
+    <div class="item form-group">
+        <div class="col-md-6 col-sm-6 offset-md-3">
+ <button type="button" class="btn btn-secondary btn-sm" value="Previous Page" onClick="javascript:history.go(0);">Close</button>
+            <button class="btn btn-primary btn-sm" type="reset">Reset</button>
+            <button type="submit" class="btn btn-success btn-sm">Submit</button>
+            
+ 
+        </div>
+    </div>
+<!-- Large modal -->
+
+         
+
+   
+                  
+
+
+                        
+
+                      
+                     
+</form>
+
+{% endwith %}
+
+
+ 

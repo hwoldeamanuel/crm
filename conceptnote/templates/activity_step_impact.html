@@ -1,0 +1,106 @@
+
+{% extends "activity_step.html" %}
+
+{% block content_intervention_step %}
+<div class="row">
+						<div class="col-md-12 col-sm-12 ">
+							<div class="x_panel">
+								<div class="x_title">
+									<h2>Target<small>Activity</small></h2>
+									<ul class="nav navbar-right panel_toolbox">
+										<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+										</li>
+										<li class="dropdown">
+											<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+											<ul class="dropdown-menu" role="menu">
+												<li><a class="dropdown-item" href="#">Settings 1</a>
+												</li>
+												<li><a class="dropdown-item" href="#">Settings 2</a>
+												</li>
+											</ul>
+										</li>
+										<li><a class="close-link"><i class="fa fa-close"></i></a>
+										</li>
+									</ul>
+									<div class="clearfix"></div>
+								</div>
+								<div class="x_content">
+									{% load humanize %}
+       <div id="ImpactList" hx-trigger="AImpactListChanged from:body" hx-get="{% url 'activity_impact_list' activity.id %}" hx-target="this" >
+      <table class="data table table-sm table-striped no-margin" style="width:100%">
+        <thead>
+            <tr>
+              <th>#</th>
+            <th style="width: 25%">Indicator</th>
+              <th style="width: 15%">Disaggregates</th>
+              <th style="width: 10%">Unit</th>
+            <th  >Pilot <small>Target</small></th>
+             <th >Scale-Up <small>Target</small></th>
+            
+            <th  style="width: 25%"><small>Intervention</small> Target</th>
+               
+            </tr>
+        </thead>
+        <tbody>
+            {%  if impacts %}
+            {% for impact in impacts %}
+            <tr>
+               <td>{{forloop.counter}}</td>
+           
+                <td class="vertical-align-mid">
+                                    
+                                  {{ impact.title }}</td>
+                <td class="vertical-align-mid">{{ impact.description }}</td>
+                  <td class="vertical-align-mid">{{ impact.get_unit_display }}</td>
+                <td class="vertical-align-mid">{{ impact.impact_pilot|intcomma }}</td>
+                <td class="vertical-align-mid">{{ impact.impact_scaleup|intcomma }}</td>
+                <td class="vertical-align-mid">
+                 {% for indicator in impact.impact.all %}
+                        <li>
+                         {{ indicator.title }}
+                        </li>
+                         
+                        {% endfor %}
+                
+                </td>
+                <td class="vertical-align-mid">
+
+                     <a class="btn btn-sm btn-info source" {% if activity.status == True or activity.user != request.user %} IareaListChanged from:body, onclick="new PNotify({
+                                  title: 'Permission',
+                                  text: 'Current User doesnot match with ICN Owner and/or ICN submission status should be Draft;',
+                                  type: 'info',
+                                  styling: 'bootstrap3'
+                              });" {% else %} hx-get="/conceptnote/edit_activity_impact/{{impact.pk}}/ {% endif %}" hx-target="#dialog" ><i class="fa fa-edit m-right-xs"></i></a>
+                    
+                    
+                    
+                    
+                </td>
+            </tr>
+            {% endfor %}
+            
+        </tbody>
+{% endif %}
+    </table>
+    </div>
+  <button class="btn btn-primary btn-sm source" {% if activity.status == True or activity.user != request.user %} IareaListChanged from:body, onclick="new PNotify({
+                                  title: 'Permission',
+                                  text: 'Current User doesnot match with Activity Owner or Activity isnot in Draft status;',
+                                  type: 'info',
+                                  styling: 'bootstrap3'
+                              });" {% else %} hx-get="/conceptnote/add_activity_impact/{{activity.id}}/ {% endif %}" hx-target="#dialog" ><i class="fa fa-plus"> Add Target</i></button>
+                         
+<div class="modal fade bs-example-modal-lg" id="modal" class="modal fade">
+                                                  <div id="dialog" class="modal-dialog modal-lg" hx-target="this"></div>
+                                              </div>   
+
+								</div>
+							</div>
+						</div>
+					</div>
+
+				
+						</div>
+					</div>
+				</div>
+{% endblock %}

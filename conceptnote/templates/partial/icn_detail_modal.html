@@ -1,0 +1,97 @@
+
+
+
+ <div class="modal-content">
+   
+
+ <div class="modal-header">
+                          <h5 class="modal-title" id="myModalLabel2">{{ icn.title }}</h5>
+                          
+                          
+                             </br>                        
+                          <button type="button" class="btn-close" class="close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </button>
+                        </div>
+                         <div class="col-md-12 col-sm-12">
+                         <div class="col-md-4 col-sm-4">
+                   
+                       
+                                    <p>Lead Agency: {{ icn.ilead_agency }}</p>
+                                    <p>Co-Lead Agency:
+                            {% for colead in icn.ilead_co_agency.all %}
+                            {{colead}},
+                            {% endfor %}</p>
+                        
+                                    <p class="">Proposed Start Date
+                            {{icn.proposed_start_date}}</p>
+                            <p class="">Proposed End Date
+                            {{icn.proposed_end_date}}</p>
+                            <p>Final Report due date:   {{ icn.final_report_due_date}}</p>
+                        </div>
+                      
+                        <div class="col-md-4 col-sm-4">
+                   
+                       
+                                    <p>Implementation Woredas:
+                      {% for woreda in icn.iworeda.all %}
+                      {{woreda}},
+                      {% endfor %}</p>
+                             
+                        
+
+  
+                              <p>Mercy Corps budget: {{ icn.mc_budget|floatformat:"2g" }}{{icn.get_mc_currency_display }}</p>
+                              <p>Cost-share budget: {{ icn.cost_sharing_budget|floatformat:"2g"}}{{icn.get_cs_currency_display }}</p>
+                              <p>Total budget: {{ icn.mc_budget|add:icn.cost_sharing_budget|floatformat:"2g"}}{{icn.get_mc_currency_display }}</p>
+                        {% if icn.approval_status %}
+                            <p >Remaining Budget:<strong>{{ icn.get_remaining_budget }}$</strong>
+                            </p>
+                         {% endif %}
+                        </div>
+                            <div class="col-md-4 col-sm-4">
+                   
+                       
+                           <p>Initited By:<small> {{ icn.user.profile.full_name }}</small>
+                            </p>
+                             <p>Technical Lead:<small> {{ icn.technical_lead.user.profile.full_name }}</small>
+                            </p>
+                            <p>MEL Lead:<small> {{ icn.mel_lead.user.profile.full_name }}</small>
+                            </p>
+                            </p>
+                             <p>Finance Lead:<small> {{ icn.finance_lead.user.profile.full_name }}</small>
+                            </p>
+                             <p>Program Lead:<small> {{ icn.program_lead.user.profile.full_name }}</small>
+                            </p>
+                           
+                         
+                        </div>
+                       
+                        <table class="data table table-sm table-striped no-margin">
+    <thead>
+      <tr>
+        <th><small>#</small></th>
+        
+        <th style="width:60%"><small>Activity Title</small></th>
+        <th ><small>Status</small></th>
+        <th><small>MC-Budget</small></th>
+        <th><small>CS-Budget</small></th>
+      
+      </tr>
+    </thead>
+    <tbody>
+                        {% for activity in icn.activity_set.all %}
+                        <tr>
+                        <td><small>{{ forloop.counter }}</small></td>
+                       <td> <small>{{ activity.title }}</small></td>
+                       <td><small> {% if activity.approval_status%} {{ activity.approval_status }}{% else %} {{ activity.get_status_display }}{% endif %}</small></td>
+                       <td><small>{{ activity.mc_budget }}{{activity.get_mc_currency_display}}</small></td>
+                       <td><small> {{ activity.cost_sharing_budget }}{{activity.get_cs_currency_display}}</small></td>
+   <tr>
+                        {% endfor %}
+                     </tbody>
+                     </table>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+
+                        </div>
+            </div>

@@ -1,0 +1,51 @@
+ {% load humanize %}
+      <table class="data table table-sm table-striped no-margin" style="width:100%">
+        <thead>
+            <tr>
+              <th>#</th>
+           <th >Title</th>
+              <th>Description</th>
+            <th >Pilot</th>
+             <th >Scaleup</th>
+            <th >Intervention Impact</th>
+               
+            </tr>
+        </thead>
+        <tbody>
+            {%  if activity_impacts %}
+            {% for aimpact in activity_impacts %}
+            <tr>
+               <td>{{forloop.counter}}</td>
+           
+                <td class="vertical-align-mid">
+                                    
+                                  {{ aimpact.title }}</td>
+                <td class="vertical-align-mid">{{ aimpact.description }}</td>
+                <td class="vertical-align-mid">{{ aimpact.impact_pilot|intcomma }}</td>
+                <td class="vertical-align-mid">{{ aimpact.impact_scaleup|intcomma }}</td>
+                <td class="vertical-align-mid">
+                  {% for indicator in aimpact.impact.all %}
+                        <li>
+                         {{ indicator.title }}
+                        </li>
+                         
+                        {% endfor %}
+
+                
+                </td>
+                <td class="vertical-align-mid">
+
+                   
+                    <button class="btn btn-info btn-sm" hx-get="{% url 'edit_activity_impact' pk=aimpact.id %}" hx-target="#dialog"><i class="fa fa-edit"></i></button>
+                    
+                    
+                    
+                </td>
+            </tr>
+            {% endfor %}
+            
+        </tbody>
+{% endif %}
+    </table>
+   
+

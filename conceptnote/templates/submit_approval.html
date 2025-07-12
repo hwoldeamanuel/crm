@@ -1,0 +1,158 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %}
+
+{% load humanize%}
+<div class="right_col" role="main">
+    <div class="">
+      <div class="page-title">
+              <div class="title_left">
+                <h3>Concept Note :: Intervention</h3>
+              </div>
+      </div>
+      <div class="clearfix"></div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="x_panel">
+            <div class="x_title">
+              <h2>Intervention Submission | Approval</h2>
+              <ul class="nav navbar-right panel_toolbox">
+                <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                </li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <a class="dropdown-item" href="#">Settings 1</a>
+                      <a class="dropdown-item" href="#">Settings 2</a>
+                    </div>
+                </li>
+                <li><a class="close-link"><i class="fa fa-close"></i></a>
+                </li>
+              </ul>
+              <div class="clearfix"></div>
+            </div>
+
+            <div class="x_content">
+
+              <div class="col-md-9 col-sm-9  ">
+                <div class="x_title">
+                  <h2> Approval Workflow</h2>
+                  <div class="clearfix"></div>
+                </div>
+             
+
+                
+
+                <div style="height:380px;">
+                  <div class="row">
+                    <div class="table" id="SubmitList" hx-trigger="load, SubmitApprovalListChanged from:body" hx-get= "{% url 'current_submit_approval_list' icn.id %}" hx-target="this" >
+
+  
+                    </div>
+                    <!-- /.col -->
+                  </div>
+                  
+                </div>
+
+             <div >
+
+
+                      <ul class="nav nav-tabs bar_tabs" id="myTab" data-example-id="togglable-tabs" role="tablist">
+                        <li class="nav-item">
+                          <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Submission | Approval Log</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Concept Note Version Log</a>
+                        </li>
+                       
+                      </ul>
+                      <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                         
+
+              
+                
+                                             <div id="documentlist1" hx-trigger="load, SubmitApprovalListChanged from:body" hx-get="/conceptnote/icn_submit_approval_list/{{icn.id}}/" hx-target="this">
+                      
+
+                          
+                          </div>
+                        </div>
+                        
+                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                       <div id="documentlist" hx-trigger="load, SubmitApprovalListChanged from:body" hx-get="{% url 'document_list' icn.id %}" hx-target="this">
+                        </div>
+</div>
+                       
+                      </div>
+</div>
+                </div>
+              <div class="modal fade bs-example-modal-lg" id="modal" class="modal fade">
+                                                  <div id="dialog" class="modal-dialog modal-lg" hx-target="this"></div>
+                                              </div>   
+
+              <!-- start project-detail sidebar -->
+              <div class="col-md-3 col-sm-3  ">
+
+                <section class="panel">
+
+                  <div class="x_title">
+                    <h2>Intervention Overview</h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="panel-body">
+                    <h5 class="green"><i class="fa fa-paint-brush"></i> {{ icn.title }}</h5>
+
+                    <p>{{icn.description}}</p>
+               
+
+                    <div class="project_detail">
+                     <p>Program:<strong> {{icn.program}}</strong></p>
+
+                      <p class="">Lead Agency:<strong> {{icn.ilead_agency}}</strong></p>
+                      <p>Co-Lead Agency:
+                      {% for colead in icn.ilead_co_agency.all %}
+                      <strong>{{colead}},</strong>
+                      {% endfor %}</p>
+                      <p class="">Proposed Start Date<strong>
+                      {{icn.proposed_start_date}}</strong></p>
+                      <p class="">Proposed End Date<strong>
+                      {{icn.proposed_end_date}}</strong></p>
+                      <p class="">Report Due Date:<strong>
+                      {{icn.final_report_due_date }}</strong></p>
+                  
+
+                  
+
+                      <p>Environmnetal Impact: {% if icn.eniromental_impact == '3' %}High{% elif icn.eniromental_impact == '2' %}<strong>Medium</strong>{% elif icn.eniromental_impact == '1' %}<strong>Low</strong>{% endif %}</p>
+                               <p>Environmnetal Impact Doc <i class="fa fa-paperclip"></i>:<strong>{% if icn.environmental_assessment_att %}<a href="{% url 'download_env_att' icn.id %}"><i class="fa fa-paperclip"></i>  download </a> {% else %}NA{% endif%} </strong></p>
+
+                              <p>Mercy Corps budget:<strong> {{ icn.mc_budget|floatformat:2|intcomma }}</strong>{{icn.get_mc_currency_display }}</p>
+                              <p>Cost-share budget:<strong> {{ icn.cost_sharing_budget|floatformat:2|intcomma }}</strong>{{icn.get_cs_currency_display }}</p>
+                              
+             <p># of Implementation Woreda:  <strong>        {{icn.iworeda.count }}</strong></p>
+                             <p># of Impact/Target: <strong> {{ icn.impact_set.count }}</strong></p>
+                             <p># of Program Indicators: <strong> {{ icn.get_num_indicator }}</strong></p>
+                    <br />
+  </div>
+                    <div class="text-center mtop20">
+                      
+                          <a href="{% url 'icn_detail' icn.id %}" class="btn btn-sm  btn-primary btn-xs"><i class="fa fa-eye"></i> View Details</a>
+                    </div>
+                  </div>
+
+                </section>
+
+              </div>
+              <!-- end project-detail sidebar -->
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /page content -->
+{% endblock %}

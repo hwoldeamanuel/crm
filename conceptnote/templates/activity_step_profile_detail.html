@@ -1,0 +1,135 @@
+
+{% extends "activity_step.html" %}
+
+{% block content_intervention_step %}
+{% load humanize%}
+<div class="row">
+              <div class="col-md-12 col-sm-12  ">
+                <div class="x_panel">
+                  <div class="x_title">
+                   <h2>Profile<small>Activity</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Settings 1</a>
+                            <a class="dropdown-item" href="#">Settings 2</a>
+                          </div>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+     
+              
+                   <div class="panel-body">
+                       
+                                            
+                        <div class="col-md-9 col-sm-9 project_detail text-truncate" >
+                          
+                          <p>Intervention Title:<strong> {{ activity.icn.title }}</strong></p>
+                            <p>Activity Title:<strong> {{ activity.title }}</strong></p>
+                         </div>
+                         <div class="col-md-3 col-sm-3 project_detail">
+                       
+                          <p>ID:<strong> {{ activity.icn.icn_number }}</strong> </p>
+                           <p>ID:<strong> {{ activity.acn_number }}</strong> </p>
+                          
+                                                   </div>
+ 
+                          <div class="col-md-4 col-sm-4 project_detail">
+
+                           <p>Lead Agency:<strong> {{ activity.alead_agency }}</strong></p>
+                            
+                       <p>Co-Lead Agency: {% if activity.alead_co_agency.all|length > 0 %}
+                      {% for colead in activity.alead_co_agency.all %}
+                      <strong>{{colead}},</strong>
+                      {% endfor %}</p>
+                      {% else %} None {% endif %}</p>
+                             <p class="">Proposed Start Date:<strong>
+                      {{activity.proposed_start_date}}</strong></p>
+                      <p class="">Proposed End Date:<strong>
+                      {{activity.proposed_end_date}}</strong></p>
+                      <p class="">Proposed Duration:<strong>
+                      {{ activity.proposed_start_date|timesince:activity.proposed_end_date }}</strong></p>
+                      <p>Final Report due date: <strong>  {{ activity.final_report_due_date}}</strong></p>
+                            
+                          </div>
+  <div class="col-md-4 col-sm-4 project_detail">
+  Proposed Implementation Woredas: <strong>{{ activity.aworeda.all|length }}</strong>
+  {% regroup activity.aworeda.all  by region as region_list %}
+             <li>         
+    {% for region in region_list %}
+    <strong>{{ region.grouper }}</strong>
+           :<i>
+            {% for woreda in region.list %}
+            {% if not forloop.last %}
+                {{ woreda }},
+            {% else %}
+             {{ woreda }}
+             {% endif %}
+            {% endfor %}</i>
+            
+           
+    {% endfor %}
+ </li>
+                              <p>Environmnetal Impact: {% if activity.icn.eniromental_impact == '3' %}<strong>High</strong>{% elif activity.icn.eniromental_impact == '2' %}<strong>Medium</strong>{% elif activity.icn.eniromental_impact == '1' %}<strong>Low</strong>{% endif %}
+                            Att <i class="fa fa-paperclip"></i>:<strong>{% if activity.icn.environmental_assessment_att %}<a href="{% url 'download_env_att' activity.icn.id %}">  download </a> {% else %}NA{% endif%} </strong></p>
+<p>Proposed Total budget:<strong> {{ activity.mc_budget|add:activity.cost_sharing_budget|floatformat:"2g"}}</strong>{{activity.get_mc_currency_display }}</p>
+                              <p>Mercy Corps budget:<strong> {{ activity.mc_budget|floatformat:"2g"}}</strong>{{activity.get_mc_currency_display }}</p>
+                              <p>Cost-share budget:<strong> {{ activity.cost_sharing_budget|floatformat:"2g"}}</strong>{{activity.get_cs_currency_display }}</p>
+                                
+ </div>
+                         
+                         
+                           <div class="col-md-4 col-sm-4 project_detail">
+                            <p>Initited By:<strong> {{ activity.user.profile.full_name }}</strong>
+                            </p>
+                             <p>Technical Lead:<strong> {{ activity.technical_lead.user.profile.full_name }}</strong>
+                            </p>
+                            </p>
+                            <p>MEL Lead:<strong> {{ activity.mel_lead.user.profile.full_name }}</strong>
+                            </p>
+                            </p>
+                             <p>Finance Lead:<strong> {{ activity.finance_lead.user.profile.full_name }}</strong>
+                            </p>
+                             <p>Program Lead:<strong> {{ activity.program_lead.user.profile.full_name }}</strong>
+                            </p>
+                            <p >Submission Status: <strong>{{ activity.get_status_display }}</strong>
+                            </p>
+                              {% if activity.approval_status %}
+                            <p >Approval Status: <strong>{{ activity.approval_status }}</strong>
+                            </p>{% endif %}
+                          </div>
+                                  <div class="col-md-12 col-sm-12 project_detail">
+                            <p><strong>Description: </strong> {{ activity.description }}</p>
+
+<div class="ln_solid"></div>
+                          <div class="text-center mtop20">
+                            <a class="btn btn-success source" {% if activity.status == True or activity.user != request.user %} onclick="new PNotify({
+                                  title: 'Permission',
+                                  text: 'User doesnot match ICN Owner or ICN not in Draft status;',
+                                  type: 'info',
+                                  styling: 'bootstrap3'
+                              });" {% else %} href="{% url 'activity_edit' activity.id %} {% endif %}" ><i class="fa fa-edit m-right-xs"></i>Edit Profile</a>
+                           
+                          </div>
+                        </div>
+                        
+                </div>
+      
+                   </div>
+                     </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /page content -->
+{% endblock %}
+
+
+
+

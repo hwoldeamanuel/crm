@@ -1,0 +1,17 @@
+{% load widget_tweaks %}
+{% with WIDGET_ERROR_CLASS='is-invalid' %}
+<form id="submitform" form hx-post="{{ request.path }}" hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}' hx-target="#SubmitList" hx-swap="innerHTML" enctype="multipart/form-data" >
+    {% csrf_token %}
+    
+    {{ form.as_p}}
+    <div class="ln_solid"></div>
+    <div class="item form-group">
+        <div class="col-md-6 col-sm-6 offset-md-3">
+
+            <button class="btn btn-primary" type="reset">Reset</button>
+            <button type="submit" class="btn btn-success">Submit</button>
+        </div>
+    </div>
+
+</form>
+{% endwith %}

@@ -1,0 +1,169 @@
+
+{% extends "intervention_step.html" %}
+
+{% block content_intervention_step %}
+<div class="row">
+						<div class="col-md-12 col-sm-12 ">
+							<div class="x_panel">
+								<div class="x_title">
+									<h2>Profile New <small>Intervention Report</small></h2>
+									<ul class="nav navbar-right panel_toolbox">
+										<li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+										</li>
+										<li class="dropdown">
+											<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+											<ul class="dropdown-menu" role="menu">
+												<li><a class="dropdown-item" href="#">Settings 1</a>
+												</li>
+												<li><a class="dropdown-item" href="#">Settings 2</a>
+												</li>
+											</ul>
+										</li>
+										<li><a class="close-link"><i class="fa fa-close"></i></a>
+										</li>
+									</ul>
+									<div class="clearfix"></div>
+								</div>
+								<div class="x_content">
+									
+								                      {% load widget_tweaks %}
+                      {% with WIDGET_ERROR_CLASS='is-invalid' %}
+                      
+                        <form class="form-horizontal form-label-left" method="post"  enctype="multipart/form-data"   >
+                           {% csrf_token %}
+                         <div class="form-group row">
+                            <label class="col-form-label col-md-2 col-sm-2 label-align" for="{{ form.title.id_for_label }}">Intervention: <span class="required"></span>
+                            </label>
+                            <div class="col-md-8 col-sm-8">
+                              {%  render_field form.icn class+="form-control form-control-sm required" %}
+                              <div class="invalid-feedback">{{ form.icn.errors|first }}</div>
+                              
+
+                            </div>                     
+                                
+                            
+                                
+                          </div>
+                          
+                           <div class="form-group row">
+                              <label class="col-form-label col-md-2 col-sm-2 label-align" >Start Date: <span class="required"></span>
+                                  </label>
+                              <div class="col-md-2 col-sm-2 ">
+                                 {% render_field form.actual_start_date class+="form-control form-control-sm" %}
+                                   <div class="invalid-feedback">{{ form.actual_start_date.errors|first }}</div>
+                              </div>
+                              <label class="col-form-label col-md-1 col-sm-1 label-align">End Date:
+                              </label>
+                              <div class="col-md-2 col-sm-2">
+                                 {% render_field form.actual_end_date class+="form-control form-control-sm" %}
+                                  <div class="invalid-feedback">{{ form.actual_end_date.errors|first }}</div>
+                              </div>
+                              <label class="col-form-label col-md-1 col-sm-1 label-align"><small>Report Date</small>
+                            </label>
+                            <div class="col-md-2 col-sm-2 ">
+                                  {% render_field form.actual_report_date class="form-control form-control-sm"  %}
+                                 <div class="invalid-feedback">{{ form.actual_report_date.errors|first }}</div>
+                            </div>
+                            </div>
+                          <div class="form-group row">
+                            
+                             <label class="col-form-label col-md-2 col-sm-2 label-align">Intervention Woreda:
+                              </label>
+                              <div class="col-md-8 col-sm-8">
+                                   {% render_field form.iworeda class+="form-control form-control-sm select2_group form-control" attr="data-control:select2"  %}
+                                    <div class="invalid-feedback">{{ form.iworeda.errors|first }}</div>
+                              </div>
+                          </div>
+                         
+                             <div class="form-group row">
+                            <label class="col-form-label col-md-2 col-sm-2 label-align" >Mercy Corps Budget: <span class+="required"></span>
+                            </label>
+                            <div class="col-md-2 col-sm-2">
+                                   {% render_field form.actual_mc_budget class="form-control form-control-sm" %}
+                                 <div class="invalid-feedback">{{ form.actual_mc_budget.errors|first }}</div>
+                            </div>
+                             <div class="col-md-1 col-sm-1">
+                                   {% render_field form.mc_currency class="form-control form-control-sm" %}
+                                 <div class="invalid-feedback">{{ form.mc_currency.errors|first }}</div>
+                            </div>
+                         
+                            <label class="col-form-label col-md-2 col-sm-2 label-align" >Cost Share Budget:
+                            </label>
+                            <div class="col-md-2 col-sm-2 ">
+                                    {% render_field form.actual_cost_sharing_budget class="form-control form-control-sm" %}
+                                 <div class="invalid-feedback">{{ form.actual_cost_sharing_budget.errors|first }}</div>
+                            </div>
+                            <div class="col-md-1 col-sm-1">
+                                    {% render_field form.cs_currency class="form-control form-control-sm"  %}
+                                 <div class="invalid-feedback">{{ form.cs_currency.errors|first }}</div>
+                            </div>
+                          </div>
+                          <div class="form-group row">
+                           
+                                <label class="col-form-label col-md-2 col-sm-2 label-align" >Techncial Lead: <span class="required"></span>
+                                </label>
+                                <div class="col-md-3 col-sm-3">
+                                  {% render_field form.technical_lead class="form-control form-control-sm"  %}
+                                  <div class="invalid-feedback">{{ form.technical_lead.errors|first }}</div>
+                                  </div>
+                                    <label class="col-form-label col-md-2 col-sm-2 label-align" >MEL Lead: <span class="required"></span>
+                                </label>
+                                <div class="col-md-3 col-sm-3">
+                                  {% render_field form.mel_lead class="form-control form-control-sm"  %}
+                                  <div class="invalid-feedback">{{ form.mel_lead.errors|first }}</div>
+                                  </div>
+                                </div>
+                                <div class="form-group row">
+                            
+                              <label class="col-form-label col-md-2 col-sm-2 label-align" >Finance Lead:<span class="required"></span>
+                              </label>
+                              <div class="col-md-3 col-sm-3">
+                                {% render_field form.finance_lead class="form-control form-control-sm" %}
+                                  <div class="invalid-feedback">{{ form.finance_lead.errors|first }}</div>
+
+
+                                </div>
+                                 <label class="col-form-label col-md-2 col-sm-2 label-align" >Program Lead:<span class="required"></span>
+                            </label>
+                            <div class="col-md-3 col-sm-3" >
+                            
+                                {% render_field form.program_lead class="form-control form-control-sm" %}
+                                  <div class="invalid-feedback">{{ form.program_lead.errors|first }}</div>
+                                </div>
+
+                         </div>
+                         <div class="form-group row">
+                            <label class="col-form-label col-md-2 col-sm-2 label-align" >Description:<span class="required"></span>
+                                </label>
+                            <div class="col-md-8 col-sm-8 ">
+                                 {% render_field form.description class+="form-control form-control-sm" %}
+                                 <div class="invalid-feedback">{{ form.description.errors|first }}</div>
+                            </div>
+                        
+                          </div>
+                          <div class="ln_solid"></div>
+										
+											<div class="col-md-12 col-sm-12">
+                      	<div class="col-md-4 col-sm-4"></div>
+												<button onclick="window.history.back()" class="btn btn-secondary" type="button">Cancel</button>
+												<button class="btn btn-primary" type="reset">Reset</button>
+												<button type="submit" class="btn btn-success">Submit</button>
+											</div>
+										
+
+                        </form>
+                    {% endwith %}
+                          <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.css" rel="stylesheet"/>
+
+    {{ form.media.js }}
+								</div>
+							</div>
+						</div>
+					</div>
+
+				
+						</div>
+					</div>
+				</div>
+{% endblock %}
