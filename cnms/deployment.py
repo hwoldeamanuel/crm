@@ -28,7 +28,7 @@ MIDDLEWARE = [
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 
 
-
+#dlkjflkd
 
 
 conn_str = os.environ['AZURE_POSTGRESQL_CONNECTIONSTRING']
