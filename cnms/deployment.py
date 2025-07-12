@@ -41,6 +41,8 @@ DATABASES = {
         'HOST': conn_str_params['host'],
         'USER': conn_str_params['user'],
         'PASSWORD': conn_str_params['password'],
+        'PORT': '5432',
+        'sslmode': 'require',
     }
 }
 
