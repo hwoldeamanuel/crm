@@ -47,8 +47,8 @@ def home(request):
   total_activity = Activity.objects.count
   total_cn=0
   program_users = Program.objects.annotate(num_user=Count("users_role")).order_by('-num_user')[:12]
-  program_cn = Program.objects.annotate(num_cn=Count("icn__activity",distinct=True) + Count("icn",distinct=True)).filter().order_by('-num_cn')[:12]
-  
+  program_cnbar = Program.objects.annotate(num_cn=Count("icn__activity",distinct=True) + Count("icn",distinct=True)).filter().order_by('-num_cn')[:12]
+  program_cn = Program.objects.annotate(num_cn=Count("icn__activity",distinct=True) + Count("icn",distinct=True)).filter().order_by('-num_cn')[:11]
   for program in program_cn:
      total_cn = program.num_cn + total_cn
 
@@ -58,7 +58,7 @@ def home(request):
   icn_report_status =  IcnReport.objects.values('approval_status').annotate(icn_count=Count('id', distinct=True))
   acn_report_status = ActivityReport.objects.values('approval_status').annotate(acn_count=Count('id', distinct=True))
   
-  context = {'program_users':program_users, 'total_program': total_program,'total_cn':total_cn,'program_cn':program_cn, 'total_portfolio':total_portfolio, 'total_user':total_user,  'total_woreda':total_woreda, 'total_icn':total_icn, 'total_activity':total_activity,'icn_status':icn_status, 'acn_status':acn_status, 'icn_report_status':icn_report_status, 'acn_report_status':acn_report_status}
+  context = {'program_users':program_users, 'total_program': total_program,'total_cn':total_cn,'program_cnbar':program_cnbar,'program_cn':program_cn, 'total_portfolio':total_portfolio, 'total_user':total_user,  'total_woreda':total_woreda, 'total_icn':total_icn, 'total_activity':total_activity,'icn_status':icn_status, 'acn_status':acn_status, 'icn_report_status':icn_report_status, 'acn_report_status':acn_report_status}
   return render(request, 'home/dashboard_main.html', context)
 
 
@@ -71,7 +71,8 @@ def dashboard(request):
   total_icn = Icn.objects.count
   total_cn=0
   total_activity = Activity.objects.count
-  program_users = Program.objects.annotate(num_user=Count("users_role")).order_by('-num_user')[:12]
+  program_usersbar = Program.objects.annotate(num_user=Count("users_role")).order_by('-num_user')[:12]
+  program_users = Program.objects.annotate(num_user=Count("users_role")).order_by('-num_user')[:13]
   program_cn = Program.objects.annotate(num_cn=Count("icn__activity") + Count("icn")).filter(num_cn__gte=1).order_by('-num_cn')
   for program in program_cn:
      total_cn = program.num_cn + total_cn
@@ -83,7 +84,7 @@ def dashboard(request):
   icn_report_status =  IcnReport.objects.values('approval_status').annotate(icn_count=Count('id', distinct=True))
   acn_report_status = ActivityReport.objects.values('approval_status').annotate(acn_count=Count('id', distinct=True))
 
-  context = {'total_cn':total_cn,'program_cn':program_cn,'program_users':program_users ,'total_program': total_program, 'total_portfolio':total_portfolio, 'total_user':total_user,  'total_woreda':total_woreda, 'total_icn':total_icn, 'total_activity':total_activity, 'icn_status':icn_status, 'acn_status':acn_status, 'icn_report_status':icn_report_status, 'acn_report_status':acn_report_status}
+  context = {'total_cn':total_cn,'program_cn':program_cn,'program_users':program_users ,'program_usersbar':program_usersbar, 'total_program': total_program, 'total_portfolio':total_portfolio, 'total_user':total_user,  'total_woreda':total_woreda, 'total_icn':total_icn, 'total_activity':total_activity, 'icn_status':icn_status, 'acn_status':acn_status, 'icn_report_status':icn_report_status, 'acn_report_status':acn_report_status}
   return render(request, 'home/dashboard2 copy.html', context)
 
 @login_required(login_url='login')

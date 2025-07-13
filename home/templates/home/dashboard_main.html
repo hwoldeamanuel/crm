@@ -12,7 +12,7 @@
           <!-- top tiles -->
           <div class="row" style="display: inline-block;" >
           <div class="tile_count">
-          <div class="col-md-2 col-sm-4  tile_stats_count">
+          <div class="col-md-2 col-sm-5  tile_stats_count">
               <span class="count_top"><i class="fa fa-university"></i> Portfolio</span>
               <div class="count green">{{ total_portfolio }}</div>
               <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
@@ -79,12 +79,11 @@
 
           <div class="row">
 
-
-            <div class="col-md-4 col-sm-4 ">
-              <div class="x_panel tile fixed_height_320">
+ <div class="col-md-4 col-sm-4 ">
+               <div class="x_panel tile fixed_height_420 overflow_hidden">
             
                  <div class="x_title">
-                  <h2>Top Concept Note</h2>
+                  <h2>Concept Note</h2>
                   <ul class="nav navbar-right panel_toolbox">
                     <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                     </li>
@@ -100,29 +99,37 @@
                   </ul>
                   <div class="clearfix"></div>
                 </div>
+                   
                 <div class="x_content">
-                 
-                {% for program in program_cn %}
-                  
-                    <p>{{program.title}} - {% widthratio program.num_cn total_cn 100 %}%</p>
-                      <div class="">
-                        <div class="progress progress_sm" style="width: 76%;">
-                          <div class="progress-bar bg-blue" role="progressbar" data-transitiongoal="{% widthratio program.num_cn total_cn 100 %}"></div>
+                <div> <h4>Top Concept Note</h4></div>
+               
+                  {% for program in program_cn %}
+                 <div class="widget_summary">
+                    <div class="w_left w_25">
+                      <span>{{program.title|truncatechars:10}} </span>
+                    </div>
+                    <div class="w_center w_55">
+                      <div class="progress">
+                        <div class="progress-bar bg-blue" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {% widthratio program.num_cn total_cn 100 %}%;">
+                          <span class="sr-only">60% Complete</span>
                         </div>
                       </div>
-                   
-                    {% endfor %}
                     </div>
-                 
-                 
-
+                    <div class="w_right w_20">
+                      <span><h6>{% widthratio program.num_cn total_cn 100 %}%</h6></span>
+                    </div>
+                    <div class="clearfix"></div>
+                  </div>
+              
+          {% endfor %}
                 </div>
 
-                             
+              </div>           
             </div>
+        
 
             <div class="col-md-4 col-sm-4 ">
-              <div class="x_panel tile fixed_height_320 overflow_hidden">
+              <div class="x_panel tile fixed_height_420 overflow_hidden">
                 <div class="x_title">
                   <h2>Intervention</h2>
                   <ul class="nav navbar-right panel_toolbox">
@@ -153,7 +160,7 @@
 
 
             <div class="col-md-4 col-sm-4 ">
-              <div class="x_panel tile fixed_height_320 overflow_hidden">
+              <div class="x_panel tile fixed_height_420 overflow_hidden">
                 <div class="x_title">
                   <h2>Activity</h2>
                   <ul class="nav navbar-right panel_toolbox">
@@ -200,15 +207,15 @@ var myChart = new Chart(ctx, {
     
     
     data: {
-        labels: [{% for program in program_cn %}  "{{program|truncatechars:10 }}",{% endfor %}],
+        labels: [{% for program in program_cnbar %}  "{{program|truncatechars:10 }}",{% endfor %}],
         datasets: [{
             label:'# of Concept Note',
             
-            data: [{% for program in program_cn %} {{  program.num_cn   }},{% endfor %}],
+            data: [{% for program in program_cnbar %} {{  program.num_cn   }},{% endfor %}],
             backgroundColor: [{% for program in program_cn  %} 'rgba(38, 185, 154, 1)',{% endfor %}
                 
             ],
-            borderColor: [{% for program in program_cn  %} 'rgba(38, 185, 154, 1)',{% endfor %}
+            borderColor: [{% for program in program_cnbar  %} 'rgba(38, 185, 154, 1)',{% endfor %}
                 
             ],
             borderWidth: 1
@@ -262,7 +269,7 @@ myDoughnut = new Chart(ctx,
            display: true,
           
            "labels": {
-            "fontSize": 9,
+            "fontSize": 11,
             
           }
      
@@ -317,7 +324,7 @@ myDoughnut = new Chart(ctx,
            responsive:true,
       display: true,
         "labels": {
-            "fontSize": 9,
+            "fontSize": 11,
           }
      
     },
