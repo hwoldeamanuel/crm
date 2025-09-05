@@ -18,12 +18,16 @@
     <tbody>
     {% if conceptnotes %}   
      {% for cn in conceptnotes %}
-      {% if cn.user == request.user or cn.technical_lead.user == request.user or cn.finance_lead.user == request.user or cn.program_lead.user == request.user %}
+      
      <tr>
         <td>{% if cn.get_name == "Activity" %}{{ cn.icn.program }} {% else %} {{cn.program}}{% endif %}</td>
       
        <td>{{ cn.get_name }}</td>
-       <td>{% if cn.get_name == "Intervention" %} <a href="{% url 'icn_detail' cn.id %}">{{ cn.title }}{% elif cn.get_name == "Activity" %}<a href="{% url 'activity_detail' cn.id %}">{{cn.title}} {% endif %} </a></td>
+       {% if cn.user == request.user or cn.technical_lead.user == request.user or cn.finance_lead.user == request.user or cn.program_lead.user == request.user %}
+       <td>{% if cn.get_name == "Intervention" %}  <a href="{% url 'icn_detail' cn.id %}">{{ cn.title }}{% elif cn.get_name == "Activity" %}<a href="{% url 'activity_detail' cn.id %}">{{cn.title}} {% endif %} </a></td>
+        {% else %}
+        <td>{{ cn.title }}</td>
+        {% endif %}
       <td>
                      <span class="badge {% if 'Rejected' in cn.approval_status %} bg-red {% elif 'Approved' in cn.approval_status %} bg-green {% else %} bg-warning {% endif %}">{% if cn.approval_status %} {{ cn.approval_status}} {% else %} Pending Submission {% endif %}</span>
                    </td>
@@ -35,7 +39,7 @@
                      {% endif %}
                     </td>
        </tr>
-       {% endif %}
+       
      {% endfor %}
  {% endif %}
     </tbody>

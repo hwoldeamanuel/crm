@@ -83,7 +83,7 @@
                                   <th style="width:10%"># Unit/Day</th>
                                   <th style="width:13%">Unit Cost</th>
                                   <th style="width:15%">Total Cost</th>
-                                  <th></th>
+                                  <th>acc{{trequest.acc_days}} td {{trequest.travel_days}}td2{{trequest.travel_days2}} pd{{trequest.pd_days}}</th>
                                                                  </tr>
                       </thead>
                       <tbody hx-trigger="CostChanged from:body" hx-get= "{% url 'cost_list' trequest.id %}" hx-target="this">
@@ -105,7 +105,7 @@
                         <td></td>
                        <td class="text-right" colspan="3">Total  Estimated Travel Costs									
                         <th > {{trequest.get_tcost_total|floatformat:"2g"}}</th>
-                         <td style="border: 1px dotted red;">
+                         <td >
                                    <a href="#" class="btn btn-sm btn-primary py-0 {% if trequest.requestsubmit.status_id == 2 %} disabled {% endif %}" style="font-size: 0.8em;" hx-get="/travel/add_travel_cost/{{ trequest.id }}/" hx-target="closest tr" hx-swap="outerHTML"><i class="fa fa-plus-square"></i></a></td>
                         <tr>
                        
