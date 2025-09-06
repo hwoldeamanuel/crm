@@ -24,3 +24,10 @@ class Profile(models.Model):
         return str(self.first_name) + " " + str(self.last_name)
     def full_name(self):
         return str(self.first_name) + " " + str(self.last_name)
+    def get_pacn_initiator(self):
+        program = self.user.userroles_set.filter(is_pacn_initiator=True)
+        return program.count()
+    
+    def get_pcn_initiator(self):
+        program = self.user.userroles_set.filter(is_pcn_initiator=True)
+        return program.count()

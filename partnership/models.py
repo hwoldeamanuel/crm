@@ -20,14 +20,17 @@ class Partnership(models.Model):
     
     
     def __str__(self):
-        return self.portfolio
+        return str(self.id)
     
     def get_date_diff(self):
         if self.start_date and self.end_date:
              dt1 = self.start_date
              dt2 = self.end_date
              dt = datetime.date.today()
-             if abs((dt2-dt1).days) > 0 and abs((dt2-dt1).days) > 0:
+
+             if dt > dt2:
+                  diff = '100%'
+             elif abs((dt-dt1).days) > 0 and abs((dt2-dt1).days) > 0:
                   diff = str(round((abs((dt-dt1).days)/abs((dt2-dt1).days))*100,0))+'%'
              else:
                   diff = 0

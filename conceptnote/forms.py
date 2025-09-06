@@ -2,7 +2,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from .models import Icn, Activity,Impact,ActivityImpact, IcnImplementationArea,  ActivityImplementationArea,IcnSubmit, Document, IcnSubmitApproval_F, IcnSubmitApproval_T, IcnSubmitApproval_P, IcnSubmitApproval_M, ActivityDocument, ActivitySubmit,ActivitySubmitApproval_F,ActivitySubmitApproval_P,ActivitySubmitApproval_T, ActivitySubmitApproval_M
 from django import forms
-
+from partnership.models import Partnership
 from program.models import  Program, ImplementationArea, Indicator, UserRoles
 from portfolio.models import Portfolio
 from datetime import datetime
@@ -46,6 +46,7 @@ class IcnForm(forms.ModelForm):
             self.fields['program'].queryset = Program.objects.filter(users_role=user, userroles__is_pcn_initiator=True)
             self.fields['program'].initial=Program.objects.filter(users_role=user, userroles__is_pcn_initiator=True).first()
             program = Program.objects.filter(users_role=user, userroles__is_pcn_initiator=True)
+            partnership = Partnership.objects.filter(program__in=program)
             self.fields['mel_lead'].queryset =  UserRoles.objects.filter(program__in=program, is_pcn_mel_approver=True).exclude(user=user)
             self.fields['mel_lead'].initial=UserRoles.objects.filter(program__in=program, is_pcn_mel_approver=True).exclude(user=user).first()
             self.fields['technical_lead'].queryset = UserRoles.objects.filter(program__in=program, is_pcn_technical_approver=True).exclude(user=user)
@@ -57,7 +58,10 @@ class IcnForm(forms.ModelForm):
             self.fields['ilead_agency'].queryset = Portfolio.objects.filter(id=user.profile.portfolio_id).order_by('id')
             self.fields['ilead_agency'].initial = Portfolio.objects.filter(id=user.profile.portfolio_id).first()
             self.fields['ilead_co_agency'].widget =  s2forms.Select2MultipleWidget(attrs={ 'type': 'checkbox', 'class':'form-control form-control-sm select',  'data-width': '100%'})
-            self.fields['ilead_co_agency'].queryset = Portfolio.objects.exclude(Q(id=user.profile.portfolio_id)).order_by('id')
+            if partnership:
+                self.fields['ilead_co_agency'].queryset = Portfolio.objects.filter(id__in=partnership.values('portfolio_id')).exclude(id=user.profile.portfolio_id).distinct()
+            else:
+                self.fields['ilead_co_agency'].queryset = Portfolio.objects.none()
 
         myfield = ['title',
             'program',
@@ -558,6 +562,7 @@ class ActivityForm(forms.ModelForm):
         if user:
             
             program = Program.objects.filter(users_role=user, userroles__is_pacn_initiator=True)
+            partnership = Partnership.objects.filter(program__in=program)
             self.fields['program_lead'].queryset =  UserRoles.objects.filter(program__in=program, is_pacn_program_approver=True, approval_budget_min_usd__isnull=False, approval_budget_max_usd__isnull=False).exclude(user=user)
             self.fields['program_lead'].initial=UserRoles.objects.filter(program__in=program, is_pacn_program_approver=True, approval_budget_min_usd__isnull=False, approval_budget_max_usd__isnull=False).exclude(user=user).first()
             self.fields['technical_lead'].queryset = UserRoles.objects.filter(program__in=program, is_pacn_technical_approver=True).exclude(user=user)
@@ -570,7 +575,12 @@ class ActivityForm(forms.ModelForm):
             self.fields['alead_agency'].queryset = Portfolio.objects.filter(id=user.profile.portfolio_id).order_by('id')
             self.fields['alead_agency'].initial = Portfolio.objects.filter(id=user.profile.portfolio_id).first()
             self.fields['alead_co_agency'].widget =  s2forms.Select2MultipleWidget(attrs={ 'type': 'checkbox', 'class':'form-control form-control-sm select',  'data-width': '100%'})
-            self.fields['alead_co_agency'].queryset = Portfolio.objects.exclude(Q(id=user.profile.portfolio_id)).order_by('id')
+           
+            if partnership:
+                self.fields['alead_co_agency'].queryset = Portfolio.objects.filter(id__in=partnership.values('portfolio_id')).exclude(id=user.profile.portfolio_id).distinct()
+            else:
+                self.fields['alead_co_agency'].queryset = Portfolio.objects.none()
+
         myfield = ['title',
             'icn',
             'description',

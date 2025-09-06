@@ -80,11 +80,11 @@
                    
                     </ul>
                   </li>
-                  <li class="{% if  'portfolio' in request.path or 'program' in request.path %}active{%endif %}"><a><i class="fa fa-university"></i> Portfolio <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu" style="{%if 'portfolio' in request.path or 'program' in request.path%}display: block;{%endif %}">
+                  <li class="{% if  'portfolio' in request.path  %}active{%endif %}"><a><i class="fa fa-university"></i> Portfolio <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu" style="{%if 'portfolio' in request.path %}display: block;{%endif %}">
                       <li class="{% if 'mercycorps' in request.path %}current-page {% elif 'portfolio' in request.path and 'partner' not in request.path %} current-page {%endif %}"><a href="{% url 'mercycorps' %}">Mercy Corps</a></li>
                        
-                        <li class="{% if 'program' in request.path %}current-page{%endif %}"><a href="{% url 'programs' %}">Programs</a></li>
+                      
                       <li class="{% if 'partner' in request.path %}current-page{%endif %}"><a href="{% url 'partner' %}">Partners</a></li>
                               
                     </ul>
@@ -93,11 +93,11 @@
                         
                   
                   </li>
-                         <li class="{% if 'partnership' in request.path %}active{%endif %}"><a><i class="fa fa-desktop"></i> Partnership <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu" style="{% if 'partnership' in request.path %}display: block;{%endif %}">
+                         <li class="{% if 'program' in request.path %}active{%endif %}"><a><i class="fa fa-desktop"></i> Program <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu" style="{% if 'program' in request.path %}display: block;{%endif %}">
                       
                        
-                      <li class="{% if 'partnership' in request.path %}current-page{%endif %}"><a href="{% url 'partnership' %}">Partnerships </a></li>
+                       <li class="{% if 'program' in request.path %}current-page{%endif %}"><a href="{% url 'programs' %}">Programs</a></li>
                      
                               
                     </ul>

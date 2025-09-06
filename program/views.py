@@ -11,8 +11,8 @@ from django.contrib.auth.decorators import login_required
 from portfolio.models import Portfolio
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
-from .forms import ProgramForm, AddProgramAreaForm,EditProgramAreaForm, IndicatorForm, UserRoleForm, UserRoleFormE,UserRoleFormP, UserForm, TravelUserRoleForm, TravelUserRoleFormE
-
+from .forms import ProgramForm, AddProgramAreaForm,EditProgramAreaForm, IndicatorForm, UserRoleForm, UserRoleFormE,UserRoleFormP, UserForm, TravelUserRoleForm, TravelUserRoleFormE, ParnershipForm
+from partnership.models import Partnership
 from .models import Program, ImplementationArea, Indicator, UserRoles, TravelUserRoles
 from django.contrib.auth.models import User
 from conceptnote.models import Icn, Activity
@@ -576,3 +576,61 @@ def remove_travel_user_role(request, pk):
                 "showMessage": f"{tuser_role.profile} deleted."
             })
         })
+
+
+@login_required(login_url='login')
+def program_partnership(request, id):
+    program = get_object_or_404(Program, pk=id)
+    partnership = Partnership.objects.filter(program=program)
+    return render(request, 'partial/partnership_list_program.html', {
+        'partnership': partnership,
+    })
+
+
+@login_required(login_url='login')
+@permission_required("program.can_change_partnership", raise_exception=True)
+def edit_partnership(request, pk):
+    partnership = get_object_or_404(Partnership, pk=pk)
+    if request.method == "POST":
+        form = ParnershipForm(request.POST, instance=partnership)
+        if form.is_valid():
+            form.save()
+            return HttpResponse(
+                status=204,
+                headers={
+                    'HX-Trigger': json.dumps({
+                        "PartnershipListChanged": None,
+                        "showMessage": f"{Partnership.id} updated."
+                    })
+                }
+            )
+    else:
+        form = ParnershipForm(instance=partnership)
+    return render(request, 'partial/partnership_form.html', {
+        'form': form,
+        'partersnip': partnership,
+    })
+
+
+@login_required(login_url='login')
+
+def add_partnership(request, id):
+    if request.method == "POST":
+        form = ParnershipForm(request.POST)
+        if form.is_valid():
+            partnership = form.save(commit=False)
+            partnership.program = get_object_or_404(Program, pk=id)
+            partnership.save()
+            return HttpResponse(
+                status=204,
+                headers={
+                    'HX-Trigger': json.dumps({
+                        "PartnershipListChanged": None,
+                        "showMessage": f"{partnership.id} added."
+                    })
+                })
+    else:
+        form = ParnershipForm()
+    return render(request, 'partial/partnership_form.html', {
+        'form': form,
+    })

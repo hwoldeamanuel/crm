@@ -24,8 +24,8 @@
                       <span style="font-size:smaller;">New</span>
                       </button>
                       <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                          <a class="dropdown-item {%  for userroles in request.user.userroles_set.all %}
-        {% if userroles.is_pacn_initiator != True %}disabled{% endif %} {% endfor %}" href="{% url 'activity_add' %}">Add New Activity</a>
+                          <a class="dropdown-item 
+        {% if request.user.profile.get_pacn_initiator == 0 %}disabled{% endif %}" href="{% url 'activity_add' %}">Add New Activity </a>
                             <div class="dropdown-divider"></div>
                           <a class="dropdown-item" href="{% url 'icns' %}">Intervention List</a>
                           

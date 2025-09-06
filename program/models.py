@@ -18,7 +18,6 @@ class Program(models.Model):
     description = models.TextField(null=True, blank=True)
     complete = models.BooleanField(default=False)
     portfolio = models.ForeignKey(Portfolio, null=True, blank=True,on_delete=models.CASCADE)
-   
     completed = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 

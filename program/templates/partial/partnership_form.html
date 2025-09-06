@@ -1,0 +1,84 @@
+{% load widget_tweaks %}
+{% with WIDGET_ERROR_CLASS='is-invalid' %}
+<form hx-post="{{ request.path }}" hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}' class="modal-content">
+  <div class="modal-header">
+    <h5 class="modal-title">Partnership Form</h5>
+    <button type="button" class="btn-close" class="close" data-bs-dismiss="modal" aria-label="Close"></button>
+  </div>
+  <div class="modal-body">
+   <div class="item form-group">
+                            <label class="col-form-label col-md-2 col-sm-2 label-align" for="first-name">Partner name:<span class="required"></span>
+                            </label>
+                            <div class="col-md-8 col-sm-8">
+                                
+                                    {% render_field form.portfolio class+="form-control form-control-sm" %}
+                                    <div class="invalid-feedback">{{ form.portfolio.errors|first }}</div>
+                            </div>
+                        
+                        </div>
+     <div class="item form-group">
+                            <label class="col-form-label col-md-2 col-sm-2 label-align" for="first-name">Partnershi Type:<span class="required"></span>
+                            </label>
+                            <div class="col-md-3 col-sm-3">
+                                
+                                    {% render_field form.partership_type class+="form-control form-control-sm" %}
+                                    <div class="invalid-feedback">{{ form.partership_type.errors|first }}</div>
+                            </div>
+                                  <label class="col-form-label col-md-2 col-sm-2 label-align" for="first-name">Agreement Type:<span class="required"></span>
+                            </label>
+                            <div class="col-md-3 col-sm-3 ">
+                                
+                                    {% render_field form.agreement_type class+="form-control form-control-sm" %}
+                                    <div class="invalid-feedback">{{ form.agreement_type.errors|first }}</div>
+                            </div>
+                        
+                        </div>
+                             <div class="item form-group">
+                            <label class="col-form-label col-md-2 col-sm-2 label-align" for="first-name">Start Date:<span class="required"></span>
+                            </label>
+                            <div class="col-md-3 col-sm-3">
+                                
+                                    {% render_field form.start_date class+="form-control form-control-sm" %}
+                                    <div class="invalid-feedback">{{ form.start_date.errors|first }}</div>
+                            </div>
+                                  <label class="col-form-label col-md-2 col-sm-2 label-align" for="first-name">End Date:<span class="required"></span>
+                            </label>
+                            <div class="col-md-3 col-sm-3 ">
+                                
+                                    {% render_field form.end_date class+="form-control form-control-sm" %}
+                                    <div class="invalid-feedback">{{ form.end_date.errors|first }}</div>
+                            </div>
+                        
+                        </div>
+                      
+                             <div class="item form-group">
+                            <label class="col-form-label col-md-2 col-sm-2 label-align" for="first-name">Subaward Code:<span class="required"></span>
+                            </label>
+                            <div class="col-md-3 col-sm-3">
+                                
+                                    {% render_field form.subAwar_code class+="form-control form-control-sm" %}
+                                    <div class="invalid-feedback">{{ form.subAwar_code.errors|first }}</div>
+                            </div>
+                                  <label class="col-form-label col-md-2 col-sm-2 label-align" for="first-name">Total budget:<span class="required"></span>
+                            </label>
+                            <div class="col-md-3 col-sm-3 ">
+                                
+                                    {% render_field form.total_budget class+="form-control form-control-sm" %}
+                                    <div class="invalid-feedback">{{ form.total_budget.errors|first }}</div>
+                            </div>
+                        
+                        </div>
+                       
+</div>
+  <div class="modal-footer">
+          {% if indicator %}
+          <button type="button" class="btn btn-danger btn-sm" hx-post="{% url 'remove_indicator' pk=indicator.pk %}">Remove</button>
+          <span class="flex-grow-1"></span>
+          {% endif %}
+          <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-primary btn-sm">Save Changes</button>
+  </div>
+</form>
+{% endwith %}

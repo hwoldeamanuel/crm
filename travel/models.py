@@ -95,13 +95,14 @@ class RequestSubmit(models.Model):
     finance_reviewer = models.ForeignKey(TravelUserRoles, on_delete=models.CASCADE,null=True,  blank=True, related_name='finance_reviewer')
     security_reviewer = models.ForeignKey(TravelUserRoles, on_delete=models.CASCADE,null=True,  blank=True, related_name='security_reviewer')
 
-    def __str__(self):
-        return str(self.id)
-    
+   
     class Meta:
         ordering = ('-submission_date',)
-    
+
    
+    
+    def __str__(self):
+        return str(self.id)
 
 class SubmitApproval_B(models.Model):
     

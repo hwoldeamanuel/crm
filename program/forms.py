@@ -1,6 +1,7 @@
 from django import forms
 
 from program.models import Indicator, UserRoles
+from partnership.models import Partnership
 from django import forms
 from .models import Program, ImplementationArea, UserRoles, TravelUserRoles
 from django.contrib.auth.models import User
@@ -454,3 +455,47 @@ class TravelUserRoleFormE(forms.ModelForm):
         model = TravelUserRoles
         fields=['profile','is_initiator', 'is_budget_holder','is_finance_reviewer', 'is_security_reviewer',]
         exclude= ['program',]
+
+
+class ParnershipForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['start_date'].widget = forms.widgets.DateInput(
+          
+            attrs={
+               'type': 'date',
+                'class': 'form-control'
+              
+                
+                
+                }
+            )
+  
+        self.fields['end_date'].widget = forms.widgets.DateInput(
+            attrs={
+                'type': 'date', 
+                'class': 'form-control'
+                }
+            )
+     
+        self.fields['portfolio'].required = True 
+        self.fields['partership_type'].required = True 
+        self.fields['agreement_type'].required = True 
+        self.fields['total_budget'].required = True 
+        self.fields['subAwar_code'].required = True 
+        self.fields['start_date'].required = True 
+        self.fields['end_date'].required = True 
+        self.fields['partership_type'].widget = forms.widgets.Textarea(attrs={'type':'textarea', 'class': 'form-control', 'rows':'1', 'required':'True'   }    )
+        self.fields['agreement_type'].widget = forms.widgets.Textarea(attrs={'type':'textarea', 'class': 'form-control', 'rows':'1', 'required':'True'   }    )
+        self.fields['subAwar_code'].widget = forms.widgets.Textarea(attrs={'type':'textarea', 'class': 'form-control', 'rows':'1', 'required':'True'   }    )
+    class Meta:
+        model = Partnership
+        fields=['portfolio',
+            'partership_type',
+            'agreement_type',
+            'total_budget',
+            'subAwar_code',         
+            'start_date',
+            'end_date'
+            ]
+        exclude=  ['program']

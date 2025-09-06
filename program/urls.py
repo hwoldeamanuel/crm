@@ -23,6 +23,7 @@ htmxpatterns = [
 
     path('users/<int:id>/', views.user_list, name='user_list'),
     path('tusers/<int:id>/', views.user_travel_list, name='user_travel_list'),
+    path('partnership/<int:id>/', views.program_partnership, name='partnership_list'),
     path('user_add/<int:id>/', views.add_user, name='add_user'),
     path('add_travel_user/<int:id>/', views.add_travel_user, name='add_travel_user'),
     path('edit_user_roles/<int:uid>/', views.edit_user_role, name='edit_user_role'),
@@ -44,8 +45,10 @@ htmxpatterns = [
    
     path('indicators/<int:id>/', views.indicator_list, name='indicator_list'),
     path('indicator_add/<int:id>/', views.add_indicator, name='add_indicator'),
+    path('partnership_add/<int:id>/', views.add_partnership, name='add_partnership'),
     path('indicator/<int:pk>/remove', views.remove_indicator, name='remove_indicator'),
     path('indicator/<int:pk>/edit', views.edit_indicator, name='edit_indicator'),
+    path('parnership/<int:pk>/edit', views.edit_partnership, name='edit_partnership'),
     
     path('area_list/<int:id>/', views.area_list, name='area_list'),
     path('region/edit_area/<int:pk>/', views.area_edit_form, name='area_edit_form'),

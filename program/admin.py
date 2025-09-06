@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Program,   ImplementationArea, Indicator, UserRoles
+from .models import Program,   ImplementationArea, Indicator, UserRoles, TravelUserRoles
 
 # Register your models here.
 admin.site.register(Program)
