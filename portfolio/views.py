@@ -29,6 +29,7 @@ from django.db.models import Q
 from collections import defaultdict
 from django.contrib.auth.decorators import permission_required
 import pandas as pd
+from partnership.models import Partnership
 
 def convertmonth(created):
     #template = '%(function)s(MONTH from %(expressions)s)'
@@ -37,6 +38,7 @@ def convertmonth(created):
 
 @login_required(login_url='login')
 def portfolios(request):
+    partnership = Partnership.objects.all()
     portfolios = Portfolio.objects.filter().exclude(id=1).order_by('id')
     context = {'portfolios': portfolios}
     return render(request, 'portfolios.html', context)
@@ -85,7 +87,9 @@ def mercycorps(request):
 
 @login_required(login_url='login')
 def portfolios_list(request):
+    partnership = Partnership.objects.all()
     portfolios = Portfolio.objects.filter().exclude(id=1).order_by('id')
+ 
     context = {'portfolios': portfolios}
     return render(request, 'partial/portfolios_list.html', context)
 
@@ -160,6 +164,7 @@ def delete_portfolio(request, pk):
 
 @login_required(login_url='login')
 def portfolio_filter(request):
+    partnership = Partnership.objects.all()
     query = request.GET.get('search', '')
     
     
@@ -173,7 +178,7 @@ def portfolio_filter(request):
        
         
     else:
-        portfolios = Portfolio.objects.filter().exclude(id=1)
+        portfolios = Portfolio.objects.filter(id__in=partnership.values('portfolio_id')).exclude(id=1).order_by('id')
 
     context = {'portfolios': portfolios}
     return render(request, 'partial/portfolios_list.html', context)
@@ -215,7 +220,7 @@ def portfolio_detail(request, pk):
     total_icn  =  Icn.objects.filter(Q(ilead_agency=portfolio.id) | Q(ilead_co_agency=portfolio.id)).count
     total_acn  =  Activity.objects.filter(Q(alead_agency=portfolio.id) | Q(alead_co_agency=portfolio.id)).count
     
-    total_program = Icn.objects.filter(Q(ilead_agency=portfolio.id) | Q(ilead_co_agency=portfolio.id)).values('program__title').distinct().count()
+    total_program = Partnership.objects.filter(portfolio_id=portfolio.id).values('program_id').distinct().count()
     context = {'portfolio': portfolio, 'all_request':all_request,'total_icn':total_icn, 'total_acn':total_acn, 'total_program':total_program}
     return render(request, 'portfolio.html', context)
 
@@ -316,3 +321,9 @@ def portfolio_conceptnotes(request, id):
     context = {'conceptnotes': conceptnotes}
 
     return render(request, 'partial/portfolio_conceptnotes.html', context)
+
+@login_required(login_url='login')
+def portfolio_partnerships(request, id): 
+    partnerships = Partnership.objects.filter(portfolio_id=id)
+    context = {'partnerships': partnerships}
+    return render(request, 'partial/portfolio_partnership.html', context)

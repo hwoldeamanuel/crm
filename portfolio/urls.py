@@ -27,6 +27,7 @@ urlpatterns = [
    
     path('portfolio_profile/<int:pk>/', views.portfolio_profile, name='portfolio_profile'),
     path('portfolio_conceptnotes/<int:id>/', views.portfolio_conceptnotes, name='portfolio_conceptnotes'),
+    path('portfolio_partnership/<int:id>/', views.portfolio_partnerships, name='portfolio_partnerships'),
     path('fieldoffice/<int:id>/', views.fieldoffices, name='fieldoffices'),
     path('fieldoffice_edit/<int:pk>/', views.fieldoffice_edit, name='fieldoffice_edit'),
      

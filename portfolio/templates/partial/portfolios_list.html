@@ -1,11 +1,12 @@
+{% load static %}
 <table class="table table-striped projects">
                 <thead>
                   <tr class="text-center" >
                     <th style="width: 1%">#</th>
                     
                     <th style="width: 35%" class="text-left">Partners' Name<small><i> (Address/URL)</i></small></th>
-                    <th style="width: 23%" class="text-left">Type</th>
-                    <th style="width: 16%" class="text-left">Category</th>
+                    <th style="width: 23%" class="text-left">Type/Category</th>
+                    <th style="width: 16%" class="text-left">Team Members</th>
                     <th style="width: 13%">S.Date<small><i>(Partnership)</i></small></th>
                   
                    
@@ -20,13 +21,27 @@
                   
                     <td> {{ portfolio.title_short }}</br>
                     <small>{{portfolio.title}}</small></br>
+                    {% if portfolio.address_url %} 
                     <small><a href="{{ portfolio.address_url }}" target="_blank">{{ portfolio.address_url }}</a>
+
                     </small>
+                    {% endif %}
                     </td>
                    
                   
-                    <td> {{ portfolio.type }}</td>
-                     <td> {{ portfolio.category }}</td>
+                    <td> {{ portfolio.type }} </br>{{ portfolio.category }}</td>
+                     
+                     <td>
+                      
+                      <ul class="list-inline">
+                        {% for p in portfolio.portfolio.all %}
+                       
+                          <img class="img-responsive  img-circle profile_img" src="{% static 'images/user.png' %}" alt="avatar" title="{{ p.full_name}}" style="width: 30px; height:30px; margin-top: 0px; margin-bottom:1px; margin-left: 0px;margin-right: 0px;">
+                       
+                         
+                        {% endfor %}
+                    </ul>
+                    </td>
                       <td> {{ portfolio.start_date }}</td>
                       
                     

@@ -1,0 +1,38 @@
+
+<table class="data table table-striped no-margin">
+                              <thead>
+                                <tr>
+                                  <th >#</th>
+                                  <th>Program</th>
+                                  <th>Type/LinCode</th>
+                                  <th>Agreement</th>
+                                  <th>Period</th>
+                                   
+                                </tr>
+                              </thead>
+                              <tbody>
+                              {% for p in partnerships %}
+                                <tr>
+                                  <td>{{forloop.counter}}</td>
+                                  <td> {{ p.program }}</br><small>{{p.program.working_title}}</small></td>
+                      <td> {{ p.partership_type }}</br><small>{{ p.subAwar_code }}</small></td>
+                       <td> {{ p.agreement_type }}</td>
+                                 
+                                <td>
+                          {{p.start_date}} -  {{p.end_date}}
+                  
+
+                  <div class="progress progress_sm" style="width: 76%;">
+                   <div class="progress-bar bg-blue" style="width:{{ p.get_date_diff }}">
+                       <small> {{ p.get_date_diff }}</small>
+                      
+                      </div></div>
+                      
+                    </td>
+         
+                                </tr>
+                  {% endfor %}
+                              </tbody>
+                            </table>
+
+                    

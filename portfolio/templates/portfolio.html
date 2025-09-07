@@ -67,40 +67,36 @@
     </div>
     <div class="" role="tabpanel" data-example-id="togglable-tabs">
                         <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
-                          <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true" class="active" aria-selected="false">Recent Concept Notes</a>
+                          <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true" class="active" aria-selected="true">Partnership (Programs)</a>
                           </li>
-                         
+                          <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false" class="" aria-selected="false">Recent Concept N.</a>
+                          </li>
+                        
                         </ul>
                         <div id="myTabContent" class="tab-content">
-                          <div role="tabpanel" class="tab-pane  fade active show" id="tab_content1" aria-labelledby="home-tab">
+                          <div role="tabpanel" class="tab-pane active" id="tab_content1" aria-labelledby="home-tab">
 
                             <!-- start recent activity -->
-                             <div class="row">
-                              <div id="conceptnotes" hx-trigger="load,  from:body " hx-get="{% url 'portfolio_conceptnotes' portfolio.id %}" hx-target="this">
-         
+           
+                              <div id="partnerships" hx-trigger="load,  from:body " hx-get="{% url 'portfolio_partnerships' portfolio.id %}" hx-target="this">
+                              </div>
+                            <!-- end recent activity -->
+                        
                             <!-- end recent activity -->
 
-                          </div>  </div>  </div>
-                         
                           </div>
+                          <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                            <div id="conceptnotes" hx-trigger="load,  from:body " hx-get="{% url 'portfolio_conceptnotes' portfolio.id %}" hx-target="this"></div>
+
+                            <!-- start user projects -->
+                           
+                            <!-- end user projects -->
+
+                          </div>
+                        
                         </div>
                       </div>
- 
-                        </div>
-                        <!-- /.col -->
-                      </div>
-
-                      <div>
-
-                      
-                     
-
-
-                        <!-- end of user messages -->
-                      </div>
-                    <!-- start project-detail sidebar -->
-                  
-                    <!-- end project-detail sidebar -->
+    
 
                   </div>
                 </div>

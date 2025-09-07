@@ -12,7 +12,7 @@ from django_select2 import forms as s2forms
 from app_admin.models import Country as Country, Region, Zone, Woreda
 from portfolio.models import Portfolio
 
-
+from django.db.models import Q
 
 
 
@@ -362,7 +362,7 @@ class UserRoleForm(forms.ModelForm):
         
         if program:
             
-            self.fields['user'].queryset = User.objects.filter(is_active=True).exclude(program=program)
+            self.fields['user'].queryset = User.objects.filter(Q(is_active=True) & (Q(profile__portfolio__id = 1) | Q(profile__portfolio__id__in=program.partnership_set.values('portfolio_id')))).exclude(program=program)
         else:
            
             self.fields['user'].queryset = User.objects.filter(is_active=True)
@@ -459,6 +459,7 @@ class TravelUserRoleFormE(forms.ModelForm):
 
 class ParnershipForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
+        program = kwargs.pop('program', None)
         super().__init__(*args, **kwargs)
         self.fields['start_date'].widget = forms.widgets.DateInput(
           
@@ -470,7 +471,53 @@ class ParnershipForm(forms.ModelForm):
                 
                 }
             )
-  
+        self.fields['portfolio'].queryset = Portfolio.objects.filter().exclude(Q(id__in=program.partnership_set.values('portfolio_id')) |Q(id=1)    )
+        self.fields['end_date'].widget = forms.widgets.DateInput(
+            attrs={
+                'type': 'date', 
+                'class': 'form-control'
+                }
+            )
+     
+        self.fields['portfolio'].required = True 
+        self.fields['partership_type'].required = True 
+        self.fields['agreement_type'].required = True 
+        self.fields['total_budget'].required = True 
+        self.fields['subAwar_code'].required = True 
+        self.fields['start_date'].required = True 
+        self.fields['end_date'].required = True 
+        self.fields['partership_type'].widget = forms.widgets.Textarea(attrs={'type':'textarea', 'class': 'form-control', 'rows':'1', 'required':'True'   }    )
+        self.fields['agreement_type'].widget = forms.widgets.Textarea(attrs={'type':'textarea', 'class': 'form-control', 'rows':'1', 'required':'True'   }    )
+        self.fields['subAwar_code'].widget = forms.widgets.Textarea(attrs={'type':'textarea', 'class': 'form-control', 'rows':'1', 'required':'True'   }    )
+    class Meta:
+        model = Partnership
+        fields=['portfolio',
+            'partership_type',
+            'agreement_type',
+            'total_budget',
+            'subAwar_code',         
+            'start_date',
+            'end_date'
+            ]
+        exclude=  ['program']
+
+
+class ParnershipFormE(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        program = kwargs.pop('program', None)
+        super().__init__(*args, **kwargs)
+        self.fields['start_date'].widget = forms.widgets.DateInput(
+          
+            attrs={
+               'type': 'date',
+                'class': 'form-control'
+              
+                
+                
+                }
+            )
+        self.fields['portfolio'].queryset = Portfolio.objects.filter(id = self.instance.portfolio_id)
+        self.fields['portfolio'].widget.attrs['readonly'] = True
         self.fields['end_date'].widget = forms.widgets.DateInput(
             attrs={
                 'type': 'date', 

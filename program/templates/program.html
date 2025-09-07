@@ -101,7 +101,7 @@
                           <span class="value text-success"> {{total_acn}} </span>
                         </li>
                         <li class="hidden-phone">
-                          <span class="name"> Approved<small>(Intervention, Activity)</small></span>
+                          <span class="name"> Approved <small>(Intervention, Activity)</small></span>
                          
                           <span class="value text-success">{% if total_icn == 0 %}<small>NA</small>{% else %}{% widthratio total_icn_app total_icn 100 %}% {% endif%} ,
                           {% if total_acn == 0 %}<small>NA</small>{% else%} {% widthratio total_acn_app total_acn 100 %}%</span>{% endif %}
@@ -322,7 +322,7 @@
 
         },  {
           label: "Activity",
-         data: [{% for cn in all_request.icn_count %} {{ cn }}, {% endfor %}],
+         data: [{% for cn in all_request.acn_count %} {{ cn }}, {% endfor %}],
          borderColor:'rgba(51, 137, 173, .6)',
          backgroundColor:'rgba(51, 137, 173, .4)',
          pointBorderColor :'rgba(51, 137, 173, .4)',

@@ -11,7 +11,7 @@ from django.contrib.auth.decorators import login_required
 from portfolio.models import Portfolio
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
-from .forms import ProgramForm, AddProgramAreaForm,EditProgramAreaForm, IndicatorForm, UserRoleForm, UserRoleFormE,UserRoleFormP, UserForm, TravelUserRoleForm, TravelUserRoleFormE, ParnershipForm
+from .forms import ProgramForm, AddProgramAreaForm,EditProgramAreaForm, IndicatorForm, UserRoleForm, UserRoleFormE,UserRoleFormP, UserForm, TravelUserRoleForm, TravelUserRoleFormE, ParnershipForm, ParnershipFormE
 from partnership.models import Partnership
 from .models import Program, ImplementationArea, Indicator, UserRoles, TravelUserRoles
 from django.contrib.auth.models import User
@@ -579,6 +579,7 @@ def remove_travel_user_role(request, pk):
 
 
 @login_required(login_url='login')
+
 def program_partnership(request, id):
     program = get_object_or_404(Program, pk=id)
     partnership = Partnership.objects.filter(program=program)
@@ -592,7 +593,7 @@ def program_partnership(request, id):
 def edit_partnership(request, pk):
     partnership = get_object_or_404(Partnership, pk=pk)
     if request.method == "POST":
-        form = ParnershipForm(request.POST, instance=partnership)
+        form = ParnershipFormE(request.POST, instance=partnership)
         if form.is_valid():
             form.save()
             return HttpResponse(
@@ -605,7 +606,7 @@ def edit_partnership(request, pk):
                 }
             )
     else:
-        form = ParnershipForm(instance=partnership)
+        form = ParnershipFormE(instance=partnership)
     return render(request, 'partial/partnership_form.html', {
         'form': form,
         'partersnip': partnership,
@@ -613,8 +614,9 @@ def edit_partnership(request, pk):
 
 
 @login_required(login_url='login')
-
+@permission_required("program.can_add_partnership", raise_exception=True)
 def add_partnership(request, id):
+    program = Program.objects.get(pk=id)
     if request.method == "POST":
         form = ParnershipForm(request.POST)
         if form.is_valid():
@@ -630,7 +632,7 @@ def add_partnership(request, id):
                     })
                 })
     else:
-        form = ParnershipForm()
+        form = ParnershipForm(program=program)
     return render(request, 'partial/partnership_form.html', {
         'form': form,
     })

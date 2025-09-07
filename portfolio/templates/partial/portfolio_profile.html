@@ -36,8 +36,9 @@
                           <p class="title">Start Date<small><i>(Partnership)</i></small></p>
                             <p>{{portfolio.start_date}}</p>
                           <p class="title">Address/URL</p>
+                          {% if portfolio.address_url %}
                             <a href="{{ portfolio.address_url }}" target="_blank">{{ portfolio.address_url }}</a>
-                          
+                          {% endif %}
                           </p>
                         
                           <p class="title">Desciption</p>
