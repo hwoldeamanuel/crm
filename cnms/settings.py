@@ -75,7 +75,7 @@ INSTALLED_APPS = [
     'api',
     'rest_framework',
     'django_crontab',
-    'django_celery_results',
+ 
  
   
     
@@ -122,7 +122,7 @@ WSGI_APPLICATION = 'cnms.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
+
 
 # Example connection string: "host=localhost dbname=paqcnms user=postgres password=Letmein@2023_1"
 """
