@@ -87,7 +87,7 @@ class Finance_Code(models.Model):
 class RequestSubmit(models.Model):
 
     travel_request =  models.OneToOneField(Travel_Request, on_delete=models.CASCADE)
-    submission_date = models.DateTimeField(auto_now_add=True, null=True,   blank=True)
+    submission_date = models.DateTimeField(auto_now=True, null=True,   blank=True)
     status = models.ForeignKey(Submission_Status,null=True,  blank=True, on_delete=models.CASCADE)
     submission_note = models.TextField(null=True,  blank=True)
  
@@ -99,7 +99,6 @@ class RequestSubmit(models.Model):
     class Meta:
         ordering = ('-submission_date',)
 
-   
     
     def __str__(self):
         return str(self.id)

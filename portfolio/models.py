@@ -11,7 +11,7 @@ class Portfolio(models.Model):
     type =  models.ForeignKey(Portfolio_Type, on_delete=models.CASCADE)
     category =  models.ForeignKey(Portfolio_Category, on_delete=models.CASCADE)
     start_date = models.DateField(null=True, blank=True)
-    
+   
     logo = models.ImageField(upload_to ='documents/', null=True, blank=True) 
     description = models.TextField(null=True, blank=True)
     address_url = models.URLField(max_length = 200, null=True, blank=True) 

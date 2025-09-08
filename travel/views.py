@@ -14,10 +14,14 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
-from django.core.mail import send_mail, EmailMultiAlternatives
+from django.core.mail import send_mail, EmailMultiAlternatives, EmailMessage
 from user.models import Profile
 from program.models import TravelUserRoles
 from django.db.models import Q
+from django.contrib.auth.models import User
+
+from datetime import datetime, timedelta
+import threading
 
 
 @login_required(login_url='login') 
@@ -68,7 +72,7 @@ def trequest_detail(request, id):
    
     trequest = Travel_Request.objects.get(pk=id)
     context = {'trequests':trequests,'trequest':trequest}
-    print(trequest.id)
+  
     
     return render(request, 'travel_step_profile_detail.html', context)
 
@@ -217,7 +221,7 @@ def edit_finance_code(request, id):
             instance = form.save()
 
             trequest = Travel_Request.objects.get(id=instance.travel_request_id)
-            print(trequest.get_finance_total())
+         
             
             return HttpResponseClientRedirect('/travel/request/'+str(trequest.id)+'/detail/')
             
@@ -277,13 +281,15 @@ def finance_list(request, id):
 @login_required(login_url='login') 
 def trequest_review(request, id):
     trequests = Travel_Request.objects.all()
-    trequest = Travel_Request.objects.get(pk=id)
     user = request.user
     profile = Profile.objects.get(user_id=user.id)
     program = Program.objects.get(travel_users_role=profile)
     form = RequestSubmitForm(user=user)
-   
-    context = {'trequests':trequests,'trequest':trequest, 'form':form}
+    if Travel_Request.objects.filter(pk=id).exists():
+        trequest = Travel_Request.objects.get(pk=id)
+        context = {'trequests':trequests,'trequest':trequest, 'form':form}
+    else:
+        context = {'trequests':trequests, 'form':form}
     
     return render(request, 'travel_step_profile_review.html', context)
 
@@ -298,7 +304,7 @@ def trequest_approval(request, id):
 @login_required(login_url='login') 
 def submit_request(request, id, sid):
     trequest = Travel_Request.objects.get(pk=id)
-    user = request.user
+    user =  User.objects.get(pk=request.user.id)
     profile = Profile.objects.get(user_id=user.id)
     program = Program.objects.get(travel_users_role=profile)
     form = RequestSubmitForm(user=user, sid=sid)
@@ -314,13 +320,16 @@ def submit_request(request, id, sid):
             if requestsubmit.status_id == 2:
                 
                 
-                SubmitApproval_B.objects.create(user = requestsubmit.budget_holder,submitrequest_id = instance.id, approval_status=Approvalf_Status.objects.get(id=1))
-                SubmitApproval_F.objects.create(user = requestsubmit.finance_reviewer,submitrequest_id = instance.id, approval_status=Approvalf_Status.objects.get(id=1))
-                SubmitApproval_S.objects.create(user = requestsubmit.security_reviewer,submitrequest_id = instance.id, approval_status=Approvalf_Status.objects.get(id=1))
+                SubmitApproval_B.objects.update_or_create(user = requestsubmit.budget_holder,submitrequest_id = instance.id, approval_status=Approvalf_Status.objects.get(id=1))
+                SubmitApproval_F.objects.update_or_create(user = requestsubmit.finance_reviewer,submitrequest_id = instance.id, approval_status=Approvalf_Status.objects.get(id=1))
+                SubmitApproval_S.objects.update_or_create(user = requestsubmit.security_reviewer,submitrequest_id = instance.id, approval_status=Approvalf_Status.objects.get(id=1))
                
-                send_notify(requestsubmit.id, 1)
-                return HttpResponseClientRedirect('/travel/request/'+str(trequest.id)+'/review/')
-
+                #send_notify(requestsubmit.id, 1)
+                return HttpResponseClientRefresh()
+        else:
+            form = RequestSubmitForm(request.POST, user=user, sid=sid)
+            context = {'trequest':trequest, 'form':form}
+            return render(request, 'partial/submit.html', context)
     context = {'trequest':trequest, 'form':form}
     return render(request, 'partial/submit.html', context)
 
@@ -328,10 +337,11 @@ def submit_request(request, id, sid):
 @login_required(login_url='login') 
 def edit_request(request, id, sid):
     trequest = Travel_Request.objects.get(pk=id)
-    user = request.user
+    user =  User.objects.get(pk=request.user.id)
     profile = Profile.objects.get(user_id=user.id)
     program = Program.objects.get(travel_users_role=profile)
     requestsubmit = get_object_or_404(RequestSubmit, travel_request_id = trequest.id)
+  
     form = RequestCancelForm(instance= requestsubmit, user=user, sid=sid)
     if request.method == 'POST':
         form = RequestCancelForm(request.POST,instance= requestsubmit, user=user, sid=sid)
@@ -342,20 +352,26 @@ def edit_request(request, id, sid):
             #Document.objects.create(user = icn.user, document = instance.document,  icn=instance.icn, description = document_i)
           
             if requestsubmit.status_id == 1:
-                submitapproval_b = SubmitApproval_B.objects.get(submitrequest_id=requestsubmit.id)
+                submitapproval_b = SubmitApproval_B.objects.filter(submitrequest_id=requestsubmit.id)
                 submitapproval_b.delete()
-                submitapproval_f = SubmitApproval_F.objects.get(submitrequest_id=requestsubmit.id)
+                submitapproval_f = SubmitApproval_F.objects.filter(submitrequest_id=requestsubmit.id)
                 submitapproval_f.delete()
-                submitapproval_s = SubmitApproval_S.objects.get(submitrequest_id=requestsubmit.id)
+                submitapproval_s = SubmitApproval_S.objects.filter(submitrequest_id=requestsubmit.id)
                 submitapproval_s.delete()
+                send_notify(requestsubmit.id, 1)
+                return HttpResponseClientRefresh()
 
             elif requestsubmit.status_id == 2:
-                SubmitApproval_B.objects.create(user = requestsubmit.budget_holder,submitrequest_id = instance.id, approval_status=Approvalf_Status.objects.get(id=1))
-                SubmitApproval_F.objects.create(user = requestsubmit.finance_reviewer,submitrequest_id = instance.id, approval_status=Approvalf_Status.objects.get(id=1))
-                SubmitApproval_S.objects.create(user = requestsubmit.security_reviewer,submitrequest_id = instance.id, approval_status=Approvalf_Status.objects.get(id=1))
+                SubmitApproval_B.objects.update_or_create(user = requestsubmit.budget_holder,submitrequest_id = instance.id, approval_status=Approvalf_Status.objects.get(id=1))
+                SubmitApproval_F.objects.update_or_create(user = requestsubmit.finance_reviewer,submitrequest_id = instance.id, approval_status=Approvalf_Status.objects.get(id=1))
+                SubmitApproval_S.objects.update_or_create(user = requestsubmit.security_reviewer,submitrequest_id = instance.id, approval_status=Approvalf_Status.objects.get(id=1))
                
-            send_notify(requestsubmit.id, 1)
-            return HttpResponseClientRedirect('/travel/request/'+str(trequest.id)+'/review/')
+                send_notify(requestsubmit.id, 1)
+                return HttpResponseClientRefresh()
+        else:
+            form = RequestCancelForm(request.POST,instance= requestsubmit, user=user, sid=sid)
+            context = {'trequest':trequest, 'form':form}
+            return render(request, 'partial/submit.html', context)
 
     context = {'trequest':trequest, 'form':form}
     return render(request, 'partial/submit.html', context)
@@ -423,7 +439,7 @@ def approve_requestf(request, id, aid):
 @login_required(login_url='login') 
 def approve_requests(request, id, aid):
     submitapprovals = SubmitApproval_S.objects.get(pk=id)
-    print(submitapprovals)
+  
     form = ApprovalForm_S(instance= submitapprovals,  aid=aid)
     if request.method == 'POST':
         form = ApprovalForm_S(request.POST,instance= submitapprovals, aid=aid)
@@ -488,19 +504,17 @@ def send_notify(id, pid):
             
                 
                 }
-    html_message = render_to_string("partial/approval_mail.html", context=context)
-    plain_message = strip_tags(html_message)
+   
     recipient_list = [requstsubmit.budget_holder.profile.user.email, requstsubmit.finance_reviewer.profile.user.email, requstsubmit.security_reviewer.profile.user.email,requstsubmit.travel_request.user.email]
         
-    message = EmailMultiAlternatives(
-        subject = subject, 
-        body = plain_message,
-        from_email = None ,
-        to= recipient_list
-            )
-        
-    message.attach_alternative(html_message, "text/html")
-    message.send()
+    
+    email_thread = EmailThread(
+        subject,
+        'partial/approval_mail.html',
+        context,
+        recipient_list
+    )
+    email_thread.start()
 
 
 @login_required(login_url='login') 
@@ -552,3 +566,27 @@ def edit_travel_costp(request, id):
     context = {'form':form, 'travel_cost':travel_cost}
     return render(request, 'partial/edit_cost.html', context)
 
+
+
+class EmailThread(threading.Thread):
+    def __init__(self, subject, template_name, context, recipient_list):
+        self.subject = subject
+        self.template_name = template_name
+        self.context = context
+        self.recipient_list = recipient_list
+        threading.Thread.__init__(self)
+
+    def run(self):
+        send_templated_email(self.subject, self.template_name, self.context, self.recipient_list)
+
+
+def send_templated_email(subject, template_name, context, recipient_list):
+    html_content = render_to_string(template_name, context)
+    email = EmailMultiAlternatives(
+        subject,
+        html_content,
+        'from@example.com',  # Sender's email
+        recipient_list,
+    )
+    email.content_subtype = "html"  # Set content type to HTML
+    email.send()

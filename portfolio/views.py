@@ -88,7 +88,7 @@ def mercycorps(request):
 @login_required(login_url='login')
 def portfolios_list(request):
     partnership = Partnership.objects.all()
-    portfolios = Portfolio.objects.filter().exclude(id=1).order_by('id')
+    portfolios = Portfolio.objects.filter(category__name="Other").exclude(id=1).order_by('id')
  
     context = {'portfolios': portfolios}
     return render(request, 'partial/portfolios_list.html', context)

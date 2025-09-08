@@ -34,7 +34,6 @@ class PortfolioForm(forms.ModelForm):
              self.fields['category'].queryset = self.instance.type.portfolio_category_set.order_by('name')
 
        
-        
         self.fields['description'].widget = forms.widgets.Textarea(attrs={'type':'textarea', 'class': 'form-control', 'rows':'3', 'placeholder':'description'   }    )    
         myfield = ['title_short',
             'title','type',    

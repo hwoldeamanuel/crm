@@ -34,7 +34,7 @@ environ.Env.read_env()
 
 SECRET_KEY = "django-insecure-&3ep*035k@21#4lh)ex_l&=797@9u6af_3!*%$mx_8^p8=(d*^')"
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS =  ['localhost','127.0.0.1', 'cnms-app.azurewebsites.net', 'cnms-app-dev.azurewebsites.net', 'cnms-app-staging.azurewebsites.net']
 
@@ -75,7 +75,7 @@ INSTALLED_APPS = [
     'api',
     'rest_framework',
     'django_crontab',
- 
+    'django_celery_results',
  
   
     
@@ -122,8 +122,7 @@ WSGI_APPLICATION = 'cnms.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 
-
-
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
 
 # Example connection string: "host=localhost dbname=paqcnms user=postgres password=Letmein@2023_1"
 """
