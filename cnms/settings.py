@@ -34,7 +34,7 @@ environ.Env.read_env()
 
 SECRET_KEY = "django-insecure-&3ep*035k@21#4lh)ex_l&=797@9u6af_3!*%$mx_8^p8=(d*^')"
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS =  ['localhost','127.0.0.1', 'cnms-app.azurewebsites.net', 'cnms-app-dev.azurewebsites.net', 'cnms-app-staging.azurewebsites.net']
 

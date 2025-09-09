@@ -1312,11 +1312,13 @@ def activity_submit_document(request, id):
                         "showMessage": f"{instance.id} added."
                     })
                 })
-            
-    else:
-       dform = ActivityDocumentForm()
-       context = {'dform':dform}
-       return render(request, 'partial/activity_document_form.html', context)
+        else:
+            dform = ActivityDocumentForm(request.POST, request.FILES)
+            context = {'dform':dform}
+            return render(request, 'partial/activity_document_form.html', context)
+                
+    context = {'dform':dform}
+    return render(request, 'partial/activity_document_form.html', context)
            
 @login_required(login_url='login')            
 def activity_submit_form_partial(request, id): 
