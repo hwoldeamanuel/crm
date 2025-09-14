@@ -13,6 +13,8 @@ from app_admin.models import Country as NCountry, Region as NRegion, Zone as NZo
 from django.contrib.auth.models import User
 from portfolio.models import Portfolio
 from program.models import ImplementationArea
+from django.core.validators import FileExtensionValidator
+from django.db.models import Q, Sum
 
 class Icn(models.Model):
     title = models.CharField(max_length=255)
@@ -152,9 +154,9 @@ def path_and_rename(instance, filename):
 
     # get filename
     if hasattr(instance, 'icn'):
-        filename = '{}.{}'.format(instance.icn.title +"_Version_"+ instance.ver + "_" + instance.user.username, ext)
+        filename = '{}.{}'.format(instance.icn.title +"_Version_"+ instance.ver + "_" + instance.user.username + "_" + timezone.localtime(timezone.now()).strftime('%Y-%m-%dT%H:%M:%S'), ext)
     elif hasattr(instance, 'activity'):
-         filename = '{}.{}'.format(instance.activity.title +"_Version_"+ instance.ver + "_" + instance.user.username, ext)
+         filename = '{}.{}'.format(instance.activity.title +"_Version_"+ instance.ver + "_" + instance.user.username +"_" + timezone.localtime(timezone.now()).strftime('%Y-%m-%dT%H:%M:%S'), ext)
         # set filename as random string
     else:
         filename = '{}.{}'.format(uuid4().hex, ext)
@@ -166,7 +168,7 @@ class Document(models.Model):
     user = models.ForeignKey(User, on_delete= models.DO_NOTHING, null=True,  blank=True, related_name='uploaded_by')
     icn = models.ForeignKey(Icn, on_delete=models.CASCADE,  blank=True)
     description = models.TextField(blank=True, null=True)
-    document = models.FileField(null=True,  blank=True, max_length=500, upload_to=path_and_rename)
+    document = models.FileField(null=True,  blank=True, max_length=500, upload_to=path_and_rename,validators=[FileExtensionValidator(allowed_extensions=["doc","docx","pdf" ])])
     ver = models.TextField(blank=True, null=True)
     uploaded_at = models.DateTimeField(auto_now_add=True,  null=True,  blank=True)
 
@@ -390,9 +392,75 @@ class Impact(models.Model):
     impact_pilot  = models.FloatField(null=True, blank=True)
     impact_scaleup  = models.FloatField(null=True, blank=True)
     indicators = models.ManyToManyField(Indicator, related_name='impacts')
+    is_disaggregate = models.BooleanField(default=False, blank=True, null=True)
 
     def __str__(self):
-        return f"{self.title} {self.description}"
+        return f"{self.title}"
+    
+    def get_impact_total(self):
+        total = self.impact_pilot + self.impact_scaleup
+        return total
+    def scaleup_check(self):
+        """
+        Calculates the price after applying a given discount percentage.
+        """
+        Qs = Disaggregate.objects.filter(impact=self).values('name').annotate(total_scaleup=Sum('scaleup'), total_pilot=Sum('pilot')).order_by('name')
+        Qs2 = self.impact_scaleup
+        for q in Qs:
+            if q['total_scaleup'] != Qs2:
+                return False
+        else:
+            return True
+    def pilot_check(self):
+        """
+        Calculates the price after applying a given discount percentage.
+        """
+        Qs = Disaggregate.objects.filter(impact=self).values('name').annotate(total_scaleup=Sum('scaleup'), total_pilot=Sum('pilot')).order_by('name')
+        Qs2 = self.impact_pilot
+        for q in Qs:
+            if q['total_pilot'] != Qs2:
+                return False
+        else:
+            return True
+    def dis_check(self):
+        """
+        Calculates the price after applying a given discount percentage.
+        """
+        dis = Impact.objects.get(id=self.id)
+        Qs = Disaggregate.objects.filter(impact=self).values('name').annotate(num_dis=Count('id')).order_by('name')
+        ret = True
+        if dis.is_disaggregate == False:
+            ret = True
+        elif dis.is_disaggregate == True and not Qs.exists():
+            ret = False
+        else:            
+            for q in Qs:
+                print(q['name'], q['num_dis'])
+                if q['num_dis'] < 2:
+                    ret = False
+                    break   
+            
+        return ret
+       
+    class Meta:
+        ordering = ('id',)
+            
+            
+        
+    
+class Disaggregate(models.Model):
+    impact = models.ForeignKey(Impact, on_delete=models.CASCADE, null=True, blank=True)
+    name = models.CharField(max_length=255, null=True, blank=True)
+    type = models.CharField(max_length=255, null=True, blank=True)
+    pilot = models.FloatField(null=True, blank=True)
+    scaleup  = models.FloatField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.name} {self.type}"
+   
+  
+    class Meta:
+        ordering = ('name',)
 
 class Activity(models.Model):
     title = models.CharField(max_length=255)
@@ -515,7 +583,7 @@ class ActivityDocument(models.Model):
     user = models.ForeignKey(User, on_delete= models.DO_NOTHING, null=True,  blank=True, related_name='auploaded_by')
     activity = models.ForeignKey(Activity, on_delete=models.CASCADE,  blank=True)
     description = models.TextField(blank=True, null=True)
-    document = models.FileField(null=True,  blank=True, max_length=500, upload_to=path_and_rename)
+    document = models.FileField(null=True,  blank=True, max_length=500, upload_to=path_and_rename, validators=[FileExtensionValidator(allowed_extensions=["doc","docx","pdf" ])])
     ver = models.TextField(blank=True, null=True)
     uploaded_at = models.DateTimeField(auto_now_add=True,  null=True,  blank=True)
 

@@ -58,7 +58,7 @@ def remainder():
             message = EmailMultiAlternatives(
             subject = subject, 
             body = plain_message,
-            from_email = None ,
+            from_email = 'Mercy Corps ETH CNMS',
             to= recipient_list
                 )
             
@@ -98,7 +98,7 @@ def remainder():
             message = EmailMultiAlternatives(
             subject = subject, 
             body = plain_message,
-            from_email = None ,
+            from_email = 'Mercy Corps ETH CNMS',
             to= recipient_list
                 )
             
@@ -150,7 +150,7 @@ def remainder():
             message = EmailMultiAlternatives(
             subject = subject, 
             body = plain_message,
-            from_email = None ,
+            from_email = 'Mercy Corps ETH CNMS',
             to= recipient_list
                 )
             
@@ -190,7 +190,7 @@ def remainder():
             message = EmailMultiAlternatives(
             subject = subject, 
             body = plain_message,
-            from_email = None ,
+            from_email = 'Mercy Corps ETH CNMS',
             to= recipient_list
                 )
             

@@ -13,8 +13,8 @@ from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
 from django.views.generic import FormView, TemplateView
 from django.contrib.auth import get_user_model
-from .models import Icn, Activity, ActivityImpact,ActivityImplementationArea,  Indicator, IcnImplementationArea,  Impact, IcnSubmit, Document, Icn_Approval, IcnSubmitApproval_P, IcnSubmitApproval_F, IcnSubmitApproval_M,IcnSubmitApproval_T, ActivityDocument, ActivitySubmit, ActivitySubmitApproval_F,ActivitySubmitApproval_P, ActivitySubmitApproval_M, ActivitySubmitApproval_T
-from .forms import IcnForm, ActivityForm,ImpactForm, ActivityImpactForm, ActivityAreaFormE, IcnAreaFormE, IcnSubmitForm,  IcnDocumentForm, IcnApprovalTForm, IcnApprovalFForm, IcnApprovalPForm, IcnApprovalMForm,ActivitySubmitForm, ActivityDocumentForm, ActivityApprovalFForm, ActivityApprovalPForm,ActivityApprovalTForm, ActivityApprovalMForm
+from .models import Icn, Activity, ActivityImpact,ActivityImplementationArea,  Indicator, IcnImplementationArea,  Impact, IcnSubmit, Document, Icn_Approval, IcnSubmitApproval_P, IcnSubmitApproval_F, IcnSubmitApproval_M,IcnSubmitApproval_T, ActivityDocument, ActivitySubmit, ActivitySubmitApproval_F,ActivitySubmitApproval_P, ActivitySubmitApproval_M, ActivitySubmitApproval_T, Disaggregate
+from .forms import IcnForm, ActivityForm,ImpactForm, ActivityImpactForm, ActivityAreaFormE, IcnAreaFormE, IcnSubmitForm,  IcnDocumentForm, IcnApprovalTForm, IcnApprovalFForm, IcnApprovalPForm, IcnApprovalMForm,ActivitySubmitForm, ActivityDocumentForm, ActivityApprovalFForm, ActivityApprovalPForm,ActivityApprovalTForm, ActivityApprovalMForm, DisaggregateForm
 from program.models import  Program,  ImplementationArea
 from django.http import QueryDict
 from django.conf import settings
@@ -36,7 +36,8 @@ from render_block import render_block_to_string
 from django_htmx.http import HttpResponseClientRedirect
 from django_htmx.http import HttpResponseClientRefresh
 from app_admin.models import Approvalt_Status, Approvalf_Status, Submission_Status
-
+from mimetypes import guess_type
+from os.path import basename
     # ...
     
 # Create your views here.
@@ -375,7 +376,7 @@ def icn_submit_form(request, id, sid):
                 IcnSubmitApproval_M.objects.create(user = icn.mel_lead,submit_id = instance, document = instance.document, approval_status=Approvalt_Status.objects.get(id=1))
                 IcnSubmitApproval_P.objects.create(user = icn.program_lead,submit_id = instance,document = instance.document, approval_status=Approvalf_Status.objects.get(id=1))
                 IcnSubmitApproval_F.objects.create(user = icn.finance_lead,submit_id = instance,document = instance.document, approval_status=Approvalt_Status.objects.get(id=1))
-                send_icn_notify(icn.id, 12)
+                send_icn_notify(icn.id, 12, instance.document_id)
                            
              
             elif icnsubmit.submission_status_id == 1:
@@ -383,7 +384,7 @@ def icn_submit_form(request, id, sid):
                 Icn.objects.filter(pk=id).update(approval_status="Pending Submission")
                
                 icn =  get_object_or_404(Icn, id=icnsubmit.icn_id)
-                send_icn_notify(icn.id, 11)
+                send_icn_notify(icn.id, 11, instance.document_id)
                 
                
             return HttpResponse(
@@ -438,7 +439,7 @@ def icn_approvalt(request, id, did):
             icnsubmit = get_object_or_404(IcnSubmit, pk=id)
             update_approval_status(icnsubmit.id)
             icn =  get_object_or_404(Icn, id=icnsubmit.icn_id)
-            send_icn_notify(icn.id, 2)
+            send_icn_notify(icn.id, 2, instance.document_id)
                       
             context = {'icn':icn, 'icnsubmit':icnsubmit , 'did':did}
             return HttpResponse(
@@ -474,7 +475,7 @@ def icn_approvalm(request, id, did):
             icnsubmit = get_object_or_404(IcnSubmit, pk=id)
             update_approval_status(icnsubmit.id)
             icn =  get_object_or_404(Icn, id=icnsubmit.icn_id)
-            send_icn_notify(icn.id, 3)
+            send_icn_notify(icn.id, 3, instance.document_id)
            
             context = {'icn':icn, 'icnsubmit':icnsubmit , 'did':did}
             return HttpResponse(
@@ -511,7 +512,7 @@ def icn_approvalp(request, id, did):
             update_approval_status_final(icnsubmit.id)
             icn =  get_object_or_404(Icn, id=icnsubmit.icn_id)
             
-            send_icn_notify(icn.id, 5)
+            send_icn_notify(icn.id, 5, instance.document_id)
 
             return HttpResponse(
                 status=204,
@@ -547,7 +548,7 @@ def icn_approvalf(request, id, did):
             icnsubmit = get_object_or_404(IcnSubmit, id=id)
             update_approval_status(icnsubmit.id)
             icn =  get_object_or_404(Icn, id=icnsubmit.icn_id)
-            send_icn_notify(icn.id, 4)
+            send_icn_notify(icn.id, 4, instance.document_id)
 
             context = {'icn':icn, 'icnsubmit':icnsubmit, 'did':did }
             return HttpResponse(
@@ -834,12 +835,90 @@ def icn_edit_impact(request, pk):
                         "showMessage": f"{instance.pk} updated."
                     })
                 })
-    else:
-        form = ImpactForm(instance=impact, program=program)
+        else:
+            form = ImpactForm(request.POST, instance=impact)
+            return render(request, 'partial/impact_form_edit.html', {
+                'form': form,
+                'impact': impact,
+            })
+    form = ImpactForm(instance=impact, program=program)
     return render(request, 'partial/impact_form_edit.html', {
         'form': form,
         'impact': impact,
     })
+
+
+@login_required(login_url='login') 
+def add_disaggregate(request, id):
+    impact = Impact.objects.get(pk=id)
+    form = DisaggregateForm(impact=impact)
+    if request.method == 'POST':
+        form = DisaggregateForm(request.POST, impact=impact)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.impact = impact
+            instance.save()
+            return HttpResponse(
+                status=204,
+                headers={
+                    'HX-Trigger': json.dumps({
+                        "ImpactListChanged": None,
+                        "showMessage": f"{instance.pk} updated."
+                    })
+                })
+        else:
+            form = DisaggregateForm(request.POST, impact=impact)
+            context = {'form':form, 'impact':impact}
+            return render(request, 'partial/disaggregate_form.html', context)     
+       
+    context = {'form':form, 'impact':impact}
+    return render(request, 'partial/disaggregate_form.html', context)
+
+@login_required(login_url='login')
+def edit_disaggregate(request, pk):
+    disaggregate = get_object_or_404(Disaggregate, pk=pk)
+    impact = get_object_or_404(Impact, pk=disaggregate.impact_id)
+    if request.method == "POST":
+        disaggregate = Disaggregate.objects.get(pk=pk)
+        form = DisaggregateForm(request.POST, instance=disaggregate)
+        if form.is_valid():
+            instance = form.save()
+            return HttpResponse(
+                status=204,
+                headers={
+                    'HX-Trigger': json.dumps({
+                        "ImpactListChanged": None,
+                        "showMessage": f"{instance.pk} updated."
+                    })
+                })
+        else:
+            form = DisaggregateForm(request.POST, instance=disaggregate)
+            return render(request, 'partial/disaggregate_forme.html', {
+                'form': form,
+                'disaggregate': disaggregate,
+                'impact': impact,
+            })
+    form = DisaggregateForm(instance=disaggregate)
+    return render(request, 'partial/disaggregate_forme.html', {
+        'form': form,
+        'disaggregate': disaggregate,
+        'impact':impact,
+    })
+
+@login_required(login_url='login') 
+def delete_disaggregate(request, pk):
+    disaggregate = get_object_or_404(Disaggregate, pk=pk)
+    instance = disaggregate
+    disaggregate.delete()
+    return HttpResponse(
+         status=204,
+                headers={
+                    'HX-Trigger': json.dumps({
+                        "ImpactListChanged": None,
+                        "showMessage": f"{instance.pk} updated."
+                    })
+                })
+
 
 @login_required(login_url='login')
 def remove_impact(request, pk):
@@ -967,10 +1046,10 @@ def activity_edit(request, id):
         if form.is_valid():
             instance = form.save()
             return redirect('activity_detail',instance.pk) 
-        
-        form = ActivityForm(request.POST,  instance=activity, user=request.user) 
-        context = {'form':form, 'activity':activity}
-        return render(request, 'activity_step_profile_edit.html', context)
+        else:
+            form = ActivityForm(request.POST,  instance=activity, user=request.user) 
+            context = {'form':form, 'activity':activity}
+            return render(request, 'activity_step_profile_edit.html', context)
             
     
     if activity.user == request.user and activity.status == False:
@@ -1236,7 +1315,7 @@ def activity_submit_form(request, id, sid):
                 ActivitySubmitApproval_P.objects.create(user = activity.program_lead,submit_id = instance,document = instance.document, approval_status=Approvalf_Status.objects.get(id=1))
                 ActivitySubmitApproval_F.objects.create(user = activity.finance_lead,submit_id = instance,document = instance.document, approval_status=Approvalt_Status.objects.get(id=1))
 
-                send_activity_notify(activity.id, 12)
+                send_activity_notify(activity.id, 12, instance.document_id)
                
                 return HttpResponse(
                         status=204,
@@ -1250,7 +1329,7 @@ def activity_submit_form(request, id, sid):
             elif activitysubmit.submission_status_id == 1:
                 Activity.objects.filter(pk=id).update(status=False)
                 Activity.objects.filter(pk=id).update(approval_status="Pending Submission")
-                send_activity_notify(activity.id, 11)
+                send_activity_notify(activity.id, 11, instance.document_id)
                               
                 return HttpResponse(
                         status=204,
@@ -1370,7 +1449,7 @@ def activity_approvalt(request, id, did):
             activitysubmit = get_object_or_404(ActivitySubmit, pk=id)
             activity =  get_object_or_404(Activity, id=activitysubmit.activity_id)
             update_activity_approval_status(activitysubmit.id)
-            send_activity_notify(activity.id, 2)
+            send_activity_notify(activity.id, 2, instance.document_id)
                             
                 
             return HttpResponse(
@@ -1408,7 +1487,7 @@ def activity_approvalm(request, id, did):
             activitysubmit = get_object_or_404(ActivitySubmit, pk=id)
             activity =  get_object_or_404(Activity, id=activitysubmit.activity_id)
             update_activity_approval_status(activitysubmit.id)
-            send_activity_notify(activity.id, 3)
+            send_activity_notify(activity.id, 3,instance.document_id)
             
             return HttpResponse(
                         status=204,
@@ -1446,7 +1525,7 @@ def activity_approvalp(request, id, did):
             activitysubmit = get_object_or_404(ActivitySubmit, pk=id)
             activity =  get_object_or_404(Activity, id=activitysubmit.activity_id)
             update_activity_approval_status_final(activitysubmit.id)
-            send_activity_notify(activity.id, 5)         
+            send_activity_notify(activity.id, 5, instance.document_id)         
           
             return HttpResponse(
                         status=204,
@@ -1484,7 +1563,7 @@ def activity_approvalf(request, id, did):
             activitysubmit = get_object_or_404(ActivitySubmit, pk=id)
             activity =  get_object_or_404(Activity, id=activitysubmit.activity_id)
             update_activity_approval_status(activitysubmit.id)
-            send_activity_notify(activity.id, 4)
+            send_activity_notify(activity.id, 4, instance.document_id)
            
             return HttpResponse(
                         status=204,
@@ -1547,6 +1626,7 @@ def update_activity_approval_status_final(id):
 @login_required(login_url='login')
 def downloada(request, id):
     document = get_object_or_404(ActivityDocument, id=id)
+   
     response = HttpResponse(document.document, content_type='application/docx')
     response['Content-Disposition'] = f'attachment; filename="{document.document}"'
     return response
@@ -1649,7 +1729,12 @@ def iworedas(request):
     return HttpResponse(form['iworeda'])
 
 
-def send_activity_notify(id, uid):
+def send_activity_notify(id, uid, doc):
+    activitydoc = ActivityDocument.objects.get(id=doc)
+    f = activitydoc.document
+    f.open()
+# msg.attach(filename, content, mimetype)
+    
     activity = get_object_or_404(Activity, id=id)
     if uid == 12:
         subject = 'Request for Activity Approval'
@@ -1692,16 +1777,19 @@ def send_activity_notify(id, uid):
                 }
     html_message = render_to_string("partial/activity_mail.html", context=context)
     plain_message = strip_tags(html_message)
-    recipient_list = [activity.user.email, activity.technical_lead.user.email,  activity.finance_lead.user.email]
+    recipient_list = [activity.user.email, activity.technical_lead.user.email, activity.mel_lead.user.email,  activity.finance_lead.user.email]
         
     message = EmailMultiAlternatives(
         subject = subject, 
         body = plain_message,
-        from_email = None ,
+        from_email = 'Mercy Corps CNMS',
         to= recipient_list
             )
-        
+    
     message.attach_alternative(html_message, "text/html")
+   
+    message.attach(basename(f.name), f.read(), guess_type(f.name)[0])
+    f.close()
     message.send()
     
     if uid !=5 and activity.approval_status == '75% Approved':
@@ -1713,14 +1801,19 @@ def send_activity_notify(id, uid):
         message = EmailMultiAlternatives(
             subject = subject, 
             body = plain_message,
-            from_email = None ,
+            from_email = 'Mercy Corps CNMS',
             to= recipient_list
                 )
         
         message.attach_alternative(html_message, "text/html")
+        message.attach(basename(f.name), f.read(), guess_type(f.name)[0])
+        f.close()
         message.send()
 
-def send_icn_notify(id, uid):
+def send_icn_notify(id, uid, doc):
+    icndoc = Document.objects.get(id=doc)
+    f = icndoc.document
+    f.open()
     icn = get_object_or_404(Icn, id=id)
     if uid == 12:
         subject = 'Request for Intervention Approval'
@@ -1768,11 +1861,13 @@ def send_icn_notify(id, uid):
     message = EmailMultiAlternatives(
         subject = subject, 
         body = plain_message,
-        from_email = None ,
+        from_email = 'Mercy Corps CNMS',
         to= recipient_list
             )
         
     message.attach_alternative(html_message, "text/html")
+    message.attach(basename(f.name), f.read(), guess_type(f.name)[0])
+    f.close()
     message.send()
     
     if uid !=5 and icn.approval_status == '75% Approved':
@@ -1784,9 +1879,11 @@ def send_icn_notify(id, uid):
         message = EmailMultiAlternatives(
             subject = subject, 
             body = plain_message,
-            from_email = None ,
+            from_email = 'Mercy Corps CNMS',
             to= recipient_list
                 )
         
         message.attach_alternative(html_message, "text/html")
+        message.attach(basename(f.name), f.read(), guess_type(f.name)[0])
+        f.close()
         message.send()

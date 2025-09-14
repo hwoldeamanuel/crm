@@ -32,7 +32,7 @@
             <tr>
               <th>#</th>
            <th style="width: 25%">Title</th>
-              <th style="width: 20%">Disaggregates</th>
+              <th style="width: 10%">Disaggregates</th>
                <th style="width: 10%">Unit</th>
             <th >Pilot(T)</th>
              <th >Scaleup(T)</th>
@@ -51,15 +51,15 @@
            
                 <td class="vertical-align-mid">
                                     
-                                  {{ impact.title }}</td>
+                                {{ impact.title }}</td>
                                   <td class="vertical-align-mid">
                                     
-                                  {{ impact.description }}</td>
+                                    <div class="icheckbox_flat-green {% if impact.is_disaggregate %}checked{% endif %}" style="position: relative;"><input type="" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 80%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div></td>
                  <td class="vertical-align-mid">{{ impact.get_unit_display }}</td>
-                <td class="vertical-align-mid">{{ impact.impact_pilot|intcomma }}</td>
-                <td class="vertical-align-mid">{{ impact.impact_scaleup|intcomma }}</td>
-                 <td class="vertical-align-mid">{{ impact.icnreportimpact.actual_impact_pilot|intcomma }}</td>
-                <td class="vertical-align-mid">{{ impact.icnreportimpact.actual_impact_scaleup|intcomma }}</td>
+                <td  class="vertical-align-mid">{{ impact.impact_pilot|intcomma }}</td>
+                <td  class="vertical-align-mid">{{ impact.impact_scaleup|intcomma }}</td>
+                 <td {% if impact.icnreportimpact.get_pilot_check == False %} style="border: 1px solid red;" {%endif %} class="vertical-align-mid">{{ impact.icnreportimpact.actual_impact_pilot|intcomma }}</td>
+                <td {% if impact.icnreportimpact.get_scaleup_check == False %} style="border: 1px solid red;" {%endif %} class="vertical-align-mid">{{ impact.icnreportimpact.actual_impact_scaleup|intcomma }}</td>
                
                 <td class="vertical-align-mid">
 
@@ -71,7 +71,45 @@
                     {% endif %}
                 </td>
             </tr>
+             {% if impact.is_disaggregate %}
+       
+         <tr>
+            <td colspan="2"></td>
+              <td style="text-align: right; bold"><b>Name:</b></td>
+            <td style="text-align: left;"><b>Disaggregates:</b></td>
+          
+            <td style="text-align: left;"><b>Pilot (T):</b></td>
+              <td style="text-align: left;"><b>Scaleup (T):</b></td>
+               <td style="text-align: left;"><b>Pilot (A):</b></td>
+              <td style="text-align: left;"><b>Scaleup (A):</b></td>
+              <td></td>
+              </tr>
+              
+         {% for dis in impact.disaggregate_set.all %}
+             <tr>
+        
+           <td colspan="2"></td>
+            
+            <td style="text-align: right;">{{ dis.name }}  </td>
+          
+            <td>{{ dis.type }}</td>
+              <td>{{ dis.pilot }}</td>
+               <td>{{ dis.scaleup }}</td>
+              <td>{{ dis.icnreportdisaggregate.actual_pilot }}</td>
+              <td>{{ dis.icnreportdisaggregate.actual_scaleup }}</td>   
+              {% if dis.icnreportdisaggregate%}
+               <td> <button class="btn btn-sm btn-info py-0 " style="font-size: 0.8em;" {% if impact.icnreportimpact.icnreport.status == True or impact.icnreportimpact.icnreport.user.id != request.user.id %} type="button" disabled {% endif %} hx-get="{% url 'edit_icnreport_impact_dis' dis.icnreportdisaggregate.pk %}" hx-target="closest tr" hx-swap="outerHTML"><i class="fa fa-edit m-right-xs"></i></button> 	</td>
+            {% else %}
+             <td> <button class="btn btn-sm btn-primary py-0 " style="font-size: 0.8em;" hx-get="{% url 'add_icnreport_impact_dis' dis.id %}" {% if impact.icnreportimpact.icnreport.status == True or impact.icnreportimpact.icnreport.user.id != request.user.id %} type="button" disabled {% endif %} hx-target="closest tr" hx-swap="outerHTML"><i class="fa fa-edit m-right-xs"></i></button> 	</td>
+             {% endif %}
+              </tr>
+              {% endfor %}
+             
+       
+             
+{% endif %}
             {% endfor %}
+           
             
         </tbody>
 {% endif %}

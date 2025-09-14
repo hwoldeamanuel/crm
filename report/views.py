@@ -11,9 +11,10 @@ from django.http import QueryDict
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
 from django.views.generic import FormView, TemplateView
+from conceptnote.models import Disaggregate
 from django.contrib.auth import get_user_model
-from .models import IcnReport, ActivityReport, ActivityReportImpact,ActivityReportImplementationArea,  IcnReportImplementationArea,  Impact, IcnReportSubmit, IcnReportDocument, IcnReportSubmitApproval_M,  IcnReportSubmitApproval_P, IcnReportSubmitApproval_F, IcnReportSubmitApproval_T, ActivityReportDocument, ActivityReportSubmit, ActivityReportSubmitApproval_F,ActivityReportSubmitApproval_P,ActivityReportSubmitApproval_T, IcnReportImpact, ActivityImpact, ActivityReportSubmitApproval_M
-from .forms import IcnReportForm, ActivityReportForm,ActivityReportImpactForm, ActivityReportImpactForm, ActivityReportAreaFormE, IcnReportAreaFormE, IcnReportSubmitForm,  IcnReportDocumentForm, IcnReportApprovalMForm, IcnReportApprovalTForm, IcnReportApprovalFForm, IcnReportApprovalPForm, ActivityReportSubmitForm, ActivityReportDocumentForm, ActivityReportApprovalFForm, ActivityReportApprovalPForm,ActivityReportApprovalTForm,IcnReportImpactForm, ActivityReportApprovalMForm
+from .models import IcnReportDisaggregate,IcnReport, ActivityReport, ActivityReportImpact,ActivityReportImplementationArea,  IcnReportImplementationArea,  Impact, IcnReportSubmit, IcnReportDocument, IcnReportSubmitApproval_M,  IcnReportSubmitApproval_P, IcnReportSubmitApproval_F, IcnReportSubmitApproval_T, ActivityReportDocument, ActivityReportSubmit, ActivityReportSubmitApproval_F,ActivityReportSubmitApproval_P,ActivityReportSubmitApproval_T, IcnReportImpact, ActivityImpact, ActivityReportSubmitApproval_M
+from .forms import IcnReportImpactDisForm,IcnReportForm, ActivityReportForm,ActivityReportImpactForm, ActivityReportImpactForm, ActivityReportAreaFormE, IcnReportAreaFormE, IcnReportSubmitForm,  IcnReportDocumentForm, IcnReportApprovalMForm, IcnReportApprovalTForm, IcnReportApprovalFForm, IcnReportApprovalPForm, ActivityReportSubmitForm, ActivityReportDocumentForm, ActivityReportApprovalFForm, ActivityReportApprovalPForm,ActivityReportApprovalTForm,IcnReportImpactForm, ActivityReportApprovalMForm
 from program.models import  Program
 from django.http import QueryDict
 from django.conf import settings
@@ -175,6 +176,7 @@ def icnreport_step_impact(request, id):
             icnreport = IcnReport.objects.filter(icn_id=id)
             impacts = Impact.objects.filter(icn_id=id)
             context = {'icn':icn, 'icnreport':icnreport, 'impacts': impacts}
+    
 
             return render(request, 'report/icnreport_step_impact.html', context)
         else:
@@ -666,6 +668,85 @@ def add_icnreport_impact(request, id):
         'form': form,
         'impact': impact,
     })
+
+
+@login_required(login_url='login')    
+def add_icnreport_impact_dis(request, id):
+    impact_dis = Disaggregate.objects.get(id=id)
+    impact = Impact.objects.get(pk=impact_dis.impact_id)
+    icn = Icn.objects.get(id=impact.icn_id)
+    
+    
+    icnreport = IcnReport.objects.get(icn_id=icn.id)
+    if request.method == "POST":
+       
+        form = IcnReportImpactDisForm(request.POST)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.disaggregate = impact_dis
+            instance.impact = impact
+            instance.icnreport = icnreport
+            instance.save()
+            return HttpResponseClientRefresh()
+        else:
+            form = IcnReportImpactDisForm(request.POST)
+            return render(request, 'report/partial/report_disaggregate_form.html', {
+            'form': form,
+            'impact': impact,
+            'impact_dis' :impact_dis,
+                })
+                      
+    form = IcnReportImpactDisForm()
+    return render(request, 'report/partial/report_disaggregate_form.html', {
+        'form': form,
+        'impact': impact,
+        'impact_dis' :impact_dis,
+    })
+        
+@login_required(login_url='login')    
+def edit_icnreport_impact_dis(request, pk):
+    icnreport_impact_dis = get_object_or_404(IcnReportDisaggregate, pk=pk)
+
+    impact_dis = Disaggregate.objects.get(id=icnreport_impact_dis.disaggregate_id)
+    impact = Impact.objects.get(pk=impact_dis.impact_id)
+    icn = Icn.objects.get(id=impact.icn_id)
+    
+    
+    icnreport = IcnReport.objects.get(icn_id=icn.id)
+ 
+    if request.method == "POST":
+       
+        form = IcnReportImpactDisForm(request.POST, instance=icnreport_impact_dis)
+        if form.is_valid():
+            instance = form.save()
+            return HttpResponseClientRefresh()
+        else:
+            form = IcnReportImpactDisForm(request.POST,instance=icnreport_impact_dis)
+            return render(request, 'report/partial/report_disaggregate_forme.html', {
+                'form': form,
+                'impact': impact,
+                'impact_dis' :impact_dis,
+                'icnreport_impact_dis':icnreport_impact_dis,
+            })
+           
+                
+    form = IcnReportImpactDisForm(instance=icnreport_impact_dis)
+    return render(request, 'report/partial/report_disaggregate_forme.html', {
+        'form': form,
+        'impact': impact,
+        'impact_dis' :impact_dis,
+        'icnreport_impact_dis':icnreport_impact_dis,
+    })
+
+
+
+@login_required(login_url='login') 
+def delete_icnreport_impact_dis(request, pk):
+    report_impact_dis = get_object_or_404(IcnReportDisaggregate, pk=pk)
+    instance = report_impact_dis
+    report_impact_dis.delete()
+    return HttpResponseClientRefresh()
+    
 
 
 @login_required(login_url='login') 
@@ -1371,7 +1452,7 @@ def send_icnreport_notify(id, uid):
     message = EmailMultiAlternatives(
         subject = subject, 
         body = plain_message,
-        from_email = None ,
+        from_email = 'Mery Corps CNMS' ,
         to= recipient_list
             )
         
@@ -1387,7 +1468,7 @@ def send_icnreport_notify(id, uid):
         message = EmailMultiAlternatives(
             subject = subject, 
             body = plain_message,
-            from_email = None ,
+            from_email = 'Mery Corps CNMS' ,
             to= recipient_list
                 )
         
@@ -1443,7 +1524,7 @@ def send_activityreport_notify(id, uid):
     message = EmailMultiAlternatives(
         subject = subject, 
         body = plain_message,
-        from_email = None ,
+        from_email = 'Mery Corps CNMS' ,
         to= recipient_list
             )
         
@@ -1459,7 +1540,7 @@ def send_activityreport_notify(id, uid):
         message = EmailMultiAlternatives(
             subject = subject, 
             body = plain_message,
-            from_email = None ,
+            from_email = 'Mery Corps CNMS' ,
             to= recipient_list
                 )
         

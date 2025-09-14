@@ -585,8 +585,9 @@ def send_templated_email(subject, template_name, context, recipient_list):
     email = EmailMultiAlternatives(
         subject,
         html_content,
-        'from@example.com',  # Sender's email
+        'Mercy Corps ETH TAS',  # Sender's email
         recipient_list,
     )
     email.content_subtype = "html"  # Set content type to HTML
     email.send()
+    

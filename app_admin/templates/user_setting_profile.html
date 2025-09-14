@@ -20,6 +20,10 @@
  <li>
                         <i class="fa fa-archive user-profile-icon"></i>  {% for userroles in user.userroles_set.all %} {{userroles.program}}, {% endfor %}
                         </li>
+                           <li class="m-top-xs">
+                          <i class="fa fa-tag"></i>
+                          {{user.username}}
+                        </li>
                         <li class="m-top-xs">
                           <i class="fa fa-external-link user-profile-icon"></i>
                           <a href="#" target="_blank">{{user.email}}</a>
@@ -29,9 +33,11 @@
                         </li>
                         </li>
                           <li class="m-top-xs">
-                          <i class="fa fa-sitemap user-profile-icon"></i> {{user.profile.reports_to }}
+                          <i class="fa fa-level-up user-profile-icon"></i> {{user.profile.reports_to.profile.full_name }}
                         </li>
                       </ul>
+                      
+                 
 
                       <a class="btn btn-success" hx-get="{% url 'edit_user' pk=user.id %}" hx-target = "#dialog"><i class="fa fa-edit m-right-xs"></i>Edit Profile</a>
                       <br />

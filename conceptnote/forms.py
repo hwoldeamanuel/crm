@@ -1,7 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from .models import Icn, Activity,Impact,ActivityImpact, IcnImplementationArea,  ActivityImplementationArea,IcnSubmit, Document, IcnSubmitApproval_F, IcnSubmitApproval_T, IcnSubmitApproval_P, IcnSubmitApproval_M, ActivityDocument, ActivitySubmit,ActivitySubmitApproval_F,ActivitySubmitApproval_P,ActivitySubmitApproval_T, ActivitySubmitApproval_M
-from django import forms
+from .models import Icn, Activity,Impact,ActivityImpact, IcnImplementationArea,  ActivityImplementationArea,IcnSubmit, Document, IcnSubmitApproval_F, IcnSubmitApproval_T, IcnSubmitApproval_P, IcnSubmitApproval_M, ActivityDocument, ActivitySubmit,ActivitySubmitApproval_F,ActivitySubmitApproval_P,ActivitySubmitApproval_T, ActivitySubmitApproval_M, Disaggregate
 from partnership.models import Partnership
 from program.models import  Program, ImplementationArea, Indicator, UserRoles
 from portfolio.models import Portfolio
@@ -230,7 +229,8 @@ class IcnForm(forms.ModelForm):
              self._errors['final_report_due_date'] = self.error_class(['Reporting Date should always be after end date'])
          elif (ilead_agency != None and ilead_co_agency != None and ilead_co_agency.contains(ilead_agency)):
              self._errors['ilead_agency'] = self.error_class(['Lead Agency & Co-Lead Agency should be different'])
-                 
+         elif (len(ilead_co_agency) == 0 and cost_sharing_budget > 0 ):
+              self._errors['cost_sharing_budget'] = self.error_class(['Cost S.Budget without Co-Lead A'])  
          elif (mc_currency != None and cs_currency != None and mc_currency != cs_currency):
              self._errors['mc_currency'] = self.error_class(['Different Currency for MC & Cost Sharing'])
          elif (total_budget_usd > budget_limit_max or total_budget_usd < budget_limit_min):
@@ -532,10 +532,12 @@ class ImpactForm(forms.ModelForm):
         self.fields['impact_pilot'].required = True 
         self.fields['impact_scaleup'].required = True 
         self.fields['unit'].required = True 
+        self.fields['is_disaggregate'].widget = forms.widgets.CheckboxInput(attrs={'type':'checkbox', 'class': 'form-control-sm icheckbox_flat-green1 iradio_flat-green1' })
+   
     class Meta:
         model = Impact
         fields = ['title', 'description','unit','impact_pilot' ,'impact_scaleup',
-                    'indicators']
+                    'indicators', 'is_disaggregate' ]
         exclude=  ['icn']
 
     def clean(self):
@@ -553,6 +555,42 @@ class ImpactForm(forms.ModelForm):
          elif (unit == 1 and diff2 != 0.0):
               self._errors['impact_scaleup'] = self.error_class(['value should match int or ends with .0'])
          return cleaned_data
+
+class DisaggregateForm(forms.ModelForm):
+     def __init__(self, *args, **kwargs):
+         impact = kwargs.pop('impact', None)
+         super(DisaggregateForm, self).__init__(*args, **kwargs)
+        
+         
+            
+
+         
+                    
+         self.fields['name'].widget = forms.widgets.TextInput(attrs={'type':'text', 'class': 'form-control form-control-sm input-xs' }    )
+         self.fields['type'].widget = forms.widgets.TextInput(attrs={'type':'text', 'class': 'form-control form-control-sm input-xs' }    )
+         self.fields['pilot'].widget = forms.widgets.NumberInput(attrs={'type':'number', 'class': 'form-control form-control-sm input-xs' }    )
+         self.fields['scaleup'].widget = forms.widgets.NumberInput(attrs={'type':'number', 'class': 'form-control form-control-sm input-xs'  }    )
+         myfield=['name',
+            'type',
+            'pilot',
+            'scaleup', 
+            
+            ]
+         for field in myfield:
+             self.fields[field].required = True 
+    
+     class Meta:
+         model = Disaggregate
+         fields=['name',
+            'type',
+            'pilot',
+            'scaleup', 
+            
+            ]
+
+         exclude = ['impact',]
+
+
 
 class ActivityForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -763,7 +801,8 @@ class ActivityForm(forms.ModelForm):
               self._errors['finance_lead'] = self.error_class(['Lead should take up only one role'])
         elif (mel_lead==technical_lead or mel_lead==program_lead or mel_lead == finance_lead):
               self._errors['mel_lead'] = self.error_class(['Lead should take up only one role'])
-        
+        elif (len(alead_co_agency) == 0 and cost_sharing_budget > 0 ):
+              self._errors['cost_sharing_budget'] = self.error_class(['Cost S.Budget without Co-Lead A'])
         elif ( proposed_end_date != None and proposed_start_date != None and proposed_end_date < proposed_start_date):
                self._errors['proposed_end_date'] = self.error_class(['End date should always be after start date'])
         elif (final_report_due_date != None and proposed_end_date != None and final_report_due_date < proposed_end_date):

@@ -1,6 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from .models import IcnReport, ActivityReport, IcnReportSubmitApproval_M, IcnReportImpact,ActivityReportImpact, IcnReportImplementationArea,  ActivityReportImplementationArea,IcnReportSubmit, IcnReportDocument, IcnReportSubmitApproval_F, IcnReportSubmitApproval_T, IcnReportSubmitApproval_P, ActivityReportDocument, ActivityReportSubmit,ActivityReportSubmitApproval_F,ActivityReportSubmitApproval_P,ActivityReportSubmitApproval_M, ActivityReportSubmitApproval_T
+from .models import IcnReport, ActivityReport, IcnReportSubmitApproval_M, IcnReportImpact,ActivityReportImpact, IcnReportImplementationArea,  ActivityReportImplementationArea,IcnReportSubmit, IcnReportDocument, IcnReportSubmitApproval_F, IcnReportSubmitApproval_T, IcnReportSubmitApproval_P, ActivityReportDocument, ActivityReportSubmit,ActivityReportSubmitApproval_F,ActivityReportSubmitApproval_P,ActivityReportSubmitApproval_M, ActivityReportSubmitApproval_T,IcnReportDisaggregate
 from django import forms
 
 from program.models import  Program, ImplementationArea, Indicator, UserRoles
@@ -524,7 +524,33 @@ class IcnReportImpactForm(forms.ModelForm):
          model = IcnReportImpact
          fields = ['actual_impact_pilot' ,'actual_impact_scaleup',
                     ]
+
+
+class IcnReportImpactDisForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
        
+        super().__init__(*args, **kwargs)    
+       
+        self.fields['actual_pilot'].widget = forms.widgets.NumberInput(
+            attrs={
+                'type': 'number', 
+                'class': 'form-control form-control-sm'
+                }
+            )
+        self.fields['actual_scaleup'].widget = forms.widgets.NumberInput(
+            attrs={
+                'type': 'number', 
+                'class': 'form-control form-control-sm'
+                }
+            )
+        
+        self.fields['actual_pilot'].required = True 
+        self.fields['actual_scaleup'].required = True 
+    
+    class Meta:
+         model = IcnReportDisaggregate
+         fields = ['actual_pilot' ,'actual_scaleup',
+                    ]
 
 class ActivityReportForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):

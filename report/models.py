@@ -14,6 +14,7 @@ from django.contrib.auth.models import User
 from portfolio.models import Portfolio
 from conceptnote.models import Icn, Activity, Impact, ActivityImpact
 from program.models import ImplementationArea
+from django.core.validators import FileExtensionValidator
 
 class IcnReport(models.Model):
     icn = models.OneToOneField(Icn, on_delete=models.DO_NOTHING, related_name='icnreport')
@@ -80,9 +81,9 @@ def path_and_rename(instance, filename):
 
     # get filename
     if hasattr(instance, 'icnreport'):
-        filename = '{}.{}'.format(instance.icnreport.icn.title +"_Version_"+ instance.ver + "_" + instance.user.username, ext)
+        filename = '{}.{}'.format(instance.icnreport.icn.title +"_Version_"+ instance.ver + "_" + instance.user.username + "_" + timezone.localtime(timezone.now()).strftime('%Y-%m-%dT%H:%M:%S'), ext)
     elif hasattr(instance, 'activityreport'):
-         filename = '{}.{}'.format(instance.activityreport.activity.title +"_Version_"+ instance.ver + "_" + instance.user.username, ext)
+         filename = '{}.{}'.format(instance.activityreport.activity.title +"_Version_"+ instance.ver + "_" + instance.user.username + "_" + timezone.localtime(timezone.now()).strftime('%Y-%m-%dT%H:%M:%S'), ext)
         # set filename as random string
     else:
         filename = '{}.{}'.format(uuid4().hex, ext)
@@ -94,7 +95,7 @@ class IcnReportDocument(models.Model):
     user = models.ForeignKey(User, on_delete= models.DO_NOTHING, null=True,  blank=True, related_name='icnreportuploaded_by')
     icnreport = models.ForeignKey(IcnReport, on_delete=models.CASCADE, default=2,  blank=True)
     description = models.TextField(blank=True, null=True)
-    document = models.FileField(null=True,  blank=True, max_length=500, upload_to=path_and_rename)
+    document = models.FileField(null=True,  blank=True, max_length=500, upload_to=path_and_rename, validators=[FileExtensionValidator(allowed_extensions=["doc","docx","pdf" ])])
     ver = models.TextField(blank=True, null=True)
     uploaded_at = models.DateTimeField(auto_now_add=True,  null=True,  blank=True)
 
@@ -247,10 +248,46 @@ class IcnReportImpact(models.Model):
     
     actual_impact_pilot  = models.FloatField(null=True, blank=True)
     actual_impact_scaleup  = models.FloatField(null=True, blank=True)
+    
+    def __str__(self):
+        return str(self.icnreport)
+    @property
+    def get_scaleup_check(self):
+        Qs = IcnReportDisaggregate.objects.filter(impact_id=self.impact_id).values('disaggregate__name').annotate(total_scaleup=Sum('actual_scaleup'), total_pilot=Sum('actual_pilot')).order_by('disaggregate__name')
+        Qs2 = self.actual_impact_scaleup
+        for q in Qs:
+            if q['total_scaleup'] != Qs2:
+                return False
+            else:
+                return True
+    @property
+    def get_pilot_check(self):
+        Qs = IcnReportDisaggregate.objects.filter(impact_id=self.impact_id).values('disaggregate__name').annotate(total_scaleup=Sum('actual_scaleup'), total_pilot=Sum('actual_pilot')).order_by('disaggregate__name')
+        Qs2 = self.actual_impact_pilot
+        print(Qs2)
+        for q in Qs:
+            if q['total_pilot'] != Qs2:
+                return False
+            else:
+                return True
+
+    class Meta:
+        ordering = ('id',)
+
+class IcnReportDisaggregate(models.Model):
+    icnreport =  models.ForeignKey(
+        IcnReport, on_delete=models.CASCADE, null=True, blank=True)
+    impact = models.ForeignKey(Impact, on_delete=models.CASCADE, null=True, blank=True)
+    disaggregate = models.OneToOneField('conceptnote.Disaggregate', on_delete=models.CASCADE, null=True, blank=True)
    
+    actual_pilot  = models.FloatField(null=True, blank=True)
+    actual_scaleup  = models.FloatField(null=True, blank=True)   
+    
+    
 
     def __str__(self):
         return str(self.icnreport)
+
 
 class ActivityReport(models.Model):
     activity = models.OneToOneField(Activity, on_delete=models.DO_NOTHING)
@@ -330,7 +367,7 @@ class ActivityReportDocument(models.Model):
     user = models.ForeignKey(User, on_delete= models.DO_NOTHING, null=True,  blank=True, related_name='activityreportuploaded_by')
     activityreport = models.ForeignKey(ActivityReport, on_delete=models.CASCADE,  blank=True)
     description = models.TextField(blank=True, null=True)
-    document = models.FileField(null=True,  blank=True, max_length=500, upload_to=path_and_rename)
+    document = models.FileField(null=True,  blank=True, max_length=500, upload_to=path_and_rename, validators=[FileExtensionValidator(allowed_extensions=["doc","docx","pdf" ])])
     ver = models.TextField(blank=True, null=True)
     uploaded_at = models.DateTimeField(auto_now_add=True,  null=True,  blank=True)
 

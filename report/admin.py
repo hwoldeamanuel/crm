@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import IcnReport, IcnReportImplementationArea, IcnReportSubmit, IcnReportSubmitApproval_F,IcnReportSubmitApproval_P, IcnReportSubmitApproval_T, IcnReportImpact, IcnReportDocument, ActivityReport,ActivityReportImplementationArea, ActivityReportImpact, ActivityReportDocument,ActivityReportSubmit,ActivityReportSubmitApproval_F,ActivityReportSubmitApproval_P,ActivityReportSubmitApproval_T
+from .models import IcnReport, IcnReportImplementationArea, IcnReportSubmit, IcnReportSubmitApproval_F,IcnReportSubmitApproval_P, IcnReportSubmitApproval_T, IcnReportImpact, IcnReportDocument, ActivityReport,ActivityReportImplementationArea, ActivityReportImpact, ActivityReportDocument,ActivityReportSubmit,ActivityReportSubmitApproval_F,ActivityReportSubmitApproval_P,ActivityReportSubmitApproval_T, IcnReportDisaggregate
 
 admin.site.register(IcnReport)
 admin.site.register(IcnReportImplementationArea)
@@ -19,3 +19,4 @@ admin.site.register(ActivityReportSubmit)
 admin.site.register(ActivityReportSubmitApproval_F)
 admin.site.register(ActivityReportSubmitApproval_P)
 admin.site.register(ActivityReportSubmitApproval_T)
+admin.site.register(IcnReportDisaggregate)

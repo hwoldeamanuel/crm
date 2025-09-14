@@ -1,0 +1,19 @@
+{% load widget_tweaks %}
+{% with WIDGET_ERROR_CLASS='my_error_class' %}
+<tr>
+<td>*</td>
+<td>
+    {% render_field iform.title %} </td>
+    <td>   {% render_field iform.description %} </td>
+    <td>   {% render_field iform.unit %} </td>
+    <td>   {% render_field iform.impact_pilot %} </td>
+    <td>   {% render_field iform.impact_scaleup %} </td>                                                        
+   
+       <td>   {% render_field iform.indicators class+="form-control form-select form-select-solid" attr="data-control:select2" %} </td>
+    <td>
+   
+{% endwith %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.css" rel="stylesheet"/>
+
+    {{ iform.media.js }}

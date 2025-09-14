@@ -34,7 +34,9 @@ class TravelRequestForm(forms.ModelForm):
             )
         self.fields['destination'].widget = forms.widgets.Textarea(attrs={'type':'textarea', 'class': 'form-control input-xs', 'rows':'1'  }    )
         self.fields['purpose'].widget = forms.widgets.Textarea(attrs={'type':'textarea', 'class': 'form-control input-xs', 'rows':'2'  }    )
-        self.fields['business'].widget = forms.widgets.CheckboxInput(attrs={'type':'checkbox', 'class': 'form-control-sm icheckbox_flat-green1 iradio_flat-green1' })
+        self.fields['business'].widget =forms.widgets.CheckboxInput(attrs={'type':'checkbox', 'class': 'form-control-sm icheckbox_flat-green1 '})
+    
+        #self.fields['business'].widget = forms.widgets.CheckboxInput(attrs={'type':'checkbox', 'class': 'form-control-sm icheckbox_flat-green1 iradio_flat-green1' })
         self.fields['relocation'].widget = forms.widgets.CheckboxInput(attrs={'type':'checkbox', 'class': 'form-control-sm icheckbox_flat-green1 iradio_flat-green1' })
         self.fields['randr'].widget = forms.widgets.CheckboxInput(attrs={'type':'checkbox', 'class': 'form-control-sm icheckbox_flat-green1 iradio_flat-green1' })
         self.fields['other'].widget = forms.widgets.CheckboxInput(attrs={'type':'checkbox', 'class': 'form-control-sm icheckbox_flat-green1 iradio_flat-green1' })

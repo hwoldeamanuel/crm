@@ -1,0 +1,25 @@
+<tr>
+ <td colspan="2"></td>
+           
+    <td >{{ form.name }}
+        {{ form.name.errors}}
+    </td>
+    <td >{{ form.type }}
+        {{ form.type.errors }}
+    </td>
+    <td >
+        {{ form.pilot }}
+        {{ form.pilot.errors }}
+    </td>
+    <td >
+        {{ form.scaleup }}
+        {{ form.scaleup.errors }}
+    </td>
+   
+    <td class="text-left" colspan="1">
+   
+    <a hx-post="{% url 'icn_edit_disaggregate' pk=disaggregate.pk %}" class="btn btn-sm btn-success py-1" style="font-size: 0.8em;"  hx-target="closest tr" hx-swap="outerHTML" hx-include="closest tr"><i class="fa fa-save"> </i> </a>
+   <button type="button" class="btn btn-sm btn-secondary py-1" style="font-size: 0.8em;" value="Previous Page" onClick="javascript:history.go(0);"><i class="fa fa-remove"></i></button>
+     <a hx-post="{% url 'icn_delete_disaggregate' pk=disaggregate.pk %}" class="btn btn-sm btn-danger py-1" style="font-size: 0.8em;"  hx-confirm='Are you sure?'  hx-target="closest tr" hx-swap="outerHTML" hx-include="closest tr"><i class="fa fa-trash"> </i> </a>
+    </td><td></td><td></td>
+</tr>

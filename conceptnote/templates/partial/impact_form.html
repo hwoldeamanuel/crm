@@ -21,16 +21,7 @@
                             </div>
                         
                         </div>
-     <div class="item form-group">
-                            <label class="col-form-label col-md-2 col-sm-2 label-align" for="first-name">Disaggregate:<span class="required">*</span>
-                            </label>
-                            <div class="col-md-8 col-sm-8 ">
-                                
-                                    {% render_field iform.description class+="form-control form-control-sm" %}
-                                    <div class="invalid-feedback">{{ iform.description.errors|first }}</div>
-                            </div>
-                        
-                        </div>
+    
                           <div class="item form-group">
                             <label class="col-form-label col-md-2 col-sm-2 label-align" for="first-name">Unit:<span class="required">*</span>
                             </label>
@@ -59,6 +50,16 @@
                           <div class="invalid-feedback">{{ iform.impact_scaleup.errors|first }}</div>
                         </div>
                                             
+                        </div>
+                         <div class="item form-group">
+                            <label class="col-form-label col-md-2 col-sm-2 label-align" for="first-name">Disaggregate:<span class="required">*</span>
+                            </label>
+                            <div class="col-md-8 col-sm-8 ">
+                                
+                                    {% render_field iform.is_disaggregate class+="form-control form-control-sm" %}
+                                    <div class="invalid-feedback">{{ iform.is_disaggregate.errors|first }}</div>
+                            </div>
+                        
                         </div>
      <div class="item form-group">
                             
