@@ -125,7 +125,7 @@ WSGI_APPLICATION = 'cnms.wsgi.application'
 
 
 
-
+"""
 DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -153,7 +153,7 @@ DATABASES = {
         'sslmode': 'require',
     }
 }
-"""
+
 #database_url = os.environ.get("DATABASE_URL")
 #DATABASES = {
  #   "default" : dj_database_url.parse(database_url)
