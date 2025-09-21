@@ -1,13 +1,14 @@
 {% load static %}
-  <table class="table table-striped projects">
+ <table class="table table-sm table-striped" style="margin-top:0px; margin-bottom:0px">
+                     
                 <thead>
-                  <tr class="text-center">
+                  <tr class="text-left">
                     <th style="width: 1%">#</th>
                     <th style="width: 15%">Program</th>
-                    <th style="width: 25%">Title</th>
-                    <th style="width: 26%">Team Members</th>
+                    <th style="width: 28%">Title</th>
+                    <th style="width: 25%">Team Members</th>
                     
-                    <th style="width: 22%">Timeline</th>
+                    <th style="width: 22%">Period</th>
                    
                     <th style="width: 12%"></th>
                   </tr>
@@ -25,10 +26,11 @@
                       
                       <ul class="list-inline">
                         {% for user in program.users_role.all %}
-                       
-                          <img class="img-responsive  img-circle profile_img" src="{% static 'images/user.png' %}" alt="avatar" title="{{ user.profile.full_name}}" style="width: 30px; height:30px; margin-top: 0px; margin-bottom:1px; margin-left: 0px;margin-right: 0px;">
-                       
-                         
+                       {% if forloop.counter < 10 %}
+                          <img class="img-responsive  img-circle profile_img" src="{% static 'images/user.png' %}" alt="avatar" title="{{ user.profile.full_name}}" style="width: 30px; height:30px; margin-top: 0px; margin-bottom:1px; margin-left: -10px;margin-right: 0px;">
+                       {% elif forloop.counter == 10 %}
+                       <li class="list-inline-item"> <small>+{{ program.users_role.count|add:"-9" }} more</small> </li>
+                         {% endif %}
                         {% endfor %}
                     </ul>
                     </td>

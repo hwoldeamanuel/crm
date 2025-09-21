@@ -124,14 +124,14 @@ WSGI_APPLICATION = 'cnms.wsgi.application'
 
 
 
-# Example connection string: "host=localhost dbname=paqcnms user=postgres password=Letmein@2023_1"
-"""
+
+
 DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'paqcnms',
-            'USER': 'postgres',
-            'PASSWORD': 'Letmein@2023_1',
+            'NAME': env('LOCAL_DB_NAME'),
+            'USER': env('LOCAL_DB_USER'),
+            'PASSWORD': env('LOCAL_DB_PASSWORD'),
             'HOST': 'localhost',
             'PORT': '5432',
             'DISABLE_SERVER_SIDE_CURSORS': True, 
@@ -153,7 +153,7 @@ DATABASES = {
         'sslmode': 'require',
     }
 }
-
+"""
 #database_url = os.environ.get("DATABASE_URL")
 #DATABASES = {
  #   "default" : dj_database_url.parse(database_url)
@@ -245,7 +245,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-DEFAULT_FROM_EMAIL = "Mercy Corps ETH CNMS"
+DEFAULT_FROM_EMAIL = "Mercy Corps CNMS"
 EMAIL_HOST_USER = env('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 

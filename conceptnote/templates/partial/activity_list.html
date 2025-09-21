@@ -1,15 +1,65 @@
   {% load static %}
 
-               <style>
-    th {
-      text-align: center;
+          
+                   <style>
 
-    }
-    </style>
+ 
+  
+
+.symbol-group {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center; }
+  .symbol-group .img-circle {
+    position: relative;
+    z-index: 0;
+    margin-left: -10px;
+    border: 1px solid rgba(52, 73, 94, 0.44);
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease; }
+    .symbol-group .symbol:first-child {
+      margin-left: 0; }
+    .symbol-group .img-circle:hover {
+      -webkit-transition: all 0.3s ease;
+      transition: all 0.3s ease;
+      z-index: 1; }
+  .symbol-group.symbol-hover .symbol {
+    cursor: pointer; }
+
+
+      .symbol-group {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center; }
+  .symbol-group .img-circle {
+    position: relative;
+    z-index: 0;
+   
+    border: 1px solid rgba(52, 73, 94, 0.44);
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease; }
+    .symbol-group .symbol:first-child {
+      margin-left: 0; }
+    .symbol-group .symbol:hover {
+      -webkit-transition: all 0.3s ease;
+      transition: all 0.3s ease;
+      z-index: 1; }
+  .symbol-group.symbol-hover .symbol {
+    cursor: pointer; }
+
+
+      </style>  
+
 
               <!-- start project list -->
 
-              <table class="table table-striped">
+ <table class="table table-sm table-striped" style="margin-top:0px; margin-bottom:0px">
                      
                   
                 <thead>
@@ -17,10 +67,10 @@
                     <th style="width:">#</th>
                      
                   
-                    <th style="width: 38%">Activity ID/Title</th>
-                    <th style="width: 18%">Team Members</th>
+                    <th style="width: 43%">Activity ID/Title</th>
+                    <th style="width: 14%">Team Members</th>
                
-                    <th style="width:12%">Date<small> (Start/End)</small></th>
+                    <th style="width:14%">Date<small> (Start/End)</small></th>
                    <th style="width:12%">Status <small>(ACN)</small></th>
                       <th style="width:12%">Status <small>(Report)</small></th>
                      <th ></th>
@@ -36,17 +86,17 @@
                       <small>{{ activity.title }}</small>
                      
                     </td>
-                    <td>
-                      <ul class="list-inline text-center">
+                           <td style="text-align: center;margin-left:5px;">
+                   <ul class="list-inline text-center symbol-group" style="text-align: center;margin-left:5px;">
                         
                             
-                          <img class="img-responsive img-circle profile_img" src="{% static 'images/user.png' %}" alt="avatar" title="{{ activity.user.profile.full_name}} - Initiator" style="width: 30px; height:30px; margin-top: 0px; margin-bottom:2px; margin-left: 0px;margin-right: 0px;">
+                          <img class="img-responsive img-circle profile_img" src="{% static 'images/user.png' %}" alt="avatar" title="{{ activity.user.profile.full_name}} - Initiator" style="width: 30px; height:30px; margin-top: 4px; margin-bottom:1px; margin-left: -10px;margin-right: 0px;">
                             
-                           <div class="ln_solid" style="margin-top: 0px; margin-bottom:0px; margin-left: 0px;margin-right: 0px;"></div>
-                            <img class="img-responsive  img-circle profile_img" src="{% static 'images/user.png' %}" alt="avatar" title="{{ activity.technical_lead.user.profile.full_name}} - Technical Lead" style="width: 30px; height:30px; margin-top: 4px; margin-bottom:1px; margin-left: 0px;margin-right: 0px;">
-                              <img class="img-responsive  img-circle profile_img" src="{% static 'images/user.png' %}" alt="avatar" title="{{ activity.mel_lead.user.profile.full_name}} - MEL Lead" style="width: 30px; height:30px; margin-top: 4px; margin-bottom:1px; margin-left: 0px;margin-right: 0px;">
-                                <img class="img-responsive  img-circle profile_img" src="{% static 'images/user.png' %}" alt="avatar" title="{{ activity.finance_lead.user.profile.full_name}} - Finance Lead" style="width: 30px; height:30px; margin-top: 4px; margin-bottom:1px; margin-left: 0px;margin-right: 0px;">
-                                  <img class="img-responsive  img-circle profile_img" src="{% static 'images/user.png' %}" alt="avatar" title="{{ activity.program_lead.user.profile.full_name}} - Program Lead" style="width: 30px; height:30px; margin-top: 4px; margin-bottom:1px; margin-left: 0px;margin-right: 0px;">
+                         
+                            <img class="img-responsive  img-circle profile_img" src="{% static 'images/user.png' %}" alt="avatar" title="{{ activity.technical_lead.user.profile.full_name}} - Technical Lead" style="width: 30px; height:30px; margin-top: 4px; margin-bottom:1px; margin-left: -10px;margin-right: 0px;">
+                              <img class="img-responsive  img-circle profile_img" src="{% static 'images/user.png' %}" alt="avatar" title="{{ activity.mel_lead.user.profile.full_name}} - MEL Lead" style="width: 30px; height:30px; margin-top: 4px; margin-bottom:1px; margin-left: -10px;margin-right: 0px;">
+                                <img class="img-responsive  img-circle profile_img" src="{% static 'images/user.png' %}" alt="avatar" title="{{ activity.finance_lead.user.profile.full_name}} - Finance Lead" style="width: 30px; height:30px; margin-top: 4px; margin-bottom:1px; margin-left: -10px;margin-right: 0px;">
+                                  <img class="img-responsive  img-circle profile_img" src="{% static 'images/user.png' %}" alt="avatar" title="{{ activity.program_lead.user.profile.full_name}} - Program Lead" style="width: 30px; height:30px; margin-top: 4px; margin-bottom:1px; margin-left:-10px;margin-right: 0px;">
                        
         
                         
@@ -67,7 +117,7 @@
                    </td>
                   <td>
                      {% if not activity.activityreport or activity.approval_status != '100% Approved' %}
-                       <span class="badge badge {% if activity.final_report_due_date|timesince > '1 min' %}  bg-red {% else %} bg-default{% endif %}">{{activity.final_report_due_date}}</span>
+                      <span class="badge badge {% if activity.final_report_due_date|timesince > '1 min' %}  bg-red {% else %} bg-default{% endif %}">{{activity.final_report_due_date}}</span>
                    {% elif activity.activityreport.status == True %}
                       <span class="badge {% if 'Rejected' in activity.activityreport.approval_status %} bg-red {% elif 'Approved' in activity.activityreport.approval_status %} bg-green {% else %} bg-warning {% endif %}">{% if activity.activityreport.approval_status %} {{ activity.activityreport.approval_status}} {% else %} Pending {% endif %}</span>
                      {% elif activity.activityreport.status == False %}
@@ -78,7 +128,6 @@
                     
                       <td>
                       
-                                               
                      
                     <div class="btn-group">
   <button type="button" class="btn btn-sm btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -91,8 +140,6 @@
                       <a class="dropdown-item {% if request.user != activity.user or activity.activityimpact_set.all.count > 0 %}disabled{% endif %}" hx-get="{% url 'activity_delete' activity.id %}"  hx-target="#icn_list" hx-confirm="Are you sure you wish to delete ?">Delete</a>
   </div>
 </div>
-                    
-                    
                     
                           <!-- end project list -->
                     </td>

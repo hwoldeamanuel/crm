@@ -1,15 +1,65 @@
   {% load static %}
 
-                    <style>
-    th {
-      text-align: center;
+                   <style>
 
-    }
+ 
+  
+
+.symbol-group {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center; }
+  .symbol-group .img-circle {
+    position: relative;
+    z-index: 0;
+    margin-left: -10px;
+    border: 1px solid rgba(52, 73, 94, 0.44);
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease; }
+    .symbol-group .symbol:first-child {
+      margin-left: 0; }
+    .symbol-group .img-circle:hover {
+      -webkit-transition: all 0.3s ease;
+      transition: all 0.3s ease;
+      z-index: 1; }
+  .symbol-group.symbol-hover .symbol {
+    cursor: pointer; }
+
+
+      .symbol-group {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center; }
+  .symbol-group .img-circle {
+    position: relative;
+    z-index: 0;
+   
+    border: 1px solid rgba(52, 73, 94, 0.44);
+    -webkit-transition: all 0.3s ease;
+    transition: all 0.3s ease; }
+    .symbol-group .symbol:first-child {
+      margin-left: 0; }
+    .symbol-group .symbol:hover {
+      -webkit-transition: all 0.3s ease;
+      transition: all 0.3s ease;
+      z-index: 1; }
+  .symbol-group.symbol-hover .symbol {
+    cursor: pointer; }
+
+
+      </style>  
+
     </style>
 
               <!-- start project list -->
 
-                         <table class="table table-striped">
+                                 <table class="table table-sm table-striped" style="margin-top:0px; margin-bottom:0px">
                      
                   
                 <thead>
@@ -17,8 +67,8 @@
                     <th style="width:">#</th>
                      
                     
-                    <th style="width: 38%">Intervention ID/Title</th>
-                    <th style="width: 18%">Team Members</th>
+                    <th style="width: 45%">Intervention ID/Title</th>
+                    <th style="width: 15%; text-align:left;margin-left:5px;" >Team Members</th>
                
                     <th style="width:12%">Date<small> (Start/End)</small></th>
                    <th style="width:12%">Status <small>(ICN)</small></th>
@@ -37,17 +87,18 @@
                       <small>{{ icn.title }}</small>
                      
                     </td>
-                         <td>
-                      <ul class="list-inline text-center">
+                    <td style="text-align: center;margin-left:5px;">
+                      <ul class="list-inline text-center symbol-group" style="text-align: center;margin-left:5px;">
                         
                             
-                          <img class="img-responsive img-circle profile_img" src="{% static 'images/user.png' %}" alt="avatar" title="{{ icn.user.profile.full_name}} - Initiator" style="width: 30px; height:30px; margin-top: 0px; margin-bottom:2px; margin-left: 0px;margin-right: 0px;">
+                         
                             
-                           <div class="ln_solid" style="margin-top: 0px; margin-bottom:0px; margin-left: 0px;margin-right: 0px;"></div>
-                            <img class="img-responsive  img-circle profile_img" src="{% static 'images/user.png' %}" alt="avatar" title="{{ icn.technical_lead.user.profile.full_name}} - Technical Lead" style="width: 30px; height:30px; margin-top: 4px; margin-bottom:1px; margin-left: 0px;margin-right: 0px;">
-                              <img class="img-responsive  img-circle profile_img" src="{% static 'images/user.png' %}" alt="avatar" title="{{ icn.mel_lead.user.profile.full_name}} - MEL Lead" style="width: 30px; height:30px; margin-top: 4px; margin-bottom:1px; margin-left: 0px;margin-right: 0px;">
-                                <img class="img-responsive  img-circle profile_img" src="{% static 'images/user.png' %}" alt="avatar" title="{{ icn.finance_lead.user.profile.full_name}} - Finance Lead" style="width: 30px; height:30px; margin-top: 4px; margin-bottom:1px; margin-left: 0px;margin-right: 0px;">
-                                  <img class="img-responsive  img-circle profile_img" src="{% static 'images/user.png' %}" alt="avatar" title="{{ icn.program_lead.user.profile.full_name}} - Program Lead" style="width: 30px; height:30px; margin-top: 4px; margin-bottom:1px; margin-left: 0px;margin-right: 0px;">
+                         
+                            <img class="img-responsive img-circle profile_img" src="{% static 'images/user.png' %}" alt="avatar" title="{{ icn.user.profile.full_name}} - Initiator" style="width: 30px; height:30px; margin-top: 4px; margin-bottom:1px; margin-left: -10px;margin-right: 0px;" >
+                            <img class="img-responsive  img-circle profile_img " src="{% static 'images/user.png' %}" alt="avatar" title="{{ icn.technical_lead.user.profile.full_name}} - Technical Lead" style="width: 30px; height:30px; margin-top: 4px; margin-bottom:1px; margin-left: -10px;margin-right: 0px;">
+                              <img class="img-responsive  img-circle profile_img" src="{% static 'images/user.png' %}" alt="avatar" title="{{ icn.mel_lead.user.profile.full_name}} - MEL Lead" style="width: 30px; height:30px; margin-top: 4px; margin-bottom:1px; margin-left: -10px;margin-right: 0px;">
+                                <img class="img-responsive  img-circle profile_img" src="{% static 'images/user.png' %}" alt="avatar" title="{{ icn.finance_lead.user.profile.full_name}} - Finance Lead" style="width: 30px; height:30px; margin-top: 4px; margin-bottom:1px; margin-left: -10px;margin-right: 0px;">
+                                  <img class="img-responsive  img-circle profile_img" src="{% static 'images/user.png' %}" alt="avatar" title="{{ icn.program_lead.user.profile.full_name}} - Program Lead" style="width: 30px; height:30px; margin-top: 4px; margin-bottom:1px; margin-left: -10px;margin-right: 0px;">
                        
         
                         
@@ -55,6 +106,7 @@
                       </ul>
                     </td>
                     <td>
+                  
                         <small>{{ icn.proposed_start_date }}</small>
                         <br />
                         <small>{{ icn.proposed_end_date }}</small>
@@ -75,7 +127,8 @@
                     <span class="badge {% if icn.icnreport and icn.icnreport.status == True %}badge bg-green {% else %} badge bg-warning {% endif %}">{{ icn.icnreport.get_status_display}}</span>
                      {% endif %}
                     </td>
-                    <td>
+                    <td >
+                      
                     <div class="btn-group">
   <button type="button" class="btn btn-sm btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
     Action
@@ -87,7 +140,6 @@
                       <a class="dropdown-item {% if request.user != icn.user or icn.impact_set.all.count > 0 %}disabled{% endif %}" hx-get="{% url 'icn_delete' icn.id %}"  hx-target="#icn_list" hx-confirm="Are you sure you wish to delete ?">Delete</a>
   </div>
 </div>
-                     
                     
                      
                     </td>
