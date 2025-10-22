@@ -124,8 +124,8 @@ WSGI_APPLICATION = 'cnms.wsgi.application'
 
 
 
+""" 
 
-"""
 DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -159,7 +159,7 @@ DATABASES = {
  #   "default" : dj_database_url.parse(database_url)
    
 #}
-                                
+                             
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

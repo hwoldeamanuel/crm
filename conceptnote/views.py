@@ -22,7 +22,7 @@ from app_admin.models import Country , Region , Zone , Woreda
 
 from portfolio.models import Portfolio
 from django.conf import settings
-
+#habtamu
 from django.forms.models import modelformset_factory
 from django.core.paginator import Paginator
 from django.contrib.auth.models import User
@@ -455,7 +455,7 @@ def icn_approvalt(request, id, did):
   
 @login_required(login_url='login') 
 def icn_approvalm(request, id, did):
-     
+    
     icnsubmitApproval_m = get_object_or_404(IcnSubmitApproval_M, submit_id_id=id)
     icnsubmit = get_object_or_404(IcnSubmit, pk=id)
     did=did
