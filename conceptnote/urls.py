@@ -62,9 +62,9 @@ htmxpatterns = [
  path('activity_submit_document/<int:id>/', views.activity_submit_document, name='activity_submit_document'),
  path('icn_approvalp/<int:id>/<int:did>/', views.icn_approvalp, name='icn_approvalp'),
  path('icn_approvalf/<int:id>/<int:did>/', views.icn_approvalf, name='icn_approvalf'),
- path('icn_approvalt/<int:id>/<int:did>/', views.icn_approvalt, name='icn_approvalt'),
+
  path('icn_approvalm/<int:id>/<int:did>/', views.icn_approvalm, name='icn_approvalm'),
- path('activity_approvalt/<int:id>/<int:did>/', views.activity_approvalt, name='activity_approvalt'),
+
  path('activity_approvalm/<int:id>/<int:did>/', views.activity_approvalm, name='activity_approvalm'),
  path('activity_approvalp/<int:id>/<int:did>/', views.activity_approvalp, name='activity_approvalp'),
  path('activity_approvalf/<int:id>/<int:did>/', views.activity_approvalf, name='activity_approvalf'),

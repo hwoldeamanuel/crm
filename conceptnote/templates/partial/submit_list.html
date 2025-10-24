@@ -83,48 +83,9 @@
 
     
 </tr>
-            <tr>
-        <td>2</td>
-        <td>
-          <a>Techncial</a>
-          <br />
-          <small>{{ icn.technical_lead.user.profile.full_name }}</small>
-        </td>
-        {% if icnsubmit %}
-        <td>{% if icnsubmit.icnsubmitapproval_t.approval_status_id == 1 %}{{ icnsubmit.submission_date|timesince }} {% else %} {{icnsubmit.icnsubmitapproval_t.approval_date|date:"M d,Y"}}</br><small>{{icnsubmit.icnsubmitapproval_t.approval_date|time}}</small> {% endif %}</td>
-       
-        <td>{{icnsubmit.icnsubmitapproval_t.document }}</td>
-        <td>
-          <span class="badge  {% if icnsubmit.icnsubmitapproval_t.approval_status_id == 1 %} badge-primary {% elif icnsubmit.icnsubmitapproval_t.approval_status_id == 2 %}badge-warning {% elif icnsubmit.icnsubmitapproval_t.approval_status_id == 3 %}badge-success {% elif icnsubmit.icnsubmitapproval_t.approval_status_id == 4 %}badge-danger{% endif %}">{{ icnsubmit.icnsubmitapproval_t.approval_status.name }}</span> 
-        </td>
-         <td><div class="btn-group">
-                    <button type="button" class="{% if request.user != icn.technical_lead.user or icnsubmit.icnsubmitapproval_t.approval_status_id != 1 %}disabled {% endif %}btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Action
-                    </button>
-                    <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                      <a class="dropdown-item" hx-get={% url 'icn_approvalt' icnsubmit.id 2 %} hx-target="#SubmitList">Require Revision</a>
-                      <a class="dropdown-item" hx-get={% url 'icn_approvalt' icnsubmit.id 3 %} hx-target="#SubmitList">Endorese Request</a>
-                    
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" hx-get={% url 'icn_approvalt' icnsubmit.id 4 %} hx-target="#SubmitList">Reject Request</a>
-                    </div>
-                  </div></td>
-                    <td></td>
-        {% else %}
-        <td></td>
-        <td></td>
-        <td></td>
-       <td></td>
-         <td></td>
-        {% endif%}
-
-
-
-
-    
-</tr>
+          
   <tr>
-        <td>3</td>
+        <td>2</td>
         <td>
           <a>MEL</a>
           <br />
@@ -164,7 +125,7 @@
     
 </tr>
 <tr>
-    <td>4</td>
+    <td>3</td>
     <td>
       <a>Finance</a>
       <br />
@@ -204,7 +165,7 @@
 
 </tr>
 <tr>
-    <td>5</td>
+    <td>4</td>
     <td>
       <a>Program</a>
       <br />

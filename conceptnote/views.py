@@ -13,8 +13,8 @@ from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
 from django.views.generic import FormView, TemplateView
 from django.contrib.auth import get_user_model
-from .models import Icn, Activity, ActivityImpact,ActivityImplementationArea,  Indicator, IcnImplementationArea,  Impact, IcnSubmit, Document, Icn_Approval, IcnSubmitApproval_P, IcnSubmitApproval_F, IcnSubmitApproval_M,IcnSubmitApproval_T, ActivityDocument, ActivitySubmit, ActivitySubmitApproval_F,ActivitySubmitApproval_P, ActivitySubmitApproval_M, ActivitySubmitApproval_T, Disaggregate
-from .forms import IcnForm, ActivityForm,ImpactForm, ActivityImpactForm, ActivityAreaFormE, IcnAreaFormE, IcnSubmitForm,  IcnDocumentForm, IcnApprovalTForm, IcnApprovalFForm, IcnApprovalPForm, IcnApprovalMForm,ActivitySubmitForm, ActivityDocumentForm, ActivityApprovalFForm, ActivityApprovalPForm,ActivityApprovalTForm, ActivityApprovalMForm, DisaggregateForm
+from .models import Icn, Activity, ActivityImpact,ActivityImplementationArea,  Indicator, IcnImplementationArea,  Impact, IcnSubmit, Document, Icn_Approval, IcnSubmitApproval_P, IcnSubmitApproval_F, IcnSubmitApproval_M, ActivityDocument, ActivitySubmit, ActivitySubmitApproval_F,ActivitySubmitApproval_P, ActivitySubmitApproval_M,  Disaggregate
+from .forms import IcnForm, ActivityForm,ImpactForm, ActivityImpactForm, ActivityAreaFormE, IcnAreaFormE, IcnSubmitForm,  IcnDocumentForm,  IcnApprovalFForm, IcnApprovalPForm, IcnApprovalMForm,ActivitySubmitForm, ActivityDocumentForm, ActivityApprovalFForm, ActivityApprovalPForm, ActivityApprovalMForm, DisaggregateForm
 from program.models import  Program,  ImplementationArea
 from django.http import QueryDict
 from django.conf import settings
@@ -372,7 +372,7 @@ def icn_submit_form(request, id, sid):
                 Icn.objects.filter(pk=id).update(status=True)
                 Icn.objects.filter(pk=id).update(approval_status="Pending Approval")
                 
-                IcnSubmitApproval_T.objects.create(user = icn.technical_lead,submit_id = instance, document = instance.document, approval_status=Approvalt_Status.objects.get(id=1))
+              
                 IcnSubmitApproval_M.objects.create(user = icn.mel_lead,submit_id = instance, document = instance.document, approval_status=Approvalt_Status.objects.get(id=1))
                 IcnSubmitApproval_P.objects.create(user = icn.program_lead,submit_id = instance,document = instance.document, approval_status=Approvalf_Status.objects.get(id=1))
                 IcnSubmitApproval_F.objects.create(user = icn.finance_lead,submit_id = instance,document = instance.document, approval_status=Approvalt_Status.objects.get(id=1))
@@ -395,6 +395,9 @@ def icn_submit_form(request, id, sid):
                     "showMessage": f"{instance.id} added."
                 })
             })
+        form = IcnSubmitForm(request.POST,user=request.user,icn=icn.id, sid=sid)
+        context = {'form':form, 'icn':icn, 'sid':sid}
+        return render(request, 'icn_submit_form copy.html', context)
       
     context = {'form':form, 'icn':icn, 'sid':sid}
     return render(request, 'icn_submit_form copy.html', context)
@@ -416,43 +419,7 @@ def icn_submit_detail(request, pk):
     return render(request, 'icnsubmit_detail.html', context)
 
 
-@login_required(login_url='login') 
-def icn_approvalt(request, id, did):
-     
-    icnsubmitApproval_t = get_object_or_404(IcnSubmitApproval_T, submit_id_id=id)
-    icnsubmit = get_object_or_404(IcnSubmit, pk=id)
-    did=did
-    icn =  get_object_or_404(Icn, id=icnsubmit.icn_id)
-    
-    if request.method == "GET":
-        form = IcnApprovalTForm(instance=icnsubmitApproval_t, did=did, icn = icn.id, user = request.user)
-                    
-        context = {'icnsubmitapproval_t':icnsubmitApproval_t, 'form': form, 'icn':icn, 'did':did}
-        return render(request, 'icn_approval_tform.html', context)
-    
-    elif request.method == "PUT":
-        icnsubmitApproval_t = get_object_or_404(IcnSubmitApproval_T, submit_id_id=id)
-        data = QueryDict(request.body).dict()
-        form = IcnApprovalTForm(data, instance=icnsubmitApproval_t, did=did,user = request.user )
-        if form.is_valid():
-            instance = form.save()
-            icnsubmit = get_object_or_404(IcnSubmit, pk=id)
-            update_approval_status(icnsubmit.id)
-            icn =  get_object_or_404(Icn, id=icnsubmit.icn_id)
-            send_icn_notify(icn.id, 2, instance.document_id)
-                      
-            context = {'icn':icn, 'icnsubmit':icnsubmit , 'did':did}
-            return HttpResponse(
-                status=204,
-                headers={
-                    'HX-Trigger': json.dumps({
-                        "SubmitApprovalListChanged": None,
-                        "showMessage": f"{instance.id} added."
-                    })
-                })
-        
-        return render(request, 'icn_approval_tform.html', {'form':form, 'did':did})
-  
+
 @login_required(login_url='login') 
 def icn_approvalm(request, id, did):
     
@@ -1310,7 +1277,7 @@ def activity_submit_form(request, id, sid):
             if activitysubmit.submission_status_id == 2:
                 Activity.objects.filter(pk=id).update(status=True)
                 Activity.objects.filter(pk=id).update(approval_status="Pending Approval")
-                ActivitySubmitApproval_T.objects.create(user = activity.technical_lead,submit_id = instance, document = instance.document, approval_status=Approvalt_Status.objects.get(id=1))
+          
                 ActivitySubmitApproval_M.objects.create(user = activity.mel_lead,submit_id = instance, document = instance.document, approval_status=Approvalt_Status.objects.get(id=1))
                 ActivitySubmitApproval_P.objects.create(user = activity.program_lead,submit_id = instance,document = instance.document, approval_status=Approvalf_Status.objects.get(id=1))
                 ActivitySubmitApproval_F.objects.create(user = activity.finance_lead,submit_id = instance,document = instance.document, approval_status=Approvalt_Status.objects.get(id=1))
@@ -1425,43 +1392,6 @@ def activity_submit_approval_list(request, id):
     context = {'activity_submit_list': activity_submit_list }
     return render(request, 'partial/activity_submit_approval_list.html', context )
 
-@login_required(login_url='login')
-def activity_approvalt(request, id, did):
-     
-    activitysubmitApproval_t = get_object_or_404(ActivitySubmitApproval_T, submit_id_id=id)
-    activitysubmit = get_object_or_404(ActivitySubmit, pk=id)
-    
-    activity =  get_object_or_404(Activity, id=activitysubmit.activity_id)
-
-    if request.method == "GET":
-        form = ActivityApprovalTForm(instance=activitysubmitApproval_t, activity=activity.id, did=did)
-           
-        context = {'activitysubmitapproval_t':activitysubmitApproval_t, 'form': form, 'activity':activity, 'did':did }
-        return render(request, 'activity_approval_tform.html', context)
-    
-    elif request.method == "PUT":
-        activitysubmitApproval_t = get_object_or_404(ActivitySubmitApproval_T, submit_id_id=id)
-        data = QueryDict(request.body).dict()
-        form = ActivityApprovalTForm(data, instance=activitysubmitApproval_t)
-        if form.is_valid():
-            instance =form.save()
-           
-            activitysubmit = get_object_or_404(ActivitySubmit, pk=id)
-            activity =  get_object_or_404(Activity, id=activitysubmit.activity_id)
-            update_activity_approval_status(activitysubmit.id)
-            send_activity_notify(activity.id, 2, instance.document_id)
-                            
-                
-            return HttpResponse(
-                        status=204,
-                        headers={
-                            'HX-Trigger': json.dumps({
-                            "SubmitApprovalListChanged": None,
-                            "showMessage": f"{instance.id} added."
-                         })
-                         })
-        
-        return render(request, 'activity_approval_tform.html', {'form':form, 'did':did})
 
 @login_required(login_url='login')
 def activity_approvalm(request, id, did):
@@ -1578,12 +1508,9 @@ def activity_approvalf(request, id, did):
 
 def update_activity_approval_status(id):
     activitysubmit = get_object_or_404(ActivitySubmit, pk=id)
-    activitysubmitapproval_t = get_object_or_404(ActivitySubmitApproval_T, submit_id_id=id)
+
     activitysubmitapproval_m = get_object_or_404(ActivitySubmitApproval_M, submit_id_id=id)
     activitysubmitapproval_f = get_object_or_404(ActivitySubmitApproval_F, submit_id_id=id)
-    
-    approval_t = activitysubmitapproval_t.approval_status
-    approval_t = int(approval_t)
     approval_m = activitysubmitapproval_m.approval_status
     approval_m = int(approval_m)
     approval_f = activitysubmitapproval_f.approval_status
@@ -1591,18 +1518,18 @@ def update_activity_approval_status(id):
     
  
     
-    if approval_t == 4 or approval_m== 4 or approval_f== 4:
+    if approval_m== 4 or approval_f== 4:
         Activity.objects.filter(pk=activitysubmit.activity_id).update(approval_status="Rejected")
-    elif approval_t == 2 or approval_m == 2 or approval_f == 2:
+    elif  approval_m == 2 or approval_f == 2:
         Activity.objects.filter(pk=activitysubmit.activity_id).update(approval_status="Revision Required")
-    elif approval_t == 1 and approval_m == 1 and approval_f == 1:
+    elif approval_m == 1 and approval_f == 1:
         Activity.objects.filter(pk=activitysubmit.activity_id).update(approval_status="Pending Approval")
     
-    elif approval_t == 3 and approval_m ==3 and approval_f==3:
+    elif approval_m ==3 and approval_f==3:
         Activity.objects.filter(pk=activitysubmit.activity_id).update(approval_status="75% Approved")
-    elif (approval_t == 3 and approval_m ==3 and approval_f !=3) or (approval_t == 3 and approval_m !=3 and approval_f ==3) or (approval_t != 3 and approval_m ==3 and approval_f ==3):
+    elif (approval_m ==3 and approval_f !=3) or ( approval_m !=3 and approval_f ==3) or (approval_m ==3 and approval_f ==3):
         Activity.objects.filter(pk=activitysubmit.activity_id).update(approval_status="50% Approved")
-    elif (approval_t == 3 and approval_m !=3 and approval_f !=3) or (approval_t != 3 and approval_m ==3 and approval_f !=3) or (approval_t != 3 and approval_m !=3 and approval_f ==3):
+    elif (approval_m !=3 and approval_f !=3) or ( approval_m ==3 and approval_f !=3) or ( approval_m !=3 and approval_f ==3):
         Activity.objects.filter(pk=activitysubmit.activity_id).update(approval_status="25% Approved") 
 
 def update_activity_approval_status_final(id):
@@ -1745,10 +1672,7 @@ def send_activity_notify(id, uid, doc):
         initiator = activity.user.profile.full_name
         user_role = 'Initiator'
         
-    elif uid ==2:
-        subject = 'Activity Approval Status changed'
-        initiator = activity.technical_lead.user.profile.full_name
-        user_role = 'Technical Lead'
+
     elif uid ==3:
         subject = 'Activity Approval Status changed'
         initiator = activity.mel_lead.user.profile.full_name
@@ -1777,7 +1701,7 @@ def send_activity_notify(id, uid, doc):
                 }
     html_message = render_to_string("partial/activity_mail.html", context=context)
     plain_message = strip_tags(html_message)
-    recipient_list = [activity.user.email, activity.technical_lead.user.email, activity.mel_lead.user.email,  activity.finance_lead.user.email]
+    recipient_list = [activity.user.email,  activity.mel_lead.user.email,  activity.finance_lead.user.email]
         
     message = EmailMultiAlternatives(
         subject = subject, 
@@ -1792,11 +1716,11 @@ def send_activity_notify(id, uid, doc):
     f.close()
     message.send()
     
-    if uid !=5 and activity.approval_status == '75% Approved':
+    if uid !=5 and activity.approval_status == '66.7% Approved':
         subject = 'Request for Activity Final Approval'
         html_message = render_to_string("partial/activity_mail.html", context=context)
         plain_message = strip_tags(html_message)
-        recipient_list = [activity.user.email, activity.mel_lead.user.email, activity.technical_lead.user.email, activity.program_lead.user.email, activity.finance_lead.user.email]
+        recipient_list = [activity.user.email, activity.mel_lead.user.email,  activity.program_lead.user.email, activity.finance_lead.user.email]
         
         message = EmailMultiAlternatives(
             subject = subject, 
@@ -1824,10 +1748,7 @@ def send_icn_notify(id, uid, doc):
         initiator = icn.user.profile.full_name
         user_role = 'Initiator'
         
-    elif uid ==2:
-        subject = 'Intervention Approval Status changed'
-        initiator = icn.technical_lead.user.profile.full_name
-        user_role = 'Technical Lead'
+    
     elif uid ==3:
         subject = 'Intervention Approval Status changed'
         initiator = icn.mel_lead.user.profile.full_name
@@ -1856,7 +1777,7 @@ def send_icn_notify(id, uid, doc):
                 }
     html_message = render_to_string("partial/intervention_mail.html", context=context)
     plain_message = strip_tags(html_message)
-    recipient_list = [icn.user.email, icn.mel_lead.user.email, icn.technical_lead.user.email,  icn.finance_lead.user.email]
+    recipient_list = [icn.user.email, icn.mel_lead.user.email,  icn.finance_lead.user.email]
         
     message = EmailMultiAlternatives(
         subject = subject, 
@@ -1870,11 +1791,11 @@ def send_icn_notify(id, uid, doc):
     f.close()
     message.send()
     
-    if uid !=5 and icn.approval_status == '75% Approved':
+    if uid !=5 and icn.approval_status == '66.7% Approved':
         subject = 'Request for Intervention Final Approval'
         html_message = render_to_string("partial/intervention_mail.html", context=context)
         plain_message = strip_tags(html_message)
-        recipient_list = [icn.user.email, icn.technical_lead.user.email, icn.mel_lead.user.email ,icn.program_lead.user.email, icn.finance_lead.user.email]
+        recipient_list = [icn.user.email, icn.mel_lead.user.email ,icn.program_lead.user.email, icn.finance_lead.user.email]
         
         message = EmailMultiAlternatives(
             subject = subject, 

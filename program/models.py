@@ -7,6 +7,16 @@ from user.models import Profile
  
 # Create your models here.
 class Program(models.Model):
+    Four = 1
+    Three = 2
+    
+    
+    Approval_Team = (
+        (Four, 'Four'),
+        (Three, 'Three'),
+       
+       
+        )
     title = models.CharField(max_length=100)
     working_title = models.CharField(max_length=255, null=True, blank=True)
     users_role =  models.ManyToManyField(User, through='UserRoles' ,blank=True)
@@ -20,6 +30,7 @@ class Program(models.Model):
     portfolio = models.ForeignKey(Portfolio, null=True, blank=True,on_delete=models.CASCADE)
     completed = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
+    no_approval_team = models.PositiveSmallIntegerField(choices=Approval_Team,blank=True, null=True)
 
     def get_date_diff(self):
         if self.start_date and self.end_date:

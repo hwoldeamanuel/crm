@@ -202,7 +202,7 @@ class IcnSubmit(models.Model):
     
     
     def save(self, *args, **kwargs):
-        if self.submission_date and self.old_submission_date != self.submission_date:
+        if self.submission_date != timezone.now:
             self.submission_date = timezone.now()
         super(IcnSubmit, self).save(*args, **kwargs)
    
@@ -239,40 +239,7 @@ class Icn_Approval(models.Model):
     def __str__(self):
         return str(self.id)
 
-class IcnSubmitApproval_T(models.Model):
-    Pending_Review = 1
-    Require_Doc_Update = 2
-    Approved = 3
-    Rejected = 4
-    STATUS = (
-        (Pending_Review, 'Pending Review'),
-        (Require_Doc_Update, 'Require Doc Update'),
-        (Approved, 'Request Endorsed'),
-        (Rejected, 'Request Rejected'),
-        )
 
-    
-    user = models.ForeignKey(UserRoles, on_delete=models.CASCADE)
-    submit_id = models.OneToOneField(IcnSubmit, on_delete=models.CASCADE)
-    approval_date = models.DateTimeField(auto_now_add=True, null=True,   blank=True)
-    approval_note = models.TextField(null=True,  blank=True)
-    approval_status = models.ForeignKey(Approvalt_Status, on_delete=models.CASCADE)
-    document = models.ForeignKey(Document, on_delete=models.CASCADE)
-    
-    def __init__(self, *args, **kwargs):
-        super(IcnSubmitApproval_T, self).__init__(*args, **kwargs)
-        self.old_approval_status = self.approval_status
-        self.old_document = self.document
-        
-    
-    def save(self, *args, **kwargs):
-        if (self.approval_status and self.old_approval_status != self.approval_status) or (self.document and self.old_document != self.document):
-            self.approval_date = timezone.now()
-        super(IcnSubmitApproval_T, self).save(*args, **kwargs)
-        
-    
-    def __str__(self):
-        return str(self.id)
     
 class IcnSubmitApproval_M(models.Model):
    
@@ -609,7 +576,7 @@ class ActivitySubmit(models.Model):
     
     
     def save(self, *args, **kwargs):
-        if self.submission_date and self.old_submission_date != self.submission_date:
+        if self.submission_date != timezone.now():
             self.submission_date = timezone.now()
         super(ActivitySubmit, self).save(*args, **kwargs)
    
@@ -617,28 +584,7 @@ class ActivitySubmit(models.Model):
     def __str__(self):
         return str(self.id)
 
-class ActivitySubmitApproval_T(models.Model):
-    user = models.ForeignKey(UserRoles, on_delete=models.CASCADE)
-    submit_id = models.OneToOneField(ActivitySubmit, on_delete=models.CASCADE)
-    approval_date = models.DateTimeField(auto_now_add=True, null=True,   blank=True)
-    approval_note = models.TextField(null=True,  blank=True)
-    approval_status = models.ForeignKey(Approvalt_Status, on_delete=models.CASCADE)
-    document = models.ForeignKey(ActivityDocument, on_delete=models.CASCADE)
-    
-    def __init__(self, *args, **kwargs):
-        super(ActivitySubmitApproval_T, self).__init__(*args, **kwargs)
-        self.old_approval_status = self.approval_status
-        self.old_document = self.document
-        
-    
-    def save(self, *args, **kwargs):
-        if (self.approval_status and self.old_approval_status != self.approval_status) or (self.document and self.old_document != self.document):
-            self.approval_date = timezone.now()
-        super(ActivitySubmitApproval_T, self).save(*args, **kwargs)
-        
-    
-    def __str__(self):
-        return str(self.id)
+
 
 class ActivitySubmitApproval_M(models.Model):
     user = models.ForeignKey(UserRoles, on_delete=models.CASCADE)

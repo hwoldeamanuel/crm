@@ -74,46 +74,9 @@
 
     
 </tr>
-            <tr>
-        <td>2</td>
-        <td>
-          <a>Techncial</a>
-          <br />
-          <small>{{ activity.technical_lead.user.profile.full_name }}</small>
-        </td>
-        {% if activitysubmit %}
-        <td>{% if activitysubmit.activitysubmitapproval_t.approval_status_id == 1 %}{{ activitysubmit.submission_date|timesince }} {% else %} {{activitysubmit.activitysubmitapproval_t.approval_date|date:"M d,Y"}}</br><small>{{activitysubmit.activitysubmitapproval_t.approval_date|time}}</small> {% endif %}</td>
-       
-        <td>{{activitysubmit.activitysubmitapproval_t.document }}</td>
-        <td>
-          <span class="badge {% if activitysubmit.activitysubmitapproval_t.approval_status_id == 1 %}badge-primary{% elif activitysubmit.activitysubmitapproval_t.approval_status_id == 2 %}badge-warning {% elif activitysubmit.activitysubmitapproval_t.approval_status_id == 3 %}badge-success{% elif activitysubmit.activitysubmitapproval_t.approval_status_id == 4 %}badge-danger{% endif %}" >{% if activitysubmit.activitysubmitapproval_t %} {{ activitysubmit.activitysubmitapproval_t.approval_status.name }} {% endif %}</span>
-        </td>
-         <td><div class="btn-group">
-                    <button type="button" class="{% if request.user != activity.technical_lead.user or activitysubmit.activitysubmitapproval_t.approval_status_id != 1 %}disabled {% endif %}btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Action
-                    </button>
-                    <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                       <a class="dropdown-item" hx-get={% url 'activity_approvalt' activitysubmit.id 3 %} hx-target="#SubmitList">Endorese Request</a>
-                      <a class="dropdown-item" hx-get={% url 'activity_approvalt' activitysubmit.id 2 %} hx-target="#SubmitList">Require Revision</a>
-                     
-                    
-                      <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" hx-get={% url 'activity_approvalt' activitysubmit.id 4 %} hx-target="#SubmitList">Reject Request</a>
-                    </div>
-                  </div></td>
-        {% else %}
-        <td></td>
-        <td></td>
-        <td></td>
-       <td></td>
-        {% endif%}
-
-
-<td></td>
-    
-</tr>
+           
  <tr>
-        <td>3</td>
+        <td>2</td>
         <td>
           <a>MEL</a>
           <br />
@@ -151,7 +114,7 @@
     
 </tr>
 <tr>
-    <td>4</td>
+    <td>3</td>
     <td>
       <a>Finance</a>
       <br />
@@ -189,7 +152,7 @@
 <td></td>
 </tr>
 <tr>
-    <td>5</td>
+    <td>4</td>
     <td>
       <a>Program</a>
       <br />

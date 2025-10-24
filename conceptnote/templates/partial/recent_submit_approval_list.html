@@ -18,22 +18,7 @@
                             </div>
                           </li>
 
-                          <li>
-                             <img src="{% static 'images/user.png' %}" class="avatar" alt="Avatar" >
-                            <div class="message_date">  {% if list.icnsubmitapproval_t.approval_date|time != list.submission_date|time %}
-                              <h3 class="date text-error">{{ list.icnsubmitapproval_t.approval_date|date:"d" }}</h3>
-                              <p class="month">{{ list.icnsubmitapproval_t.approval_date|date:"M" }}</p> {% endif %}
-                            </div>
-                            <div class="message_wrapper">
-                              <h4 class="heading">{{ list.icnsubmitapproval_t.user.user}}</h4>
-                             {% if list.icnsubmitapproval_t.approval_note %} <blockquote class="message">{{list.icnsubmitapproval_t.approval_note}}</blockquote> {% endif %}
-                              <br />
-                              <p class="url">
-                                <span class="fs1" aria-hidden="true" data-icon=""></span>
-                                <span class="badge {% if list.icnsubmitapproval_t.approval_status == 1 %}badge-primary {% elif list.icnsubmitapproval_t.approval_status == 2 %}badge-warning {% elif list.icnsubmitapproval_t.approval_status == 3 %}badge-success {% elif list.icnsubmitapproval_t.approval_status == 4 %}badge-danger {% endif %}">{{ list.icnsubmitapproval_t.get_approval_status_display }}</span>{% if list.icnsubmitapproval_t.approval_date|time == list.submission_date|time %} {{ list.submission_date|timesince}} {% else %} with ICN: {{ list.icnsubmitapproval_t.document}} @ {{list.icnsubmitapproval_t.approval_date|time}}{% endif %}
-                              </p>
-                            </div>
-                          </li>
+                         
                              <li>
                              <img src="{% static 'images/user.png' %}" class="avatar" alt="Avatar" >
                             <div class="message_date">  {% if list.icnsubmitapproval_m.approval_date|time != list.submission_date|time %}
