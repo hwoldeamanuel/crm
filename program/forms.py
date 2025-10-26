@@ -371,8 +371,8 @@ class UserRoleForm(forms.ModelForm):
 
     class Meta:
         model = UserRoles
-        fields=['user','is_pcn_initiator', 'is_pcn_mel_approver','is_pcn_technical_approver', 'is_pcn_program_approver','is_pcn_finance_approver',
-                'is_pacn_initiator', 'is_pacn_mel_approver','is_pacn_technical_approver', 'is_pacn_program_approver','is_pacn_finance_approver'
+        fields=['user','is_pcn_initiator', 'is_pcn_mel_approver','is_pcn_program_approver','is_pcn_finance_approver',
+                'is_pacn_initiator', 'is_pacn_mel_approver', 'is_pacn_program_approver','is_pacn_finance_approver'
                 ]
 
 class UserRoleFormE(forms.ModelForm):

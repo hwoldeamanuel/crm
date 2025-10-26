@@ -691,13 +691,12 @@ def current_submit_approval_list(request, id):
 
 def update_approval_status(id):
     icnsubmit = get_object_or_404(IcnSubmit, pk=id)
-    icnsubmitapproval_t = get_object_or_404(IcnSubmitApproval_T, submit_id_id=id)
+   
     icnsubmitapproval_m = get_object_or_404(IcnSubmitApproval_M, submit_id_id=id)
     icnsubmitapproval_p = get_object_or_404(IcnSubmitApproval_P, submit_id_id=id)
     icnsubmitapproval_f = get_object_or_404(IcnSubmitApproval_F, submit_id_id=id)
    
-    approval_t = icnsubmitapproval_t.approval_status
-    approval_t = int(approval_t)
+   
     
     approval_m = icnsubmitapproval_m.approval_status
     approval_m = int(approval_m)
@@ -706,18 +705,17 @@ def update_approval_status(id):
     approval_f = int(approval_f)
     
     
-    if approval_t == 4 or  approval_m== 4  or approval_f== 4:
+    if  approval_m== 4  or approval_f== 4:
         Icn.objects.filter(pk=icnsubmit.icn_id).update(approval_status="Rejected")
-    elif approval_t == 2 or approval_m == 2 or approval_f == 2:
+    elif approval_m == 2 or approval_f == 2:
         Icn.objects.filter(pk=icnsubmit.icn_id).update(approval_status="Revision Required")
-    elif approval_t == 1 and approval_m == 1 and approval_f == 1:
+    elif  approval_m == 1 and approval_f == 1:
         Icn.objects.filter(pk=icnsubmit.icn_id).update(approval_status="Pending Approval")
-    elif approval_t == 3 and approval_m ==3 and approval_f==3:
-         Icn.objects.filter(pk=icnsubmit.icn_id).update(approval_status="75% Approved")
-    elif (approval_t == 3 and approval_m ==3 and approval_f !=3) or (approval_t == 3 and approval_m !=3 and approval_f ==3) or (approval_t != 3 and approval_m ==3 and approval_f ==3):
-        Icn.objects.filter(pk=icnsubmit.icn_id).update(approval_status="50% Approved")
-    elif (approval_t == 3 and approval_m !=3 and approval_f !=3) or (approval_t != 3 and approval_m ==3 and approval_f !=3) or (approval_t != 3 and approval_m !=3 and approval_f ==3):
-        Icn.objects.filter(pk=icnsubmit.icn_id).update(approval_status="25% Approved") 
+    elif  approval_m ==3 and approval_f==3:
+         Icn.objects.filter(pk=icnsubmit.icn_id).update(approval_status="66.7% Approved")
+   
+    elif ( approval_m ==3 and approval_f !=3) or (approval_m !=3 and approval_f ==3):
+        Icn.objects.filter(pk=icnsubmit.icn_id).update(approval_status="33.3% Approved") 
  
 def update_approval_status_final(id):
     icnsubmit = get_object_or_404(IcnSubmit, pk=id)
@@ -1526,11 +1524,10 @@ def update_activity_approval_status(id):
         Activity.objects.filter(pk=activitysubmit.activity_id).update(approval_status="Pending Approval")
     
     elif approval_m ==3 and approval_f==3:
-        Activity.objects.filter(pk=activitysubmit.activity_id).update(approval_status="75% Approved")
-    elif (approval_m ==3 and approval_f !=3) or ( approval_m !=3 and approval_f ==3) or (approval_m ==3 and approval_f ==3):
-        Activity.objects.filter(pk=activitysubmit.activity_id).update(approval_status="50% Approved")
-    elif (approval_m !=3 and approval_f !=3) or ( approval_m ==3 and approval_f !=3) or ( approval_m !=3 and approval_f ==3):
-        Activity.objects.filter(pk=activitysubmit.activity_id).update(approval_status="25% Approved") 
+        Activity.objects.filter(pk=activitysubmit.activity_id).update(approval_status="66.7% Approved")
+   
+    elif  ( approval_m ==3 and approval_f !=3) or ( approval_m !=3 and approval_f ==3):
+        Activity.objects.filter(pk=activitysubmit.activity_id).update(approval_status="33.3% Approved") 
 
 def update_activity_approval_status_final(id):
     activitysubmit = get_object_or_404(ActivitySubmit, pk=id)
