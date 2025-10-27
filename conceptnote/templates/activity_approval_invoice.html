@@ -47,7 +47,7 @@
                      
                       <!-- info row -->
                       <div class="row invoice-info">
-                        <div class="col-sm-4 invoice-col">
+                        <div class="col-sm-3 invoice-col">
                           Initited By:
                           <address>
                                           <strong>{{activity.user.profile.full_name}}</strong>
@@ -58,17 +58,8 @@
                                       </address>
                         </div>
                         <!-- /.col -->
-                        <div class="col-sm-4 invoice-col">
-                          Techncial Lead:
-                          <address>
-                                          <strong>{{activity.technical_lead.user.profile.full_name}}</strong>
-                                           <br>{{activity.technical_lead.user.profile.job_title}}
-                                          <br>{{activity.technical_lead.user.profile.portfolio}}
-                                         
-                                          <br>{{activity.technical_lead.user.email }}
-                                      </address>
-                        </div>
-                         <div class="col-sm-4 invoice-col">
+                       
+                         <div class="col-sm-3 invoice-col">
                           MEL Lead:
                           <address>
                                           <strong>{{activity.mel_lead.user.profile.full_name}}</strong>
@@ -80,9 +71,8 @@
                         </div>
                         <!-- /.col -->
 
-                          <div class="col-sm-4 invoice-col">
-                          </div>
-                       <div class="col-sm-4 invoice-col">
+                      
+                       <div class="col-sm-3 invoice-col">
                           Finance Lead:
                           <address>
                                            <strong>{{activity.finance_lead.user.profile.full_name}}</strong>
@@ -92,7 +82,7 @@
                                           <br>{{activity.finance_lead.user.email }}
                                       </address>
                         </div>
-                           <div class="col-sm-4 invoice-col">
+                           <div class="col-sm-3 invoice-col">
                           Program Lead:
                           <address>
                                           <strong>{{activity.program_lead.user.profile.full_name}}</strong>
@@ -133,19 +123,9 @@
                                 <td>{{activitysubmit.submission_note}}</td>
                                 
                               </tr>
-                              <tr>
-                                <td>2</td>
-                                <td>Techncial Lead</br>{{activity.technical_lead.user.profile.full_name}}</td>
-                                <td>{{activitysubmit.activitysubmitapproval_t.approval_date|date:"M d, Y"}}
-                                </br> {{activitysubmit.activitysubmitapproval_t.approval_date|time}}
-                                </td>
-                                 <td>{{activitysubmit.activitysubmitapproval_t.approval_status.name}}
-                                </td>
-                                <td>{{activitysubmit.activitysubmitapproval_t.approval_note }}</td>
-                               
-                              </tr>
+                              
                                  <tr>
-                                <td>3</td>
+                                <td>2</td>
                                 <td>MEL Lead</br>{{activity.mel_lead.user.profile.full_name}}</td>
                                 <td>{{activitysubmit.activitysubmitapproval_m.approval_date|date:"M d, Y"}}
                                 </br> {{activitysubmit.activitysubmitapproval_m.approval_date|time}}
@@ -156,7 +136,7 @@
                                
                               </tr>
                               <tr>
-                               <td>4</td>
+                               <td>3</td>
                                 <td>Finance Lead</br>{{activity.finance_lead.user.profile.full_name}}</td>
                                 <td>{{activitysubmit.activitysubmitapproval_f.approval_date|date:"M d, Y" }}
                                 </br>{{activitysubmit.activitysubmitapproval_f.approval_date|time }}
@@ -169,7 +149,7 @@
                                 
                               </tr>
                               <tr>
-                                <td>5</td>
+                                <td>4</td>
                                 <td>Program Lead</br>{{activity.program_lead.user.profile.full_name}}</td>
                                 <td>{{activitysubmit.activitysubmitapproval_p.approval_date|date:"M d, Y" }}
                                 </br>{{activitysubmit.activitysubmitapproval_p.approval_date|time }}
