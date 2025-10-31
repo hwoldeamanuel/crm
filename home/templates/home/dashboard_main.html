@@ -259,7 +259,7 @@ myDoughnut = new Chart(ctx,
                 ],
                 label: 'Dataset 2'
             }],
-            labels: [{% for isn in icn_status %} {% if isn.approval_status is None %}"Draft - {% widthratio isn.icn_count total_icn 100 %}%"{% else %} "{{isn.approval_status }} - {% widthratio isn.icn_count total_icn 100 %}%" {% endif %},{% endfor %}
+            labels: [{% for isn in icn_status %} "{{isn.approval_status|default_if_none:"Draft"}} - {% widthratio isn.icn_count total_icn 100 %}%" ,{% endfor %}
                 ],
           
         },
@@ -316,7 +316,7 @@ myDoughnut = new Chart(ctx,
                 ],
                 label: 'Dataset 2'
             }],
-            labels:  [{% for isn in acn_status %} {% if isn.approval_status is None %}"Draft - {% widthratio isn.acn_count total_activity 100 %}%"{% else %} "{{isn.approval_status}} - {% widthratio isn.acn_count total_activity 100 %}%" {% endif %},{% endfor %}
+            labels:  [{% for isn in acn_status %}  "{{isn.approval_status|default_if_none:"Draft"}} - {% widthratio isn.acn_count total_activity 100 %}%" ,{% endfor %}
                 ],
         },
         options: {
