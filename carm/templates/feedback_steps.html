@@ -247,7 +247,7 @@
                           </a>
                         </li>
                         <li>
-                         <a href="{% if feedback and feedback.closing %} {%  url 'feedback_closing' feedback.id %} {% elif feedback.processing and feedback.user == request.user %} {% url 'feedback_closing_add' feedback.id %} {% elif feedback.processing and request.user.profile.get_carm_manager > 0 %} {% url 'feedback_closing_add' feedback.id %}{% else %}{% url 'feedback_detail' feedback.id %}{% endif %}" class="{% if '/closing/new/' in request.path  %}selected{% elif feedback.closing %}done{% else %}disabled{% endif %}" isdone="{% if feedback.closing %}1{% else %}0{% endif %}" rel="2">
+                         <a href="{% if feedback and feedback.closing %} {%  url 'feedback_closing' feedback.id %} {% elif feedback.processing and feedback.user == request.user %} {% url 'feedback_closing_add' feedback.id %} {% elif feedback.processing and request.user.profile.get_carm_manager > 0 %} {% url 'feedback_closing_add' feedback.id %}{% elif feedback %}{% url 'feedback_detail' feedback.id %}{% endif %}" class="{% if '/closing/new/' in request.path  %}selected{% elif feedback.closing %}done{% else %}disabled{% endif %}" isdone="{% if feedback.closing %}1{% else %}0{% endif %}" rel="2">
                             <span class="step_no">3</span>
                             <span class="step_descr">
                                               Step 3<br>
