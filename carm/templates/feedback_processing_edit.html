@@ -1,0 +1,167 @@
+{% extends "feedback_steps.html" %}
+
+{% block content_travel_step %}
+{% load static %}
+{% load humanize%}
+<style>
+
+.icheckbox_flat-green1,
+.iradio_flat-green {
+    display: inline-block;
+    *display: inline;
+    vertical-align: middle;
+    margin: 0;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    background: url(green.png) no-repeat;
+    border: none;
+    cursor: pointer;
+}
+        form,
+       form-control-sm {
+           
+            text-align: left;
+            padding: 0px;
+            height: 10px;
+        }
+
+        tr {
+            height: 10px;
+            padding: 0px;
+        }
+        th {
+            height: 10px;
+            padding: 0px;
+            font-size: 11px;
+            color:#5A738E;
+        }
+          td {
+            height: 10px;
+            padding: 0px;
+            font-size: 12px;
+            color:#5A738E;
+        }
+    </style>
+                        <div id="step-1" class="content" style="display: none;">
+                            <h2 class="StepTitle">Step 1 Content</h2>
+                            <p>Step 1 content goes here.</p>
+                        </div>
+                        <div id="step-2" class="content" style="display: block;">
+                     
+                                    {% load widget_tweaks %}
+                      {% with WIDGET_ERROR_CLASS='is-invalid' %}
+                      
+                        <form class="form-horizontal form-label-left" method="post"   enctype="multipart/form-data"   >
+                           {% csrf_token %}
+                     
+                         <div class="form-group row">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align" for="">Feedback Processing Date <span class="required"></span>
+                            </label>
+                            <div class="col-md-2 col-sm-2">
+                              {% render_field form.processing_date class="form-control form-control-sm  " required="required"%}
+                              <div class="invalid-feedback">{{ form.processing_date.errors|first }}</div>
+                              
+
+                            </div>  
+                            <label class="col-form-label col-md-2 col-sm-2 label-align" for="">Feedback Shared <span class="required"></span>
+                            </label>
+                            <div class="col-md-1 col-sm-1">
+                              {% render_field form.feedback_shared class="form-control form-control-sm  " required="required"%}
+                              <div class="invalid-feedback">{{ form.feedback_shared.errors|first }}</div>
+                              
+
+                            </div>
+                               <label class="col-form-label col-md-2 col-sm-2 label-align" for="">Feedback Referred <span class="required"></span>
+                            </label>
+                            <div class="col-md-1 col-sm-1">
+                              {% render_field form.feedback_referred class="form-control form-control-sm  " required="required"%}
+                              <div class="invalid-feedback">{{ form.feedback_referred.errors|first }}</div>
+                              
+
+                            </div>
+                            </div>
+                                 <div class="form-group row">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align" for="">Feedback Shared Internal/External <span class="required"></span>
+                            </label>
+                            <div class="col-md-2 col-sm-2">
+                              {% render_field form.feedback_shared_with class="form-control form-control-sm" required="required"%}
+                              <div class="invalid-feedback">{{ form.feedback_shared_with.errors|first }}</div>
+                              
+
+                            </div>  
+                            <label class="col-form-label col-md-2 col-sm-2 label-align" for="">Feedback Shared Note<span class="required"></span>
+                            </label>
+                            <div class="col-md-4 col-sm-4">
+                              {% render_field form.feedback_shared_with_note class="form-control form-control-sm  " required="required"%}
+                              <div class="invalid-feedback">{{ form.feedback_shared_wtih_note.errors|first }}</div>
+                              
+
+                            </div>
+                            </div>
+                            <div class="form-group row">
+                               <label class="col-form-label col-md-3 col-sm-3 label-align" for="">Feedback Referred To (Name, Pos, Org) <span class="required"></span>
+                            </label>
+                            <div class="col-md-8 col-sm-8">
+                              {% render_field form.feedback_referred_to class="form-control form-control-sm  " required="required"%}
+                              <div class="invalid-feedback">{{ form.feedback_referred_to.errors|first }}</div>
+                              
+
+                            </div>
+                            </div>
+         <div class="form-group row">
+                               <label class="col-form-label col-md-3 col-sm-3 label-align" for="">Type of Response Required <span class="required"></span>
+                            </label>
+                            <div class="col-md-3 col-sm-3">
+                              {% render_field form.types_of_response_required class="form-control form-control-sm  " required="required"%}
+                              <div class="invalid-feedback">{{ form.types_of_response_required.errors|first }}</div>
+                              
+
+                            </div>
+                                  <label class="col-form-label col-md-1 col-sm-1 label-align" for="">If Other <span class="required"></span>
+                            </label>
+                            <div class="col-md-4 col-sm-4">
+                              {% render_field form.types_of_response_required_other class="form-control form-control-sm  " required="required"%}
+                              <div class="invalid-feedback">{{ form.types_of_response_required_other.errors|first }}</div>
+                              
+
+                            </div>
+                            </div>
+                            <div class="form-group row">
+                               <label class="col-form-label col-md-3 col-sm-3 label-align" for="">Action/Followup Needed<span class="required"></span>
+                            </label>
+                            <div class="col-md-1 col-sm-1">
+                              {% render_field form.action_followup_needed class="form-control form-control-sm  " required="required"%}
+                              <div class="invalid-feedback">{{ form.action_followup_needed.errors|first }}</div>
+                              
+
+                            </div>
+                            </div>
+                      
+                                    <hr class="m-1">
+										   			<div class="col-md-12 col-sm-12">
+                      
+							
+
+                    
+										
+                      	<div class="col-md-2 col-sm-2"></div>
+                        <div class="text-center">
+										<div class="text-center mtop20">
+                          
+												<button onclick="window.history.back()" class="btn btn-sm btn-secondary" type="button">Cancel</button>
+												<button class="btn btn-primary btn-sm" type="reset">Reset</button>
+												<button type="submit" class="btn btn-sm btn-success">Submit</button>
+											</div>
+							</div>
+                           
+                            </form>
+                            {% endwith %}
+
+                        </div>
+                        <div id="step-3" class="content" style="display: none;">
+                            <h2 class="StepTitle">Step 3 Content</h2>
+                            <p>Step 3 content goes here.</p>
+                        </div>
+                       
+{% endblock %}

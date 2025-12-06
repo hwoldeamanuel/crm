@@ -1,0 +1,220 @@
+{% extends "feedback_steps.html" %}
+
+{% block content_travel_step %}
+{% load static %}
+{% load humanize%}
+                        <div id="step-1" class="content" style="display: block;">
+                            
+                  <div class="col-md-12 col-sm-12">
+                      <div class="col-md-1 col-sm-1"></div>
+                      <div class="col-md-11 col-sm-11">
+                         
+                         <div class="form-group row mb-1">
+                            <label class="col-form-label col-md-2 col-sm-2 label-align" for="">Date Feedback Received: <span class="required"></span>
+                            </label>
+                            <div class="col-form-label col-md-2 col-sm-2 -label-align-left">
+                              
+                              <div class="font-weight-bold">{{ feedback.date_feedback_recieved }}</div>
+                              
+
+                            </div>
+                             <label class="col-form-label col-md-2 col-sm-2 label-align" for="">Field Office: <span class="required"></span>
+                            </label>
+                            <div class="col-form-label col-md-1 col-sm-1 -label-align-left">
+                            
+                                <div class="font-weight-bold">{{ feedback.office_location }}</div>
+                           
+                              
+
+                            </div>  
+                               <label class="col-form-label col-md-2 col-sm-2 label-align" for="">Informed Consent: <span class="required"></span>
+                            </label>
+                            <div class="col-form-label col-md-2 col-sm-2">
+                             
+                                <div class="font-weight-bold">{{ feedback.informed_consent }}</div>
+                           
+                              
+
+                            </div>  
+                            </div>
+                            <div class="form-group row mb-1">
+                            <label class="col-form-label col-md-2 col-sm-2 label-align" for="">Feedback Channel: <span class="required"></span>
+                            </label>
+                            <div class="col-form-label col-md-3 col-sm-3-label-align-left">
+                              
+                              <div class="font-weight-bold">{{ feedback.feedback_channel }}</div>
+                              
+
+                            </div> 
+                                                        <label class="col-form-label col-md-1 col-sm-1 label-align" for="">If Other: <span class="required"></span>
+                            </label>
+                            <div class="col-form-label col-md-5 col-sm-5 -label-align-left">
+                       
+                              <div class="font-weight-bold">{{ feedback.feedback_channel_other }}</div>
+                              
+
+                            </div> 
+
+                            </div>     
+ 
+                                <div class="form-group row mb-1">
+<label class="col-form-label col-md-2 col-sm-2 label-align" for="">Feedback Summary: <span class="required"></span>
+                            </label>
+                            <div class="col-form-label col-md-7 col-sm-7">
+                             
+                                <div class="font-weight-bold">{{ feedback.summary }}</div>
+                             </div> 
+                                                         
+                      <label class="col-form-label col-md-1 col-sm-1 label-align" for="">Attachment: <span class="required"></span>
+                            </label>
+                           
+                                     <div class="fa-hover col-form-label col-md-1 col-sm-1">{% if feedback.supporting_document %}<a href="{% url 'download_feedback_att' feedback.id %}"><small>download</small><i class="fa fa-paperclip"> {% else %}NA{% endif%}</i></a> 
+                            </div>
+
+                        </div>
+                          
+                    
+                         
+                             
+
+                       
+                            <div class="form-group row mb-1"> 
+                                   <label class="col-form-label col-md-2 col-sm-2 label-align" for="">Category/Grade: <span class="required"></span>
+                            </label>
+                            <div class="col-form-label col-md-3 col-sm-3 -label-align-left">
+                            
+                              <div class="font-weight-bold">{{ feedback.feedback_category }}</div>
+                              
+
+                            </div>  
+                            <label class="col-form-label col-md-1 col-sm-1 label-align" for="">Program: <span class="required"></span>
+                            </label>
+                            <div class="col-form-label col-md-2 col-sm-2 -label-align-left">
+                             
+                              <div class="font-weight-bold">{{ feedback.program }}</div>
+                              
+
+                            </div> 
+                            <label class="col-form-label col-md-1 col-sm-1 label-align" for="">Partner: <span class="required"></span>
+                            </label>
+                            <div class="col-form-label col-md-2 col-sm-2 -label-align-left">
+                             
+                                <div class="font-weight-bold">{{ feedback.partner }}</div>
+                           
+                              
+
+                            </div> 
+                           
+                            </div> 
+                         
+                            
+                          
+<hr class="m-1">
+
+                              
+                                            <div class="form-group row mb-1">
+                            <label class="col-form-label col-md-2 col-sm-2 label-align" for="">Informant Status: <span class="required"></span>
+                            </label>
+                            <div class="col-form-label col-md-2 col-sm-2 -label-align-left">
+                        
+                                <div class="font-weight-bold">{{ feedback.informant_status }}</div>
+                           
+                              
+
+                            </div>     
+                            <label class="col-form-label col-md-2 col-sm-2 label-align" for="">Name: <span class="required"></span>
+                            </label>
+                            <div class="col-form-label col-md-5 col-sm-5 -label-align-left">
+                             
+                                <div class="font-weight-bold">{{ feedback.informant_name }}</div>
+                             
+                            
+                              
+
+                            </div> 
+                       
+
+                            
+                            </div>
+ <div class="form-group row mb-1">
+                            <label class="col-form-label col-md-2 col-sm-2 label-align" for="">Age: <span class="required"></span>
+                            </label>
+                            <div class="col-form-label col-md-2 col-sm-2 -label-align-left">
+                             
+                                <div class="font-weight-bold">{{ feedback.informant_age }}</div>
+                           
+                              
+
+                            </div>     
+                            <label class="col-form-label col-md-2 col-sm-2 label-align" for="">Sex: <span class="required"></span>
+                            </label>
+                            <div class="col-form-label col-md-2 col-sm-2 -label-align-left">
+                             
+                                <div class="font-weight-bold">{{ feedback.informant_sex }}</div>
+                            
+                              
+
+                            </div> 
+                                <label class="col-form-label col-md-1 col-sm-1 label-align" for="">Location: <span class="required"></span>
+                            </label>
+                            <div class="col-form-label col-md-3 col-sm-3 -label-align-left">
+                             
+                                <div class="font-weight-bold">{{ feedback.informant_location }}</div>
+                          
+                            
+                              
+
+                            </div> 
+                            </div> 
+               <div class="form-group row mb-1">
+                            <label class="col-form-label col-md-2 col-sm-2 label-align" for="">Phone Number: <span class="required"></span>
+                            </label>
+                            <div class="col-form-label col-md-2 col-sm-2 -label-align-left">
+                              
+                                <div class="font-weight-bold">{{ feedback.informant_contact_phone_number }}</div>
+                           
+                              
+
+                            </div>     
+                            <label class="col-form-label col-md-2 col-sm-2 label-align" for="">Alternative: <span class="required"></span>
+                            </label>
+                            <div class="col-form-label col-md-5 col-sm-5 -label-align-left">
+                              
+                                <div class="font-weight-bold">{{ feedback.informant_contact_other }}</div>
+                            
+                              
+
+                            </div> 
+                            </div>
+                                    <hr class="m-2">
+										
+											<div class="col-md-12 col-sm-12">
+                      
+							
+
+                    
+											<div class="col-md-8 col-sm-8">
+                      	<div class="col-md-6 col-sm-6"></div>
+                        <div class="text-center">
+										<div class="text-center mtop20">
+                            <a class="btn btn-info btn-sm" {% if feedback.summary == True or feedback.user != request.user %} onclick="new PNotify({
+                                  title: 'Permission',
+                                  text: 'Current User doesnot match with ICN Owner and/or ICN submission status should be Draft;',
+                                  type: 'info',
+                                  styling: 'bootstrap3'
+                              });" {% else %} href="{% url 'feedback_edit' feedback.id %} {% endif %}" ><i class="fa fa-edit m-right-xs"></i>Edit Submission</a>
+                           </div>
+                           </div>
+                          </div>
+                        </div>
+                        </div>
+                        <div id="step-2" class="content" style="display: none;">
+                            <h2 class="StepTitle">Step 2 Content</h2>
+                            <p>Step 2 content goes here.</p>
+                        </div>
+                        <div id="step-3" class="content" style="display: none;">
+                            <h2 class="StepTitle">Step 3 Content</h2>
+                            <p>Step 3 content goes here.</p>
+                        </div>
+                      
+{% endblock %}

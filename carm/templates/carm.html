@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block content %}
+<div class="right_col" role="main" style=" height:auto;">
+    <div class="">
+        <div class="page-title">
+              <div class="title_left">
+                <h4>CARM <small>(Community Accountablity Reporting Mechanism)</small></h4>
+              </div>
+
+            <div class="title_right">
+             <div class="col-md-1 col-sm-1 pull-right" ></div>
+                <div class="btn-group pull-right">
+                
+                    <button type="button" class="btn btn-info btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Action <span class="caret"></span>
+                    </button>
+                    <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 37px, 0px); top: 0px; left: 0px; will-change: transform;">
+                      <a class="dropdown-item" href="{% url 'feedback_add' %}">New Feedback</a>
+                      <a class="dropdown-item" href="#">Another action</a>
+                      <a class="dropdown-item" href="#">Something else here</a>
+                      <div class="dropdown-divider"></div>
+                      <a class="dropdown-item" href="#">Separated link</a>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+ 
+
+            <div class="clearfix"></div>
+
+            <div class="row">
+               <div class="col-md-12 col-sm-12 " >
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Feedback Submissions</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Settings 1</a>
+                            <a class="dropdown-item" href="#">Settings 2</a>
+                          </div>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                      <div class="row">
+                          <div class="col-sm-12">
+                      
+                  
+                 <table id="datatable-buttons" class="table table-striped" style="width:100%">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+							
+                          <th>Field Office</th>
+                          <th>Program</th>
+                          <th>Date</th>
+                          <th>Channel</th>
+                          <th>Status</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+
+
+                      <tbody>
+                      {% for feedback in feedbacks %}
+                        <tr>
+                          <td>
+							{{forloop.counter}}
+						  </td>
+                          <td>{{feedback.office_location}}</td>
+                          <td>{{feedback.program}}</td>
+                          <td>{{feedback.date_feedback_recieved}}</td>
+                          <td>{{feedback.feedback_channel}}</td>
+                           <td>TBD</td>
+                          
+                          <td class="text-right">
+                      <a href="{% url 'feedback_detail' feedback.id %}" class="btn btn-sm btn-info"><i class="fa fa-eye"></i> View </a>
+                      
+                     
+                    </td>
+                        </tr>
+                        {% endfor %}
+                        
+                        
+                      </tbody>
+                    </table>
+                  </div>
+                  </div>
+              </div>
+            </div>
+                </div>
+              </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+{% endblock %}

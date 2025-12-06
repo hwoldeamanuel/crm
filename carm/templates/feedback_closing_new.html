@@ -1,0 +1,166 @@
+{% extends "feedback_steps.html" %}
+
+{% block content_travel_step %}
+{% load static %}
+{% load humanize%}
+<style>
+
+.icheckbox_flat-green1,
+.iradio_flat-green {
+    display: inline-block;
+    *display: inline;
+    vertical-align: middle;
+    margin: 0;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    background: url(green.png) no-repeat;
+    border: none;
+    cursor: pointer;
+}
+        form,
+       form-control-sm {
+           
+            text-align: left;
+            padding: 0px;
+            height: 10px;
+        }
+
+        tr {
+            height: 10px;
+            padding: 0px;
+        }
+        th {
+            height: 10px;
+            padding: 0px;
+            font-size: 11px;
+            color:#5A738E;
+        }
+          td {
+            height: 10px;
+            padding: 0px;
+            font-size: 12px;
+            color:#5A738E;
+        }
+    </style>
+                        <div id="step-1" class="content" style="display: none;">
+                            <h2 class="StepTitle">Step 1 Content</h2>
+                            <p>Step 1 content goes here.</p>
+                        </div>
+                        <div id="step-2" class="content" style="display: none;">
+                     
+                                    
+                        </div>
+                        <div id="step-3" class="content" style="display: block;">
+                            {% load widget_tweaks %}
+                      {% with WIDGET_ERROR_CLASS='is-invalid' %}
+                      
+                        <form class="form-horizontal form-label-left" method="post"   enctype="multipart/form-data"   >
+                           {% csrf_token %}
+                 
+                         <div class="form-group row">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align" for="">Action Taken <span class="required"></span>
+                            </label>
+                            <div class="col-md-3 col-sm-3">
+                              {% render_field form.action_taken class="form-control form-control-sm  " required="required"%}
+                              <div class="invalid-feedback">{{ form.action_taken.errors|first }}</div>
+                              
+
+                            </div>  
+                            <label class="col-form-label col-md-1 col-sm-1 label-align" for="">If other action<span class="required"></span>
+                            </label>
+                            <div class="col-md-4 col-sm-4">
+                              {% render_field form.action_taken_other class="form-control form-control-sm  " required="required"%}
+                              <div class="invalid-feedback">{{ form.action_taken_other.errors|first }}</div>
+                              
+
+                            </div>
+                            </div>
+                          <div class="form-group row">
+                               <label class="col-form-label col-md-3 col-sm-3 label-align" for="">Action Taken By <span class="required"></span>
+                            </label>
+                            <div class="col-md-2 col-sm-2">
+                              {% render_field form.action_taken_by class="form-control form-control-sm  " required="required"%}
+                              <div class="invalid-feedback">{{ form.action_taken_by.errors|first }}</div>
+                              </div>
+   <label class="col-form-label col-md-2 col-sm-2 label-align" for="">Response Provided <span class="required"></span>
+                            </label>
+                            <div class="col-md-1 col-sm-1">
+                              {% render_field form.responses_provided class="form-control form-control-sm" required="required"%}
+                              <div class="invalid-feedback">{{ form.responses_provided.errors|first }}</div>
+                              
+
+                          
+                            </div>
+                             <label class="col-form-label col-md-1 col-sm-1 label-align" for="">Resp. Date <span class="required"></span>
+                            </label>
+                            <div class="col-md-2 col-sm-2">
+                              {% render_field form.response_date class="form-control form-control-sm" required="required"%}
+                              <div class="invalid-feedback">{{ form.response_date.errors|first }}</div>
+                              
+
+                          </div>
+                            </div>
+                                 <div class="form-group row">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align" for="">Responses Summary <span class="required"></span>
+                            </label>
+                            <div class="col-md-8 col-sm-8">
+                              {% render_field form.response_summary class="form-control form-control-sm" required="required"%}
+                              <div class="invalid-feedback">{{ form.response_summary.errors|first }}</div>
+                              
+
+                            </div>  
+                            
+                            </div>
+                            <div class="form-group row">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align" for="">Resolution<span class="required"></span>
+                            </label>
+                            <div class="col-md-3 col-sm-3">
+                              {% render_field form.resolution class="form-control form-control-sm  " required="required"%}
+                              <div class="invalid-feedback">{{ form.resolution.errors|first }}</div>
+                              
+
+                            </div>
+                            <label class="col-form-label col-md-1 col-sm-1 label-align" for="">Closed ? <span class="required"></span>
+                            </label>
+                            <div class="col-md-1 col-sm-1">
+                              {% render_field form.feedback_closed class="form-control form-control-sm" required="required"%}
+                              <div class="invalid-feedback">{{ form.feedback_closed.errors|first }}</div>
+                              
+
+                          
+                            </div>
+                             <label class="col-form-label col-md-1 col-sm-1 label-align" for="">Closing Date <span class="required"></span>
+                            </label>
+                            <div class="col-md-2 col-sm-2">
+                              {% render_field form.closing_date class="form-control form-control-sm" required="required"%}
+                              <div class="invalid-feedback">{{ form.closing_date.errors|first }}</div>
+                              
+
+                          </div>
+                            </div>
+                          
+                      
+                                    <hr class="m-2">
+										   			<div class="col-md-12 col-sm-12">
+                      
+							
+
+                    
+										
+                      	<div class="col-md-2 col-sm-2"></div>
+                        <div class="text-center">
+										<div class="text-center mtop20">
+                          
+												<button onclick="window.history.back()" class="btn btn-sm btn-secondary" type="button">Cancel</button>
+												<button class="btn btn-primary btn-sm" type="reset">Reset</button>
+												<button type="submit" class="btn btn-sm btn-success">Submit</button>
+											</div>
+							</div>
+                           
+                            </form>
+                            {% endwith %}
+
+                        </div>
+                       
+{% endblock %}

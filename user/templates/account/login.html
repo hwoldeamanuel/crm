@@ -1,0 +1,46 @@
+{% extends "account/base_entrance.html" %}
+{% load i18n allauth account %}
+
+{% block head_title %}
+   {% trans "Sign In" %}
+{% endblock head_title %}
+{% block content %}
+   <span class="card-title">{% trans "Sign In" %}</span>
+   {% if not SOCIALACCOUNT_ONLY %}
+       {% setvar link %}
+           <a href="{{ signup_url }}">
+           {% endsetvar %}
+           {% setvar end_link %}
+           </a>
+       {% endsetvar %}
+       <div class="row"><div class="col s12">
+           {% blocktranslate %}
+               If you have not created an account yet, then please {{ link }}sign up{{ end_link }} first.
+           {% endblocktranslate %}
+       </div></div><br/>
+       {% url 'account_login' as login_url %}
+       {% element form form=form method="post" action=login_url tags="entrance,login" %}
+           {% slot body %}
+               {% csrf_token %}
+               {% element fields form=form unlabeled=True %}
+               {% endelement %}
+               {{ redirect_field }}
+           {% endslot %}
+           {% slot actions %}
+               <input class="btn indigo darken-2 white-text" type="submit" tags="prominent,login" value="{% trans "Sign In" %}" />
+               <br/><br/><br/>
+           {% endslot %}
+       {% endelement %}
+       <br/>
+   {% endif %}
+   {% if LOGIN_BY_CODE_ENABLED %}
+       {% element h2 %}
+           {% element button href=request_login_code_url tags="prominent,login,secondary" %}
+               {% trans "Mail me a sign-in code" %}
+           {% endelement %}
+       {% endelement %}
+   {% endif %}
+   {% if SOCIALACCOUNT_ENABLED %}
+       {% include "socialaccount/snippets/login.html" with page_layout="entrance" %}
+   {% endif %}
+{% endblock content %}

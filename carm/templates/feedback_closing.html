@@ -1,0 +1,124 @@
+{% extends "feedback_steps.html" %}
+
+{% block content_travel_step %}
+{% load static %}
+{% load humanize%}
+                        <div id="step-1" class="content" style="display: none;">
+                            <h2 class="StepTitle">Step 1 Content</h2>
+                            <p>Step 1 content goes here.</p>
+                        </div>
+                        <div id="step-2" class="content" style="display: none;">
+
+                     
+                        
+                        </div>
+                        <div id="step-3" class="content" style="display: block;">
+                            
+                          
+                         <div class="form-group row">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align" for="">Action Taken <span class="required"></span>
+                            </label>
+                            <div class="col-form-label col-md-2 col-sm-2 -label-align-left">
+                             
+                              <div class="font-weight-bold">{{ closing.action_taken }}</div>
+                              
+
+                            </div>  
+                            <label class="col-form-label col-md-2 col-sm-2 label-align" for="">If other action<span class="required"></span>
+                            </label>
+                            <div class="col-form-label col-md-4 col-sm-4 -label-align-left">
+                              
+                              <div class="font-weight-bold">{{ closing.action_taken_other }}</div>
+                              
+
+                            </div>
+                            </div>
+                          <div class="form-group row">
+                               <label class="col-form-label col-md-3 col-sm-3 label-align" for="">Action Taken By <span class="required"></span>
+                            </label>
+                            <div class="col-form-label col-md-2 col-sm-2 -label-align-left">
+                             
+                              <div class="font-weight-bold">{{ closing.action_taken_by }}</div>
+                              </div>
+   <label class="col-form-label col-md-2 col-sm-2 label-align" for="">Response Provided <span class="required"></span>
+                            </label>
+                            <div class="col-form-label col-md-1 col-sm-1 -label-align-left">
+                            
+                              <div class="font-weight-bold">{{ closing.get_responses_provided_display }}</div>
+                              
+
+                          
+                            </div>
+                             <label class="col-form-label col-md-1 col-sm-1 label-align" for="">Resp. Date <span class="required"></span>
+                            </label>
+                            <div class="col-form-label col-md-2 col-sm-2 -label-align-left">
+                             
+                              <div class="font-weight-bold">{{ closing.response_date }}</div>
+                              
+
+                          </div>
+                            </div>
+                                 <div class="form-group row">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align" for="">Responses Summary <span class="required"></span>
+                            </label>
+                            <div class="col-form-label col-md-8 col-sm-8-label-align-left">
+                            
+                              <div class="font-weight-bold">{{ closing.response_summary }}</div>
+                              
+
+                            </div>  
+                            
+                            </div>
+                            <div class="form-group row">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align" for="">Resolution<span class="required"></span>
+                            </label>
+                            <div class="col-form-label col-md-3 col-sm-3 -label-align-left">
+                             
+                              <div class="font-weight-bold">{{ closing.resolution }}</div>
+                              
+
+                            </div>
+                            <label class="col-form-label col-md-1 col-sm-1 label-align" for="">Closed ? <span class="required"></span>
+                            </label>
+                            <div class="col-form-label col-md-1 col-sm-1 -label-align-left">
+                             
+                              <div class="font-weight-bold">{{ closing.get_feedback_closed_display }}</div>
+                              
+
+                          
+                            </div>
+                             <label class="col-form-label col-md-1 col-sm-1 label-align" for="">Closing Date <span class="required"></span>
+                            </label>
+                            <div class="col-form-label col-md-2 col-sm-2 -label-align-left">
+                             
+                              <div class="font-weight-bold">{{ closing.closing_date }}</div>
+                              
+
+                          </div>
+                            </div>
+                            
+                           
+                        </div>
+                        <hr class="m-3">
+										
+                      	<div class="col-md-12 col-sm-12">
+                      
+							
+
+                    
+											<div class="col-md-9 col-sm-9">
+                      	<div class="col-md-7 col-sm-7"></div>
+										<div class="text-center mtop20">
+                            <a class="btn btn-info btn-sm" {% if feedback.summary == True or feedback.user != request.user %} onclick="new PNotify({
+                                  title: 'Permission',
+                                  text: 'Current User doesnot match with ICN Owner and/or ICN submission status should be Draft;',
+                                  type: 'info',
+                                  styling: 'bootstrap3'
+                              });" {% else %} href="{% url 'feedback_closing_edit' feedback.id %} {% endif %}" ><i class="fa fa-edit m-right-xs"></i>Edit Closing</a>
+                           </div>
+                     
+                        
+
+                        </div>
+                       
+{% endblock %}

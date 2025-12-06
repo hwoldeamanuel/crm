@@ -32,6 +32,8 @@ class Woreda(models.Model):
 
     def __str__(self):
         return self.name
+    class Meta:
+        ordering = ('name',)
     
 class FieldOffice(models.Model):
     name = models.CharField(max_length=100)
@@ -41,6 +43,7 @@ class FieldOffice(models.Model):
         Zone, on_delete=models.CASCADE, null=True, blank=True)
     woreda = models.ForeignKey(
         Woreda, on_delete=models.CASCADE, null=True, blank=True)
+    
 
     def __str__(self):
         return str(self.name)
@@ -93,5 +96,59 @@ class Lin_Code(models.Model):
     fund = models.ForeignKey(Fund, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     
+    def __str__(self):
+        return self.name
+    
+class Feedback_Category(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+    
+class Feedback_Channel(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
+class Informant_Age(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+    
+class Informant_Gender(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+    
+class Informed_Consent(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+    
+class Informant_Status(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+    
+class Feedback_Status(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+    
+class Feedback_Response_Type(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+    
+class Feedback_Resolution(models.Model):
+    name = models.CharField(max_length=255)
+
     def __str__(self):
         return self.name

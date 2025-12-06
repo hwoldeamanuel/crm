@@ -1,0 +1,122 @@
+{% extends "feedback_steps.html" %}
+
+{% block content_travel_step %}
+{% load static %}
+{% load humanize%}
+                        <div id="step-1" class="content" style="display: none;">
+                            <h2 class="StepTitle">Step 1 Content</h2>
+                            <p>Step 1 content goes here.</p>
+                        </div>
+                        <div id="step-2" class="content" style="display: block;">
+
+                     
+                         <div class="form-group row">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align" for="">Feedback Processing Date <span class="required"></span>
+                            </label>
+                              <div class="col-form-label col-md-2 col-sm-2 -label-align-left">
+                              
+                              <div class="font-weight-bold">{{ processing.processing_date }}</div>
+                              
+
+                            </div>  
+                            <label class="col-form-label col-md-2 col-sm-2 label-align" for="">Feedback Shared <span class="required"></span>
+                            </label>
+                             <div class="col-form-label col-md-1 col-sm-1 -label-align-left">
+                            
+                              <div class="font-weight-bold">{{ processing.get_feedback_shared_display }}</div>
+                              
+
+                            </div>
+                               <label class="col-form-label col-md-2 col-sm-2 label-align" for="">Feedback Referred <span class="required"></span>
+                            </label>
+                              <div class="col-form-label col-md-1 col-sm-1 -label-align-left">
+                             
+                              <div class="font-weight-bold">{{ processing.get_feedback_referred_display }}</div>
+                              
+
+                            </div>
+                            </div>
+                                 <div class="form-group row">
+                            <label class="col-form-label col-md-3 col-sm-3 label-align" for="">Feedback Shared Internal/External <span class="required"></span>
+                            </label>
+                            <div class="col-form-label col-md-2 col-sm-2  -label-align-left">
+                             
+                              <div class="font-weight-bold">{{ processing.get_feedback_shared_with_display}}</div>
+                              
+
+                            </div>  
+                            <label class="col-form-label col-md-2 col-sm-2 label-align" for="">Feedback Shared Note<span class="required"></span>
+                            </label>
+                            <div class="col-form-label col-md-4 col-sm-4 -label-align-left">
+                            
+                              <div class="font-weight-bold">{{ processing.feedback_shared_wtih_note }}</div>
+                              
+
+                            </div>
+                            </div>
+                            <div class="form-group row">
+                               <label class="col-form-label col-md-3 col-sm-3 label-align" for="">Feedback Referred To (Name, Pos, Org) <span class="required"></span>
+                            </label>
+                            <div class="col-form-label col-md-8 col-sm-8 -label-align-left">
+                            
+                              <div class="font-weight-bold">{{ processing.feedback_referred_to }}</div>
+                              
+
+                            </div>
+                            </div>
+         <div class="form-group row">
+                               <label class="col-form-label col-md-3 col-sm-3 label-align" for="">Type of Response Required <span class="required"></span>
+                            </label>
+                            <div class="col-form-label col-md-3 col-sm-3 -label-align-left">
+                             
+                              <div class="font-weight-bold">{{ processing.types_of_response_required }}</div>
+                              
+
+                            </div>
+                                  <label class="col-form-label col-md-1 col-sm-1 label-align" for="">If Other <span class="required"></span>
+                            </label>
+                            <div class="col-form-label col-md-4 col-sm-4 -label-align-left">
+                            
+                              <div class="font-weight-bold">{{ processing.types_of_response_required_other }}</div>
+                              
+
+                            </div>
+                            </div>
+                            <div class="form-group row">
+                               <label class="col-form-label col-md-3 col-sm-3 label-align" for="">Action/Followup Needed<span class="required"></span>
+                            </label>
+                            <div class="col-form-label col-md-1 col-sm-1 -label-align-left">
+                            
+                              <div class="font-weight-bold">{{ processing.get_action_followup_needed_display }}</div>
+                              
+
+                            </div>
+                            </div>
+                   <hr class="m-2">
+                            				
+										
+                      	<div class="col-md-12 col-sm-12">
+                      
+							
+
+                    
+											<div class="col-md-9 col-sm-9">
+                      	<div class="col-md-7 col-sm-7"></div>
+										<div class="text-center mtop20">
+                            <a class="btn btn-info btn-sm" {% if feedback.summary == True or feedback.user != request.user %} onclick="new PNotify({
+                                  title: 'Permission',
+                                  text: 'Current User doesnot match with ICN Owner and/or ICN submission status should be Draft;',
+                                  type: 'info',
+                                  styling: 'bootstrap3'
+                              });" {% else %} href="{% url 'feedback_processing_edit' feedback.id %} {% endif %}" ><i class="fa fa-edit m-right-xs"></i>Edit Processing</a>
+                           </div>
+                     
+                        
+
+                        </div>
+                        <div id="step-3" class="content" style="display: none;">
+                            <h2 class="StepTitle">Step 3 Content</h2>
+                            <p>Step 3 content goes here.</p>
+                        </div>
+                       
+{% endblock %}
