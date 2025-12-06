@@ -102,22 +102,10 @@ def feedback_processing(request, id):
     feedback = get_object_or_404(Feedback, id=id)
     processing = get_object_or_404(Processing, feedback_id=feedback.id)
     
-    form = ProcessingForm(instance=processing)
-    if request.method == 'POST':
-        form = ProcessingForm(request.POST, instance=processing)
-        if form.is_valid():
-            instance = form.save(commit=False)
-            
-            instance.save()
-            instance = form.save()
-            return redirect('feedback_processing',instance.pk)
-        
-        form = ProcessingForm(request.POST, instance=processing)
-        context = {'form':form, }
-    
+
     
 #
-    context = {'form':form,'processing':processing, 'feedback':feedback}
+    context = {'processing':processing, 'feedback':feedback}
     
     return render(request, 'feedback_processing.html', context)
 

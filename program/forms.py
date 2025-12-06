@@ -3,7 +3,7 @@ from django import forms
 from program.models import Indicator, UserRoles
 from partnership.models import Partnership
 from django import forms
-from .models import Program, ImplementationArea, UserRoles, TravelUserRoles
+from .models import Program, ImplementationArea, UserRoles, TravelUserRoles, CarmUserRoles
 from django.contrib.auth.models import User
 from user.models import Profile
 from django_select2 import forms as s2forms
@@ -427,7 +427,7 @@ class TravelUserRoleForm(forms.ModelForm):
         
         if program:
             
-            self.fields['profile'].queryset = Profile.objects.filter(user__is_active=True).exclude(program=program)
+            self.fields['profile'].queryset = Profile.objects.filter(user__is_active=True).exclude(program =program)
         else:
            
             self.fields['profile'].queryset = Profile.objects.filter(user__is_active=True)
@@ -546,3 +546,44 @@ class ParnershipFormE(forms.ModelForm):
             'end_date'
             ]
         exclude=  ['program']
+
+
+
+class CarmUserRoleForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        program = kwargs.pop('program', None)
+        super().__init__(*args, **kwargs)
+        
+        if program:
+            
+            self.fields['profile'].queryset = Profile.objects.filter(user__is_active=True).exclude(carm_profile__in=program.carm_program.values('id'))
+        else:
+           
+            self.fields['profile'].queryset = Profile.objects.filter(user__is_active=True)
+        
+        self.fields['profile'].widget.attrs.update({'class': 'form-control m-input form-control-sm','required':'True'})
+        self.fields['is_officer'].widget =forms.widgets.CheckboxInput(attrs={'type':'checkbox', 'class': 'form-control-sm icheckbox_flat-green1 '})
+        self.fields['is_manager'].widget =forms.widgets.CheckboxInput(attrs={'type':'checkbox', 'class': 'form-control-sm icheckbox_flat-green1 '})
+    
+    class Meta:
+        model = CarmUserRoles
+        fields=['profile','is_officer', 'is_manager',]
+
+
+class CarmUserRoleFormE(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        profile = kwargs.pop('profile', None)
+        super().__init__(*args, **kwargs)
+        
+        if profile:
+            
+            self.fields['profile'].queryset = Profile.objects.filter(user_id=profile.user_id)
+            self.fields['profile'].initial = Profile.objects.filter(user_id=profile.user_id).first()
+        
+       
+        self.fields['profile'].widget.attrs.update({'class': 'form-control m-input form-control-sm','required':'True'})
+        
+    class Meta:
+        model = CarmUserRoles
+        fields=['profile','is_officer', 'is_manager',]
+        exclude= ['program',]

@@ -229,7 +229,7 @@
               <div id="wizard" class="form_wizard wizard_horizontal">
                       <ul class="wizard_steps anchor">
                         <li>
-                          <a href="{% if feedback %}{%  url 'feedback_detail' feedback.id %}{% endif %}" class="{% if 'feedback/new/' in request.path   %}selected{% else %}done{% endif %}" isdone="1" rel="1">
+                          <a href="{% if feedback %}{%  url 'feedback_detail' feedback.id %}{% endif %}" class="{% if 'feedback' in request.path and  'detail' in request.path  %}selected{% else %}done{% endif %}" isdone="1" rel="1">
                             <span class="step_no">1</span>
                             <span class="step_descr">
                                               Step 1<br>
@@ -238,16 +238,16 @@
                           </a>
                         </li>
                         <li>
-                          <a href="{% if feedback.processing %}{%  url 'feedback_processing' feedback.id %} {% elif feedback %} {% url 'feedback_processing_add' feedback.id %} {% endif %}" class="{% if '/processing/new/' in request.path  %}selected{% elif feedback.processing %}done{% else %}disabled{% endif %}" isdone="{% if feedback.processing %}1{% else %}0{% endif %}" rel="2">
+                          <a href="{% if feedback.processing %}{%  url 'feedback_processing' feedback.id %} {% elif request.user.profile.get_carm_manager > 0 or feedback.user == request.user  %} {% url 'feedback_processing_add' feedback.id %}  {% else %} {% url 'carm' %} {% endif %}" class="{% if '/processing/' in request.path  %}selected{% elif feedback.processing %}done{% else %}disabled{% endif %}" isdone="{% if feedback.processing %}1{% else %}0{% endif %}" rel="2">
                             <span class="step_no">2</span>
                             <span class="step_descr">
                                               Step 2<br>
-                                              <small>Processing</small>
+                                              <small>Processing </small>
                                           </span>
                           </a>
                         </li>
                         <li>
-                         <a href="{% if feedback.closing %}{%  url 'feedback_closing' feedback.id %} {% elif feedback %} {% url 'feedback_closing_add' feedback.id %} {% endif %}" class="{% if '/closing/new/' in request.path  %}selected{% elif feedback.closing %}done{% else %}disabled{% endif %}" isdone="{% if feedback.closing %}1{% else %}0{% endif %}" rel="2">
+                         <a href="{% if feedback.closing %}{%  url 'feedback_closing' feedback.id %} {% elif request.user.profile.get_carm_manager > 0 or feedback.user == request.user %} {% url 'feedback_closing_add' feedback.id %} {% endif %}" class="{% if '/closing/new/' in request.path  %}selected{% elif feedback.closing %}done{% else %}disabled{% endif %}" isdone="{% if feedback.closing %}1{% else %}0{% endif %}" rel="2">
                             <span class="step_no">3</span>
                             <span class="step_descr">
                                               Step 3<br>

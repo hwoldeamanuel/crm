@@ -197,9 +197,9 @@
                       	<div class="col-md-6 col-sm-6"></div>
                         <div class="text-center">
 										<div class="text-center mtop20">
-                            <a class="btn btn-info btn-sm" {% if feedback.summary == True or feedback.user != request.user %} onclick="new PNotify({
+                            <a class="btn btn-info btn-sm" {% if request.user.profile.get_carm_manager == 0 and feedback.user != request.user   %} onclick="new PNotify({
                                   title: 'Permission',
-                                  text: 'Current User doesnot match with ICN Owner and/or ICN submission status should be Draft;',
+                                  text: 'Current User doesnot match with Feedback Owner and/or Feedback submission status should be Draft;',
                                   type: 'info',
                                   styling: 'bootstrap3'
                               });" {% else %} href="{% url 'feedback_edit' feedback.id %} {% endif %}" ><i class="fa fa-edit m-right-xs"></i>Edit Submission</a>

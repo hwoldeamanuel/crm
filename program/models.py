@@ -20,7 +20,8 @@ class Program(models.Model):
     title = models.CharField(max_length=100)
     working_title = models.CharField(max_length=255, null=True, blank=True)
     users_role =  models.ManyToManyField(User, through='UserRoles' ,blank=True)
-    travel_users_role =  models.ManyToManyField(Profile, through='TravelUserRoles' ,blank=True)
+    travel_users_role =  models.ManyToManyField(Profile, through='TravelUserRoles',related_name='traveluserroles' ,blank=True)
+    carm_users_role =  models.ManyToManyField(Profile, through='CarmUserRoles', related_name='carmuserroles' ,blank=True)
     fund_code = models.CharField(max_length=200, unique=True)
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
@@ -121,12 +122,25 @@ class Indicator(models.Model):
 
 
 class TravelUserRoles(models.Model):
-    profile = models.ForeignKey(Profile, on_delete=models.DO_NOTHING)
-    program = models.ForeignKey(Program, on_delete=models.DO_NOTHING)
+    profile = models.ForeignKey(Profile, related_name='travel_profile', on_delete=models.DO_NOTHING)
+    program = models.ForeignKey(Program,related_name='travel_program', on_delete=models.DO_NOTHING)
     is_initiator = models.BooleanField(default=False)
     is_budget_holder = models.BooleanField(default=False)
     is_finance_reviewer = models.BooleanField(default=False)
     is_security_reviewer = models.BooleanField(default=False)
+   
+
+    
+    def __str__(self):
+        return str(self.profile)
+    
+
+class CarmUserRoles(models.Model):
+    profile = models.ForeignKey(Profile, related_name='carm_profile', on_delete=models.DO_NOTHING)
+    program = models.ForeignKey(Program,related_name='carm_program', on_delete=models.DO_NOTHING)
+    is_officer = models.BooleanField(default=False)
+    is_manager = models.BooleanField(default=False)
+   
    
 
     

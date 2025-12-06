@@ -2,6 +2,25 @@
 
 {% block content %}
 {% load static %}
+
+<style>
+  .icheckbox_flat-green1, .iradio_flat-green1 {
+    position: relative;
+    display: inline-block;
+    border: 1px solid #a9a9a9;
+    border-radius: .25em;
+    width: 1.3em;
+    height: 1.3em;
+    float: left;
+    margin-right: .5em;
+    accent-color: #169F85;
+    
+   
+    
+   
+    
+}
+</style>
  
  <!-- page content -->
  <div class="right_col" role="main">
@@ -141,6 +160,8 @@
                     </li>
                        <li role="presentation" class=""><a href="#tab_content6" role="tab" id="profile-tab6" data-toggle="tab" aria-expanded="false">Partnership</a>
                     </li>
+                        <li role="presentation" class=""><a href="#tab_content7" role="tab" id="profile-tab7" data-toggle="tab" aria-expanded="false">CARM Roles</a>
+                    </li>
                   </ul>
                   <div id="myTabContent" class="tab-content">
                     <div role="tabpanel" class="tab-pane active " id="tab_content1" aria-labelledby="home-tab">
@@ -263,6 +284,13 @@
                           </div>
                             <button class="btn btn-primary btn-sm" hx-get="{% url 'add_partnership' program.id %}" hx-target="#dialog" class="btn btn-primary">
                           Add Partnership
+                        </button>
+                    </div>
+                      <div role="tabpanel" class="tab-pane fade" id="tab_content7" aria-labelledby="profile-tab7">
+                            <div id="partnershiplist" hx-trigger="load, CarmUserListChanged from:body" hx-get="{% url 'user_carm_list' program.id %}" hx-target="this">
+                          </div>
+                            <button class="btn btn-primary btn-sm" hx-get="/program/add_carm_user/{{program.id}}/" hx-target="#dialog" class="btn btn-primary">
+                          Add CARM Roles
                         </button>
                     </div>
                   </div>

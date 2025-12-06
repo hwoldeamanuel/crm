@@ -1,0 +1,71 @@
+
+{% load widget_tweaks %}
+
+
+{% with WIDGET_ERROR_CLASS='is-invalid' %}
+                                                                
+<form  hx-post="{{ request.path }}" hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}' class="modal-content">
+    {% csrf_token %}
+ <div class="modal-header">
+    <h5 class="modal-title">CARM User Role Form</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  </div>
+  <div class="modal-body">
+   </br>
+<h4>CARM User Roles </h4>
+</br>
+    <div class="form-group row">
+      <label class="col-form-label col-md-1 col-sm-1 label-align" for="">Profile: <span class="required"></span>
+                            </label>
+                            <div class="col-md-4 col-sm-4">
+                              {% render_field form.profile class="form-control form-control form-control-sm" %}
+                                <div class="invalid-feedback">{{ form.profile.errors|first }}</div>
+                            
+                              
+
+                            </div>
+  <div class="col-1 col-sm-1"></div>
+        <div class="col-3 col-sm-3">
+                            
+                            <label>CARM Officer <span class="required"></span>
+            
+                {% render_field form.is_officer class+="form-control form-control-sm icheckbox_flat-green1"  %}
+                </label>  
+                              
+
+                            </div>
+                                                      
+                            <label>CARM Manager <span class="required"></span>
+            
+                {% render_field form.is_manager class+="form-control form-control-sm icheckbox_flat-green1"  %}
+                </label>  
+                              
+
+                            </div>
+ 
+        
+        </div>
+      
+    </div>
+
+
+    
+
+</div>
+<div class="modal-footer">
+   {% if cuser_role %}
+    <button type="button" class="btn btn-danger btn-sm" hx-post="{% url 'remove_carm_user_role' pk=cuser_role.pk %}">Remove</button>
+    <span class="flex-grow-1"></span>
+    {% endif %}
+    <div class="form-group row">							
+        <div class="col-md-12 col-sm-12">
+		 <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal"> Cancel </button>					       
+
+        <button type="submit" class="btn btn-sm btn-xs btn-primary">Save Changes</button>
+        </div>
+     
+    </div>
+</div>
+</form>
+
+{% endwith %}

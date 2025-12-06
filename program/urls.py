@@ -23,9 +23,11 @@ htmxpatterns = [
 
     path('users/<int:id>/', views.user_list, name='user_list'),
     path('tusers/<int:id>/', views.user_travel_list, name='user_travel_list'),
+    path('cusers/<int:id>/', views.user_carm_list, name='user_carm_list'),
     path('partnership/<int:id>/', views.program_partnership, name='partnership_list'),
     path('user_add/<int:id>/', views.add_user, name='add_user'),
     path('add_travel_user/<int:id>/', views.add_travel_user, name='add_travel_user'),
+    path('add_carm_user/<int:id>/', views.add_carm_user, name='add_carm_user'),
     path('edit_user_roles/<int:uid>/', views.edit_user_role, name='edit_user_role'),
 
 
@@ -54,10 +56,14 @@ htmxpatterns = [
     path('region/edit_area/<int:pk>/', views.area_edit_form, name='area_edit_form'),
     path('update_user_roles/<int:id>/', views.update_user_roles, name='update_user_roles'),
     path('update_travel_user_roles/<int:id>/', views.update_travel_user_roles, name='update_travel_user_roles'),
+    path('update_carm_user_roles/<int:id>/', views.update_carm_user_roles, name='update_carm_user_roles'),
+   
    
     path('remove_user_role/<int:pk>/', views.remove_user_role, name='remove_user_role'),
     path('newportfolio/', views.newportfolio, name='newportfolio'),
-     path('remove_travel_user_role/<int:pk>/', views.remove_travel_user_role, name='remove_travel_user_role'),
+    path('remove_travel_user_role/<int:pk>/', views.remove_travel_user_role, name='remove_travel_user_role'),
+    path('remove_carm_user_role/<int:pk>/', views.remove_carm_user_role, name='remove_carm_user_role'),
+   
    
 
    

@@ -109,7 +109,7 @@
 											<div class="col-md-9 col-sm-9">
                       	<div class="col-md-7 col-sm-7"></div>
 										<div class="text-center mtop20">
-                            <a class="btn btn-info btn-sm" {% if feedback.summary == True or feedback.user != request.user %} onclick="new PNotify({
+                            <a class="btn btn-info btn-sm" {% if request.user.profile.get_carm_manager == 0 and feedback.user != request.user  %} onclick="new PNotify({
                                   title: 'Permission',
                                   text: 'Current User doesnot match with ICN Owner and/or ICN submission status should be Draft;',
                                   type: 'info',

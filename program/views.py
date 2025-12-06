@@ -11,9 +11,9 @@ from django.contrib.auth.decorators import login_required
 from portfolio.models import Portfolio
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
-from .forms import ProgramForm, AddProgramAreaForm,EditProgramAreaForm, IndicatorForm, UserRoleForm, UserRoleFormE,UserRoleFormP, UserForm, TravelUserRoleForm, TravelUserRoleFormE, ParnershipForm, ParnershipFormE
+from .forms import ProgramForm, AddProgramAreaForm,EditProgramAreaForm, IndicatorForm, UserRoleForm, UserRoleFormE,UserRoleFormP, UserForm, TravelUserRoleForm, TravelUserRoleFormE, ParnershipForm, ParnershipFormE, CarmUserRoleForm, CarmUserRoleFormE
 from partnership.models import Partnership
-from .models import Program, ImplementationArea, Indicator, UserRoles, TravelUserRoles
+from .models import Program, ImplementationArea, Indicator, UserRoles, TravelUserRoles, CarmUserRoles
 from django.contrib.auth.models import User
 from conceptnote.models import Icn, Activity
 from django.db.models.functions import TruncMonth
@@ -635,4 +635,86 @@ def add_partnership(request, id):
         form = ParnershipForm(program=program)
     return render(request, 'partial/partnership_form.html', {
         'form': form,
+    })
+
+
+@login_required(login_url='login')
+@permission_required("program.can_add_carmuserroles", raise_exception=True)
+def add_carm_user(request, id):
+    program = Program.objects.get(pk=id)
+    if request.method == "POST":
+        program = Program.objects.get(pk=id)
+        form = CarmUserRoleForm(request.POST)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.program = program
+            instance.save()
+            return HttpResponse(
+                status=204,
+                headers={
+                    'HX-Trigger': json.dumps({
+                        "CarmUserListChanged": None,
+                        "showMessage": f"{instance.profile} updated."
+                    })
+                })
+    
+    
+    form = CarmUserRoleForm(program=program)
+    return render(request, 'partial/carm_user_role.html', {
+        'form': form,
+        
+    })
+
+
+@login_required(login_url='login')
+def user_carm_list(request, id):
+    program = get_object_or_404(Program, pk=id)
+    carm_user_list = CarmUserRoles.objects.filter(program=program)
+    return render(request, 'partial/carm_user_list_program.html', {
+        'carm_user_list': carm_user_list,
+    })
+
+
+@login_required(login_url='login')
+@permission_required("program.can_delete_userroles", raise_exception=True)
+def remove_carm_user_role(request, pk):
+    cuser_role = get_object_or_404(CarmUserRoles, pk=pk)
+    cuser_role.delete()
+    return HttpResponse(
+        status=204,
+        headers={
+            'HX-Trigger': json.dumps({
+                "CarmUserListChanged": None,
+                "showMessage": f"{cuser_role.profile} deleted."
+            })
+        })
+
+
+@login_required(login_url='login')
+@permission_required("program.can_change_userroles", raise_exception=True)
+def update_carm_user_roles(request, id):
+    cuser_role = CarmUserRoles.objects.get(pk=id)
+    profile = get_object_or_404(Profile, pk=cuser_role.profile_id)
+    program = get_object_or_404(Program, pk=cuser_role.program_id)
+
+    if request.method == "POST":
+       
+        form = CarmUserRoleFormE(request.POST, instance=cuser_role, profile=profile)
+     
+        if form.is_valid():
+            instance = form.save()
+           
+            return HttpResponse(
+                status=204,
+                headers={
+                    'HX-Trigger': json.dumps({
+                        "CarmUserListChanged": None,
+                        "showMessage": f"{instance.profile} updated."
+                    })
+                })
+    
+    form = CarmUserRoleFormE(instance=cuser_role, profile=profile)
+    return render(request, 'partial/carm_user_role.html', {
+        'form': form,'cuser_role':cuser_role
+        
     })

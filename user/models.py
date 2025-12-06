@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from portfolio.models import Portfolio
 from app_admin.models import FieldOffice
+from django.db.models import Q
 # Create your models here.
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True,related_name='profile')
@@ -19,6 +20,9 @@ class Profile(models.Model):
         on_delete=models.DO_NOTHING,null=True, blank=True
     )
     
+    class Meta:
+                
+        ordering = ('first_name',)
 
     def __str__(self):
         return str(self.first_name) + " " + str(self.last_name)
@@ -30,4 +34,12 @@ class Profile(models.Model):
     
     def get_pcn_initiator(self):
         program = self.user.userroles_set.filter(is_pcn_initiator=True)
+        return program.count()
+    
+    def get_carm_role(self):
+        program = self.user.profile.carm_profile.filter(Q(is_officer=True)| Q(is_manager=True) )
+        return program.count()
+    
+    def get_carm_manager(self):
+        program = self.user.profile.carm_profile.filter(Q(is_manager=True) )
         return program.count()

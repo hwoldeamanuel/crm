@@ -18,7 +18,7 @@
                       Action <span class="caret"></span>
                     </button>
                     <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 37px, 0px); top: 0px; left: 0px; will-change: transform;">
-                      <a class="dropdown-item" href="{% url 'feedback_add' %}">New Feedback</a>
+                      <a class="dropdown-item  {% if request.user.profile.get_carm_role == 0 %}disabled{% endif %}"  href="{% url 'feedback_add' %}">New Feedback</a>
                       <a class="dropdown-item" href="#">Another action</a>
                       <a class="dropdown-item" href="#">Something else here</a>
                       <div class="dropdown-divider"></div>
@@ -36,7 +36,7 @@
                <div class="col-md-12 col-sm-12 " >
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Feedback Submissions</small></h2>
+                    <h2>Feedback Submissions{{request.user.get_carm_role}} </small></h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
