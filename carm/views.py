@@ -43,11 +43,11 @@ def feedback_add(request):
 @login_required(login_url='login')
 def feedback_detail(request, id):
     feedback = get_object_or_404(Feedback, id=id)
-    form = FeedbackForm(instance=feedback)
+    
 
     
 
-    context = {'form':form, 'feedback':feedback}
+    context = { 'feedback':feedback}
     
     return render(request, 'feedback_detail.html', context)
 
