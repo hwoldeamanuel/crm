@@ -47,20 +47,16 @@ class Feedback(models.Model):
     
     def __str__(self):
         return str(self.id)
-    '''
-    @property
-    def feedback_status(self):
-         if self._state == Event.PLANNED and self.begin_timestamp >= now:
-             self._state = Event.OPEN
-             self.save()
-      
-         if self._state == Event.OPEN and self.end_timestamp <= now:
-             self._state = Event.CLOSED
-             self.save()
     
-         return self._state
-'''
-
+   
+    def feedback_status(self):
+         if Closing.objects.filter(feedback =self).exists():
+             status =  "Closed"
+         elif Processing.objects.filter(feedback =self).exists():
+             status =  "In Progress"   
+         else: status = "Pending"
+         
+         return status
 
 
 

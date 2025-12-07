@@ -19,10 +19,11 @@
                     </button>
                     <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 37px, 0px); top: 0px; left: 0px; will-change: transform;">
                       <a class="dropdown-item  {% if request.user.profile.get_carm_role == 0 %}disabled{% endif %}"  href="{% url 'feedback_add' %}">New Feedback</a>
-                      <a class="dropdown-item" href="#">Another action</a>
-                      <a class="dropdown-item" href="#">Something else here</a>
+                     <a class="dropdown-item" href="{% url 'programs'%}">Programs</a>
+                     
                       <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#">Separated link</a>
+                       <a class="dropdown-item" href="{% url 'icns'%}">Int. Concept Note</a>
+                      <a class="dropdown-item" href="{% url 'activities'%}">Act. Concept Note</a>
                     </div>
                 </div>
                 
@@ -57,17 +58,19 @@
                           <div class="col-sm-12">
                       
                   
-                 <table id="datatable-buttons" class="table table-striped" style="width:100%">
+                 <table id="datatable-buttons" class="table table-striped table-sm" style="width:100%">
                       <thead>
                         <tr>
-                          <th>#</th>
+                          <th style="width:3%; color: #73879C">#</th>
 							
-                          <th>Field Office</th>
-                          <th>Program</th>
-                          <th>Date</th>
-                          <th>Channel</th>
-                          <th>Status</th>
-                          <th>Action</th>
+                          <th style="width:12%; color: #73879C">Field Office <small>(User)</small></th>
+                           <th style="width:12%; color: #73879C">Program <small>(Partner)</small></th>
+                         
+                          <th style="width:14%; color: #73879C">Date<small>(Recived/Submitted)</small></th>
+                          <th style="width:18%; color: #73879C">Feedback Grade</th>
+                           <th style="width:25%; color: #73879C">Feedback Channel</th>
+                           <th style="width:8%; color: #73879C">Status</th>
+                          <th style="width:8%;"></th>
                         </tr>
                       </thead>
 
@@ -78,11 +81,12 @@
                           <td>
 							{{forloop.counter}}
 						  </td>
-                          <td>{{feedback.office_location}}</td>
-                          <td>{{feedback.program}}</td>
-                          <td>{{feedback.date_feedback_recieved}}</td>
-                          <td>{{feedback.feedback_channel}}</td>
-                           <td>TBD</td>
+                          <td>{{feedback.office_location}}</br><small>{{feedback.user.profile.full_name}}</small></td>
+                          <td>{{feedback.program}}</br><small>{{feedback.partner}}</small></td>
+                          <td>{{feedback.date_feedback_recieved}}</br><small>{{feedback.published_date}}</small></td>
+                          <td>{{feedback.feedback_category}}</td>
+                           <td>{{feedback.feedback_channel}}</td>
+                           <td> <span class="badge {% if 'Closed' in feedback.feedback_status  %}bg-green {% elif 'In Progress' in feedback.feedback_status  %}bg-warning{% else %}bg-red{% endif %}">{{feedback.feedback_status }}</span></td>
                           
                           <td class="text-right">
                       <a href="{% url 'feedback_detail' feedback.id %}" class="btn btn-sm btn-info"><i class="fa fa-eye"></i> View </a>
