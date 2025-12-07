@@ -427,7 +427,7 @@ class TravelUserRoleForm(forms.ModelForm):
         
         if program:
             
-            self.fields['profile'].queryset = Profile.objects.filter(user__is_active=True).exclude(program =program)
+            self.fields['profile'].queryset = Profile.objects.filter(user__is_active=True).exclude(travel_profile__in=program.travel_program.values('id'))
         else:
            
             self.fields['profile'].queryset = Profile.objects.filter(user__is_active=True)

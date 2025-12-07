@@ -171,11 +171,11 @@
     <thead>
       <tr>
      
-        <th style="width:15%">Concept Note</th>
-  <th>Title</th>
+        <th style="width:15%;color: #73879C;">Concept Note</th>
+  <th style="color: #73879C;">Title</th>
         
-        <th>Status<small>(CN.)</small></th>
-        <th>Status<small>(CN Report)</small></th>
+        <th style="color: #73879C;">Status<small>(CN.)</small></th>
+        <th style="color: #73879C;">Status<small>(CN Report)</small></th>
       
        
       </tr>
@@ -232,7 +232,7 @@
                       </div>
                      
                         <button class="btn btn-primary btn-sm" hx-get="/program/user_add/{{program.id}}/" hx-target="#dialog" class="btn btn-primary">
-                          Add User Roles
+                          Add C.N. User Roles
                         </button>
                       
                     </div>
@@ -246,13 +246,13 @@
                         <table class="data table table-striped table-sm no-margin" style="width:100%">
                           <thead>
                             <tr>
-                              <th> Code</th>
-                              <th> Title</th>
-                              <th> Level</th>
-                              <th> Unit</th>
-                              <th>Baseline</th>
-                              <th>LoP</th>
-                              <th></th>
+                              <th style="color: #73879C;"> Code</th>
+                              <th style="color: #73879C;"> Title</th>
+                              <th style="color: #73879C;"> Level</th>
+                              <th style="color: #73879C;"> Unit</th>
+                              <th style="color: #73879C;">Baseline</th>
+                              <th style="color: #73879C;">LoP</th>
+                              <th style="color: #73879C;"></th>
                             </tr>
                           </thead>
                           <tbody hx-trigger="load, IndicatorListChanged from:body" hx-get="{% url 'indicator_list' program.id %}" hx-target="this">
@@ -275,7 +275,7 @@
                       </div>
                      
                         <button class="btn btn-primary btn-sm" hx-get="/program/add_travel_user/{{program.id}}/" hx-target="#dialog" class="btn btn-primary">
-                          Add User Roles
+                          Add Travel User Role
                         </button>
                       
                     </div>
