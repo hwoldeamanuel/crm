@@ -7,7 +7,7 @@ from django.http.response import HttpResponse, HttpResponsePermanentRedirect
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.core.mail import send_mail, EmailMultiAlternatives, EmailMessage
-
+import threading
 
 @login_required(login_url='login')
 def carm(request):
@@ -240,22 +240,52 @@ def send_notify(id):
                 "program": feedback.program,
                 "title": feedback.feedback_category,
                 "id": feedback.id,
-               
+                "title": feedback.summary,
                 "creator": feedback.user.profile.full_name,
                 "last_modified": feedback.updated_by,
+                "user_role": 'Initiator',
                 
             
                 
                 }
-    html_message = render_to_string("feedback_mail.html", context=context)
-    plain_message = strip_tags(html_message)
+  
+  
+        
+
+    subject = subject
+   
+   
     recipient_list = [feedback.user.email,]
         
-    message = EmailMessage(
-        subject = subject, 
-        body = plain_message,
-        from_email = 'Mercy Corps CARM',
-        to= recipient_list
-            )
     
-    message.send()
+    email_thread = EmailThread(
+        subject,
+        'partial/feedback_mail.html',
+        context,
+        recipient_list
+    )
+    email_thread.start()
+
+
+class EmailThread(threading.Thread):
+    def __init__(self, subject, template_name, context, recipient_list):
+        self.subject = subject
+        self.template_name = template_name
+        self.context = context
+        self.recipient_list = recipient_list
+        threading.Thread.__init__(self)
+
+    def run(self):
+        send_templated_email(self.subject, self.template_name, self.context, self.recipient_list)
+
+
+def send_templated_email(subject, template_name, context, recipient_list):
+    html_content = render_to_string(template_name, context)
+    email = EmailMultiAlternatives(
+        subject,
+        html_content,
+        'Mercy Corps ETH CARM',  # Sender's email
+        recipient_list,
+    )
+    email.content_subtype = "html"  # Set content type to HTML
+    email.send()

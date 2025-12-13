@@ -134,7 +134,7 @@
 <table border="0" cellpadding="0" cellspacing="0" class="heading_block block-1" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt;" width="100%">
 <tr>
 <td class="pad" style="padding-bottom:10px;text-align:center;width:100%;">
-<h1 style="margin: 0; color: #338f8f; direction: ltr; font-family: 'Roboto Slab', Arial, 'Helvetica Neue', Helvetica, sans-serif; font-size: 23px; font-weight: normal; letter-spacing: 2px; line-height: 120%; text-align: center; margin-top: 0; margin-bottom: 0; mso-line-height-alt: 27.599999999999998px;"><span class="tinyMce-placeholder" style="word-break: break-word;">Community Accountability Reporting Mechanism (CARM)</span></h1>
+<h1 style="margin: 0; color: #338f8f; direction: ltr; font-family: 'Roboto Slab', Arial, 'Helvetica Neue', Helvetica, sans-serif; font-size: 23px; font-weight: normal; letter-spacing: 2px; line-height: 120%; text-align: center; margin-top: 0; margin-bottom: 0; mso-line-height-alt: 27.599999999999998px;"><span class="tinyMce-placeholder" style="word-break: break-word;">Concept Note Management System (CNMS)</span></h1>
 </td>
 </tr>
 </table>
@@ -158,7 +158,7 @@
 <tr>
 <td class="pad" style="padding-bottom:5px;padding-left:10px;padding-right:10px;padding-top:5px;">
 <div style="color:#3f4d75;font-family:Roboto Slab, Arial, Helvetica Neue, Helvetica, sans-serif;font-size:15px;line-height:120%;text-align:left;mso-line-height-alt:24px;">
-<p style="margin: 0; word-break: break-word;"><span style="word-break: break-word;">CARM Feedback</span></p>
+<p style="margin: 0; word-break: break-word;"><span style="word-break: break-word;">Concept Note Workflow: Activity Concept Note</span></p>
 </div>
 </td>
 </tr>
@@ -170,12 +170,10 @@
 </td>
 </tr>
 
-
-
 <tr>
 <td class="pad" style="padding-bottom:5px;padding-left:10px;padding-right:10px;padding-top:5px;">
 <div style="color:#3f4d75;font-family:Roboto Slab, Arial, Helvetica Neue, Helvetica, sans-serif;font-size:15px;line-height:120%;text-align:left;mso-line-height-alt:24px;">
-<p style="margin: 0; word-break: break-word;"><span style="word-break: break-word;">ID: {{ id }}</span></p>
+<p style="margin: 0; word-break: break-word;"><span style="word-break: break-word;">Title: {{title}}</span></p>
 </div>
 </td>
 </tr>
@@ -183,7 +181,7 @@
 <tr>
 <td class="pad" style="padding-bottom:5px;padding-left:10px;padding-right:10px;padding-top:5px;">
 <div style="color:#3f4d75;font-family:Roboto Slab, Arial, Helvetica Neue, Helvetica, sans-serif;font-size:15px;line-height:120%;text-align:left;mso-line-height-alt:24px;">
-<p style="margin: 0; word-break: break-word;"><span style="word-break: break-word;">Submitted By: {{ creator}}</span></p>
+<p style="margin: 0; word-break: break-word;"><span style="word-break: break-word;">ID: {{ cn_id }}</span></p>
 </div>
 </td>
 </tr>
@@ -191,7 +189,15 @@
 <tr>
 <td class="pad" style="padding-bottom:5px;padding-left:10px;padding-right:10px;padding-top:5px;">
 <div style="color:#3f4d75;font-family:Roboto Slab, Arial, Helvetica Neue, Helvetica, sans-serif;font-size:15px;line-height:120%;text-align:left;mso-line-height-alt:24px;">
-<p style="margin: 0; word-break: break-word;"><span style="word-break: break-word;">Last Modified: {{ last_modified }}</span></p>
+<p style="margin: 0; word-break: break-word;"><span style="word-break: break-word;">Initiated By: {{ creator}}</span></p>
+</div>
+</td>
+</tr>
+
+<tr>
+<td class="pad" style="padding-bottom:5px;padding-left:10px;padding-right:10px;padding-top:5px;">
+<div style="color:#3f4d75;font-family:Roboto Slab, Arial, Helvetica Neue, Helvetica, sans-serif;font-size:15px;line-height:120%;text-align:left;mso-line-height-alt:24px;">
+<p style="margin: 0; word-break: break-word;"><span style="word-break: break-word;">Last Modified: {{ initiator|add:" - "|add:user_role }}</span></p>
 </div>
 </td>
 </tr>
@@ -207,7 +213,7 @@
 <tr>
 <td class="pad" style="padding-bottom:5px;padding-left:10px;padding-right:10px;padding-top:5px;">
 <div style="color:#3f4d75;font-family:Roboto Slab, Arial, Helvetica Neue, Helvetica, sans-serif;font-size:12px;line-height:120%;text-align:left;mso-line-height-alt:24px;">
-<p style="margin: 0; word-break: break-word;"><span style="word-break: break-word;"> Please visit above link to review the feedback in detail.</span></p>
+<p style="margin: 0; word-break: break-word;"><span style="word-break: break-word;"> Please visit above link to review and approve the concept note.</span></p>
 </div>
 </td>
 </tr>
@@ -245,7 +251,7 @@
 <td class="pad" style="padding-left:20px;padding-right:20px;">
 <div style="color:#7999ac;font-family:Roboto Slab, Arial, Helvetica Neue, Helvetica, sans-serif;font-size:10px;font-weight:400;line-height:120%;text-align:center;mso-line-height-alt:15.6px;">
 <p style="margin: 0;"> </p>
-<p style="margin: 0;">CARM App notification email.<br/> Mercy Corps Ethiopia- PaQ Unit</p>
+<p style="margin: 0;">CNMS App Approval Workflow notification email.<br/> Mercy Corps Ethiopia- PaQ Unit</p>
 <p style="margin: 0;">Copyright@2024</p>
 <p style="margin: 0;"> </p>
 </div>
@@ -276,7 +282,7 @@
 <table cellpadding="0" cellspacing="0" class="icons-inner" role="presentation" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; display: inline-block; padding-left: 0px; padding-right: 0px;"><!--<![endif]-->
 <tr>
 <td style="vertical-align: middle; text-align: center; padding-top: 5px; padding-bottom: 5px; padding-left: 5px; padding-right: 6px;"><a href="https://paqcnms.azurewebsites.net/" style="text-decoration: none;" target="_blank"><img align="center" alt="Beefree Logo" class="icon" height="auto" src="{% static 'images/shortlog.png' %}" style="display: block; height: auto; margin: 0 auto; border: 0;" width="34"/></a></td>
-<td style="font-family: 'Inter', sans-serif; font-size: 15px; font-weight: undefined; color: #1e0e4b; vertical-align: middle; letter-spacing: undefined; text-align: center; line-height: normal;"><a href="https://paqcnms.azurewebsites.net/" style="color: #1e0e4b; text-decoration: none;" target="_blank">Mercy Corps Ethiopa - CARM App</a></td>
+<td style="font-family: 'Inter', sans-serif; font-size: 15px; font-weight: undefined; color: #1e0e4b; vertical-align: middle; letter-spacing: undefined; text-align: center; line-height: normal;"><a href="https://paqcnms.azurewebsites.net/" style="color: #1e0e4b; text-decoration: none;" target="_blank">Mercy Corps Ethiopa - CNMS App</a></td>
 </tr>
 </table>
 </td>
