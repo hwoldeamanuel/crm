@@ -13,8 +13,8 @@ from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
 from django.views.generic import FormView, TemplateView
 from django.contrib.auth import get_user_model
-from .models import Icn, Activity, ActivityImpact,ActivityImplementationArea,  Indicator, IcnImplementationArea,  Impact, IcnSubmit, Document, Icn_Approval, IcnSubmitApproval_P, IcnSubmitApproval_F, IcnSubmitApproval_M, ActivityDocument, ActivitySubmit, ActivitySubmitApproval_F,ActivitySubmitApproval_P, ActivitySubmitApproval_M,  Disaggregate
-from .forms import IcnForm, ActivityForm,ImpactForm, ActivityImpactForm, ActivityAreaFormE, IcnAreaFormE, IcnSubmitForm,  IcnDocumentForm,  IcnApprovalFForm, IcnApprovalPForm, IcnApprovalMForm,ActivitySubmitForm, ActivityDocumentForm, ActivityApprovalFForm, ActivityApprovalPForm, ActivityApprovalMForm, DisaggregateForm
+from .models import Icn, Activity, ActivityImpact,ActivityImplementationArea,  Indicator, IcnImplementationArea,  Impact, IcnSubmit, Document, Icn_Approval, IcnSubmitApproval_P, IcnSubmitApproval_F, IcnSubmitApproval_M, ActivityDocument, ActivitySubmit, ActivitySubmitApproval_F,ActivitySubmitApproval_P, ActivitySubmitApproval_M,  Disaggregate, ActivityDisaggregate
+from .forms import IcnForm, ActivityForm,ImpactForm, ActivityImpactForm, ActivityAreaFormE, IcnAreaFormE, IcnSubmitForm,  IcnDocumentForm,  IcnApprovalFForm, IcnApprovalPForm, IcnApprovalMForm,ActivitySubmitForm, ActivityDocumentForm, ActivityApprovalFForm, ActivityApprovalPForm, ActivityApprovalMForm, DisaggregateForm, ActivityDisaggregateForm
 from program.models import  Program,  ImplementationArea
 from django.http import QueryDict
 from django.conf import settings
@@ -1805,3 +1805,74 @@ def send_icn_notify(id, uid, doc):
         message.attach(basename(f.name), f.read(), guess_type(f.name)[0])
         f.close()
         message.send()
+
+@login_required(login_url='login') 
+def add_activity_disaggregate(request, id):
+    impact = ActivityImpact.objects.get(pk=id)
+    form = ActivityDisaggregateForm(impact=impact)
+    if request.method == 'POST':
+        form = ActivityDisaggregateForm(request.POST, impact=impact)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.impact = impact
+            instance.save()
+            return HttpResponse(
+                status=204,
+                headers={
+                    'HX-Trigger': json.dumps({
+                        "AImpactListChanged": None,
+                        "showMessage": f"{instance.pk} updated."
+                    })
+                })
+        else:
+            form = ActivityDisaggregateForm(request.POST, impact=impact)
+            context = {'form':form, 'impact':impact}
+            return render(request, 'partial/activity_disaggregate_form.html', context)     
+       
+    context = {'form':form, 'impact':impact}
+    return render(request, 'partial/activity_disaggregate_form.html', context)
+
+@login_required(login_url='login')
+def edit_activity_disaggregate(request, pk):
+    disaggregate = get_object_or_404(ActivityDisaggregate, pk=pk)
+    impact = get_object_or_404(ActivityImpact, pk=disaggregate.impact_id)
+    if request.method == "POST":
+        disaggregate = ActivityDisaggregate.objects.get(pk=pk)
+        form = ActivityDisaggregateForm(request.POST, instance=disaggregate)
+        if form.is_valid():
+            instance = form.save()
+            return HttpResponse(
+                status=204,
+                headers={
+                    'HX-Trigger': json.dumps({
+                        "AImpactListChanged": None,
+                        "showMessage": f"{instance.pk} updated."
+                    })
+                })
+        else:
+            form = ActivityDisaggregateForm(request.POST, instance=disaggregate)
+            return render(request, 'partial/activity_disaggregate_forme.html', {
+                'form': form,
+                'disaggregate': disaggregate,
+                'impact': impact,
+            })
+    form = DisaggregateForm(instance=disaggregate)
+    return render(request, 'partial/activity_disaggregate_forme.html', {
+        'form': form,
+        'disaggregate': disaggregate,
+        'impact':impact,
+    })
+
+@login_required(login_url='login') 
+def delete_activity_disaggregate(request, pk):
+    disaggregate = get_object_or_404(Disaggregate, pk=pk)
+    instance = disaggregate
+    disaggregate.delete()
+    return HttpResponse(
+         status=204,
+                headers={
+                    'HX-Trigger': json.dumps({
+                        "AImpactListChanged": None,
+                        "showMessage": f"{instance.pk} updated."
+                    })
+                })

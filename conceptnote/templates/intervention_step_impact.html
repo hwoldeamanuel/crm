@@ -72,7 +72,7 @@
         <tbody>
             {%  if impacts %}
             {% for impact in impacts %}
-            <tr {% if impact.dis_check == False %} style="border: 1px solid red;" {% endif %}>
+            <tr {% if impact.dis_check == False or impact.pilot_check == False or  impact.scaleup_check == False %} style="border: 1px solid red;" {% endif %}>
                <td>{{forloop.counter}}</td>
            
                 <td class="vertical-align-mid" style="font-size: 13px;">
@@ -81,8 +81,8 @@
             
                  <td class="vertical-align-mid  style="font-size: 13px;"">{{ impact.get_unit_display }}</td>
                     <td class="vertical-align-mid">{{ impact.get_impact_total }}</td>
-                <td  style="font-size: 13px;" {% if impact.pilot_check == False %} style="border: 1px solid red;" {%endif %} class="vertical-align-mid">{{ impact.impact_pilot|intcomma }}</td>
-                <td  style="font-size: 13px;"{% if impact.scaleup_check == False %} style="border: 1px solid red;" {%endif %}class="vertical-align-mid">{{ impact.impact_scaleup|intcomma }}</td>
+                <td  style="font-size: 13px;" {% if impact.pilot_check == False %} style="border: 1px solid red;" {% endif %} class="vertical-align-mid">{{ impact.impact_pilot|intcomma }}</td>
+                <td  style="font-size: 13px;"{% if impact.scaleup_check == False %} style="border: 1px solid red;" {% endif %}class="vertical-align-mid">{{ impact.impact_scaleup|intcomma }}</td>
                  <td ><div class="icheckbox_flat-green {% if impact.is_disaggregate %}checked{% endif %}" style="position: relative;"><input type="" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 80%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
                           </td>
                  

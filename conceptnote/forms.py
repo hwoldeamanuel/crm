@@ -1,6 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from .models import Icn, Activity,Impact,ActivityImpact, IcnImplementationArea,  ActivityImplementationArea,IcnSubmit, Document, IcnSubmitApproval_F,  IcnSubmitApproval_P, IcnSubmitApproval_M, ActivityDocument, ActivitySubmit,ActivitySubmitApproval_F,ActivitySubmitApproval_P, ActivitySubmitApproval_M, Disaggregate
+from .models import Icn, Activity,Impact,ActivityImpact, IcnImplementationArea,  ActivityImplementationArea,IcnSubmit, Document, IcnSubmitApproval_F,  IcnSubmitApproval_P, IcnSubmitApproval_M, ActivityDocument, ActivitySubmit,ActivitySubmitApproval_F,ActivitySubmitApproval_P, ActivitySubmitApproval_M, Disaggregate, ActivityDisaggregate
 from partnership.models import Partnership
 from program.models import  Program, ImplementationArea, Indicator, UserRoles
 from portfolio.models import Portfolio
@@ -558,6 +558,41 @@ class DisaggregateForm(forms.ModelForm):
          exclude = ['impact',]
 
 
+class ActivityDisaggregateForm(forms.ModelForm):
+     def __init__(self, *args, **kwargs):
+         impact = kwargs.pop('impact', None)
+         super(ActivityDisaggregateForm, self).__init__(*args, **kwargs)
+        
+         
+            
+
+         
+                    
+         self.fields['name'].widget = forms.widgets.TextInput(attrs={'type':'text', 'class': 'form-control form-control-sm input-xs' }    )
+         self.fields['type'].widget = forms.widgets.TextInput(attrs={'type':'text', 'class': 'form-control form-control-sm input-xs' }    )
+         self.fields['pilot'].widget = forms.widgets.NumberInput(attrs={'type':'number', 'class': 'form-control form-control-sm input-xs' }    )
+         self.fields['scaleup'].widget = forms.widgets.NumberInput(attrs={'type':'number', 'class': 'form-control form-control-sm input-xs'  }    )
+         myfield=['name',
+            'type',
+            'pilot',
+            'scaleup', 
+            
+            ]
+         for field in myfield:
+             self.fields[field].required = True 
+    
+     class Meta:
+         model = ActivityDisaggregate
+         fields=['name',
+            'type',
+            'pilot',
+            'scaleup', 
+            
+            ]
+
+         exclude = ['impact',]
+
+
 
 class ActivityForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -844,14 +879,16 @@ class ActivityImpactForm(forms.ModelForm):
             self.fields['impact'].queryset = Impact.objects.all()
         self.fields['impact'].required = True 
         self.fields['title'].required = True 
-        self.fields['description'].required = True 
+      
         self.fields['impact_pilot'].required = True 
         self.fields['impact_scaleup'].required = True 
+        self.fields['is_disaggregate'].widget = forms.widgets.CheckboxInput(attrs={'type':'checkbox', 'class': 'form-control-sm icheckbox_flat-green1 iradio_flat-green1' })
+
     class Meta:
         model = ActivityImpact
-        fields = ['title','description','unit', 'impact_pilot' ,'impact_scaleup',
-                    'impact']
-        exclude=  ['activity']
+        fields = ['title','unit', 'impact_pilot' ,'impact_scaleup',
+                    'impact', 'is_disaggregate']
+        exclude=  ['activity','description']
     
     def clean(self):
          cleaned_data = super().clean()

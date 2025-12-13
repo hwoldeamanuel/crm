@@ -4,6 +4,9 @@ from .forms import FeedbackForm, ProcessingForm, ClosingForm
 from .models import Feedback, Processing, Closing
 from django.shortcuts import get_object_or_404
 from django.http.response import HttpResponse, HttpResponsePermanentRedirect
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.core.mail import send_mail, EmailMultiAlternatives, EmailMessage
 
 
 @login_required(login_url='login')
@@ -28,6 +31,7 @@ def feedback_add(request):
             feedback.user = request.user
             feedback.save()
             instance = form.save()
+            send_notify(instance.pk)
             return redirect('feedback_detail',instance.pk) 
         
         form = FeedbackForm(request.POST, request.FILES)
@@ -223,3 +227,35 @@ def feedback_closing_edit(request, id):
     context = {'form':form, 'feedback':feedback}
     
     return render(request, 'feedback_closing_new.html', context)
+
+
+def send_notify(id):
+    
+    feedback = get_object_or_404(Feedback, id=id)
+    
+        
+
+    subject = 'New CARM Feedback has been submitted'
+    context = {
+                "program": feedback.program,
+                "title": feedback.feedback_category,
+                "id": feedback.id,
+               
+                "creator": feedback.user.profile.full_name,
+                "last_modified": feedback.updated_by,
+                
+            
+                
+                }
+    html_message = render_to_string("feedback_mail.html", context=context)
+    plain_message = strip_tags(html_message)
+    recipient_list = [feedback.user.email,]
+        
+    message = EmailMessage(
+        subject = subject, 
+        body = plain_message,
+        from_email = 'Mercy Corps CARM',
+        to= recipient_list
+            )
+    
+    message.send()

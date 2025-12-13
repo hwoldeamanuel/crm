@@ -21,12 +21,12 @@
                         
                         </div>
      <div class="item form-group">
-                            <label class="col-form-label col-md-2 col-sm-2 label-align" for="first-name">Disaggregate:<span class="required">*</span>
+                            <label class="col-form-label col-md-2 col-sm-2 label-align" for="first-name">Disaggregate ?:<span class="required">*</span>
                             </label>
-                            <div class="col-md-8 col-sm-8 ">
+                            <div class="col-md-1 col-sm-1 align-left ">
                                 
-                                    {% render_field form.description class+="form-control form-control-sm" %}
-                                    <div class="invalid-feedback">{{ form.description.errors|first }}</div>
+                                    {% render_field form.is_disaggregate class="form-control form-control-sm icheckbox_flat-green1 " %}
+                                    <div class="invalid-feedback">{{ form.is_disaggregate.errors|first }}</div>
                             </div>
                         
                         </div>

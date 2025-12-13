@@ -1,0 +1,24 @@
+<tr>
+ <td colspan="2"></td>
+           
+    <td  style="width:15%">{{ form.name }}
+        {{ form.name.errors}}
+    </td>
+    <td  style="width:15%">{{ form.type }}
+        {{ form.type.errors }}
+    </td>
+    <td  style="width:10%">
+        {{ form.pilot }}
+        {{ form.pilot.errors }}
+    </td>
+    <td  style="width:12%">
+        {{ form.scaleup }}
+        {{ form.scaleup.errors }}
+    </td>
+   
+    <td class="text-left" colspan="1">
+   
+    <a hx-post="{% url 'activity_add_disaggregate' id=impact.pk %}" class="btn btn-sm btn-success py-1" style="font-size: 0.8em;"  hx-target="closest tr" hx-swap="outerHTML" hx-include="closest tr"><i class="fa fa-save"> </i> </a>
+   <button type="button" class="btn btn-sm btn-secondary py-1" style="font-size: 0.8em;" value="Previous Page" onClick="javascript:history.go(0);"><i class="fa fa-remove"></i></button>
+    </td><td></td><td></td>
+</tr>

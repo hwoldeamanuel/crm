@@ -384,11 +384,14 @@ class Impact(models.Model):
         """
         Qs = Disaggregate.objects.filter(impact=self).values('name').annotate(total_scaleup=Sum('scaleup'), total_pilot=Sum('pilot')).order_by('name')
         Qs2 = self.impact_pilot
+        sv = True
         for q in Qs:
             if q['total_pilot'] != Qs2:
-                return False
-        else:
-            return True
+                sv = False
+                break
+        
+        return sv
+    
     def dis_check(self):
         """
         Calculates the price after applying a given discount percentage.
@@ -542,9 +545,63 @@ class ActivityImpact(models.Model):
     impact_pilot  = models.FloatField(null=True, blank=True)
     impact_scaleup  = models.FloatField(null=True, blank=True)
     impact = models.ManyToManyField(Impact, related_name='activityimpacts')
+    is_disaggregate = models.BooleanField(default=False, blank=True, null=True)
 
     def __str__(self):
         return f"{self.title} {self.description}"
+    
+    def get_impact_total(self):
+        total = self.impact_pilot + self.impact_scaleup
+        return total
+    
+    def scaleup_check(self):
+        """
+        Calculates the price after applying a given discount percentage.
+        """
+        Qs = ActivityDisaggregate.objects.filter(impact=self).values('name').annotate(total_scaleup=Sum('scaleup'), total_pilot=Sum('pilot')).order_by('name')
+        Qs2 = self.impact_scaleup
+        for q in Qs:
+            if q['total_scaleup'] != Qs2:
+                return False
+        else:
+            return True
+    def pilot_check(self):
+        """
+        Calculates the price after applying a given discount percentage.
+        """
+        Qs = ActivityDisaggregate.objects.filter(impact=self).values('name').annotate(total_scaleup=Sum('scaleup'), total_pilot=Sum('pilot')).order_by('name')
+        Qs2 = self.impact_pilot
+        sv = True
+        for q in Qs:
+            if q['total_pilot'] != Qs2:
+                sv = False
+                break
+        
+        return sv
+    
+    def dis_check(self):
+        """
+        Calculates the price after applying a given discount percentage.
+        """
+        dis = ActivityImpact.objects.get(id=self.id)
+        Qs = ActivityDisaggregate.objects.filter(impact=self).values('name').annotate(num_dis=Count('id')).order_by('name')
+        ret = True
+        if dis.is_disaggregate == False:
+            ret = True
+        elif dis.is_disaggregate == True and not Qs.exists():
+            ret = False
+        else:            
+            for q in Qs:
+                print(q['name'], q['num_dis'])
+                if q['num_dis'] < 2:
+                    ret = False
+                    break   
+            
+        return ret
+       
+    class Meta:
+        ordering = ('id',)
+            
 
 class ActivityDocument(models.Model):
     user = models.ForeignKey(User, on_delete= models.DO_NOTHING, null=True,  blank=True, related_name='auploaded_by')
@@ -678,6 +735,21 @@ class ActivitySubmitApproval_F(models.Model):
     
     def __str__(self):
         return str(self.id)
+    
+
+class ActivityDisaggregate(models.Model):
+    impact = models.ForeignKey(ActivityImpact, on_delete=models.CASCADE, null=True, blank=True)
+    name = models.CharField(max_length=255, null=True, blank=True)
+    type = models.CharField(max_length=255, null=True, blank=True)
+    pilot = models.FloatField(null=True, blank=True)
+    scaleup  = models.FloatField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.name} {self.type}"
+   
+  
+    class Meta:
+        ordering = ('name',)
     
 
 

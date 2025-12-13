@@ -44,16 +44,18 @@
         <tbody>
             {%  if impacts %}
             {% for impact in impacts %}
-            <tr>
+            <tr {% if impact.dis_check == False or impact.pilot_check == False or  impact.scaleup_check == False %} style="border: 1px solid red;" {% endif %}>
                <td>{{forloop.counter}}</td>
            
                 <td class="vertical-align-mid">
                                     
                                   {{ impact.title }}</td>
-                <td class="vertical-align-mid">{{ impact.description }}</td>
+             
+               <td ><div class="icheckbox_flat-green {% if impact.is_disaggregate %}checked{% endif %}" style="position: relative;"><input type="" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 80%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                          </td>
                   <td class="vertical-align-mid">{{ impact.get_unit_display }}</td>
-                <td class="vertical-align-mid">{{ impact.impact_pilot|intcomma }}</td>
-                <td class="vertical-align-mid">{{ impact.impact_scaleup|intcomma }}</td>
+                <td {% if impact.pilot_check == False %} style="border: 1px solid red;" {%endif %} class="vertical-align-mid">{% if impact.unit == 1 %}{{ impact.impact_pilot|floatformat:"0"}}{% else %}{{ impact.impact_pilot|floatformat:"1"}}{% endif %}</td>
+                <td {% if impact.scaleup_check == False %} style="border: 1px solid red;" {%endif %} class="vertical-align-mid">{% if impact.unit == 1 %}{{ impact.impact_scaleup|floatformat:"0"}}{% else %}{{ impact.impact_scaleup|floatformat:"1"}}{% endif %}</td>
                 <td class="vertical-align-mid">
                  {% for indicator in impact.impact.all %}
                         <li>
@@ -77,6 +79,56 @@
                     
                 </td>
             </tr>
+             {% if impact.is_disaggregate %}
+               <tr>
+            <td colspan="2"></td>
+              <td style="text-align: right; bold"><b>Name:</b></td>
+            <td style="text-align: left;"><b>Category:</b></td>
+          
+            <td style="text-align: left;"><b>Pilot</b></td>
+              <td style="text-align: left;"><b>Scaleup</b></td>
+              <td></td>
+              <td></td><td></td>
+              </tr>
+         {% for dis in impact.activitydisaggregate_set.all %}
+             <tr>
+        
+           <td colspan="2"></td>
+            
+            <td style="text-align: right;">{{ dis.name }}</td>
+          
+            <td>{{ dis.type }}</td>
+              <td>{% if dis.impact.unit == 1 %}{{ dis.pilot|floatformat:"0" }}{% else %} {{dis.pilot}}{% endif %}</td>
+              <td>{% if dis.impact.unit == 1 %}{{ dis.scaleup|floatformat:"0" }}{% else %} {{dis.scaleup}}{% endif %}</td>
+             
+               <td> <a href="#" class="btn btn-sm btn-info py-0 " style="font-size: 0.8em;"  {% if impact.activity.status == True or impact.activity.user != request.user %} onclick="new PNotify({
+                                  title: 'Permission',
+                                  text: 'Current User does not match with ICN Owner and/or ICN submission status should be Draft;',
+                                  type: 'info',
+                                  styling: 'bootstrap3'
+                              });" {% else %} style="font-size: 0.8em;" hx-get="{% url 'activity_edit_disaggregate' pk=dis.pk %}" {% endif %} hx-target="closest tr" hx-swap="outerHTML"><i class="fa fa-edit m-right-xs"></i></a> 	</td>
+              <td></td> <td></td>
+              </tr>
+              {% endfor %}
+             
+           
+         <tr>
+            <td colspan="2"></td>
+            <td style="text-align: left;">*</td>
+          
+            <td></td>
+              <td></td>
+             <td></td>
+              <td><a href="#" class="btn btn-sm btn-primary py-0 " style="font-size: 0.8em;"  {% if impact.activity.status == True or impact.activity.user != request.user %} onclick="new PNotify({
+                                  title: 'Permission',
+                                  text: 'Current User does not match with ICN Owner and/or ICN submission status should be Draft;',
+                                  type: 'info',
+                                  styling: 'bootstrap3'
+                              });" {% else %} style="font-size: 0.8em;" {% endif %}  hx-get="{% url 'activity_add_disaggregate' id=impact.pk %}" hx-target="closest tr" hx-swap="outerHTML"><i class="fa fa-plus-square"></i></a> </td><td></td>
+               <td></td> 
+              </tr>
+        
+{% endif %}
             {% endfor %}
             
         </tbody>

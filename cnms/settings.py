@@ -124,7 +124,7 @@ WSGI_APPLICATION = 'cnms.wsgi.application'
 
 
 
-""" 
+"""
 DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -153,7 +153,7 @@ DATABASES = {
     }
 }
 
-
+ 
 
 #database_url = os.environ.get("DATABASE_URL")
 #DATABASES = {

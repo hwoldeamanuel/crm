@@ -18,7 +18,7 @@
         <tbody>
             {%  if impacts %}
             {% for impact in impacts %}
-               <tr {% if impact.dis_check == False %} style="border: 1px solid red;" {% endif %}>
+               <tr {% if impact.dis_check == False or impact.pilot_check == False or  impact.scaleup_check == False %} style="border: 1px solid red;" {% endif %}>
                <td>{{forloop.counter}}</td>
            
                 <td class="vertical-align-mid">
