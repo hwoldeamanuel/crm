@@ -210,7 +210,7 @@ class RequestSubmitForm(forms.ModelForm):
          if user:
              profile = Profile.objects.get(user_id=user.id)
             #program = Program.objects.get(travel_users_role=profile)
-             program = Program.objects.filter(travel_users_role=profile, traveluserroles__is_initiator=True)
+             program = Program.objects.filter(travel_users_role=profile, travel_program__is_initiator=True)
            
              self.fields['budget_holder'].queryset =  TravelUserRoles.objects.filter(program__in=program, is_budget_holder=True).exclude(profile=profile)
              self.fields['finance_reviewer'].queryset =  TravelUserRoles.objects.filter(program__in=program, is_finance_reviewer=True).exclude(profile=profile)
@@ -241,7 +241,7 @@ class RequestCancelForm(forms.ModelForm):
          if user:
              profile = Profile.objects.get(user_id=user.id)
             #program = Program.objects.get(travel_users_role=profile)
-             program = Program.objects.filter(travel_users_role=profile, traveluserroles__is_initiator=True)
+             program = Program.objects.filter(travel_users_role=profile, travel_program__is_initiator=True)
            
              self.fields['budget_holder'].queryset =  TravelUserRoles.objects.filter(program__in=program, is_budget_holder=True).exclude(profile=profile)
              self.fields['finance_reviewer'].queryset =  TravelUserRoles.objects.filter(program__in=program, is_finance_reviewer=True).exclude(profile=profile)

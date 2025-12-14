@@ -86,9 +86,9 @@
                         <tr>
                           <th >Emply ID Code:
 </th>
-                          <td>00000{{request.user.id}}</td>
-                          <th>Office</th>
-                          <td>{{request.user.profile.portfolio}}</td>
+                          <td>{{request.user.profile.emp_id}}</td>
+                          <th style="text-align: right;">Office</th>
+                          <td>{{request.user.profile.field_office}}</td>
                         </tr>
                         <tr>
                           <th>Destination(s):
@@ -104,7 +104,7 @@
                           <th >Departure Date:
 </th>
                           <td>{{form.departure_date}}{{form.departure_date.errors}}</td>
-                          <th>Return Date</th>
+                          <th style="text-align: right;">Return Date</th>
                           <td>{{form.return_date}}{{form.return_date.errors}}</td>
                         </tr>
                         <tr>

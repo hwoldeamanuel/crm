@@ -591,3 +591,11 @@ def send_templated_email(subject, template_name, context, recipient_list):
     email.content_subtype = "html"  # Set content type to HTML
     email.send()
     
+
+@login_required(login_url='login') 
+def trequest_approval_invoice(request, id):
+    trequests = Travel_Request.objects.all()
+    trequest = Travel_Request.objects.get(pk=id)
+    context = {'trequests':trequests,'trequest':trequest}
+    
+    return render(request, 'travel_approval_invoice.html', context)

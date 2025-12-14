@@ -14,6 +14,7 @@ urlpatterns = [
     path('request/<int:id>/edit/', views.trequest_edit, name='trequest_edit'),
     path('request/<int:id>/review/', views.trequest_review, name='trequest_review'),
     path('request/<int:id>/approval/', views.trequest_approval, name='trequest_approval'),
+    path('request/<int:id>/approval/invoice/', views.trequest_approval_invoice, name='trequest_approval_invoice'),
     
 ]
 

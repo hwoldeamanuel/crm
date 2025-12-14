@@ -76,6 +76,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_crontab',
     'carm',
+    
  
  
   
@@ -123,7 +124,6 @@ WSGI_APPLICATION = 'cnms.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 
-
 """
 DATABASES = {
         'default': {
@@ -153,7 +153,8 @@ DATABASES = {
     }
 }
 
- 
+
+
 
 #database_url = os.environ.get("DATABASE_URL")
 #DATABASES = {
