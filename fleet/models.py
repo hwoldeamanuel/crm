@@ -135,10 +135,10 @@ class Generator_Report(models.Model):
     gen_log_sheet = models.FileField(null=True,  blank=True, upload_to='documents/')
 
     
-    #def save(self,*args, **kwargs):
-    #    super().save(*args, **kwargs)
-    #    self.report_start_date = datetime.strptime(self.month_report + ' 1 ' + str(self.year_report), '%B %d %Y')
-    #   super(Generator_Report, self).save(*args, **kwargs)
+    def save(self,*args, **kwargs):
+        super().save(*args, **kwargs)
+        self.report_start_date = datetime.strptime(self.month_report + ' 1 ' + str(self.year_report), '%B %d %Y')
+        super(Generator_Report, self).save(*args, **kwargs)
 
     def __str__(self):
         return str(self.id)
