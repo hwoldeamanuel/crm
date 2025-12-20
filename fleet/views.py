@@ -473,7 +473,9 @@ def generators(request):
 def generator(request, id):
     generator = Generator.objects.get(id=id)
     generator_report = Generator_Report.objects.filter(generator=generator).order_by('report_start_date')
-    context = {'generator':generator, 'generator_report': generator_report }
+    all_request = Generator_Report.objects.filter(generator=generator).annotate(created_at_month=TruncMonth('report_start_date')).values('created_at_month').annotate(ops_hr=Sum('operated_time_hr')).annotate(cost_br=Sum('fuel_cost_br')).order_by('created_at_month')
+   
+    context = {'generator':generator, 'generator_report': generator_report, 'all_request':all_request }
     
     return render(request, 'generator/generator.html', context)
 

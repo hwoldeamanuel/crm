@@ -96,6 +96,9 @@ class FleetLogForm(forms.ModelForm):
             (2023, 2023),
             (2024, 2024),
             (2025, 2025),
+               (2026, 2026),
+            (2027, 2027),
+         
             
             )
 
@@ -189,6 +192,9 @@ class FleetLogFormEdit(forms.ModelForm):
             (2023, 2023),
             (2024, 2024),
             (2025, 2025),
+               (2026, 2026),
+            (2027, 2027),
+         
             
             )
 
@@ -287,6 +293,9 @@ class FleetExpenseFormEdit(forms.ModelForm):
             (2023, 2023),
             (2024, 2024),
             (2025, 2025),
+               (2026, 2026),
+            (2027, 2027),
+         
             
             )
             CHOICES3 =   (
@@ -392,6 +401,9 @@ class FleetExpenseForm(forms.ModelForm):
             (2023, 2023),
             (2024, 2024),
             (2025, 2025),
+               (2026, 2026),
+            (2027, 2027),
+         
             
             )
        
@@ -491,6 +503,9 @@ class GeneratorReportForm(forms.ModelForm):
             (2023, 2023),
             (2024, 2024),
             (2025, 2025),
+               (2026, 2026),
+            (2027, 2027),
+         
             
             )
             self.fields['month_report'].widget = forms.widgets.Select(choices=CHOICES1)
@@ -551,6 +566,8 @@ class GeneratorReportFormEdit(forms.ModelForm):
             (2023, 2023),
             (2024, 2024),
             (2025, 2025),
+            (2026, 2026),
+            (2027, 2027),
             
             )
             self.fields['month_report'].widget = forms.widgets.Select(choices=CHOICES1)
@@ -588,7 +605,10 @@ CHOICES2 =   (
            
             (2023, 2023),
             (2024, 2024),
-            (2025, 2025)
+            (2025, 2025),
+            (2026, 2026),
+            (2027, 2027),
+         
             )
 
 class MissingLogForm(forms.Form):

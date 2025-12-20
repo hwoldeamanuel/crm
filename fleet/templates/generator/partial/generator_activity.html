@@ -1,8 +1,10 @@
 
 
- <canvas id="canvas" height="300" width="679" style="width: 503px; height: 251px;"></canvas>
+ <canvas id="canvas" height="300" width="792" ></canvas>
 {% block content_page_js %}
-
+{% load static %}
+<script src="{% static 'dist/Chart.bundle.js' %}"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script> 
 <script>
 
     var MONTHS =   [{%  for m in all_request %} "{{ m.created_at_month|date:'M-y' }}", {% endfor %}];
@@ -27,14 +29,13 @@
         datasets: [{
           label: "Total Operation Time(Hr)",
           data: [{% for cn in all_request %} {{ cn.ops_hr }}, {% endfor %}],
-        
-
-
-          borderColor:'rgba(51, 137, 173, .8)',
+          borderColor:'rgb(0, 255, 255, .8)',
           backgroundColor:'rgba(51, 137, 173, .6)',
           pointBorderColor :'rgba(51, 137, 173, .4)',
           pointBackgroundColor : 'rgba(51, 137, 173, .4)',
           pointBorderWidth : .5,
+          yAxisID: "y-axis-1",
+
 
         },  {
           label: "Total Expense (ETB)",
@@ -44,41 +45,60 @@
          pointBorderColor :'rgba(51, 137, 173, .4)',
          pointBackgroundColor : 'rgba(51, 137, 173, .4)',
          pointBorderWidth : .5,
+         yAxisID: "y-axis-2",
 
         },]
       },
       options: {
-        responsive: true,
-        title:{
-          display:false,
-          text:"Chart.js Line Chart - Stacked Area"
-        },
-        tooltips: {
-          mode: 'label',
-        },
-        hover: {
-          mode: 'label'
-        },
-        scales: {
-          xAxes: [{
-            scaleLabel: {
-              display: false,
-              labelString: 'Month'
-            }
-          }],
-          yAxes: [{
-            stacked: true,
-            scaleLabel: {
-              display: false,
-              labelString: '# of conceptnot'
-            }
-          }]
-        }
-      }
-    });
-      
+                responsive: true,
+                hoverMode: 'label',
+                stacked: false,
+                title:{
+                    display:false,
+                    text:'Chart.js Line Chart - Multi Axis'
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        gridLines: {
+                            offsetGridLines: false
+                        }
+                    }],
+                    yAxes: [{
+                        type: "linear", // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+                        display: true,
+                        position: "left",
+                        id: "y-axis-1",
+                        ticks: {
+                    // Include a dollar sign in the ticks
+                    callback: function (value) {
+                                return value.toLocaleString();
+                            }
+                },
+                       
+                         
+                    }, {
+                        type: "linear", // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+                        display: true,
+                        position: "right",
+                        id: "y-axis-2",
+                        ticks: {
+                    // Include a dollar sign in the ticks
+                    callback: function (value) {
+                                return  value.toLocaleString();
+                            }
+                },
+                        // grid line settings
+                        gridLines: {
+                            drawOnChartArea: false, // only want the grid lines for one axis to show up
+                        },
+                    }],
+                }
+            },
+  
 
-   
+});
+ 
 
   
 
