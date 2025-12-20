@@ -93,7 +93,20 @@ class Fleet_Expense(models.Model):
         self.expense_start_date = datetime.strptime(self.month_expense + ' 1 ' + str(self.year_expense), '%B %d %Y')
         super(Fleet_Expense, self).save(*args, **kwargs)
    
-
+    
+    def get_kmpl(self):
+        if Fleet_Expense.objects.filter(expense_type = 'Fuel cost', fleet = self.fleet, expense_start_date = self.expense_start_date).exists() and Fleet_Log.objects.filter(fleet = self.fleet, log_start_date = self.expense_start_date).exists():
+            total_fuel = Fleet_Expense.objects.filter(expense_type = 'Fuel cost', fleet = self.fleet, expense_start_date = self.expense_start_date).aggregate(Sum('expense_volume'))['expense_volume__sum']
+            total_km   = Fleet_Log.objects.filter(fleet = self.fleet, log_start_date = self.expense_start_date).aggregate(Sum('km_driven'))['km_driven__sum']
+            
+            if (total_fuel != None and total_fuel > 0 ) and (total_km != None and total_km > 0):
+                return total_km/total_fuel
+            else:
+                return None
+        else:
+            return None
+        
+        
     def __str__(self):
         return str(self.id)
    
