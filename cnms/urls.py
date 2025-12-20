@@ -34,6 +34,7 @@ urlpatterns = [
     path('conceptnote/', include('conceptnote.urls')),
     path('report/', include('report.urls')),
     path('carm/', include('carm.urls')),
+    path('fleets/', include('fleet.urls')),
     path('travel/', include('travel.urls')),
     path('partnership/', include('partnership.urls')),
     path("select2/", include("django_select2.urls")),

@@ -1,0 +1,44 @@
+{% load static %}
+
+{% for user in users %}
+         <div class="col-md-4 col-sm-4  profile_details">
+                        <div class="well profile_view">
+                          <div class="col-sm-12">
+                            <h4 class="brief"><i>{{user.profile.full_name }}</i></h4>
+                            <div class="left col-sm-9 text-truncate">
+                             <p><i class="fa fa-university"></i> {{user.profile.field_office}} </p>
+                              <p><i class="fa fa-briefcase"></i> {{user.profile.job_title}} </p>
+                             
+                               
+                                
+                                
+                              <p><i class="fa fa-user"></i> {{user.username }} </p>
+                              <p><i class="fa fa-envelope-square"></i> {{user.email}} </p>
+                             </br>
+                            </div>
+                            
+                            <div class="right col-sm-3 text-left">
+                              <img src="{% static 'images/user.png' %}" alt="" class="img-circle img-fluid" >
+                            </div>
+                          </div>
+                          <div class=" bottom text-left">
+                            <div class=" col-sm-6 emphasis">
+                             
+                           
+                                  <p class="ratings">
+                         
+                            
+                          <div class="icheckbox_flat-green {% if user.is_active %}checked{% endif %}" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> Active
+                           <div class="icheckbox_flat-green {% if user.is_superuser %}checked{% endif %}" style="position: relative;"><input type="checkbox" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 80%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div> Admin
+                          </p>
+                            </div>
+                            <div class=" col-sm-6 emphasis text-right">
+                              
+                              <a class="btn btn-info btn-sm" href="#" >
+                                <i class="fa fa-user"> </i>  View Profile
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      {% endfor %}

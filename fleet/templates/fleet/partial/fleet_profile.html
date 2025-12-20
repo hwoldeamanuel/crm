@@ -1,0 +1,63 @@
+
+
+<div class="profile_img">
+                        <div id="crop-avatar">
+                          <!-- Current avatar -->{% if fleet.vehicle_pic %}
+                          <div id="crop-avatar">
+                          <img class="img-responsive avatar-view" src="{{fleet.vehicle_pic.url}}" alt="Avatar" title="Change the avatar" style="width: auto height: 130px;">
+                        </div>
+                        {% else %}
+                          <h1 class="default"><i class="fa fa-car fa-3x"> </i> </h1>
+                        {% endif %}
+                        
+                        </div>
+                      </div>
+                      <h3>{{fleet.tag_number}}</h3>
+
+                      <ul class="list-unstyled user_data">
+                        <li><h3><i class="fa fa-map-marker user-profile-icon"></i>  {{fleet.field_office}}</h3>
+                        </li>
+ <div class="project_detail">
+ <div class="ln_solid"></div>
+                       <li>Type:
+                        <strong> {{fleet.vehicle_type}}</strong></li>
+                         <li>Ownership:
+                        <strong> {{fleet.ownership}}</strong></li>
+                         <li>KM Driven/Month (Avg.):
+                        <strong> {% if fleet.get_avg_kd != none %} {{fleet.get_avg_kd|floatformat:"1g"}} {% endif %} Km</strong></li>
+                         <li>KM/1 Liter(Fuel):
+                        <strong> {% if fleet.get_total_kmpl != none %} {{fleet.get_total_kmpl|floatformat:"1g"}} {% endif %} Km</strong></li>
+                      <li>Availability(%):
+                        <strong> {% if fleet.get_avail != none %} {{fleet.get_avail|floatformat:"1g" }} {% endif %}%</strong></li>
+                        <li>Usage(%):
+                        <strong> {% if fleet.get_usage != none %} {{fleet.get_usage|floatformat:"1g" }} {% endif %}%</strong></li>
+                         <li>Chassis #:
+                        <strong> {{fleet.chassis_number}}</strong></li>
+                         <li>Make:
+                        <strong> {{fleet.make}}</strong></li>
+                         <li>Make Year:
+                        <strong> {{fleet.year_make}}</strong></li>
+
+                           <li>Driver:
+                        <strong> {{fleet.driver}}</strong></li>
+
+                         <li>Lin Code(Rental):
+                        <strong> {{fleet.lin_code}}</strong></li>
+
+                         <li>Start Date:
+                        <strong> {{fleet.start_date}}</strong></li>
+                        <li>End Date:
+                        <strong> {{fleet.end_date}}</strong></li>
+                        
+                        <P class="title">Description: </p>
+                        <p>{{fleet.description}}</p>
+
+                          
+ <div class="ln_solid"></div>
+                        </div>
+
+                      
+
+                      <!-- start skills -->
+                     
+                      <!-- end of skills -->

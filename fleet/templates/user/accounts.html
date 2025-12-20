@@ -1,0 +1,222 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %} 
+<!-- page content -->
+        <div class="right_col" role="main">
+          <div class="">
+            
+            
+            <div class="clearfix"></div>
+
+            <div class="row">
+              <div class="col-md-12 col-sm-12 ">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>User Profile <small>Activity report</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Settings 1</a>
+                            <a class="dropdown-item" href="#">Settings 2</a>
+                          </div>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <div class="col-md-3 col-sm-3  profile_left" id="admin_list" hx-trigger="load, UserprofileChanged from:body" hx-get="{% url 'user_profile'  %}" hx-target="this">
+                    {% if user.profile %}
+
+
+                     <div class="profile_img">
+                        <div id="crop-avatar">
+                          <!-- Current avatar -->
+                          <img class="img-responsive avatar-view" src="{% static 'images/user.png' %}" alt="Avatar" title="Change the avatar">
+                        </div>
+                      </div>
+                      <h5>{{user.profile.full_name }}</h5>
+
+                      <ul class="list-unstyled user_data">
+                        
+                        <li><i class="fa fa-university user-profile-icon"></i> {{user.profile.field_office}}
+                        </li>
+                        <li>
+                          <i class="fa fa-briefcase user-profile-icon"></i> {{user.profile.job_title}}
+                        </li>
+
+                        <li class="m-top-xs">
+                          <i class="fa fa-external-link user-profile-icon"></i>
+                          {{user.email}}
+                        </li>
+                         <li class="m-top-xs">
+                          <i class="fa fa-tag"></i>
+                          {{user.username}}
+                        </li>
+                          <li class="m-top-xs">
+                          <i class="fa fa-phone user-profile-icon"></i> {{user.profile.contact_number}}
+                        </li>
+                         </li>
+                          <li class="m-top-xs">
+                          <i class="fa fa-sitemap user-profile-icon"></i> {{user.profile.reports_to}}
+                        </li>
+                      </ul>
+
+                      <a class="btn btn-success" hx-get="{% url 'add_profile' %}" hx-target = "#dialog"><i class="fa fa-edit m-right-xs"></i>Edit Profile</a>
+                      <br />
+{% else %}
+        <a class="btn btn-success" hx-get="{% url 'newuserprofile' %}" hx-target = "#dialog"><i class="fa fa-edit m-right-xs"></i>Add Profile</a>
+                      <br />               <!-- start skills -->
+                     
+{% endif %}
+                    </div>
+                    <div class="col-md-9 col-sm-9" >
+
+                      <div class="profile_title" >
+                        <div class="col-md-6">
+                          <h2>User Activity Report</h2>
+                        </div>
+                        
+                         <div class="col-md-6">
+                            <div class="control-group pull-right">
+                         
+                                <form hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}'>
+                               {% csrf_token %}
+                               <fieldset>
+                            <div class="control-group ">
+                              <div class="controls">
+                                <div class="input-prepend input-group">
+                                  <span class="add-on input-group-addon"><i class="glyphicon glyphicon-calendar fa fa-calendar"></i></span>
+                                  <input type="text" style="width: 200px" name="reservation" id="reportrange" class="form-control" 
+                                  class="form-control" 
+                                    hx-trigger="change"   hx-get="{% url 'user_activity' %}"
+                                        onchange="htmx.trigger(this, 'change')"
+                                      hx-target="#pmyChart">
+                                </div>
+                              </div>
+                            </div>
+                          </fieldset>
+                        
+                        
+                     
+                           
+                              </form>
+                           </div>
+                          
+                          </div>
+                        </div>
+                      
+                      
+                    
+                     <div id="pmyChart" style="width: 100%" >
+                     <canvas id="myChart" width="400" height="140"></canvas>
+
+
+
+
+                      </div>
+                      </br>
+                      <!-- start of user-activity-graph -->
+    
+                      <!-- end of user-activity-graph -->
+
+                      <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                        <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                       
+                          <li role="presentation" class="active"><a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="true">Account Settings</a>
+                          </li>
+                        </ul>
+                        <div id="myTabContent" class="tab-content">
+                
+                            <!-- end user projects -->
+
+                      
+                          <div role="tabpanel" class="tab-pane active" id="tab_content3" aria-labelledby="profile-tab">
+                            <button class="btn btn-secondary btn-sm" hx-get="{% url 'change_password' %}" hx-target = "#pchange"><i class="fa fa-edit m-right-xs"></i>Change Password</button>
+                            <div id="pchange">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div><div class="modal fade bs-example-modal-lg" id="modal" class="modal fade">
+                       <div id="dialog" class="modal-dialog modal-lg" hx-target="this"></div>
+                    </div>
+        </div>
+        <!-- /page content -->
+        <!-- /page content -->
+{% endblock %}
+{% block content_page_js %}
+<script>
+var MONTHS = [{% for activity in all_request %} "{{ activity.datetime__date|date:'M-d'}}", {% endfor %}];
+var randomScalingFactor = function() {
+      return Math.round(Math.random() * 100 * (Math.random() > 0.5 ? -1 : 1));
+    };
+var randomColorFactor = function() {
+      return Math.round(Math.random() * 255);
+    };
+var randomColor = function(opacity) {
+      return 'rgba(' + randomColorFactor() + ',' + randomColorFactor() + ',' + randomColorFactor() + ',' + (opacity || '1') + ')';
+    };
+
+var ctx = document.getElementById("myChart").getContext("2d");
+var myChart = new Chart(ctx, {
+    type: 'line',
+    
+    
+     data: {
+        labels: [{% for activity in all_request  %} "{{ activity.datetime__date|date:'M-d'}}", {% endfor %}],
+        datasets: [ {
+          label: "User Activity",
+          data: [{% for activity in all_request %} {{ activity.count_login }}, {% endfor %}],
+          backgroundColor: 'rgba(155, 185, 230, .8)',
+          borderColor:'rgba(38, 185, 154, 1)',
+          borderWidth: 1
+        },   ]
+      },
+    options: {
+               
+       
+                    title:{
+                        display:false,
+                        text:''
+                    },
+                    tooltips: {
+                        mode: 'label',
+                    },
+                    hover: {
+                        mode: 'label'
+                    },
+            scales: {
+                yAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: false,
+                            labelString: '# activity'
+                        },
+                    }],
+                xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: false,
+                            labelString: 'Days'
+                        }
+                    }],
+            }
+    },
+  
+
+});
+ 
+
+</script>
+{% endblock %}

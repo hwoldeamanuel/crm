@@ -1,0 +1,34 @@
+ <table class="data table table-sm table-striped no-margin">
+                              <thead>
+                                <tr>
+                                  <th>Month</th>
+                                  <th>Year</th>
+                                  <th>Expense Type</th>
+                                 
+                                 <th>Volume</th>
+                                 <th>Unit</th>
+                                  <th>Value(ETB)</th>
+                                  <th>Km./1Lt.</th>
+                                 <th>Edit</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                              {% if fleet_expense %}
+                            {% for expense in fleet_expense %}
+                                <tr>
+                                 
+                                  <td>{{expense.month_expense}}</td>
+                                   <td>{{expense.year_expense}}</td>
+                                  <td>{{expense.expense_type}}</td>
+                                   <td>{{expense.expense_volume}}</td>
+                                    <td>{{expense.volume_unit}}</td>
+                                     <td>{{expense.expense_value|floatformat:"2g"}}</td>
+                                     <td>{% if expense.expense_type == "Fuel cost" %}{{expense.get_kmpl|floatformat:"2g"}}{% else %} {% endif %}</td>
+                                     <td>
+                                  <a hx-get="{% url 'edit_fleet_expense' expense.fleet_id expense.id %}" hx-target="#dialog" ><i class="fa fa-edit"></i></a>
+                                  </td>
+                                </tr>
+                                {% endfor %}
+                                {% endif %}
+                              </tbody>
+                            </table>

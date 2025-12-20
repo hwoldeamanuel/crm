@@ -1,0 +1,32 @@
+{% load widget_tweaks %}
+  
+
+
+                    {% with WIDGET_ERROR_CLASS='is-invalid' %}
+<form  hx-post="{{ request.path }}"  hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}'> 
+ {% csrf_token %}
+   <div class="form-group row">
+   <label class="col-form-label col-md-2 col-sm-2 label-align">Field Office:</label>
+                   <div class="col-2 col-sm-2">
+                    {% render_field form.field_office class="form-control form-control-sm"  %}
+              
+                <div class="invalid-feedback">{{ form.field_office.errors|first }}</div>
+        </div>
+           
+                <label class="col-form-label col-md-1 col-sm-1 label-align">Month:</label>
+                   <div class="col-2 col-sm-2">
+                    {% render_field form.month class="form-control form-control-sm"  %}
+              
+                <div class="invalid-feedback">{{ form.month.errors|first }}</div>
+        </div>
+    <label class="col-form-label col-md-1 col-sm-1 label-align">Year:</label>
+                   <div class="col-2 col-sm-2">
+                    {% render_field form.year class="form-control form-control-sm"  %}
+              
+                <div class="invalid-feedback">{{ form.year.errors|first }}</div>
+        </div>
+    <button type="submit" class="btn btn-sm btn-round btn-info"
+                 
+                 >Report</button>
+</form> 
+{% endwith %}

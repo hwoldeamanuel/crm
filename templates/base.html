@@ -66,7 +66,7 @@
             </div>
             <!-- /menu profile quick info -->
 
-            <br />
+            
 
             <!-- sidebar menu -->
             <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
@@ -106,8 +106,8 @@
                         
                   
                   </li>
-                  <li class="{% if 'conceptnote' in request.path or 'report' in request.path  %}active{%endif %}"><a><i class="fa fa-edit"></i> Concept Note <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu" style="{% if 'conceptnote' in request.path or 'report' in request.path %}display: block; {%endif %}">
+                  <li class="{% if 'conceptnote' in request.path or 'report/activity' in request.path or 'report/intervention' in request.path %}active{%endif %}"><a><i class="fa fa-edit"></i> Concept Note <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu" style="{% if 'conceptnote' in request.path or 'report/intervention' in request.path or 'report/activity' in request.path %}display: block; {%endif %}">
                       <li class="{% if 'conceptnote/intervention' in request.path or 'report/intervention' in request.path %}current-page{%endif %}"><a href="{% url 'icns' %}">Intervention</a></li>
                      <li class="{% if 'conceptnote/activity' in request.path or 'report/activity' in request.path  %}current-page{%endif %}"><a href="{% url 'activities' %}">Activity</a></li>
                      
@@ -118,6 +118,26 @@
                       <li class="{% if 'carm' in request.path %}current-page{%endif %}"><a href="/carm/">CARM Feedbacks</a></li>
                     
                     </ul>
+                                    <li><a><i class="fa fa-road"></i>Fleet Management<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu" style="{% if 'fleet' in request.path or 'fleets' in request.path %}display: block; {%endif %}">
+                         <li class="{% if 'fleets/fleets' in request.path %}current-page{%endif%}"><a href="{% url 'fleets' %}" >Fleets</a></li>
+                     <li class="{% if 'fleets/generators' in request.path %}current-page{%endif%}"><a href="{% url 'generators' %}" >Generators</a></li>
+                                            <li><a>Report<span class="fa fa-chevron-down"></span></a>
+                          <ul class="nav child_menu">
+                            <li class="sub_menu {% if 'missing_report' in request.path %}current-page{% endif %}"><a href="{% url 'missing_report' %}">Missing Report</a>
+                            </li>
+                            
+                            <li class="{% if 'aggregate_report' in request.path %}current-page{%endif%}"><a href="{% url 'aggregate_report' %}">Periodic Report</a>
+                            </li>
+                          </ul>
+                        </li>
+ 
+                    </ul>
+                  </li>
+            
+
+            
+               
                   </li>
                    <li class="{% if 'travel' in request.path %}active{%endif %}"><a><i class="fa fa-location-arrow"></i> Travel Approval<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu" style="{% if 'travel' in request.path %}display: block; {%endif %}">
@@ -125,6 +145,7 @@
                     
                     </ul>
                   </li>  
+
                                   
                 </ul>
              </div>

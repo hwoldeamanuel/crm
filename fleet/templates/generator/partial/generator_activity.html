@@ -1,0 +1,91 @@
+
+
+ <canvas id="canvas" height="300" width="679" style="width: 503px; height: 251px;"></canvas>
+{% block content_page_js %}
+
+<script>
+
+    var MONTHS =   [{%  for m in all_request %} "{{ m.created_at_month|date:'M-y' }}", {% endfor %}];
+   
+
+    var randomScalingFactor = function() {
+      return Math.round(Math.random() * 100 * (Math.random() > 0.5 ? -1 : 1));
+    };
+    var randomColorFactor = function() {
+      return Math.round(Math.random() * 255);
+    };
+    var randomColor = function(opacity) {
+      return 'rgba(' + randomColorFactor() + ',' + randomColorFactor() + ',' + randomColorFactor() + ',' + (opacity || '1') + ')';
+    };
+ 
+    var ctx = document.getElementById("canvas").getContext("2d");
+    var myChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: [{%  for m in all_request %} "{{ m.created_at_month|date:'M-y' }}", {% endfor %}],
+
+        datasets: [{
+          label: "Total Operation Time(Hr)",
+          data: [{% for cn in all_request %} {{ cn.ops_hr }}, {% endfor %}],
+        
+
+
+          borderColor:'rgba(51, 137, 173, .8)',
+          backgroundColor:'rgba(51, 137, 173, .6)',
+          pointBorderColor :'rgba(51, 137, 173, .4)',
+          pointBackgroundColor : 'rgba(51, 137, 173, .4)',
+          pointBorderWidth : .5,
+
+        },  {
+          label: "Total Expense (ETB)",
+         data: [{% for cn in all_request %} {{ cn.cost_br }}, {% endfor %}],
+         borderColor:'rgb(210, 43, 43, .5)',
+         backgroundColor:'rgba(51, 137, 173, .4)',
+         pointBorderColor :'rgba(51, 137, 173, .4)',
+         pointBackgroundColor : 'rgba(51, 137, 173, .4)',
+         pointBorderWidth : .5,
+
+        },]
+      },
+      options: {
+        responsive: true,
+        title:{
+          display:false,
+          text:"Chart.js Line Chart - Stacked Area"
+        },
+        tooltips: {
+          mode: 'label',
+        },
+        hover: {
+          mode: 'label'
+        },
+        scales: {
+          xAxes: [{
+            scaleLabel: {
+              display: false,
+              labelString: 'Month'
+            }
+          }],
+          yAxes: [{
+            stacked: true,
+            scaleLabel: {
+              display: false,
+              labelString: '# of conceptnot'
+            }
+          }]
+        }
+      }
+    });
+      
+
+   
+
+  
+
+
+      
+
+</script>
+    
+
+{% endblock %}

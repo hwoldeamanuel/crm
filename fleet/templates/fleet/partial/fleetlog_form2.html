@@ -1,0 +1,9 @@
+{% load widget_tweaks %}
+{% with WIDGET_ERROR_CLASS='is-invalid'  %} 
+
+<div>
+    {%  render_field form.start_km class+="form-control form-control-sm" readonly="readonly" %}
+ 
+</div>
+
+{% endwith %}

@@ -1,0 +1,80 @@
+
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+        <div class="right_col" role="main">
+          <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h3>App Settings</h3>
+              </div>
+
+               <div class="title_right">
+          <form hx-headers='{"X-CSRFToken":"{{ csrf_token }}"}'>
+            {% csrf_token %}
+            <div class="col-md-5 col-sm-5   form-group pull-right top_search">
+
+               <div class="input-group">
+                  <input name="search" type="text" class="form-control" placeholder="Search for ..." 
+                  hx-get="{% url 'users_filter' %}"
+                  hx-trigger="keyup changed, search"
+                  hx-target="#users_list">
+                
+                  <span class="input-group-btn">
+                      <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <span style="font-size:smaller;">New</span>
+                      </button>
+                      <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
+                         
+                           <div class="dropdown-divider"></div>
+                            
+                        
+                         
+                          </div>
+                      </div>
+                  </span>
+              </div>   
+            </div>        
+          </form>
+       </div>
+            </div>
+<div class="x_panel">
+                  <div class="x_title">
+                    <h2>Users Account</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Settings 1</a>
+                            <a class="dropdown-item" href="#">Settings 2</a>
+                          </div>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    
+
+           
+               
+                   <div class="row" id="users_list" hx-trigger="load, UserListChanged from:body" hx-get="{% url 'users_list' %}" hx-target="this">
+
+                     
+            
+                        
+             
+                    </div>
+                </div>      
+            </div><div class="modal fade bs-example-modal-lg" id="modal" class="modal fade">
+                       <div id="dialog" class="modal-dialog modal-lg" hx-target="this"></div>
+                    </div>
+          </div>
+        </div>
+        </div>
+        <!-- /page content -->
+
+        {% endblock %}

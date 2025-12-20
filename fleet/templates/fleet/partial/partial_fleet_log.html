@@ -1,0 +1,48 @@
+
+
+         <table class="data table table-sm table-striped no-margin">
+                              <thead>
+                                <tr>
+                                  
+                                  <th style="width:12%">Month</th>
+                                 <th style="width:7%">Year</th>
+                                  <th style="width:10%">Start KM</th>
+                                    <th style="width:10%">End KM</th>
+                                     <th style="width:13%">KM Driven</th>
+                                     <th style="width:7%"><small> Days in Use</small></th>
+                                     <th style="width:7%"><small> Days Idle</small></th>
+                                       <th style="width:7%"><small> Days in Workshop</small></th>
+                                         <th style="width:7%"><small> Days visit Workshop</small></th>
+                                         <th style="width:10%"><small> Logsheet</small></th>
+                                         <th>Edit</th>
+
+
+
+
+                                </tr>
+                              </thead>
+                              <tbody>
+                              {% if fleet_log %}
+                            {% for log in fleet_log %}
+                                <tr>
+                                  <td>{{log.month_log}}</td>
+                                  <td>{{log.year_log}}</td>
+                                 <td>{{log.start_km|floatformat:"2g"}}</td>
+                                  <td>{{log.end_km|floatformat:"2g"}}</td>
+                                    <td>{{log.km_driven|floatformat:"2g"}}</td>
+                                  <td>{{log.day_in_use}}</td>
+                                  <td>{{log.day_idle}}</td>
+                                   <td>{{log.day_in_workshop}}</td>
+                                   <td>{{log.workshop_visit}}</td>
+                                   <td> {% if log.log_sheet %}<a href="{% url 'download_logsheet' log.id %}"><i class="fa fa-paperclip"></i>  view</a> {% else %}NA{% endif%} </strong></td>
+                                  <td>
+                                  <a hx-get="{% url 'edit_fleet_log' log.fleet_id log.id %}" hx-target="#dialog" ><i class="fa fa-edit"></i></a>
+                                  </td>
+                                  
+                                  
+                                </tr>
+                                
+                               {% endfor %}
+                               {% endif %}
+                              </tbody>
+                            </table>

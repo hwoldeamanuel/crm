@@ -13,7 +13,7 @@ urlpatterns = [
    
    
     
-    path('dashboard/', views.dashboard, name='dashboard'),
+    path('dashboard/', views.dashboard_fleet, name='dashboard'),
     path('program_activity/', views.program_activity, name='program_activity'),
     path('get_date/', views.get_date, name='get_date'),
     

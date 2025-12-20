@@ -1,0 +1,360 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+{% load static %}
+
+
+<!-- page content -->
+        <div class="right_col" role="main">
+          <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h3>Fleet Profile</h3>
+              </div>
+
+              
+            </div>
+            
+            <div class="clearfix"></div>
+
+            <div class="row">
+              <div class="col-md-12 col-sm-12 ">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Fleet <small>Activity Summary</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Settings 1</a>
+                            <a class="dropdown-item" href="#">Settings 2</a>
+                          </div>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <div class="col-md-3 col-sm-3  profile_left" >
+                    <div id="fleet_profile" hx-trigger="FleetProfileChanged  from:body" hx-get= "{% url 'fleet_profile' fleet.id %}" hx-target="this" >
+                      <div class="profile_img">
+                       
+                          <!-- Current avatar -->{% if fleet.vehicle_pic %}
+                          <div id="crop-avatar">
+                          <img class="img-responsive avatar-view" src="{{fleet.vehicle_pic.url}}" alt="Avatar" title="Change the avatar" style="width: 200px; height: auto;">
+                        </div>
+                       
+                        {% else %}
+                          <h1 class="default"><i class="fa fa-car fa-3x"> </i> </h1>
+                        {% endif %}
+                        
+                        </div>
+                  
+                      <h3>{{fleet.tag_number}}</h3>
+
+                      <ul class="list-unstyled user_data">
+                        <li><h3><i class="fa fa-map-marker user-profile-icon"></i>  {{fleet.field_office}}</h3>
+                        </li>
+ <div class="project_detail">
+ <div class="ln_solid"></div>
+                      <li>Type:
+                        <strong> {{fleet.vehicle_type}}</strong></li>
+                         <li>Ownership:
+                        <strong> {{fleet.ownership}}</strong></li>
+                        <li>KM Driven/Month (Avg.):
+                        <strong> {% if fleet.get_avg_kd != none %} {{fleet.get_avg_kd|floatformat:"1g"}} {% endif %} Km</strong></li>
+                        <li>KM/1 Liter(Fuel):
+                        <strong> {% if fleet.get_total_kmpl != none %} {{fleet.get_total_kmpl|floatformat:"1g"}} {% endif %} Km</strong></li>
+                      <li>Availability(%):
+                        <strong> {% if fleet.get_avail != none %} {{fleet.get_avail|floatformat:"1g" }} {% endif %}%</strong></li>
+                        <li>Usage(%):
+                        <strong> {% if fleet.get_usage != none %} {{fleet.get_usage|floatformat:"1g" }} {% endif %}%</strong></li>
+                         <li>Chassis #:
+                        <strong> {{fleet.chassis_number}}</strong></li>
+                         <li>Make:
+                        <strong> {{fleet.make}}</strong></li>
+                         <li>Make Year:
+                        <strong> {{fleet.year_make}}</strong></li>
+
+                           <li>Driver:
+                        <strong> {{fleet.driver}}</strong></li>
+
+                         <li>Lin Code(Rental):
+                        <strong> {{fleet.lin_code}}</strong></li>
+
+                         <li>Start Date:
+                        <strong> {{fleet.start_date}}</strong></li>
+                        <li>End Date:
+                        <strong> {{fleet.end_date}}</strong></li>
+                        
+                        <P class="title">Description: </p>
+                        <p>{{fleet.description}}</p>
+
+                          
+ <div class="ln_solid"></div>
+ </div>
+                        </div>
+
+                      <a class="btn btn-success" hx-get="{% url 'edit_fleet' fleet.id %}" hx-target = "#dialog"><i class="fa fa-edit m-right-xs"></i>Edit Fleet</a>
+                      <br />
+
+                      <!-- start skills -->
+                     
+                      <!-- end of skills -->
+
+                    </div>
+                    <div class="col-md-9 col-sm-9 ">
+                    
+
+                      <div class="profile_title">
+                        <div class="col-md-6">
+                          <h2>Fleet Activity Report</h2>
+                        </div>
+                        
+                      </div>
+                      <!-- start of user-activity-graph -->
+                                  <div  style="width: 100%;" hx-trigger=" FleetListChanged from:body,  FleetExpenseChanged from:body" hx-get= "{% url 'fleet_activity' fleet.id %}" hx-target="#fleet_activity"  >  
+     <div id="fleet_activity">
+   <canvas id="mycanvas" height="300" width="792" ></canvas>
+  </div>
+    </div>
+                      <!-- end of user-activity-graph -->
+
+                      <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                        <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                          <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Fleet Monthly Log</a>
+                          </li>
+                          <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Fleet Monthly Expense</a>
+                          </li>
+                          
+                        </ul>
+                        <div id="myTabContent" class="tab-content">
+                          <div role="tabpanel" class="tab-pane active " id="tab_content1" aria-labelledby="home-tab">
+
+                            <!-- start recent activity -->
+                            <div class="table"  id="fleetlog" hx-trigger="FleetListChanged from:body" hx-get= "{% url 'partial_fleet_log' fleet.id %}" hx-target="this" >
+                            <table class="data table table-sm table-striped no-margin">
+                              <thead>
+                                <tr>
+                                  
+                                  <th style="width:12%">Month</th>
+                                 <th style="width:7%">Year</th>
+                                  <th style="width:10%">Start KM</th>
+                                    <th style="width:10%">End KM</th>
+                                     <th style="width:13%">KM Driven</th>
+                                     <th style="width:7%"><small> Days in Use</small></th>
+                                     <th style="width:7%"><small> Days Idle</small></th>
+                                       <th style="width:7%"><small> Days in Workshop</small></th>
+                                         <th style="width:7%"><small> Days visit Workshop</small></th>
+                                         <th style="width:10%"><small> Logsheet</small></th>
+                                         <th>Edit</th>
+
+
+
+
+                                </tr>
+                              </thead>
+                              <tbody>
+                              {% if fleet_log %}
+                            {% for log in fleet_log %}
+                                <tr>
+                                  <td>{{log.month_log}}</td>
+                                  <td>{{log.year_log}}</td>
+                                 <td>{{log.start_km|floatformat:"2g"}}</td>
+                                  <td>{{log.end_km|floatformat:"2g"}}</td>
+                                    <td>{{log.km_driven|floatformat:"2g"}}</td>
+                                  <td>{{log.day_in_use}}</td>
+                                  <td>{{log.day_idle}}</td>
+                                   <td>{{log.day_in_workshop}}</td>
+                                   <td>{{log.workshop_visit}}</td>
+                                   <td> {% if log.log_sheet %}<a href="{% url 'download_logsheet' log.id %}"><i class="fa fa-paperclip"></i>  view</a> {% else %}NA{% endif%} </strong></td>
+                                  <td>
+                                  <a hx-get="{% url 'edit_fleet_log' fleet.id log.id %}" hx-target="#dialog" ><i class="fa fa-edit"></i></a>
+                                  </td>
+                                  
+                                  
+                                </tr>
+                                
+                               {% endfor %}
+                               {% endif %}
+                              </tbody>
+                            </table>
+                            </div>
+                            
+                           
+                 
+                            <!-- end recent activity -->
+
+                                    <div class="text-right">
+                                    <button  hx-get="{% url 'add_fleet_log' fleet.id %}" hx-target="#dialog" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i>
+                                      New Logsheet
+   
+</div>
+                                    
+                          </div>
+                          <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+<div class="table"  id="fleetlog" hx-trigger="FleetExpenseChanged from:body" hx-get= "{% url 'partial_fleet_expense' fleet.id %}" hx-target="this" >
+                            <!-- start user projects -->
+                            <table class="data table table-sm table-striped no-margin">
+                              <thead>
+                                <tr>
+                                  <th>Month</th>
+                                  <th>Year</th>
+                                  <th>Expense Type</th>
+                                 
+                                 <th>Volume</th>
+                                 <th>Unit</th>
+                                  <th>Value(ETB)</th>
+                                   <th>Km./1Lt.</th>
+                                  <th>Edit</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                              {% if fleet_expense %}
+                            {% for expense in fleet_expense %}
+                                <tr>
+                                 
+                                  <td>{{expense.month_expense}}</td>
+                                   <td>{{expense.year_expense}}</td>
+                                  <td>{{expense.expense_type}}</td>
+                                   <td>{{expense.expense_volume}}</td>
+                                    <td>{{expense.volume_unit}}</td>
+                                     <td>{{expense.expense_value|floatformat:"2g"}}</td>
+                                     <td>{% if expense.expense_type == "Fuel cost" and expense.expense_value %}{{expense.get_kmpl|floatformat:"2g"}}{% else %} {% endif %}</td>
+                                     <td>
+                                  <a hx-get="{% url 'edit_fleet_expense' fleet.id expense.id %}" hx-target="#dialog" ><i class="fa fa-edit"></i></a>
+                                  </td>
+                                </tr>
+                                {% endfor %}
+                                {% endif %}
+                              </tbody>
+                            </table>
+                            </div>
+                            <!-- end user projects -->
+                             <div class="text-right">
+<button  hx-get="{% url 'add_fleet_expense' fleet.id %}" hx-target="#dialog" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i>
+                                      New Expense
+                                    </button>
+                                    </div>
+                          </div>
+
+                         
+                        </div>
+                </div>
+                      </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div><div class="modal fade bs-example-modal-lg" id="modal" class="modal fade">
+                       <div id="dialog" class="modal-dialog modal-lg" hx-target="this"></div>
+                    </div>
+        </div>
+        <!-- /page content -->
+   
+
+{% endblock  %}
+{% block content_page_js %}
+ 
+
+
+<script>
+
+var MONTHS = [{% for m in all_request.created_at_month %} "{{ m|date:'M-y'}}", {% endfor %}];
+var randomScalingFactor = function() {
+      return Math.round(Math.random() * 100 * (Math.random() > 0.5 ? -1 : 1));
+    };
+var randomColorFactor = function() {
+      return Math.round(Math.random() * 255);
+    };
+var randomColor = function(opacity) {
+      return 'rgba(' + randomColorFactor() + ',' + randomColorFactor() + ',' + randomColorFactor() + ',' + (opacity || '1') + ')';
+    };
+var ctx = document.getElementById("mycanvas").getContext("2d");
+var myChart = new Chart(ctx, {
+    type: 'line',
+    
+    
+     data: {
+        labels: [{% for m in all_request.created_at_month  %} "{{ m|date:'M-y'}}", {% endfor %}],
+        datasets: [{
+          label: "KM Driven (KM)",
+          data: [{% for cn in all_request.km_driven %} {{ cn }}, {% endfor %}],
+          borderColor:'rgb(0, 255, 255, .8)',
+          backgroundColor:'rgba(51, 137, 173, .6)',
+          pointBorderColor :'rgba(51, 137, 173, .4)',
+          pointBackgroundColor : 'rgba(51, 137, 173, .4)',
+          pointBorderWidth : .5,
+          yAxisID: "y-axis-1",
+        },  {
+           label: "Total Expense (ETB)",
+          data: [{% for cn in all_request.total_expense %} {{ cn }}, {% endfor %}],
+          borderColor:'rgb(210, 43, 43, .5)',
+          backgroundColor:'rgba(51, 137, 173, .4)',
+          pointBorderColor :'rgba(51, 137, 173, .4)',
+          pointBackgroundColor : 'rgba(51, 137, 173, .4)',
+          pointBorderWidth : .5,
+          yAxisID: "y-axis-2",
+        },  ]
+      },
+    options: {
+                responsive: true,
+                hoverMode: 'label',
+                stacked: false,
+                title:{
+                    display:false,
+                    text:'Chart.js Line Chart - Multi Axis'
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        gridLines: {
+                            offsetGridLines: false
+                        }
+                    }],
+                    yAxes: [{
+                        type: "linear", // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+                        display: true,
+                        position: "left",
+                        id: "y-axis-1",
+                        ticks: {
+                    // Include a dollar sign in the ticks
+                    callback: function (value) {
+                                return value.toLocaleString();
+                            }
+                },
+                       
+                         
+                    }, {
+                        type: "linear", // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+                        display: true,
+                        position: "right",
+                        id: "y-axis-2",
+                        ticks: {
+                    // Include a dollar sign in the ticks
+                    callback: function (value) {
+                                return  value.toLocaleString();
+                            }
+                },
+                        // grid line settings
+                        gridLines: {
+                            drawOnChartArea: false, // only want the grid lines for one axis to show up
+                        },
+                    }],
+                }
+            },
+  
+
+});
+ 
+
+</script>
+
+{% endblock %}

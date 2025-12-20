@@ -1,0 +1,48 @@
+
+
+ <table class="table table-striped projects">
+                <thead>
+                  <tr class="text-center" >
+                    <th style="width: 1%">#</th>
+                    
+                   <th style="width: 15%" class="text-left">Tag Number</th>
+                    <th style="width: 15%" class="text-left">Field Office</th>
+                    <th style="width: 12%" class="text-left"> Type</th>
+                    <th style="width: 13%" class="text-left">Ownership</th>
+                    <th style="width: 14%" class="text-left">Start Date</th>
+                     <th style="width: 14%" class="text-left">End Date</th>
+                  
+                   
+                    <th style="width: 12%"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for fleet in fleets %}
+                  <tr>
+                    <td>{{forloop.counter}}</td>
+                    
+                  
+                    <td> {{ fleet.tag_number }}
+                  
+                   
+                    </td>
+                   
+                  <td>{{fleet.field_office }}</td>
+                    <td> {{ fleet.vehicle_type }}</td>
+                     <td> {{ fleet.ownership }}</td>
+                      <td> {{ fleet.start_date }}</td>
+                      <td> {{ fleet.end_date }}</td>
+                      
+                    
+                      
+                  
+                    <td class="text-right">
+                      
+  <a href="{% url 'fleet' fleet.pk %}" class="btn btn-sm btn-info"><i class="fa fa-eye"></i> View</a>
+                     
+                    </td>
+                  </tr>
+                  {% endfor %}
+                  
+                </tbody>
+              </table>

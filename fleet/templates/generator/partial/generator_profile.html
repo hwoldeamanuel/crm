@@ -1,0 +1,42 @@
+<div class="profile_img">
+                        <div id="crop-avatar">
+                          <!-- Current avatar -->{% if generator.generator_pic %}
+                          <div id="crop-avatar">
+                          <img class="img-responsive avatar-view" src="{{generator.generator_pic.url}}" alt="Avatar" title="Change the avatar" style="width: auto height: 130px;">
+                        </div>
+                        {% else %}
+                          <h1 class="default"><i class="fa fa-line-chart fa-3x"> </i> </h1>
+                        {% endif %}
+                        
+                        </div>
+                      </div>
+                      <h3>{{generator.title }}</h3>
+
+                      <ul class="list-unstyled user_data">
+                        <li><h3><i class="fa fa-map-marker user-profile-icon"></i>  {{generator.field_office}}</h3>
+                        </li>
+ <div class="project_detail">
+ <div class="ln_solid"></div>
+                    <li>Title:
+                        <strong> {{generator.title}}</strong></li>
+                         <li>Make:
+                        <strong> {{generator.make}}</strong></li>
+                         <li>Hour/Litre:
+                        <strong> {{generator.hour_liter}}</strong></li>
+                         <li>Person In Charge:
+                        <strong> {{generator.person_in_charge}}</strong></li>
+                        
+                        
+                        <P class="title">Description: </p>
+                        <p>{{generator.description}}</p>
+
+                          
+ <div class="ln_solid"></div>
+ </div>
+                        </div>
+
+                      
+
+                      <!-- start skills -->
+                     
+                      <!-- end of skills -->

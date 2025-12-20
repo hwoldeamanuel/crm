@@ -1,0 +1,48 @@
+
+
+  <table class="data table table-sm table-striped no-margin">
+                              <thead>
+                                <tr>
+                                  
+                                  <th style="width:12%">Month</th>
+                                 <th style="width:10%">Year</th>
+                                  <th >Operation Time (Hr)</th>
+                                    <th >Fuel Used (Lt)</th>
+                                     <th >Fuel Cost (ETB)</th>
+                                       <th >Repair Cost (ETB)</th>
+                                         <th >Logsheet</th>
+                                 
+
+                                
+
+                                         <th>Edit</th>
+
+
+
+
+                                </tr>
+                              </thead>
+                              <tbody>
+                              {% if generator_report %}
+                            {% for rep in generator_report %}
+                                <tr>
+                                  <td>{{rep.month_report}}</td>
+                                  <td>{{rep.year_report}}</td>
+                                  <td>{{rep.operated_time_hr }}</td>
+                                  <td>{{rep.fuel_used_lt}}</td>
+                                  <td>{{rep.fuel_cost_br}}</td>
+                                  <td>{{rep.repair_cost_br}}</td>
+                                   <td> {% if rep.gen_log_sheet %}<a href="{% url 'download_gen_logsheet' rep.id %}"><i class="fa fa-paperclip"></i>  view</a> {% else %}NA{% endif%} </strong></td>
+                                  <td>
+                              
+                                 
+                                  <a hx-get="{% url 'edit_generator_report' rep.generator_id rep.id %}" hx-target="#dialog" ><i class="fa fa-edit"></i></a>
+                                  </td>
+                                  
+                                  
+                                </tr>
+                                
+                               {% endfor %}
+                               {% endif %}
+                              </tbody>
+                            </table>

@@ -1,0 +1,88 @@
+ <ul class="nav nav-tabs bar_tabs" id="myTab" role="tablist">
+                      <li class="nav-item">
+                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home1" role="tab" aria-controls="home" aria-selected="true">Missing Fleet Log</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile1" role="tab" aria-controls="profile" aria-selected="false">Missing Fleet Expense</a>
+                      </li>
+                      
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                      <div class="tab-pane fade show active" id="home1" role="tabpanel" aria-labelledby="home-tab">
+                       
+                   Total Missing Log: <strong>{{total_missing}}</strong>
+ <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Field Office</th>
+                           <th>Tag Number</th>
+                            <th>Type</th>
+                             <th>Ownership</th>
+                          <th>Month</th>
+                          <th>Year</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {% for mr in missing_report %}
+                        <tr>
+                          <th scope="row">{{forloop.counter}}</th>
+                          <td>{{mr.field_office}}</td>
+                          <td>{{mr.tag_number}}</td>
+                          <td>{{mr.vehicle_type}}</td>
+                          <td>{{mr.ownership}}</td>
+                          <td>{{mr.month}}</td>
+                           <td>{{mr.year2}}</td>
+                          <td><a target="_blank" href="{% url 'fleet' mr.id %}"> View </a></td>
+                        </tr>
+                        {% endfor %}
+                       
+                      </tbody>
+                    </table>
+                    
+                      </div>
+                      <div class="tab-pane fade" id="profile1" role="tabpanel" aria-labelledby="profile-tab">
+                        Total Missing Expense: <strong>{{total_expense}}</strong>
+                        <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                         <th>Field Office</th>
+                           <th>Tag Number</th>
+                            <th>Type</th>
+                             <th>Ownership</th>
+                          <th>Month</th>
+                          <th>Year</th>
+                          <th>Missing Expense Type</th>
+                           <th> </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {% for me in missing_expense %}
+                        <tr>
+                          <th scope="row">{{forloop.counter}}</th>
+                          <td>{{me.field_office}}</td>
+                          <td>{{me.tag_number}}</td>
+                          <td>{{me.vehicle_type}}</td>
+                          <td>{{me.ownership}}</td>
+                          <td>{{me.month}}</td>
+                           <td>{{me.year}}</td> 
+                         <td>{% if me.fleet_id == None %}All {% elif me.cost_consumables == None %} Consumables, {% endif %} 
+                         {% if me.fuel_cost ==  '' %} Fuel, {% endif %} {% if me.cost_labour == '' %} Labour, {% endif %}  {% if me.cost_spares == '' %} Spare, {% endif %} {% if me.tax_insurance == '' and me.rental_and_tax ==  '' %} Tax,{% endif %} {% if me.ownership == 'Rental' and me.rental_and_tax ==  '' and me.rental_fees == '' %} Rental {% endif %}</td>
+                       <td><a target="_blank" href="{% url 'fleet' me.id %}"> View </a></td>
+                       </tr>
+                          
+                        {% endfor %}
+                       
+                      </tbody>
+                    </table>
+                      </div>
+                      <div class="tab-pane fade" id="contact1" role="tabpanel" aria-labelledby="contact-tab">
+                        xxFood truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo
+                            booth letterpress, commodo enim craft beer mlkshk 
+                      </div>
+                    </div>
+
+                  </div>
+

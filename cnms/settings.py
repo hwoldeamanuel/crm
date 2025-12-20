@@ -76,6 +76,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_crontab',
     'carm',
+    'fleet',
     
  
  

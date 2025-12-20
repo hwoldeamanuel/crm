@@ -1,0 +1,280 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load static %} 
+
+
+<!-- page content -->
+        <div class="right_col" role="main">
+          <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h3>Generator Profile</h3>
+              </div>
+
+              
+            </div>
+            
+            <div class="clearfix"></div>
+
+            <div class="row">
+              <div class="col-md-12 col-sm-12 ">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Generator <small>Activity Summary</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Settings 1</a>
+                            <a class="dropdown-item" href="#">Settings 2</a>
+                          </div>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <div class="col-md-3 col-sm-3  profile_left" >
+                    <div id="fleet_profile" hx-trigger="GeneratorChanged  from:body" hx-get= "{% url 'generator_profile' generator.id %}" hx-target="this" >
+                      <div class="profile_img">
+                        <div id="crop-avatar">
+                          <!-- Current avatar -->{% if generator.generator_pic %}
+                          <div id="crop-avatar">
+                          <img class="img-responsive avatar-view" src="{{generator.generator_pic.url}}" alt="Avatar" title="Change the avatar" style="width: auto height: 130px;">
+                        </div>
+                        {% else %}
+                          <h1 class="default"><i class="fa fa-line-chart fa-3x"> </i> </h1>
+                        {% endif %}
+                        
+                        </div>
+                      </div>
+                      <h3>{{generator.title }}</h3>
+
+                      <ul class="list-unstyled user_data">
+                        <li><h3><i class="fa fa-map-marker user-profile-icon"></i>  {{generator.field_office}}</h3>
+                        </li>
+ <div class="project_detail">
+ <div class="ln_solid"></div>
+                      <li>Title:
+                        <strong> {{generator.title}}</strong></li>
+                         <li>Make:
+                        <strong> {{generator.make}}</strong></li>
+                         <li>Hour/Litre:
+                        <strong> {{generator.hour_liter}}</strong></li>
+                         <li>Person In Charge:
+                        <strong> {{generator.person_in_charge}}</strong></li>
+                        
+                        
+                        <P class="title">Description: </p>
+                        <p>{{generator.description}}</p>
+
+                          
+ <div class="ln_solid"></div>
+ </div>
+                        </div>
+
+                      <a class="btn btn-success" hx-get="{% url 'edit_generator' generator.id %}" hx-target = "#dialog"><i class="fa fa-edit m-right-xs"></i>Edit Generator</a>
+                      <br />
+
+                      <!-- start skills -->
+                     
+                      <!-- end of skills -->
+
+                    </div>
+                    <div class="col-md-9 col-sm-9 ">
+                    
+
+                      <div class="profile_title">
+                        <div class="col-md-6">
+                          <h2>Generator Activity Report</h2>
+                        </div>
+                        
+                      </div>
+                      <!-- start of user-activity-graph -->
+                                  <div id="container" style="width: 100%;"  hx-trigger="load, GeneratorReportChanged from:body" hx-get= "{% url 'generator_activity' generator.id %}" hx-target="this" >  
+      <canvas id="canvas" height="300" width="679" style="width: 503px; height: 251px;"></canvas>
+    </div>
+                      <!-- end of user-activity-graph -->
+
+                      <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                        <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                          <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Generator Report</a>
+                          </li>
+                        
+                          
+                        </ul>
+                        <div id="myTabContent" class="tab-content">
+                          <div role="tabpanel" class="tab-pane active " id="tab_content1" aria-labelledby="home-tab">
+
+                            <!-- start recent activity -->
+                            <div class="table"  id="fleetlog" hx-trigger="load, GeneratorReportChanged from:body" hx-get= "{% url 'partial_generator_report' generator.id %}" hx-target="this"  >
+                            <table class="data table table-sm table-striped no-margin">
+                              <thead>
+                                <tr>
+                                  
+                                  <th style="width:12%">Month</th>
+                                 <th style="width:10%">Year</th>
+                                  <th >Operation Time (Hr)</th>
+                                    <th >Fuel Used (Lt)</th>
+                                     <th >Fuel Cost (ETB)</th>
+                                       <th >Repair Cost (ETB)</th>
+                                        <th >Logsheet</th>
+                                 
+
+                                
+
+                                         <th>Edit</th>
+
+
+
+
+                                </tr>
+                              </thead>
+                              <tbody>
+                              {% if generator_report %}
+                            {% for rep in generator_report %}
+                                <tr>
+                                  <td>{{rep.month_report}}</td>
+                                  <td>{{rep.year_report}}</td>
+                                  <td>{{rep.operated_time_hr }}</td>
+                                  <td>{{rep.fuel_used_lt}}</td>
+                                  <td>{{rep.fuel_cost_br}}</td>
+                                  <td>{{rep.repair_cost_br}}</td>
+                                  <td> {% if rep.gen_log_sheet %}<a href="{% url 'download_gen_logsheet' rep.id %}"><i class="fa fa-paperclip"></i>  view</a> {% else %}NA{% endif%} </strong></td>
+                                  <td>
+                              
+                                 
+                                  <a hx-get="{% url 'edit_generator_report' generator.id rep.id %}" hx-target="#dialog" ><i class="fa fa-edit"></i></a>
+                                  </td>
+                                  
+                                  
+                                </tr>
+                                
+                               {% endfor %}
+                               {% endif %}
+                              </tbody>
+                            </table>
+                            </div>
+                            
+                           
+                 
+                            <!-- end recent activity -->
+
+                                    <div class="text-right">
+                                    <button  hx-get="{% url 'add_generator_report' generator.id %}" hx-target="#dialog" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i>
+                                      New Report
+   
+</div>
+                                    
+                          </div>
+                        
+                           
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+             </div><div class="modal fade bs-example-modal-lg" id="modal" class="modal fade">
+                       <div id="dialog" class="modal-dialog modal-lg" hx-target="this"></div>
+                    </div>
+          </div>
+        </div>
+        <!-- /page content -->
+        
+{% endblock %}
+{% block content_page_js %}
+
+
+
+<script>
+
+    var MONTHS =   [{%  for m in all_request %} "{{ m.created_at_month|date:'M-y' }}", {% endfor %}];
+   
+
+    var randomScalingFactor = function() {
+      return Math.round(Math.random() * 100 * (Math.random() > 0.5 ? -1 : 1));
+    };
+    var randomColorFactor = function() {
+      return Math.round(Math.random() * 255);
+    };
+    var randomColor = function(opacity) {
+      return 'rgba(' + randomColorFactor() + ',' + randomColorFactor() + ',' + randomColorFactor() + ',' + (opacity || '1') + ')';
+    };
+ 
+    var ctx = document.getElementById("canvas").getContext("2d");
+    var myChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: [{%  for m in all_request %} "{{ m.created_at_month|date:'M-y' }}", {% endfor %}],
+
+        datasets: [{
+          label: "Total Operation Time(Hr)",
+          data: [{% for cn in all_request %} {{ cn.ops_hr }}, {% endfor %}],
+        
+
+
+          borderColor:'rgba(51, 137, 173, .8)',
+          backgroundColor:'rgba(51, 137, 173, .6)',
+          pointBorderColor :'rgba(51, 137, 173, .4)',
+          pointBackgroundColor : 'rgba(51, 137, 173, .4)',
+          pointBorderWidth : .5,
+
+        },  {
+          label: "Total Expense (ETB)",
+         data: [{% for cn in all_request %} {{ cn.cost_br }}, {% endfor %}],
+         borderColor:'rgb(210, 43, 43, .5)',
+         backgroundColor:'rgba(51, 137, 173, .4)',
+         pointBorderColor :'rgba(51, 137, 173, .4)',
+         pointBackgroundColor : 'rgba(51, 137, 173, .4)',
+         pointBorderWidth : .5,
+
+        },]
+      },
+      options: {
+        responsive: true,
+        title:{
+          display:false,
+          text:"Chart.js Line Chart - Stacked Area"
+        },
+        tooltips: {
+          mode: 'label',
+        },
+        hover: {
+          mode: 'label'
+        },
+        scales: {
+          xAxes: [{
+            scaleLabel: {
+              display: false,
+              labelString: 'Month'
+            }
+          }],
+          yAxes: [{
+            stacked: true,
+            scaleLabel: {
+              display: false,
+              labelString: '# of conceptnot'
+            }
+          }]
+        }
+      }
+    });
+      
+
+   
+
+  
+
+
+      
+
+</script>
+    
+
+{% endblock %}

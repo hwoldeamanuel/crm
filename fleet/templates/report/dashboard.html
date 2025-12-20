@@ -1,0 +1,484 @@
+
+ 
+ {% extends 'base.html' %}
+
+{% block content %}
+{% load static %} 
+
+<div class="right_col" role="main" style="min-height: 2005.67px;">
+          <!-- top tiles -->
+          <div class="row" style="display: inline-block;">
+          <div class="tile_count">
+            <div class="col-md-2 col-sm-4  tile_stats_count">
+              <span class="count_top"><i class="fa fa-map-marker"></i> Field Office</span>
+              <div class="count">{{total_field_office }}</div>
+              <span class="count_bottom"><i class="green">4% </i> From last Week</span>
+            </div>
+            <div class="col-md-2 col-sm-4  tile_stats_count">
+              <span class="count_top"><i class="fa fa-car"></i> Total Fleet</span>
+              <div class="count">{{total_fleet}}</div>
+              <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>3% </i> From last Week</span>
+            </div>
+            <div class="col-md-2 col-sm-4  tile_stats_count">
+              <span class="count_top"><i class="fa fa-car"></i> Mercy Corps</span>
+              <div class="count green">{{total_fleet_mc}}</div>
+              <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
+            </div>
+             <div class="col-md-2 col-sm-4  tile_stats_count">
+              <span class="count_top"><i class="fa fa-bicycle"></i> Mercy Corps</span>
+              <div class="count green">{{total_fleet_mc_m}}</div>
+              <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
+            </div>
+            <div class="col-md-2 col-sm-4  tile_stats_count">
+              <span class="count_top"><i class="fa fa-car"></i> Rental</span>
+              <div class="count">{{total_fleet_r}}</div>
+              <span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i>12% </i> From last Week</span>
+            </div>
+            <div class="col-md-2 col-sm-4  tile_stats_count">
+              <span class="count_top"><i class="fa fa-exclamation-triangle"></i> Generators</span>
+              <div class="count">{{total_user}}</div>
+              <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
+            </div>
+            
+          </div>
+        </div>
+          <!-- /top tiles -->
+
+          <div class="row">
+            <div class="col-md-12 col-sm-12 ">
+              <div class="dashboard_graph">
+
+                <div class="row x_title">
+                  <div class="col-md-6">
+                    <h3><small>Mercy Corps' Fleet</small></h3>
+                  </div>
+                  
+                </div>
+
+                <div class="col-md-12 col-sm-12">
+                  <div style="width: 100%">
+                       <canvas id="myChart" width="400" height="100"></canvas>
+                      </div>
+                </div>
+                
+
+                <div class="clearfix"></div>
+              </div>
+            </div>
+
+          </div>
+          <br>
+ <div class="row">
+            <div class="col-md-12 col-sm-12 ">
+              <div class="dashboard_graph">
+
+                <div class="row x_title">
+                  <div class="col-md-6">
+                    <h3><small>Km Driven Vs. Total Expense</small></h3>
+                  </div>
+                  <div class="col-md-6">
+                    
+                  </div>
+                </div>
+
+                <div class="col-md-12 col-sm-12">
+                 <div style="width:100%;"><iframe class="chartjs-hidden-iframe" style="width: 100%; display: block; border: 0px; height: 0px; margin: 0px; position: absolute; inset: 0px;"></iframe>
+      <canvas id="canvas" height="200" width="679" style="width: 503px; height: 251px;"></canvas>
+  </div>
+                </div>
+                
+
+                <div class="clearfix"></div>
+              </div>
+            </div>
+
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-md-12 col-sm-12 ">
+              <div class="dashboard_graph">
+
+                <div class="row x_title">
+                  <div class="col-md-6">
+                    <h3><small>Vehicle Availablilty (%) Vs. Usage (%)</small></h3>
+                  </div>
+                  <div class="col-md-6">
+                    
+                  </div>
+                </div>
+
+                <div class="col-md-12 col-sm-12">
+                 <div style="width:100%;"><iframe class="chartjs-hidden-iframe" style="width: 100%; display: block; border: 0px; height: 0px; margin: 0px; position: absolute; inset: 0px;"></iframe>
+      <canvas id="mychart2" height="200" width="679" style="width: 503px; height: 251px;"></canvas>
+  </div>
+                </div>
+                
+
+                <div class="clearfix"></div>
+              </div>
+            </div>
+
+          </div>
+          <br>
+
+          <div class="row">
+
+
+            <div class="col-md-4 col-sm-4 ">
+              <div class="x_panel tile fixed_height_520">
+                <div class="x_title">
+                  <h2>Generators</h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                          <a class="dropdown-item" href="#">Settings 1</a>
+                          <a class="dropdown-item" href="#">Settings 2</a>
+                        </div>
+                    </li>
+                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                 
+                 
+                {% for gen in ff_gens %}
+                  
+                    <p>{{gen}} - {{ gen.num_gen }}</p>
+                      <div class="">
+                        <div class="progress progress_sm" style="width: 76%;">
+                          <div class="progress-bar bg-blue" role="progressbar" data-transitiongoal="{% widthratio gen.num_gen total_user 100 %}"></div>
+                        </div>
+                      </div>
+                   
+                    {% endfor %}
+                    </div>
+                 
+                 
+
+                </div>
+
+                             
+            </div>
+
+
+            <div class="col-md-4 col-sm-4 ">
+              <div class="x_panel tile fixed_height_520">
+                <div class="x_title">
+                  <h2>Rental Vehicle</h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                          <a class="dropdown-item" href="#">Settings 1</a>
+                          <a class="dropdown-item" href="#">Settings 2</a>
+                        </div>
+                    </li>
+                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                 
+                 
+                {% for ff in ff_fleetr %}
+                  
+                    <p>{{ff}} - {{ ff.num_fleet}}</p>
+                      <div class="">
+                        <div class="progress progress_sm" style="width: 76%;">
+                          <div class="progress-bar bg-blue" role="progressbar" data-transitiongoal="{% widthratio ff.num_fleet total_fleet_r 100 %}"></div>
+                        </div>
+                      </div>
+                   
+                    {% endfor %}
+                    </div>
+                 
+                 
+
+                </div>
+
+                             
+            </div>
+
+
+
+           <div class="col-md-4 col-sm-4 ">
+              <div class="x_panel tile fixed_height_520">
+                <div class="x_title">
+                  <h2>MotorCycle</h2>
+                  <ul class="nav navbar-right panel_toolbox">
+                    <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    </li>
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                          <a class="dropdown-item" href="#">Settings 1</a>
+                          <a class="dropdown-item" href="#">Settings 2</a>
+                        </div>
+                    </li>
+                    <li><a class="close-link"><i class="fa fa-close"></i></a>
+                    </li>
+                  </ul>
+                  <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                 
+                 
+                {% for ff in ff_fleetmo %}
+                  
+                    <p>{{ff}} - {{ ff.num_fleet}}</p>
+                      <div class="">
+                        <div class="progress progress_sm" style="width: 76%;">
+                          <div class="progress-bar bg-blue" role="progressbar" data-transitiongoal="{% widthratio ff.num_fleet total_fleet_mc_m 100 %}"></div>
+                        </div>
+                      </div>
+                   
+                    {% endfor %}
+                    </div>
+                 
+                 
+
+                </div>
+
+                             
+            </div>
+
+          </div>
+
+
+          </div>
+        </div>
+            {% endblock %}
+
+            {% block content_page_js %}
+<script>
+   
+    var ctx = document.getElementById("myChart").getContext("2d");
+    var myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: [{%  for m in ff_fleet.name %} "{{ m }}", {% endfor %}],
+
+        datasets: [{
+          label: "Vehicle",
+          data: [{% for v in ff_fleet.num_vfleet %} {{ v }}, {% endfor %}],
+        
+
+
+          borderColor:'rgba(26, 187, 156, 1)',
+          backgroundColor:'rgba(26, 187, 156, 1)',
+          pointBorderColor :'rgba(26, 187, 156, 1)',
+          pointBackgroundColor : 'rgba(26, 187, 156, 1)',
+          pointBorderWidth : .5,
+
+        },  {
+          label: "MotorCycle",
+         data: [{% for m in ff_fleet.num_mfleet %} {{ m }}, {% endfor %}],
+         borderColor:'rgba(26, 187, 156, .4)',
+         backgroundColor:'rgba(26, 187, 156, .4)',
+         pointBorderColor :'rgba(26, 187, 156, .4)',
+         pointBackgroundColor : 'rgba(26, 187, 156, .4)',
+         pointBorderWidth : .5,
+
+        },]
+      },
+      options: {
+                    title:{
+                        display:false,
+                        text:"Chart.js Bar Chart - Stacked"
+                    },
+                    tooltips: {
+                        mode: 'label'
+                    },
+                    responsive: true,
+                    scales: {
+                        xAxes: [{
+                            stacked: true,
+                        }],
+                        yAxes: [{
+                            stacked: true
+                        }]
+                    }
+                }
+    });
+      
+
+</script>
+<script>
+    var MONTHS =   [{%  for m in all_request.created_at_month %} "{{ m|date:'M-y' }}", {% endfor %}];
+   
+
+    var randomScalingFactor = function() {
+      return Math.round(Math.random() * 100 * (Math.random() > 0.5 ? -1 : 1));
+    };
+    var randomColorFactor = function() {
+      return Math.round(Math.random() * 255);
+    };
+    var randomColor = function(opacity) {
+      return 'rgba(' + randomColorFactor() + ',' + randomColorFactor() + ',' + randomColorFactor() + ',' + (opacity || '1') + ')';
+    };
+ 
+    var ctx = document.getElementById("canvas").getContext("2d");
+    const formatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "ETB"
+});
+   const formatter2 = new Intl.NumberFormat("en-US", {
+   
+});
+    var myChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: [{%  for m in all_request.created_at_month %} "{{ m|date:'M-y' }}", {% endfor %}],
+
+        datasets: [{
+          label: "KM Driven (KM)",
+          data: [{% for cn in all_request.km_driven %} {{ cn }}, {% endfor %}],
+          yAxisID: "y-axis-1",
+        
+
+
+          borderColor:'rgb(0, 255, 255, .8)',
+          backgroundColor:'rgba(51, 137, 173, .6)',
+          pointBorderColor :'rgba(51, 137, 173, .4)',
+          pointBackgroundColor : 'rgba(51, 137, 173, .4)',
+          pointBorderWidth : .5,
+
+        },  {
+          label: "Total Expense (ETB)",
+         data: [{% for cn in all_request.total_expense %} {{ cn }}, {% endfor %}],
+         yAxisID: "y-axis-2",
+         borderColor:'rgb(210, 43, 43, .5)',
+         backgroundColor:'rgba(51, 137, 173, .4)',
+         pointBorderColor :'rgba(51, 137, 173, .4)',
+         pointBackgroundColor : 'rgba(51, 137, 173, .4)',
+         pointBorderWidth : .5,
+
+        },]
+      },
+      options: {
+                responsive: true,
+                hoverMode: 'label',
+                stacked: false,
+                title:{
+                    display:false,
+                    text:'Chart.js Line Chart - Multi Axis'
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        gridLines: {
+                            offsetGridLines: false
+                        }
+                    }],
+                    yAxes: [{
+                        type: "linear", // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+                        display: true,
+                        position: "left",
+                        id: "y-axis-1",
+                         ticks: {
+                    callback: (label, index, labels) => {
+                        return formatter2.format(label);
+                    }
+                },
+                         
+                    }, {
+                        type: "linear", // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+                        display: true,
+                        position: "right",
+                        id: "y-axis-2",
+                        ticks: {
+                    callback: (label, index, labels) => {
+                        return formatter.format(label);
+                    }
+                },
+
+                        // grid line settings
+                        gridLines: {
+                            drawOnChartArea: false, // only want the grid lines for one axis to show up
+                        },
+                    }],
+                }
+            }
+    });
+      
+
+   
+
+  
+
+
+      
+
+</script>
+<script>
+
+   var MONTHS =   [{%  for m in fdf.created_at_month %} "{{ m|date:'M-y' }}", {% endfor %}];
+  
+ 
+   var ctx = document.getElementById("mychart2").getContext("2d");
+    var myChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: [{%  for m in fdf.created_at_month %} "{{ m|date:'M-y' }}", {% endfor %}],
+
+        datasets: [{
+          label: "Availablilty(%)",
+          data: [{% for cn in fdf.avalablity %} {{ cn}}, {% endfor %}],
+          borderColor:'rgba(26, 187, 156, .4)',
+          backgroundColor:'rgba(26, 187, 156, .4)',
+          pointBorderColor :'rgba(51, 137, 173, .4)',
+          pointBackgroundColor : 'rgba(51, 137, 173, .4)',
+          pointBorderWidth : .5,
+
+        },  {
+          label: "Usage(%)",
+         data: [{% for cn in fdf.usage %} {{ cn }}, {% endfor %}],
+         borderColor:'rgba(26, 187, 156, 1)',
+         backgroundColor:'rgba(26, 187, 156, 1)',
+         pointBorderColor :'rgba(51, 137, 173, .4)',
+         pointBackgroundColor : 'rgba(51, 137, 173, .4)',
+         pointBorderWidth : .5,
+
+        },]
+      },
+      options: {
+        responsive: true,
+        title:{
+          display:false,
+          text:"Chart.js Line Chart - Stacked Area"
+        },
+        tooltips: {
+          mode: 'label',
+        },
+        hover: {
+          mode: 'label'
+        },
+        scales: {
+          xAxes: [{
+            scaleLabel: {
+              display: false,
+              labelString: 'Month'
+            }
+          }],
+          yAxes: [{
+            stacked: false,
+            scaleLabel: {
+              display: true,
+              labelString: '%'
+            }
+          }]
+        }
+      }
+    });
+      
+
+</script>
+{% endblock %}

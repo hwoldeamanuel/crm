@@ -8,6 +8,9 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from user.models import Profile
 from program.models import Program, UserRoles
+from django import forms
+from .models import FieldOffice
+#from fleet.models import Missing_Log
 
 class CustomUserCreationForm(UserCreationForm):
     username = forms.CharField(max_length=100,
@@ -216,3 +219,11 @@ class UserProgramRoleForm(forms.ModelForm):
         fields=['program','is_pcn_initiator', 'is_pcn_technical_approver','is_pcn_mel_approver', 'is_pcn_program_approver','is_pcn_finance_approver',
                 'is_pacn_initiator', 'is_pacn_technical_approver','is_pacn_mel_approver', 'is_pacn_program_approver','is_pacn_finance_approver'
                 ]
+
+
+
+
+
+    
+     
+

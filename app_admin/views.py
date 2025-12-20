@@ -15,7 +15,7 @@ from django.shortcuts import render
 from django.contrib.auth.views import LoginView
 from django.views.generic import FormView
 from .forms import CustomUserChangeForm, CustomUserCreationForm, RegionFormE,UserRoleFormE, UserProgramRoleForm, ZoneFormE
-
+from django.db.models import Q
 from django.urls import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.views import PasswordResetView
@@ -26,6 +26,10 @@ from django.db.models import Sum, Count
 from easyaudit.models import RequestEvent,LoginEvent, CRUDEvent
 from collections import defaultdict
 from itertools import chain
+
+import pandas as pd
+from django.db.models.functions import TruncMonth
+
 from django.contrib.auth.models import Group, Permission
 from program.models import Program,UserRoles
 from datetime import datetime, timedelta
@@ -33,6 +37,15 @@ from django.utils import timezone
 from datetime import datetime, date
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from dateutil.relativedelta import relativedelta
+
+from .models import FieldOffice
+from datetime import datetime, timedelta
+from django.utils import timezone
+from datetime import datetime, date
+
+from dateutil.relativedelta import relativedelta
+
+
 
 
 @login_required(login_url='login') 
@@ -767,3 +780,8 @@ def iworeda(request):
     form = WoredaForm(region=region)
     context = {'form':form,}
     return render(request, 'partial/new_woreda_form.html', context)
+
+
+
+
+

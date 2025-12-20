@@ -1,0 +1,104 @@
+ <ul class="nav nav-tabs bar_tabs" id="myTab" role="tablist">
+                      <li class="nav-item">
+                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home1" role="tab" aria-controls="home" aria-selected="true">Fleet Log Report</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile1" role="tab" aria-controls="profile" aria-selected="false">Fleet Expense Report</a>
+                      </li>
+                      
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                      <div class="tab-pane fade show active" id="home1" role="tabpanel" aria-labelledby="home-tab">
+                       
+                   Total Monthly Fleet Log: <strong>{{total_log}}</strong>
+                  
+ <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Field Office</th>
+                           <th>Tag Number</th>
+                            <th>Type</th>
+                             <th>Ownership</th>
+                          <th>Month</th>
+                          <th>Year</th>
+                          <th>Km Driven</th>
+                          
+                          <th>Availablilty</th>
+                          <th>Usage</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {% for mr in monthly_report %}
+                        <tr>
+                          <th scope="row">{{forloop.counter}}</th>
+                          <td>{{mr.field_office}}</td>
+                          <td>{{mr.tag_number}}</td>
+                          <td>{{mr.vehicle_type}}</td>
+                          <td>{{mr.ownership}}</td>
+                          <td>{{mr.month_log}}</td>
+                           <td>{{mr.year_log}}</td>
+                                <td>{{mr.km_driven|floatformat:"2g"}}</td>
+                        <td> {% widthratio mr.day_available mr.day_total 100 %}%</td>
+                         <td> {% widthratio mr.day_use mr.day_total 100 %}%</td>
+                          <td><a target="_blank" href="{% url 'fleet' mr.id %}"> View </a></td>
+                        </tr>
+                        {% endfor %}
+                       
+                      </tbody>
+                    </table>
+                    
+                      </div>
+                      <div class="tab-pane fade" id="profile1" role="tabpanel" aria-labelledby="profile-tab">
+                      Total Monthly Fleet Expense Report: <strong>{{total_expense}}</strong>
+                      
+                        <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                         <th>Field Office</th>
+                           <th>Tag Number</th>
+                            <th>Type</th>
+                             
+                          <th>Month</th>
+                          <th>Year</th>
+                          <th>Total Cost</th>
+                           <th>Fuel </th>
+                           <th>Maintance</th>
+                            <th>Rental</th>
+                           <th> </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {% for me in monthly_expense %}
+                        <tr>
+                          <th scope="row">{{forloop.counter}}</th>
+                          <td>{{me.field_office}}</td>
+                          <td>{{me.tag_number}}</td>
+                          <td>{{me.vehicle_type}} </br>
+                         <small>{{me.ownership}}</small>
+                          </td>
+                          
+                          <td>{{me.month_expense}}</td>
+                           <td>{{me.year_expense}}</td> 
+                            <td>{{me.total_cost|floatformat:"2g"}}</td> 
+                               <td>{{me.fuel_cost|floatformat:"2g"}}</td> 
+                                  <td>{% if me.ownership == 'Mercy Corps' %}{{me.spare_cost|add:me.consumable_cost|add:me.labour_cost|add:me.rental_and_tax_cost|add:me.tax_cost|floatformat:"2g"}}{% else %} 0.00 {% endif %}</td> 
+                                   <td>{% if me.ownership == 'Rental' %}{{me.rental_and_tax_cost|add:me.rental_cost|floatformat:"2g"}}{% else %}0.00{% endif %}</td> 
+                       <td><a target="_blank" href="{% url 'fleet' me.id %}"> View </a></td>
+                       </tr>
+                          
+                        {% endfor %}
+                       
+                      </tbody>
+                    </table>
+                      </div>
+                      <div class="tab-pane fade" id="contact1" role="tabpanel" aria-labelledby="contact-tab">
+                        xxFood truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo
+                            booth letterpress, commodo enim craft beer mlkshk 
+                      </div>
+                    </div>
+
+                  </div>
+

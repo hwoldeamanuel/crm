@@ -1,0 +1,96 @@
+<canvas id="mycanvas" height="300" width="792" ></canvas>
+{% block content_page_js %}
+  {% load static %}
+  <script src="{% static 'dist/Chart.bundle.js' %}"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script> 
+
+<script>
+
+var ctx = document.getElementById("mycanvas").getContext("2d");
+var myChart = new Chart(ctx, {
+    type: 'line',
+    
+    
+     data: {
+        labels: [{% for m in all_request.created_at_month  %} "{{ m|date:'M-y'}}", {% endfor %}],
+        datasets: [{
+          label: "KM Driven (KM)",
+          data: [{% for cn in all_request.km_driven %} {{ cn }}, {% endfor %}],
+          borderColor:'rgb(0, 255, 255, .8)',
+          backgroundColor:'rgba(51, 137, 173, .6)',
+          pointBorderColor :'rgba(51, 137, 173, .4)',
+          pointBackgroundColor : 'rgba(51, 137, 173, .4)',
+          pointBorderWidth : .5,
+          yAxisID: "y-axis-1",
+        },  {
+           label: "Total Expense (ETB)",
+          data: [{% for cn in all_request.total_expense %} {{ cn }}, {% endfor %}],
+          borderColor:'rgb(210, 43, 43, .5)',
+          backgroundColor:'rgba(51, 137, 173, .4)',
+          pointBorderColor :'rgba(51, 137, 173, .4)',
+          pointBackgroundColor : 'rgba(51, 137, 173, .4)',
+          pointBorderWidth : .5,
+          yAxisID: "y-axis-2",
+        },  ]
+      },
+    options: {
+                responsive: true,
+                hoverMode: 'label',
+                stacked: false,
+                title:{
+                    display:false,
+                    text:'Chart.js Line Chart - Multi Axis'
+                },
+                                plugins: {
+            legend: {
+                display: true,
+                labels: {
+                    color: 'rgb(255, 99, 132)'
+                }
+            }
+        },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        gridLines: {
+                            offsetGridLines: false
+                        }
+                    }],
+                    yAxes: [{
+                        type: "linear", // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+                        display: true,
+                        position: "left",
+                        id: "y-axis-1",
+                        ticks: {
+                    // Include a dollar sign in the ticks
+                    callback: function (value) {
+                                return value.toLocaleString();
+                            }
+                },
+                       
+                         
+                    }, {
+                        type: "linear", // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+                        display: true,
+                        position: "right",
+                        id: "y-axis-2",
+                        ticks: {
+                    // Include a dollar sign in the ticks
+                    callback: function (value) {
+                                return  value.toLocaleString();
+                            }
+                },
+                        // grid line settings
+                        gridLines: {
+                            drawOnChartArea: false, // only want the grid lines for one axis to show up
+                        },
+                    }],
+                }
+            },
+  
+
+});
+ 
+
+</script>
+{% endblock %}
