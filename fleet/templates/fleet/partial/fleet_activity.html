@@ -34,6 +34,14 @@ var myChart = new Chart(ctx, {
         },  ]
       },
     options: {
+           legend: {
+           responsive:true,
+           display: true,
+          
+           "labels": {
+            "fontSize": 11,
+                }
+        },
                 responsive: true,
                 hoverMode: 'label',
                 stacked: false,
@@ -41,14 +49,6 @@ var myChart = new Chart(ctx, {
                     display:false,
                     text:'Chart.js Line Chart - Multi Axis'
                 },
-                                plugins: {
-            legend: {
-                display: true,
-                labels: {
-                    color: 'rgb(255, 99, 132)'
-                }
-            }
-        },
                 scales: {
                     xAxes: [{
                         display: true,

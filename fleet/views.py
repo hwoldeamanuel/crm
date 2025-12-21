@@ -339,7 +339,7 @@ def edit_fleet_expense(request, fid, id):
                 status=204,
                 headers={
                     'HX-Trigger': json.dumps({
-                        "FleetExpenseChanged": None,
+                        "FleetListChanged": None,
                         "showMessage": f"{instance.id} updated."
                     })
                 }
@@ -376,7 +376,7 @@ def remove_fleetexpense(request, pk):
         status=204,
         headers={
             'HX-Trigger': json.dumps({
-                "FleetExpenseChanged": None,
+                "FleetListChanged": None,
                 "showMessage": f"{fleetexpense.id} deleted."
             })
         })
@@ -398,7 +398,7 @@ def add_fleet_expense(request, id):
                 status=204,
                 headers={
                     'HX-Trigger': json.dumps({
-                        "FleetExpenseChanged": None,
+                        "FleetListChanged": None,
                          "showMessage": f"{instance.id} updated."
 
                         
