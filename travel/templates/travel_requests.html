@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block content %}
+<div class="right_col" role="main" style=" height:auto;">
+    <div class="">
+        <div class="page-title">
+              <div class="title_left">
+                <h4>Travel Requests </h4>
+              </div>
+
+            <div class="title_right">
+             <div class="col-md-1 col-sm-1 pull-right" ></div>
+                <div class="btn-group pull-right">
+                
+                    <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      Action <span class="caret"></span>
+                    </button>
+                    <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; transform: translate3d(0px, 37px, 0px); top: 0px; left: 0px; will-change: transform;">
+                      <a class="dropdown-item"  href="{% url 'trequest_new' %}">New Travel Request</a>
+                     <a class="dropdown-item" href="{% url 'programs'%}">Programs</a>
+                     
+                      <div class="dropdown-divider"></div>
+                       <a class="dropdown-item" href="{% url 'icns'%}">Int. Concept Note</a>
+                      <a class="dropdown-item" href="{% url 'activities'%}">Act. Concept Note</a>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+ 
+
+            <div class="clearfix"></div>
+
+            <div class="row">
+               <div class="col-md-12 col-sm-12 " >
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Feedback Submissions{{request.user.get_carm_role}} </small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Settings 1</a>
+                            <a class="dropdown-item" href="#">Settings 2</a>
+                          </div>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                      <div class="row">
+                          <div class="col-sm-12">
+                      
+                  
+                 <table id="datatable-buttons" class="table table-striped table-sm" style="width:100%">
+                      <thead>
+                        <tr>
+                          <th style="width:3%; color: #73879C">#</th>
+							
+                          <th style="width:20%; color: #73879C">Name <small>(F.Office)</small></th>
+                           <th style="width:20%; color: #73879C">Destination(s)</th>
+                         
+                          <th style="width:14%; color: #73879C">Date<small>(Departure/Return)</small></th>
+                      
+                        
+                           <th style="width:10%; color: #73879C">Submission S.</th>
+                           <th style="width:10%; color: #73879C">Approval S.</th>
+                          <th style="width:8%;"></th>
+                        </tr>
+                      </thead>
+
+
+                      <tbody>
+                    {% for list in trequests %}
+                        <tr>
+                          <td>
+							{{forloop.counter}}
+						  </td>
+                          <td>{{list.user.profile.full_name}}</br><small>{{list.user.profile.field_office}}</small></td>
+                          <td>{{list.destination}}</td>
+                          <td>{{list.departure_date }}<br>{{list.return_date}}</td>
+                        
+                           <td> <span class="badge {% if 'Submitted' in list.requestsubmit.status.name %}bg-green {% elif 'cancelled' in list.requestsubmit.status.name %}badge-secondary{% else %}badge-warning{% endif %}">{% if list.requestsubmit.status %}{{list.requestsubmit.status.name }}{% else %}Pending{% endif %}</span></td>
+                            <td> <span class="badge {% if 'Submitted' in list.requestsubmit.status.name %}bg-green {% else %}badge-secondary{% endif %}">{{list.requestsubmit.submitapproval_b.approval_status.name }}</span></td>
+                          <td class="text-right">
+                      <a href="/travel/request/{{list.id}}/detail/" class="btn btn-sm btn-info"><i class="fa fa-eye"></i> View </a>
+                      
+                     
+                    </td>
+                        </tr>
+                        {% endfor %}
+                        
+                        
+                      </tbody>
+                    </table>
+                  </div>
+                  </div>
+              </div>
+            </div>
+                </div>
+              </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+{% endblock %}

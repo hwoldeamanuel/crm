@@ -1,0 +1,134 @@
+{% extends "travels_step.html" %}
+
+{% block content_travel_step %}
+{% load static %}
+{% load humanize%}
+                        <div id="step-1" class="content" style="display: block;">
+                              <div class="col-md-8 col-sm-8  profile_left">
+              <div class="profile_img">
+                        <div id="crop-avatar">
+                          <!-- Current avatar -->
+                          <img class="img-responsive avatar-view" src="{% static 'images/logo.png' %}" alt="Avatar" title="Change the avatar" style="width: 100px; height: auto;" >
+                        </div>
+              </div>
+                     
+                      <!-- end of skills -->
+
+    </div>
+  <div class="col-md-4 col-sm-4 ">
+
+              <div class="title">
+                        <div class="col-md-12">
+                          <h6>Travel Approval Request</h6>
+                        </div>
+ <div class="col-md-12">
+                          <h6> Field Finance Manual - Form 6.5A</h5>
+                        </div>
+                         
+                        
+                      </div>
+                      <!-- start of user-activity-graph -->
+                     
+                       
+                  </div>
+
+       <div class="container">
+      <div class="card">
+          <div class="card-header py-1" style="margin-top:0px; margin-bottom:0px">
+
+           <strong>A. Travel Information</strong> 
+ 
+
+          </div>
+    <form  method="post"     >
+  {% csrf_token %}
+<div class="col-sm-12 col-md-12" >
+
+
+      
+                         
+<table class="table table-sm  " style="margin-top:0px; margin-bottom:0px">
+                      <thead>
+                       
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <th>Name</th>
+                          <td class="text-left" colspan="3">{{trequest.user.profile.full_name}}</td>
+                          
+                        </tr>
+                        <tr>
+                          <th >Emply ID Code:
+</th>
+                          <td>{{trequest.user.profile.emp_id}}</td>
+                          <th style="text-align: right;">Office</th>
+                          <td>{{trequest.user.profile.field_office}}</td>
+                        </tr>
+                        <tr>
+                          <th>Destination(s):
+</th>
+                          <td class="text-left" colspan="3" rowspam="3">{{form.destination}}</td>
+                        </tr>
+                          <tr>
+                          <th>Purpose:
+</th>
+                          <td class="text-left" colspan="3">{{form.purpose}}</td>
+                        </tr>
+                        <tr>
+                          <th >Departure Date:
+</th>
+                          <td>{{form.departure_date}}</td>
+                          <th style="text-align: right;">Return Date</th>
+                          <td>{{form.return_date}}</td>
+                        </tr>
+                        <tr>
+                          <td >Business {{form.business}}
+                          </td>
+                            <td >Relocation {{form.relocation}}
+                          </td>
+                            <td >R and R {{form.randr}}
+                          </td>
+                            <td >Other {{form.other}}
+                          </td>
+                       
+                        </tr>
+                        <tr>
+                      </tbody>
+                    </table>                            
+                      
+                      
+                          
+											<div class="col-md-6 col-sm-6  offset-md-4">
+												<button class="btn btn-sm btn-primary" type="reset">Reset</button>
+            <button type="submit" class="btn btn-sm btn-success">Submit</button>
+  <button type="button" class="btn btn-sm btn-secondary" value="Previous Page" onClick="javascript:history.go(0);">Cancel</button>
+											</div>
+										</div>
+                          </form>
+                            
+                        </div>
+
+                   
+
+
+
+
+
+</div>
+
+
+
+</div>
+</div>
+</div>
+
+                        <div id="step-2" class="content" style="display: none;">
+                            <h2 class="StepTitle">Step 2 Content</h2>
+                            <p>Step 2 content goes here.</p>
+                        </div>
+                        <div id="step-3" class="content" style="display: none;">
+                            <h2 class="StepTitle">Step 3 Content</h2>
+                            <p>Step 3 content goes here.</p>
+                        </div>
+                      
+{% endblock content_travel_step %}

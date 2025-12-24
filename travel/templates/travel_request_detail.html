@@ -1,0 +1,174 @@
+{% extends "travels_step.html" %}
+
+{% block content_travel_step %}
+{% load static %}
+{% load humanize%}
+                        <div id="step-1" class="content" style="display: block;">
+                            
+                    <div class="col-md-8 col-sm-8  profile_left">
+              <div class="profile_img">
+                        <div id="crop-avatar">
+                          <!-- Current avatar -->
+                          <img class="img-responsive avatar-view" src="{% static 'images/logo.png' %}" alt="Avatar" title="Change the avatar" style="width: 100px; height: auto;" >
+                        </div>
+              </div>
+                     
+                      <!-- end of skills -->
+
+    </div>
+  <div class="col-md-4 col-sm-4 ">
+
+              <div class="title">
+                        <div class="col-md-12">
+                          <h6>Travel Approval Request</h6>
+                        </div>
+ <div class="col-md-12">
+                          <h6> Field Finance Manual - Form 6.5A</h5>
+                        </div>
+                         
+                        
+                      </div>
+                      <!-- start of user-activity-graph -->
+                     
+                       
+                  </div>
+
+                 
+                  
+    <div class="container">
+      <div class="card">
+          <div class="card-header py-1" style="margin-top:0px; margin-bottom:0px">
+
+           <strong>A. Travel Information</strong> 
+ 
+
+          </div>
+ 
+
+<div class="col-sm-12 col-md-12" >
+
+
+<table class="table table-sm  " style="margin-top:0px; margin-bottom:0px">
+                      <thead>
+                       
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <th>Name</th>
+                          <td class="text-left" colspan="3">{{trequest.user.profile.full_name}}</td>
+                          
+                        </tr>
+                        <tr>
+                          <th >Emply ID Code:
+</th>
+                          <td>{{trequest.user.profile.emp_id}}</td>
+                          <th style="text-align: right;">Office</th>
+                          <td>{{trequest.user.profile.field_office}}</td>
+                        </tr>
+                        <tr>
+                          <th>Destination(s):
+</th>
+                          <td class="text-left" colspan="3">{{trequest.destination}}</td>
+                        </tr>
+                          <tr>
+                          <th >Purpose:
+</th>
+                          <td class="text-left" colspan="3" >{{trequest.purpose}}</td>
+                        </tr>
+                        <tr>
+                          <th >Departure Date:
+</th>
+                          <td>{{trequest.departure_date}}</td>
+                          <th style="text-align: right;">Return Date</th>
+                          <td>{{trequest.return_date}}</td>
+                        </tr>
+                        <tr>
+                          <td ><div class="icheckbox_flat-green {% if trequest.business %}checked{% endif %}" style="position: relative;"><input type="" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 80%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                          Business</td>
+                          <td ><div class="icheckbox_flat-green {% if trequest.relocation %}checked{% endif %}" style="position: relative;"><input type="" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 80%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                          Relocation</td>
+                           <td ><div class="icheckbox_flat-green {% if trequest.randr %}checked{% endif %}" style="position: relative;"><input type="" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 80%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                          R and R</td>
+                           <td ><div class="icheckbox_flat-green {% if trequest.other %}checked{% endif %}" style="position: relative;"><input type="" class="flat" style="position: absolute; opacity: 0;"><ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 80%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins></div>
+                          Other</td>
+                        </tr>
+                        <tr>
+                      </tbody>
+                    </table>
+                   
+                        
+											<div class="col-md-6 col-sm-6  offset-md-4">
+												
+            <a href="/travel/request/{{trequest.id}}/edit/" class="btn btn-sm btn-success">Edit T.Info</a>
+ 
+									 </div> 
+</div>
+</div>
+
+<div class="col-sm-12 col-md-12">
+<div class="col-sm-4 col-md-4"></div>
+<div class="col-sm-8 col-md-8">
+    
+
+
+  <table class="data table table-sm table-striped" style="margin-top:0px; margin-bottom:0px">
+                              <thead>
+
+<tr style="font-size: 1em;"><th class="text-center" colspan="6"> Financial Coding</th></tr>
+                                <tr style="font-size: 0.8em;">
+                                  <th>#</th>
+                                   <th  style="width:14%">Dept</th>
+                                  <th  style="width:17%">Fund</th>
+                                 
+                                  <th  style="width:25%">Lin Code</th>
+                                  <th  style="width:15%">%</th>
+                                   <th  style="width:25%">Action</th>
+                                </tr>
+                      </thead>
+                      <tbody hx-trigger="FinanceChanged from:body" hx-get= "{% url 'finance_list' trequest.id %}" hx-target="this">
+                      {% for fc in trequest.finance_code_set.all %}
+                        <tr>
+                        <td>{{forloop.counter}}</td>
+                          <td>{{fc.dept}}</td>
+                          <td>{{fc.fund}}</td>
+                          <td>{{fc.lin_code}}</td>
+                          <td>{{fc.value}}</td>
+                           <td><a href="#" hx-get="/travel/edit_finance_code/{{ fc.id }}/" class="btn btn-sm btn-info py-0 {% if trequest.requestsubmit.status_id == 2 %} disabled {% endif %}" style="font-size: 0.8em;"  hx-target="closest tr" hx-swap="outerHTML"><i class="fa fa-edit"></i></a></td>
+                        </tr>
+                        {% endfor %}
+                         <tr style = "padding: 0px">
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td>	</td>
+                                  <td><u><strong>{{trequest.get_finance_total}}</u></strong></td>
+                                   <td> <a href="#" class="btn btn-sm btn-primary py-0 {% if trequest.get_finance_total == 100.00 or trequest.requestsubmit.status_id == 2 %} disabled {% endif %}" style="font-size: 0.8em;" hx-get="/travel/add_finance_code/{{ trequest.id }}/" hx-target="closest tr" hx-swap="outerHTML"><i class="fa fa-plus-square"></i></a> 	</td>
+                                </tr>
+                      </tbody>
+                    </table>
+                    </td>
+                    </tr>
+                  </tbody>
+                  </table>
+<div>
+
+
+
+</div>
+
+
+
+</div>
+</div>
+</div>
+
+                        <div id="step-2" class="content" style="display: none;">
+                            <h2 class="StepTitle">Step 2 Content</h2>
+                            <p>Step 2 content goes here.</p>
+                        </div>
+                        <div id="step-3" class="content" style="display: none;">
+                            <h2 class="StepTitle">Step 3 Content</h2>
+                            <p>Step 3 content goes here.</p>
+                        </div>
+                      
+{% endblock content_travel_step %}
