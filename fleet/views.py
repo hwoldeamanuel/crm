@@ -823,7 +823,7 @@ def monthly_report(request):
 
         if request.user.is_superuser and field_office == '':
             monthly_report = Log_Report.objects.filter( month_log=month, year_log=year).order_by('field_office')
-            monthly_expense = Expense_Report.objects.filter( month_expense=month, year_expense=year).order_by('tag_number')
+            monthly_expense = Expense_Report.objects.filter( month_expense=month, year_expense=year).order_by('field_office')
             summary_report_log = Log_Report.objects.filter( month_log=month, year_log=year).values( 'ownership', 'vehicle_type','year_log', 'month_log').annotate(total_ff = Count('field_office', distinct=True), total_fleet=Count('tag_number', distinct=True), total_km=Sum('km_driven'), ttotal_day= Sum('day_total'), tavailable = Sum('day_available'), tinuse=Sum('day_use'))
             atotal_ff = Log_Report.objects.filter( month_log=month, year_log=year).aggregate(totalff = Count('field_office', distinct=True), total_flt=Count('tag_number', distinct=True), totalkm = Sum('km_driven'),tday= Sum('day_total'), tavail = Sum('day_available'), tuse=Sum('day_use'))
             summary_report_expense = Expense_Report.objects.filter( month_expense=month, year_expense=year).values( 'ownership', 'vehicle_type','year_expense', 'month_expense').annotate(total_ff = Count('field_office', distinct=True), total_fleet=Count('tag_number', distinct=True), total_cost=Sum('total_cost'), total_fuel= Sum('fuel_cost'), total_spare = Sum('spare_cost'), total_tax = Sum('tax_cost'), total_rental=Sum('rental_cost'), total_consumable=Sum('consumable_cost'), total_labour=Sum('labour_cost'), total_rental_tax=Sum('rental_and_tax_cost'))

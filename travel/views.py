@@ -31,7 +31,7 @@ def travel(request):
     profile = Profile.objects.filter(user=user)
    
     userroles = TravelUserRoles.objects.filter(profile__in=profile)
-    trequests =  Travel_Request.objects.filter(Q(user=user) | Q(requestsubmit__budget_holder__in=userroles) | Q(requestsubmit__finance_reviewer__in=userroles)| Q(requestsubmit__security_reviewer__in=userroles)).order_by(-id)
+    trequests =  Travel_Request.objects.filter(Q(user=user) | Q(requestsubmit__budget_holder__in=userroles) | Q(requestsubmit__finance_reviewer__in=userroles)| Q(requestsubmit__security_reviewer__in=userroles)).order_by('-id')
     context = {'trequests':trequests}
    
  
