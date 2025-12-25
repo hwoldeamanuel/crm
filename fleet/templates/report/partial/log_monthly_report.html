@@ -11,6 +11,56 @@
                       <div class="tab-pane fade show active" id="home1" role="tabpanel" aria-labelledby="home-tab">
                        
                    Total Monthly Fleet Log: <strong>{{total_log}}</strong>
+
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Field Office (#)</th>
+                          <th>Month</th>
+                          <th>Year</th>
+                          <th>Ownership</th>
+                          <th>Fleet Type</th>
+                          <th>Num Fleet </th>
+
+                          
+                          <th>Km Driven</th>
+                          
+                          <th>Availablilty</th>
+                          <th>Usage</th>
+                        </tr>
+                      </thead>
+                          <tbody>
+                          {% for summ in summary_report_log %}
+                            <tr>
+                              
+                              <td>{{ forloop.counter }}</td>
+                               <td>{{ summ.field_office__name }} {{summ.total_ff}} </td>
+                               <td>{{summ.month_log}}</td>
+                           <td>{{summ.year_log}}</td>
+                               <td> {{summ.ownership }} </td>
+                               <td> {{summ.vehicle_type }} </td>
+                               <td>{{ summ.total_fleet }}</td>
+                              <td>{{summ.total_km|floatformat:"2g"}}</td>
+                               <td> {% widthratio summ.tavailable summ.ttotal_day 100 %}%</td>
+                         <td> {% widthratio summ.tinuse summ.ttotal_day 100 %}%</td>
+                       
+                           </tr>
+                           {% endfor %}
+                           <tr>
+                           <th></th>
+
+<th>{{atotal_ff.totalff}}</th>
+<th>-</th><th>-</th><th>-</th><th>-</th><th>{{atotal_ff.total_flt}}</th><th>{{atotal_ff.totalkm|floatformat:"2g"}}</th>
+ <th> {% widthratio atotal_ff.tavail atotal_ff.tday 100 %}%</th>
+ <th> {% widthratio atotal_ff.tuse atotal_ff.tday 100 %}%</th>
+                           </tr>
+                          </tbody>
+                      </table>
+
+</br>
+    <div class="ln_solid"></div>
+                     
                   
  <table class="table table-striped">
                       <thead>
@@ -52,21 +102,77 @@
                       </div>
                       <div class="tab-pane fade" id="profile1" role="tabpanel" aria-labelledby="profile-tab">
                       Total Monthly Fleet Expense Report: <strong>{{total_expense}}</strong>
-                      
+                       <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Field Office (#)</th>
+                          <th>Month</th>
+                          <th>Year</th>
+                          <th>Ownership</th>
+                          <th>Fleet Type</th>
+                          <th># Fleet </th>
+
+                          
+                         <th>Total Expense</th>
+                           <th>Fuel E. </th>
+                           <th>Maintance E.</th>
+                               <th>Rental and/or Tax E.</th>
+
+
+                        </tr>
+                      </thead>
+                          <tbody>
+                          {% for sume in summary_report_expense %}
+                            <tr>
+                              
+                              <td>{{ forloop.counter }}</td>
+                               <td>{{ sume.field_office__name }} {{sume.total_ff}} </td>
+                               <td>{{sume.month_expense}}</td>
+                           <td>{{sume.year_expense}}</td>
+                               <td> {{sume.ownership }} </td>
+                               <td> {{sume.vehicle_type }} </td>
+                               <td>{{ sume.total_fleet }}</td>
+                              <td>{{sume.total_cost|floatformat:"2g"}}</td>
+                                <td>{{sume.total_fuel|floatformat:"2g"}}</td>
+                                  <td>{{sume.total_consumable|add:sume.total_spare|add:sume.total_labour|floatformat:"2g"}}</td>
+                                    <td>{{sume.total_rental|add:sume.total_rental_tax|add:sume.total_tax|floatformat:"2g"}}</td>
+                               
+                                               
+                           </tr>
+                           {% endfor %}
+                           <tr>
+                           <th></th>
+
+<th>{{ btotal_ff.totalff }}</th>
+<th></th><th></th><th></th><th></th><th>{{ btotal_ff.total_flt }}</th>
+ <th>{{ btotal_ff.total_cost|floatformat:"2g"}}</th>
+ <th>{{ btotal_ff.total_fuel|floatformat:"2g"}}</th>
+ <th>{{ btotal_ff.total_spare_consumable|floatformat:"2g"}}</th>
+ <th>{{ btotal_ff.total_rental_and_tax|floatformat:"2g"}}</th>
+
+ 
+                           </tr>
+                          </tbody>
+                      </table>
+
+</br>
+                          <div class="ln_solid"></div>
                         <table class="table table-striped">
                       <thead>
                         <tr>
                           <th>#</th>
                          <th>Field Office</th>
                            <th>Tag Number</th>
+                             <th>Ownership</th>
                             <th>Type</th>
                              
                           <th>Month</th>
                           <th>Year</th>
-                          <th>Total Cost</th>
-                           <th>Fuel </th>
-                           <th>Maintance</th>
-                            <th>Rental</th>
+                          <th>Total Expense</th>
+                           <th>Fuel E. </th>
+                           <th>Maintance E.</th>
+                               <th>Rental and/or Tax E.</th>
                            <th> </th>
                         </tr>
                       </thead>
@@ -76,16 +182,16 @@
                           <th scope="row">{{forloop.counter}}</th>
                           <td>{{me.field_office}}</td>
                           <td>{{me.tag_number}}</td>
-                          <td>{{me.vehicle_type}} </br>
-                         <small>{{me.ownership}}</small>
+                          <td>{{me.ownership}}</td>
+                          <td>{{me.vehicle_type}}                       
                           </td>
                           
                           <td>{{me.month_expense}}</td>
                            <td>{{me.year_expense}}</td> 
                             <td>{{me.total_cost|floatformat:"2g"}}</td> 
                                <td>{{me.fuel_cost|floatformat:"2g"}}</td> 
-                                  <td>{% if me.ownership == 'Mercy Corps' %}{{me.spare_cost|add:me.consumable_cost|add:me.labour_cost|add:me.rental_and_tax_cost|add:me.tax_cost|floatformat:"2g"}}{% else %} 0.00 {% endif %}</td> 
-                                   <td>{% if me.ownership == 'Rental' %}{{me.rental_and_tax_cost|add:me.rental_cost|floatformat:"2g"}}{% else %}0.00{% endif %}</td> 
+                                  <td>{{me.spare_cost|add:me.consumable_cost|add:me.labour_cost|floatformat:"2g"}}</td> 
+                                   <td>{{me.rental_and_tax_cost|add:me.rental_cost|add:me.tax_cost|floatformat:"2g"}}</td> 
                        <td><a target="_blank" href="{% url 'fleet' me.id %}"> View </a></td>
                        </tr>
                           

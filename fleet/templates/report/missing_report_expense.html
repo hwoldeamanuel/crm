@@ -1,6 +1,35 @@
  
  {% extends 'base.html' %}
+{% block content_page_css %}
 
+ {% load static %}
+
+ <style>
+ table,
+       td {
+           
+            text-align: left;
+            padding: 0px;
+        }
+
+        tr {
+            height: 10px;
+            padding: 0px;
+        }
+        th {
+            height: 10px;
+            padding: 0px;
+            font-size: 11px;
+            color:#5A738E;
+        }
+          td {
+            height: 10px;
+            padding: 0px;
+            font-size: 12px;
+            color:#5A738E;
+        }
+</style>
+{% endblock %}
 {% block content %}
 
  <!-- page content -->
