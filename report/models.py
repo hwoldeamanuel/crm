@@ -140,29 +140,7 @@ class IcnReportSubmit(models.Model):
 
 
 
-class IcnReportSubmitApproval_T(models.Model):
-        
-    user = models.ForeignKey(UserRoles, on_delete=models.CASCADE)
-    submit_id = models.OneToOneField(IcnReportSubmit, on_delete=models.CASCADE)
-    approval_date = models.DateTimeField(auto_now_add=True, null=True,   blank=True)
-    approval_note = models.TextField(null=True,  blank=True)
-    approval_status = models.ForeignKey(Approvalt_Status, on_delete=models.CASCADE)
-    document = models.ForeignKey(IcnReportDocument, on_delete=models.CASCADE)
-    
-    def __init__(self, *args, **kwargs):
-        super(IcnReportSubmitApproval_T, self).__init__(*args, **kwargs)
-        self.old_approval_status = self.approval_status
-        self.old_document = self.document
-        
-    
-    def save(self, *args, **kwargs):
-        if (self.approval_status and self.old_approval_status != self.approval_status) or (self.document and self.old_document != self.document):
-            self.approval_date = timezone.now()
-        super(IcnReportSubmitApproval_T, self).save(*args, **kwargs)
-        
-    
-    def __str__(self):
-        return str(self.id)
+
 
 class IcnReportSubmitApproval_M(models.Model):
         
@@ -300,7 +278,7 @@ class ActivityReport(models.Model):
     alead_co_agency = models.ManyToManyField(Portfolio,  blank=True, related_name='arco_leads')
     actual_reporting_date = models.DateField(null=True, blank=True)
     program_lead = models.ForeignKey(UserRoles, on_delete= models.DO_NOTHING, null=True,  blank=True, related_name='arprogram_lead')
-    technical_lead = models.ForeignKey(UserRoles, on_delete= models.DO_NOTHING, null=True,  blank=True, related_name='artechnical_lead')
+    #technical_lead = models.ForeignKey(UserRoles, on_delete= models.DO_NOTHING, null=True,  blank=True, related_name='artechnical_lead')
     mel_lead = models.ForeignKey(UserRoles, on_delete= models.DO_NOTHING, null=True,  blank=True, related_name='armel_lead')
     finance_lead = models.ForeignKey(UserRoles, on_delete= models.DO_NOTHING, null=True,  blank=True, related_name='arfinance_lead')
     description = models.TextField(null=True, blank=True)
@@ -362,6 +340,28 @@ class ActivityReportImpact(models.Model):
 
     def __str__(self):
         return str(self.pk)
+    
+    @property
+    def get_scaleup_check(self):
+        Qs = ActivityReportDisaggregate.objects.filter(activityimpact_id=self.activityimpact_id).values('disaggregate__name').annotate(total_scaleup=Sum('actual_scaleup'), total_pilot=Sum('actual_pilot')).order_by('disaggregate__name')
+        Qs2 = self.actual_impact_scaleup
+        for q in Qs:
+            if q['total_scaleup'] != Qs2:
+                return False
+            else:
+                return True
+    @property
+    def get_pilot_check(self):
+        Qs = ActivityReportDisaggregate.objects.filter(activityimpact_id=self.activityimpact_id).values('disaggregate__name').annotate(total_scaleup=Sum('actual_scaleup'), total_pilot=Sum('actual_pilot')).order_by('disaggregate__name')
+        Qs2 = self.actual_impact_pilot
+        print(Qs2)
+        for q in Qs:
+            if q['total_pilot'] != Qs2:
+                return False
+            else:
+                return True
+    class Meta:
+        ordering = ('id',)
 
 class ActivityReportDocument(models.Model):
     user = models.ForeignKey(User, on_delete= models.DO_NOTHING, null=True,  blank=True, related_name='activityreportuploaded_by')
@@ -401,29 +401,7 @@ class ActivityReportSubmit(models.Model):
     def __str__(self):
         return str(self.id)
 
-class ActivityReportSubmitApproval_T(models.Model):
-   
-    user = models.ForeignKey(UserRoles, on_delete=models.CASCADE)
-    submit_id = models.OneToOneField(ActivityReportSubmit, on_delete=models.CASCADE)
-    approval_date = models.DateTimeField(auto_now_add=True, null=True,   blank=True)
-    approval_note = models.TextField(null=True,  blank=True)
-    approval_status = models.ForeignKey(Approvalt_Status, on_delete=models.CASCADE)
-    document = models.ForeignKey(ActivityReportDocument, on_delete=models.CASCADE)
-    
-    def __init__(self, *args, **kwargs):
-        super(ActivityReportSubmitApproval_T, self).__init__(*args, **kwargs)
-        self.old_approval_status = self.approval_status
-        self.old_document = self.document
-        
-    
-    def save(self, *args, **kwargs):
-        if (self.approval_status and self.old_approval_status != self.approval_status) or (self.document and self.old_document != self.document):
-            self.approval_date = timezone.now()
-        super(ActivityReportSubmitApproval_T, self).save(*args, **kwargs)
-        
-    
-    def __str__(self):
-        return str(self.id)
+
 
 class ActivityReportSubmitApproval_M(models.Model):
    
@@ -518,3 +496,17 @@ class ActivityReportSubmitApproval_F(models.Model):
     
     def __str__(self):
         return str(self.id)
+    
+class ActivityReportDisaggregate(models.Model):
+    activityreport =  models.ForeignKey(
+        ActivityReport, on_delete=models.CASCADE, null=True, blank=True)
+    activityimpact = models.ForeignKey(ActivityImpact, on_delete=models.CASCADE, null=True, blank=True)
+    disaggregate = models.OneToOneField('conceptnote.ActivityDisaggregate', on_delete=models.CASCADE, null=True, blank=True)
+   
+    actual_pilot  = models.FloatField(null=True, blank=True)
+    actual_scaleup  = models.FloatField(null=True, blank=True)   
+    
+    
+
+    def __str__(self):
+        return str(self.activityreport)

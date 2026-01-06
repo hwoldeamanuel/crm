@@ -130,31 +130,36 @@
                                  <div class="invalid-feedback">{{ form.cs_currency.errors|first }}</div>
                             </div>
                           </div>
-                          <div class="form-group row">
-                            <label class="col-form-label col-md-2 col-sm-2 label-align" >Program:<span class="required"></span>
-                            </label>
-                            <div class="col-md-2 col-sm-2">
-                            
-                                {% render_field form.program_lead class="form-control form-control-sm" %}
-                                  <div class="invalid-feedback">{{ form.program_lead.errors|first }}</div>
-                                </div>
-                                <label class="col-form-label col-md-1 col-sm-1 label-align" >Techncial: <span class="required"></span>
+                                                    <div class="form-group row">
+                           
+                                    <label class="col-form-label col-md-2 col-sm-2 label-align" >MEL Lead: <span class="required"></span>
                                 </label>
-                                <div class="col-md-2 col-sm-2">
-                                  {% render_field form.technical_lead class="form-control form-control-sm"  %}
-                                  <div class="invalid-feedback">{{ form.technical_lead.errors|first }}</div>
+                                <div class="col-md-3 col-sm-3">
+                                  {% render_field form.mel_lead class="form-control form-control-sm"  %}
+                                  <div class="invalid-feedback">{{ form.mel_lead.errors|first }}</div>
                                   </div>
+                              
                             
-                            
-                              <label class="col-form-label col-md-1 col-sm-1 label-align" >Finance:<span class="required"></span>
+                              <label class="col-form-label col-md-2 col-sm-2 label-align" >Finance Lead:<span class="required"></span>
                               </label>
-                              <div class="col-md-2 col-sm-2">
+                              <div class="col-md-3 col-sm-3">
                                 {% render_field form.finance_lead class="form-control form-control-sm" %}
                                   <div class="invalid-feedback">{{ form.finance_lead.errors|first }}</div>
 
 
                                 </div>
+                          </div>
+                          <div class="form-group row">
+                                 <label class="col-form-label col-md-2 col-sm-2 label-align" >Program Lead:<span class="required"></span>
+                            </label>
+                            <div class="col-md-3 col-sm-3" >
+                            
+                                {% render_field form.program_lead class="form-control form-control-sm" %}
+                                  <div class="invalid-feedback">{{ form.program_lead.errors|first }}</div>
+                                </div>
+
                          </div>
+
                          <div class="form-group row">
                             <label class="col-form-label col-md-2 col-sm-2 label-align" >Description:<span class="required"></span>
                                 </label>

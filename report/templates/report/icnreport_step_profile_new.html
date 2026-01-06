@@ -100,20 +100,13 @@
                           </div>
                           <div class="form-group row">
                            
-                                <label class="col-form-label col-md-2 col-sm-2 label-align" >Techncial Lead: <span class="required"></span>
-                                </label>
-                                <div class="col-md-3 col-sm-3">
-                                  {% render_field form.technical_lead class="form-control form-control-sm"  %}
-                                  <div class="invalid-feedback">{{ form.technical_lead.errors|first }}</div>
-                                  </div>
                                     <label class="col-form-label col-md-2 col-sm-2 label-align" >MEL Lead: <span class="required"></span>
                                 </label>
                                 <div class="col-md-3 col-sm-3">
                                   {% render_field form.mel_lead class="form-control form-control-sm"  %}
                                   <div class="invalid-feedback">{{ form.mel_lead.errors|first }}</div>
                                   </div>
-                                </div>
-                                <div class="form-group row">
+                              
                             
                               <label class="col-form-label col-md-2 col-sm-2 label-align" >Finance Lead:<span class="required"></span>
                               </label>
@@ -123,6 +116,8 @@
 
 
                                 </div>
+                          </div>
+                          <div class="form-group row">
                                  <label class="col-form-label col-md-2 col-sm-2 label-align" >Program Lead:<span class="required"></span>
                             </label>
                             <div class="col-md-3 col-sm-3" >

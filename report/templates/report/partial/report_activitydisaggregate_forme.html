@@ -1,0 +1,24 @@
+<tr>
+ <td colspan="2"></td>
+           
+   <td style="text align: right;">{{ impact_dis.name }}</td>
+    <td>{{ impact_dis.type }}</td>
+              <td>{{ impact_dis.pilot }}</td>
+              <td>{{ impact_dis.scaleup }}</td>
+    
+    <td  style="width:10%">
+        {{ form.actual_pilot }}
+        {{ form.actual_pilot.errors }}
+    </td>
+    <td  style="width:12%">
+        {{ form.actual_scaleup }}
+        {{ form.actual_scaleup.errors }}
+    </td>
+   
+    <td class="text-left" colspan="1">
+   
+    <a hx-post="{% url 'edit_activityreport_impact_dis' pk=activityreport_impact_dis.id %}" class="btn btn-sm btn-success py-1" style="font-size: 0.8em;"  hx-target="closest tr" hx-swap="outerHTML" hx-include="closest tr"><i class="fa fa-save"> </i> </a>
+   <button type="button" class="btn btn-sm btn-secondary py-1" style="font-size: 0.8em;" value="Previous Page" onClick="javascript:history.go(0);"><i class="fa fa-remove"></i></button>
+       <a hx-post="{% url 'delete_activityreport_impact_dis' pk=activityreport_impact_dis.id %}" class="btn btn-sm btn-danger py-1" style="font-size: 0.8em;"  hx-confirm='Are you sure?'  hx-target="closest tr" hx-swap="outerHTML" hx-include="closest tr"><i class="fa fa-trash"> </i> </a>
+    </td><td></td><td></td>
+</tr>

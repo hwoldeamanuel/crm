@@ -16,344 +16,137 @@
 
   
 <style>
-.form_wizard .stepContainer {
-    display: block;
+.nav-tabs.wizard {
+  background-color: transparent;
+  padding: 0;
+  width: 100%;
+  margin: 0em auto;
+  border-radius: .25em;
+  clear: both;
+  border-bottom: none;
+}
+
+.nav-tabs.wizard li {
+  width: 100%;
+  float: none;
+  margin-bottom: 3px;
+}
+
+.nav-tabs.wizard li>* {
+  position: relative;
+  padding: 1em .8em .8em 2.5em;
+  color: #999999;
+  background-color: #dedede;
+  border-color: #dedede;
+}
+
+.nav-tabs.wizard li.completed>* {
+  color: #fff !important;
+  background-color: #88b153 !important;
+  border-color: #88b153 !important;
+  border-bottom: none !important;
+}
+
+.nav-tabs.wizard li.active>* {
+  color: #fff !important;
+  background-color: #34495E !important;
+  border-color: #34495E !important;
+  border-bottom: none !important;
+}
+
+.nav-tabs.wizard li::after:last-child {
+  border: none;
+}
+
+.nav-tabs.wizard > li > a {
+  opacity: 1;
+  font-size: 14px;
+}
+
+.nav-tabs.wizard a:hover {
+  color: #fff;
+  background-color: #34495E;
+  border-color: #34495E
+}
+
+span.nmbr {
+  display: inline-block;
+  padding: 5px 0 0 0;
+  background: #ffffff;
+  width: 20px;
+  line-height: 100%;
+  height: 20px;
+  margin: auto;
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: 10px;
+  color: #555;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+@media(min-width:992px) {
+  .nav-tabs.wizard li {
     position: relative;
-    margin: 0;
     padding: 0;
-    border: 0 solid #CCC;
-    overflow-x: hidden
-}
-
-.wizard_horizontal ul.wizard_steps {
-    display: table;
-    list-style: none;
-    position: relative;
-    width: 100%;
-    margin: 0 0 20px
-}
-
-.wizard_horizontal ul.wizard_steps li {
-    display: table-cell;
-    text-align: center
-}
-
-.wizard_horizontal ul.wizard_steps li a,.wizard_horizontal ul.wizard_steps li:hover {
-    display: block;
-    position: relative;
-    -moz-opacity: 1;
-    filter: alpha(opacity=100);
-    opacity: 1;
-    color: #666
-}
-
-.wizard_horizontal ul.wizard_steps li a:before {
-    content: "";
-    position: absolute;
-    height: 4px;
-    background: #ccc;
-    top: 20px;
-    width: 100%;
-    z-index: 4;
-    left: 0
-}
-
-.wizard_horizontal ul.wizard_steps li a.disabled .step_no {
-    background: #ccc
-}
-
-.wizard_horizontal ul.wizard_steps li a .step_no {
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
-    border-radius: 100px;
-    display: block;
-    margin: 0 auto 5px;
-    font-size: 16px;
+    margin: 0px 4px 4px 0;
+    width: 24%;
+    float: left;
     text-align: center;
-    position: relative;
-    z-index: 5
-}
-
-.wizard_horizontal ul.wizard_steps li a.selected:before,.step_no {
-    background: #34495E;
-    color: #fff
-}
-
-.wizard_horizontal ul.wizard_steps li a.done:before,.wizard_horizontal ul.wizard_steps li a.done .step_no {
-    background: #1ABB9C;
-    color: #fff
-}
-
-.wizard_horizontal ul.wizard_steps li:first-child a:before {
-    left: 50%
-}
-
-.wizard_horizontal ul.wizard_steps li:last-child a:before {
-    right: 50%;
-    width: 50%;
-    left: auto
-}
-
-.wizard_verticle .stepContainer {
-    width: 80%;
-    float: left;
-    padding: 0 10px
-}
-
-.actionBar {
-    width: 100%;
-    border-top: 1px solid #ddd;
-    padding: 10px 5px;
-    text-align: right;
-    margin-top: 10px
-}
-
-.actionBar .buttonDisabled {
-    cursor: not-allowed;
-    pointer-events: none;
-    opacity: .65;
-    filter: alpha(opacity=65);
-    -webkit-box-shadow: none;
-    box-shadow: none
-}
-
-.actionBar a {
-    margin: 0 3px
-
-}
-.wizard_verticle .wizard_content {
-    width: 80%;
-    float: left;
-    padding-left: 20px
-}
-
-.wizard_verticle ul.wizard_steps {
-    display: table;
-    list-style: none;
-    position: relative;
-    width: 20%;
-    float: left;
-    margin: 0 0 20px
-}
-
-.wizard_verticle ul.wizard_steps li {
-    display: list-item;
-    text-align: center
-}
-
-.wizard_verticle ul.wizard_steps li a {
-    height: 80px
-}
-
-.wizard_verticle ul.wizard_steps li a:first-child {
-    margin-top: 20px
-}
-
-.wizard_verticle ul.wizard_steps li a,.wizard_verticle ul.wizard_steps li:hover {
-    display: block;
-    position: relative;
-    -moz-opacity: 1;
-    filter: alpha(opacity=100);
-    opacity: 1;
-    color: #666
-}
-
-.wizard_verticle ul.wizard_steps li a:before {
-    content: "";
+  }
+  .nav-tabs.wizard li.active a {
+    padding-top: 15px;
+  }
+  .nav-tabs.wizard li::after,
+  .nav-tabs.wizard li>*::after {
+    content: '';
     position: absolute;
-    height: 100%;
-    background: #ccc;
-    top: 20px;
-    width: 4px;
-    z-index: 4;
-    left: 49%
-}
-
-.wizard_verticle ul.wizard_steps li a.disabled .step_no {
-    background: #ccc
-}
-
-.wizard_verticle ul.wizard_steps li a .step_no {
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
-    border-radius: 100px;
-    display: block;
-    margin: 0 auto 5px;
-    font-size: 16px;
-    text-align: center;
-    position: relative;
-    z-index: 5
-}
-
-.wizard_verticle ul.wizard_steps li a.selected:before,.step_no {
-    background: #34495E;
-    color: #fff
-}
-
-.wizard_verticle ul.wizard_steps li a.done:before,.wizard_verticle ul.wizard_steps li a.done .step_no {
-    background: #1ABB9C;
-    color: #fff
-}
-
-.wizard_verticle ul.wizard_steps li:first-child a:before {
-    left: 49%
-}
-
-.wizard_verticle ul.wizard_steps li:last-child a:before {
-    left: 49%;
-    left: auto;
-    width: 0
-}
-
-.form_wizard .loader {
-    display: none
-}
-
-.form_wizard .msgBox {
-    display: none
-}
-
-.progress {
-    border-radius: 0
-}
-
-.progress-bar-info {
-    background-color: #3498DB
-}
-
-.progress-bar-success {
-    background-color: #26B99A
-}
-
-.progress_summary .progress {
-    margin: 5px 0 12px !important
-}
-
-.progress_summary .row {
-    margin-bottom: 5px
-}
-
-.progress_summary .row .col-xs-2 {
-    padding: 0
-}
-
-.progress_summary .more_info span {
-    text-align: right;
-    float: right
-}
-
-.progress_summary .data span {
-    text-align: right;
-    float: right
-}
-
-.progress_summary p {
-    margin-bottom: 3px;
-    width: 100%
-}
-
-.progress_title .left {
-    float: left;
-    text-align: left
-}
-
-.progress_title .right {
-    float: right;
-    text-align: right;
-    font-weight: 300
-}
-
-.progress.progress_sm {
-    border-radius: 0;
-    margin-bottom: 18px;
-    height: 10px !important
-}
-
-.progress.progress_sm .progress-bar {
-    height: 10px !important
-}
-
-.dashboard_graph p {
-    margin: 0 0 4px
-}
-
-ul.verticle_bars {
-    width: 100%
-}
-
-ul.verticle_bars li {
-    width: 23%;
-    height: 200px;
+    top: 1px;
+    left: 100%;
+    height: 0;
+    width: 0;
+    border: 22px solid transparent;
+    border-right-width: 0;
+    /*border-left-width: 38px*/
+  }
+  .nav-tabs.wizard li::after {
+    z-index: 1;
+    -webkit-transform: translateX(4px);
+    -moz-transform: translateX(4px);
+    -ms-transform: translateX(4px);
+    -o-transform: translateX(4px);
+    transform: translateX(4px);
+    border-left-color: #fff;
     margin: 0
-}
-
-.progress.vertical.progress_wide {
-    width: 35px
-}
-
-  .icheckbox_flat-green1, .iradio_flat-green1 {
-    position: relative;
-    display: inline-block;
-    border: 1px solid #a9a9a9;
-    border-radius: .25em;
-    width: 1.3em;
-    height: 1.3em;
-    float: left;
-    margin-right: .5em;
-    accent-color: #169F85;
-    
-   
-    
-   
-    
-}
-.input-xs {
+  }
+  .nav-tabs.wizard li>*::after {
+    z-index: 2;
+    border-left-color: inherit
+  }
+  .nav-tabs.wizard > li:nth-of-type(1) > a {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+  }
+  .nav-tabs.wizard li:last-child a {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+  .nav-tabs.wizard li:last-child {
+    margin-right: 0;
+  }
+  .nav-tabs.wizard li:last-child a:after,
+  .nav-tabs.wizard li:last-child:after {
+    content: "";
+    border: none;
+  }
+ .input-xs {
         height: 22px;
-        padding: 1px 1px;
-        font-size: 12px;
-        line-height: 1.5;
-        border-radius: 3px;
-     
-        }
-
-
-.icheckbox_flat-green1 {
-    background-position: 0 0;
-}
-    .icheckbox_flat-green.checked1 {
-        background-position: -22px 0;
-    }
-    .icheckbox_flat-green.disabled {
-        background-position: -44px 0;
-        cursor: default;
-    }
-    .icheckbox_flat-green.checked.disabled {
-        background-position: -66px 0;
-    }
-
-.iradio_flat-green1 {
-    background-position: -88px 0;
-}
-    .iradio_flat-green.checked1 {
-        background-position: -110px 0;
-    }
-    .iradio_flat-green.disabled {
-        background-position: -132px 0;
-        cursor: default;
-    }
-    .iradio_flat-green.checked.disabled {
-        background-position: -154px 0;
-    }
-     .input-xs {
-        height: 22px;
-        padding: 1px 1px;
+        padding: 2px 2px;
         font-size: 12px;
         line-height: 1.5;
         border-radius: 3px;
         }
- .iCheck-helper {
+  .iCheck-helper {
         position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;
         
        
@@ -376,103 +169,120 @@ ul.verticle_bars li {
     
 }
 
+}
+
+.nav-tabs.msg_list .nav-link.active {
+    border-left: 4px solid #2da9e9;
+    border-top-color: rgba(205, 211, 237, 0.75);
+    border-bottom-color: rgba(205, 211, 237, 0.75);
+    background-color: #fbfcff;
+  
+}
+.list-container {
+    max-height: 400px; /* Fixed height for scrolling */
+    overflow-y: scroll; /* Enable vertical scrollbar */
+    position: relative; /* Often useful for positioning child elements */
+}
 </style>
 
-{% endblock content_page_css %}
+{% endblock %}
+
 {% block content %}
 {% load static %}
 
-    <div class="right_col" role="main">
+ <!-- page content -->
+	        <!-- page content -->
+        <div class="right_col" role="main">
           <div class="">
-            
- 
-   <div class="clearfix"></div>
+         
+
+            <div class="clearfix"></div>
+
             <div class="row">
-            <div class="col-md-12 col-sm-12  ">
+            <div class="col-md-3 col-sm-3">
+            <div class="list-container" id="scrollable-list">
+            {% for list in trequests %}
+    <a href="/travel/request/{{list.id}}/detail/" class="list-group-item list-group-item-action">Item {{list.id}}
+     <span >
+                                                       <img class="img-responsive  img-circle profile_img " src="{% static 'images/user.png' %}" alt="avatar" title="{{ list.user.profile.full_name}}" style="width: 30px; height:30px; margin-top: 0px; margin-bottom:1px; margin-left: 0px;margin-right: 0px;">
+                        </span>
+                        <span>
+                          <span style="{% if request.resolver_match.kwargs.id == list.id %} color:#245594;{% endif %}">{{list.user.profile.first_name}} {{list.user.profile.last_name|make_list|first}}</span>
+                          <span class="pull-right"><small>{{list.created_at|date:"M d"}}</small></span>
+                        </span>
+                        <span class="message" style="{% if request.resolver_match.kwargs.id == list.id %} color:#245594;{% endif %}">
+                         <i class="fa fa-map-marker"></i> {{list.destination}}
+                        </span>
+                        <span class="message" style="{% if request.resolver_match.kwargs.id == list.id %} color:#245594;{% endif %}">
+                          <i class="fa fa-ellipsis-v"></i> {{list.purpose}}
+                        </span>
+                        <span class="message" style="{% if request.resolver_match.kwargs.id == list.id %} color:#245594;{% endif %}">
+                          <i class="fa fa-calendar"></i> {{list.departure_date}} -  {{list.return_date}}
+                        </span>
+    
+    
+    </a>
+    <!-- ... many more items ... -->{% endfor %}
+  
+</div>
+</div>
+            
+
+<div class="col-md-9 col-sm-9 ">
+
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Travel Request Details</h2>
-                    <ul class="nav navbar-right panel_toolbox">
-                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                      </li>
-                      <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#">Settings 1</a>
-                            <a class="dropdown-item" href="#">Settings 2</a>
-                          </div>
-                      </li>
-                      <li><a class="close-link"><i class="fa fa-close"></i></a>
-                      </li>
-                    </ul>
+                    <h2>Travel Information <small>Reqest | Approval</small></h2>
+                 
                     <div class="clearfix"></div>
                   </div>
-                  <div class="x_content">
-                  <div id="wizard_verticle" class="form_wizard wizard_verticle">
-                      <ul class="list-unstyled wizard_steps anchor">
-                        <li>
-                          <a href="{% if trequest %}/travel/request/{{trequest.id}}/detail/{% else %}/travel/request/new/{% endif %}" class="{% if 'detail' in request.path or 'new' in request.path %}selected{% endif %}" isdone="{% if trequest  %}1{% else %}0{% endif %}" rel="1">
-                         
-                            <span class="step_no">1</span>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#step-22" class="disabled" isdone="0" rel="2">
-                            <span class="step_no">2</span>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#step-33" class="disabled" isdone="0" rel="3">
-                            <span class="step_no">3</span>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#step-44" class="disabled" isdone="0" rel="4">
-                            <span class="step_no">4</span>
-                          </a>
-                        </li>
-                      </ul>
+                 <div class="x_content">
+                     <ul class="nav nav-tabs wizard">
+              <li  class="{% if 'detail' in request.path or 'new' in request.path or 'edit' in request.path %}active{% elif trequest.get_finance_total == 100.00   %}completed{% endif %}"><a href="{% if trequest %}/travel/request/{{trequest.id}}/detail/{% else %}/travel/request/new/{% endif %}">Travel <small>Information</small></a></li>
+              <li class="{% if 'cost' in request.path %}active{% elif not trequest or trequest.get_finance_total != 100.00  %}nav-link disabled{% elif trequest.travel_days == trequest.acc_days and trequest.travel_days2 == trequest.pd_days %}completed{% endif %}"><a href="/travel/request/{{trequest.id}}/cost/" >Estimated Cost</a></li></a></li>
+              <li class="{% if 'review' in request.path  %}active{% elif not trequest or trequest.travel_days != trequest.acc_days or trequest.travel_days2 != trequest.pd_days %}nav-link disabled{% elif trequest.requestsubmit.status_id == 2 %}completed{%endif %}"><a href="/travel/request/{{trequest.id}}/review/">Review & Submit</a></li>
+              <li class="{% if 'approval' in request.path  %}active{% elif trequest.requestsubmit.status_id != 2 %}nav-link disabled{% elif trequest.requestsubmit.submitapproval_b.approval_status_id == 3 and trequest.requestsubmit.submitapproval_f.approval_status_id == 3 and trequest.requestsubmit.submitapproval_s.approval_status_id == 3%}completed{%endif %}"><a href="/travel/request/{{trequest.id}}/approval/"> Approval</a></li>
+             
 
-                      
-                      
-                      
-                      
-                   
-                        <div class="stepContainer" style="height: 689px;">
-                           
-                           
-                         	{% block content_travel_step %}
+            </ul>
+
+                   	{% block content_travel_step %}
 					{% endblock %}
-                      </div>
-                    
+</div>
 
-                  
                 </div>
               </div>
 
             </div>
-            </div>
 
+          </div>
         </div>
-     </div>
-      </div>
-       </div>
-        </div>
-
+        <!-- /page content -->
+			<!-- /page content -->
 
 {% endblock %}
-{% block content_page_js %} 
-{% load static %}
+{% block content_page_js %}
 
 
   <!-- PNotify -->
     <script src="{% static 'vendors/pnotify/dist/pnotify.js' %}"></script>
     <script src="{% static 'vendors/pnotify/dist/pnotify.buttons.js' %}"></script>
     <script src="{% static 'vendors/pnotify/dist/pnotify.nonblock.js' %}"></script>
-    
-
-{% endblock %}
 
 
 
-{% load static %}
+<script>
+// Wait for the document to be ready (if using jQuery)
+document.addEventListener('DOMContentLoaded', (event) => {
+    const selectedItem = document.getElementById('selected-item');
+    if (selectedItem) {
+        // Use scrollIntoView with 'center' alignment for optimal positioning
+        selectedItem.scrollIntoView({
+            behavior: 'smooth', // Optional: adds smooth scrolling animation
+            block: 'center'     // Aligns the top of the element to the center of the container
+        });
+        selectedItem.focus(); // Set focus to the element
+    }
+});
+</script>
+{% endblock content_page_js %}

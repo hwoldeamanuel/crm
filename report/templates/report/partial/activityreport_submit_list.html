@@ -83,47 +83,8 @@
 
     
 </tr>
-            <tr>
+           
         <td>2</td>
-        <td>
-          <a>Techncial</a>
-          <br />
-          <small>{{ activityreport.technical_lead.user.profile.full_name }}</small>
-        </td>
-        {% if activityreportsubmit %}
-        <td>{% if activityreportsubmit.activityreportsubmitapproval_t.approval_status_id == 1 %}{{ activityreportsubmit.submission_date|timesince }} {% else %} {{activityreportsubmit.activityreportsubmitapproval_t.approval_date|date:"M d,Y"}}</br><small>{{activityreportsubmit.activityreportsubmitapproval_t.approval_date|time}}</small> {% endif %}</td>
-       
-        <td>{{activityreportsubmit.activityreportsubmitapproval_t.document }}</td>
-        <td>
-          <span class="badge {% if activityreportsubmit.activityreportsubmitapproval_t.approval_status_id == 1 %} badge-primary{% elif activityreportsubmit.activityreportsubmitapproval_t.approval_status_id == 2 %}badge-warning {% elif activityreportsubmit.activityreportsubmitapproval_t.approval_status_id == 3 %}badge-success{% elif activityreportsubmit.activityreportsubmitapproval_t.approval_status_id == 4 %}badge-danger {% endif %}" >{% if activityreportsubmit.activityreportsubmitapproval_t %} {{ activityreportsubmit.activityreportsubmitapproval_t.approval_status.name }} {% endif %}</span>
-        </td>
-         <td><div class="btn-group">
-                    <button type="button" class="{% if request.user != activityreport.technical_lead.user or activityreportsubmit.activityreportsubmitapproval_t.approval_status_id != 1 %}disabled {% endif %}btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      Action
-                    </button>
-                    <div class="dropdown-menu" x-placement="bottom-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, 38px, 0px);">
-                                           <a class="dropdown-item" hx-get={% url 'activityreport_approvalt' activityreportsubmit.id 3 %} hx-target="#SubmitList">Endorese Request</a>
-                      <a class="dropdown-item" hx-get={% url 'activityreport_approvalt' activityreportsubmit.id 2 %} hx-target="#SubmitList">Require Revision</a>
-
-                     
-                      <div class="dropdown-divider"></div>
-                       <a class="dropdown-item" hx-get={% url 'activityreport_approvalt' activityreportsubmit.id 4 %} hx-target="#SubmitList">Reject Request</a>
-                    </div>
-                  </div></td>
-        {% else %}
-        <td></td>
-        <td></td>
-        <td></td>
-       <td></td>
-        {% endif%}
-
-
-
-<td></td>
-    
-</tr>
- <tr>
-        <td>3</td>
         <td>
           <a>MEL</a>
           <br />
@@ -162,7 +123,7 @@
     
 </tr>
 <tr>
-    <td>4</td>
+    <td>3</td>
     <td>
       <a>Finance</a>
       <br />
@@ -200,7 +161,7 @@
 
 </tr>
 <tr>
-    <td>5</td>
+    <td>4</td>
     <td>
       <a>Program</a>
       <br />

@@ -11,10 +11,10 @@ from django.http import QueryDict
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
 from django.views.generic import FormView, TemplateView
-from conceptnote.models import Disaggregate
+from conceptnote.models import Disaggregate, ActivityDisaggregate
 from django.contrib.auth import get_user_model
-from .models import IcnReportDisaggregate,IcnReport, ActivityReport, ActivityReportImpact,ActivityReportImplementationArea,  IcnReportImplementationArea,  Impact, IcnReportSubmit, IcnReportDocument, IcnReportSubmitApproval_M,  IcnReportSubmitApproval_P, IcnReportSubmitApproval_F, IcnReportSubmitApproval_T, ActivityReportDocument, ActivityReportSubmit, ActivityReportSubmitApproval_F,ActivityReportSubmitApproval_P,ActivityReportSubmitApproval_T, IcnReportImpact, ActivityImpact, ActivityReportSubmitApproval_M
-from .forms import IcnReportImpactDisForm,IcnReportForm, ActivityReportForm,ActivityReportImpactForm, ActivityReportImpactForm, ActivityReportAreaFormE, IcnReportAreaFormE, IcnReportSubmitForm,  IcnReportDocumentForm, IcnReportApprovalMForm, IcnReportApprovalTForm, IcnReportApprovalFForm, IcnReportApprovalPForm, ActivityReportSubmitForm, ActivityReportDocumentForm, ActivityReportApprovalFForm, ActivityReportApprovalPForm,ActivityReportApprovalTForm,IcnReportImpactForm, ActivityReportApprovalMForm
+from .models import IcnReportDisaggregate, ActivityReportDisaggregate, IcnReport, ActivityReport, ActivityReportImpact,ActivityReportImplementationArea,  IcnReportImplementationArea,  Impact, IcnReportSubmit, IcnReportDocument, IcnReportSubmitApproval_M,  IcnReportSubmitApproval_P, IcnReportSubmitApproval_F, ActivityReportDocument, ActivityReportSubmit, ActivityReportSubmitApproval_F,ActivityReportSubmitApproval_P, IcnReportImpact, ActivityImpact, ActivityReportSubmitApproval_M
+from .forms import IcnReportImpactDisForm,IcnReportForm, ActivityReportForm,ActivityReportImpactForm, ActivityReportImpactForm, ActivityReportAreaFormE, IcnReportAreaFormE, IcnReportSubmitForm,  IcnReportDocumentForm, IcnReportApprovalMForm,  IcnReportApprovalFForm, IcnReportApprovalPForm, ActivityReportSubmitForm, ActivityReportDocumentForm, ActivityReportApprovalFForm, ActivityReportApprovalPForm,IcnReportImpactForm, ActivityReportApprovalMForm, ActivityReportImpactDisForm
 from program.models import  Program
 from django.http import QueryDict
 from django.conf import settings
@@ -232,7 +232,7 @@ def icnreport_submit_form(request, id, sid):
             if icnreportsubmit.submission_status_id == 2:
                 IcnReport.objects.filter(icn_id=icn.id).update(status=True)
                 IcnReport.objects.filter(icn_id=icn.id).update(approval_status="Pending Approval")
-                IcnReportSubmitApproval_T.objects.create(user = icnreport.technical_lead,submit_id = instance, document = instance.document, approval_status=Approvalt_Status.objects.get(id=1))
+                #IcnReportSubmitApproval_T.objects.create(user = icnreport.technical_lead,submit_id = instance, document = instance.document, approval_status=Approvalt_Status.objects.get(id=1))
                 IcnReportSubmitApproval_M.objects.create(user = icnreport.mel_lead,submit_id = instance, document = instance.document, approval_status=Approvalt_Status.objects.get(id=1))
                 IcnReportSubmitApproval_P.objects.create(user = icnreport.program_lead,submit_id = instance,document = instance.document, approval_status=Approvalf_Status.objects.get(id=1))
                 IcnReportSubmitApproval_F.objects.create(user = icnreport.finance_lead,submit_id = instance,document = instance.document, approval_status=Approvalt_Status.objects.get(id=1))
@@ -280,42 +280,6 @@ def icnreport_submit_detail(request, pk):
     return render(request, 'report/icnreportsubmit_detail.html', context)
 
 
-@login_required(login_url='login') 
-def icnreport_approvalt(request, id, did):
-     
-    icnreportsubmitApproval_t = get_object_or_404(IcnReportSubmitApproval_T, submit_id_id=id)
-    icnreportsubmit = get_object_or_404(IcnReportSubmit, pk=id)
-    
-    icnreport =  get_object_or_404(IcnReport, id=icnreportsubmit.icnreport_id)
-    
-       
-    if request.method == "GET":
-        form = IcnReportApprovalTForm(instance=icnreportsubmitApproval_t, user=request.user, did=did, icnreport=icnreport.id)
-        context = {'icnreportsubmitapproval_t':icnreportsubmitApproval_t, 'form': form, 'icnreport':icnreport, 'did':did}
-        return render(request, 'report/icnreport_approval_tform.html', context)
-    
-    elif request.method == "PUT":
-        icnreportsubmitApproval_t = get_object_or_404(IcnReportSubmitApproval_T, submit_id_id=id)
-        data = QueryDict(request.body).dict()
-        form = IcnReportApprovalTForm(data, instance=icnreportsubmitApproval_t, did=did)
-        if form.is_valid():
-            instance =form.save()
-           
-            icnreportsubmit = get_object_or_404(IcnReportSubmit, pk=id)
-            icnreport =  get_object_or_404(IcnReport, id=icnreportsubmit.icnreport_id)
-            myid = int(icnreportsubmit.id)
-            update_approval_status(myid)
-            send_icnreport_notify(icnreport.id, 2) 
-            return HttpResponse(
-                status=204,
-                headers={
-                    'HX-Trigger': json.dumps({
-                        "SubmitApprovalListChanged": None,
-                        "showMessage": f"{instance.id} added."
-                    })
-                })
-        
-        return render(request, 'report/icnreport_approval_tform.html', {'form':form, 'did':did})
   
 @login_required(login_url='login') 
 def icnreport_approvalm(request, id, did):
@@ -591,29 +555,28 @@ def current_submit_approval_list(request, id):
 
 def update_approval_status(id):
     icnreportsubmit = get_object_or_404(IcnReportSubmit, pk=id)
-    icnsubmitapproval_t = get_object_or_404(IcnReportSubmitApproval_T, submit_id_id=id)
+    #icnsubmitapproval_t = get_object_or_404(IcnReportSubmitApproval_T, submit_id_id=id)
     icnsubmitapproval_m = get_object_or_404(IcnReportSubmitApproval_M, submit_id_id=id)
     icnsubmitapproval_f = get_object_or_404(IcnReportSubmitApproval_F, submit_id_id=id)
     
-    approval_t = icnsubmitapproval_t.approval_status
-    approval_t = int(approval_t)
+    #approval_t = icnsubmitapproval_t.approval_status
+    #approval_t = int(approval_t)
     approval_m = icnsubmitapproval_m.approval_status
     approval_m = int(approval_m)
     approval_f = icnsubmitapproval_f.approval_status
     approval_f = int(approval_f)
         
-    if approval_t == 4 or approval_m== 4 or approval_f== 4:
+    if  approval_m== 4 or approval_f== 4:
         IcnReport.objects.filter(pk=icnreportsubmit.icnreport_id).update(approval_status="Rejected")
-    if approval_t == 2 or approval_m== 2 or approval_f== 2:
+    if  approval_m== 2 or approval_f== 2:
         IcnReport.objects.filter(pk=icnreportsubmit.icnreport_id).update(approval_status="Revision Required")
-    elif approval_t == 1 and approval_m == 1 and approval_m == 1:
+    elif  approval_m == 1 and approval_m == 1:
         IcnReport.objects.filter(pk=icnreportsubmit.icnreport_id).update(approval_status="Pending Approval")
-    elif approval_t == 3 and approval_m ==3 and approval_f==3:
-         IcnReport.objects.filter(pk=icnreportsubmit.icnreport_id).update(approval_status="75% Approved")
-    elif (approval_t == 3 and approval_m ==3 and approval_f !=3) or (approval_t == 3 and approval_m !=3 and approval_f ==3) or (approval_t != 3 and approval_m ==3 and approval_f ==3):
-        IcnReport.objects.filter(pk=icnreportsubmit.icnreport_id).update(approval_status="50% Approved")
-    elif (approval_t == 3 and approval_m !=3 and approval_f !=3) or (approval_t != 3 and approval_m ==3 and approval_f !=3) or (approval_t != 3 and approval_m !=3 and approval_f ==3):
-        IcnReport.objects.filter(pk=icnreportsubmit.icnreport_id).update(approval_status="25% Approved") 
+    elif  approval_m ==3 and approval_f==3:
+         IcnReport.objects.filter(pk=icnreportsubmit.icnreport_id).update(approval_status="66.7% Approved")
+   
+    elif ( approval_m !=3 and approval_f !=3) or (approval_m ==3 and approval_f !=3) :
+        IcnReport.objects.filter(pk=icnreportsubmit.icnreport_id).update(approval_status="33.3% Approved") 
 
       
 def update_approval_status_final(id):
@@ -886,10 +849,11 @@ def activityreport_add(request, id):
 def activityreport_edit(request, id): 
     activity = Activity.objects.get(id=id)
     activityreport =  ActivityReport.objects.get(activity_id=id)
+    user = request.user
     
     if request.method == "POST":
        
-        form = ActivityReportForm(request.POST, instance=activityreport, user=request.user)
+        form = ActivityReportForm(request.POST, instance=activityreport, activity=activity.id, user=request.user)
         if form.is_valid():
             instance = form.save()
             selected_woredas = request.POST.getlist("aworeda")
@@ -909,7 +873,7 @@ def activityreport_edit(request, id):
     current_user = request.user
     if current_user == activityreport.user and activityreport.status ==False:
         form = ActivityReportForm(instance=activityreport, user=current_user, activity=activity.id)   
-        context = {'form':form, 'activity':activity, 'user':current_user}
+        context = {'form':form, 'activity':activity, 'user':user}
         return render(request, 'report/activityreport_step_profile_add.html', context)
     
     return redirect('activityreport_detail',id) 
@@ -1075,7 +1039,7 @@ def activityreport_submit_form(request, id, sid):
             if activityreportsubmit.submission_status_id == 2:
                 ActivityReport.objects.filter(activity_id=activity.id).update(status=True)
                 ActivityReport.objects.filter(activity_id=activity.id).update(approval_status="Pending Approval")
-                ActivityReportSubmitApproval_T.objects.create(user = activityreport.technical_lead,submit_id = instance, document = instance.document, approval_status=Approvalt_Status.objects.get(id=1))
+                #ActivityReportSubmitApproval_T.objects.create(user = activityreport.technical_lead,submit_id = instance, document = instance.document, approval_status=Approvalt_Status.objects.get(id=1))
                 ActivityReportSubmitApproval_P.objects.create(user = activityreport.program_lead,submit_id = instance,document = instance.document, approval_status=Approvalf_Status.objects.get(id=1))
                 ActivityReportSubmitApproval_F.objects.create(user = activityreport.finance_lead,submit_id = instance,document = instance.document, approval_status=Approvalt_Status.objects.get(id=1))
                 ActivityReportSubmitApproval_M.objects.create(user = activityreport.mel_lead,submit_id = instance,document = instance.document, approval_status=Approvalt_Status.objects.get(id=1))
@@ -1181,43 +1145,6 @@ def activityreport_submit_approval_list(request, id):
     return render(request, 'report/partial/activityreport_submit_approval_list.html', context )
 
 
-@login_required(login_url='login') 
-def activityreport_approvalt(request, id, did):
-     
-    activityreportsubmitApproval_t = get_object_or_404(ActivityReportSubmitApproval_T, submit_id_id=id)
-    activityreportsubmit = get_object_or_404(ActivityReportSubmit, pk=id)
-    
-    activityreport =  get_object_or_404(ActivityReport, id=activityreportsubmit.activityreport_id)
-
-         
-    if request.method == "GET":
-        form = ActivityReportApprovalTForm(instance=activityreportsubmitApproval_t, user=request.user, activityreport=activityreport.id, did=did)
-        
-        context = {'activityreportsubmitapproval_t':activityreportsubmitApproval_t, 'form': form, 'activityreport':activityreport, 'did':did}
-        return render(request, 'report/activityreport_approval_tform.html', context)
-    
-    elif request.method == "PUT":
-        activityreportsubmitApproval_t = get_object_or_404(ActivityReportSubmitApproval_T, submit_id_id=id)
-        data = QueryDict(request.body).dict()
-        form = ActivityReportApprovalTForm(data, instance=activityreportsubmitApproval_t)
-        if form.is_valid():
-            instance =form.save()
-           
-            activityreportsubmit = get_object_or_404(ActivityReportSubmit, pk=id)
-            activityreport =  get_object_or_404(ActivityReport, id=activityreportsubmit.activityreport_id)
-            update_activityreport_approval_status(activityreportsubmit.id)
-            send_activityreport_notify(activityreport.id, 2)
-
-            return HttpResponse(
-                status=204,
-                headers={
-                    'HX-Trigger': json.dumps({
-                        "SubmitApprovalListChanged": None,
-                        "showMessage": f"{instance.id} added."
-                    })
-                })
-        
-        return render(request, 'report/activityreport_approval_tform.html', {'form':form})
 
 @login_required(login_url='login') 
 def activityreport_approvalm(request, id, did):
@@ -1337,29 +1264,28 @@ def activityreport_approvalf(request, id, did):
 
 def update_activityreport_approval_status(id):
     activityreportsubmit = get_object_or_404(ActivityReportSubmit, pk=id)
-    activityreportsubmitapproval_t = get_object_or_404(ActivityReportSubmitApproval_T, submit_id_id=id)
+    #activityreportsubmitapproval_t = get_object_or_404(ActivityReportSubmitApproval_T, submit_id_id=id)
     activityreportsubmitapproval_m = get_object_or_404(ActivityReportSubmitApproval_M, submit_id_id=id)
     activityreportsubmitapproval_f = get_object_or_404(ActivityReportSubmitApproval_F, submit_id_id=id)
     
-    approval_t = activityreportsubmitapproval_t.approval_status
-    approval_t = int(approval_t)
+    #approval_t = activityreportsubmitapproval_t.approval_status
+    #approval_t = int(approval_t)
     approval_m = activityreportsubmitapproval_m.approval_status
     approval_m = int(approval_m)
     approval_f = activityreportsubmitapproval_f.approval_status
     approval_f = int(approval_f)
     
-    if approval_t == 4 or approval_m== 4 or approval_f== 4:
+    if approval_m== 4 or approval_f== 4:
         ActivityReport.objects.filter(pk=activityreportsubmit.activityreport_id).update(approval_status="Rejected")
-    if approval_t == 2 or approval_m== 2 or approval_f== 2:
+    if  approval_m== 2 or approval_f== 2:
         ActivityReport.objects.filter(pk=activityreportsubmit.activityreport_id).update(approval_status="Revision Required")
-    elif approval_t == 1 and approval_m == 1 and approval_f == 1:
+    elif  approval_m == 1 and approval_f == 1:
         ActivityReport.objects.filter(pk=activityreportsubmit.activityreport_id).update(approval_status="Pending Approval")
-    elif approval_t == 3 and approval_m ==3 and approval_f==3:
-        ActivityReport.objects.filter(pk=activityreportsubmit.activityreport_id).update(approval_status="75% Approved")
-    elif (approval_t == 3 and approval_m ==3 and approval_f !=3) or (approval_t == 3 and approval_m !=3 and approval_f ==3) or (approval_t != 3 and approval_m ==3 and approval_f ==3):
-        ActivityReport.objects.filter(pk=activityreportsubmit.activityreport_id).update(approval_status="50% Approved")
-    elif (approval_t == 3 and approval_m !=3 and approval_f !=3) or (approval_t != 3 and approval_m ==3 and approval_f !=3) or (approval_t != 3 and approval_m!=3 and approval_f ==3):
-        ActivityReport.objects.filter(pk=activityreportsubmit.activityreport_id).update(approval_status="25% Approved") 
+    elif  approval_m ==3 and approval_f==3:
+        ActivityReport.objects.filter(pk=activityreportsubmit.activityreport_id).update(approval_status="66.7% Approved")
+   
+    elif (approval_m !=3 and approval_f ==3) or  (approval_m==3 and approval_f !=3):
+        ActivityReport.objects.filter(pk=activityreportsubmit.activityreport_id).update(approval_status="33.3% Approved") 
 
 
 def update_activityreport_approval_status_final(id):
@@ -1415,10 +1341,7 @@ def send_icnreport_notify(id, uid):
         initiator = icnreport.user.profile.full_name
         user_role = 'Initiator'
         
-    elif uid ==2:
-        subject = 'ICN Report Approval Status changed'
-        initiator = icnreport.technical_lead.user.profile.full_name
-        user_role = 'Technical Lead'
+   
     elif uid ==3:
         subject = 'ICN Report Approval Status changed'
         initiator = icnreport.mel_lead.user.profile.full_name
@@ -1447,7 +1370,7 @@ def send_icnreport_notify(id, uid):
                 }
     html_message = render_to_string("report/partial/report_mail.html", context=context)
     plain_message = strip_tags(html_message)
-    recipient_list = [icnreport.user.email, icnreport.mel_lead.user.email, icnreport.technical_lead.user.email,  icnreport.finance_lead.user.email]
+    recipient_list = [icnreport.user.email, icnreport.mel_lead.user.email, icnreport.finance_lead.user.email]
         
     message = EmailMultiAlternatives(
         subject = subject, 
@@ -1459,11 +1382,11 @@ def send_icnreport_notify(id, uid):
     message.attach_alternative(html_message, "text/html")
     message.send()
     
-    if uid !=5 and icnreport.approval_status == '75% Approved':
+    if uid !=5 and icnreport.approval_status == '66.7% Approved':
         subject = 'Request for ICN Report Final Approval'
         html_message = render_to_string("report/partial/report_mail.html", context=context)
         plain_message = strip_tags(html_message)
-        recipient_list = [icnreport.user.email, icnreport.technical_lead.user.email, icnreport.mel_lead.user.email ,icnreport.program_lead.user.email, icnreport.finance_lead.user.email]
+        recipient_list = [icnreport.user.email, icnreport.mel_lead.user.email ,icnreport.program_lead.user.email, icnreport.finance_lead.user.email]
         
         message = EmailMultiAlternatives(
             subject = subject, 
@@ -1487,10 +1410,7 @@ def send_activityreport_notify(id, uid):
         initiator = activityreport.user.profile.full_name
         user_role = 'Initiator'
         
-    elif uid ==2:
-        subject = 'ACN Report Approval Status changed'
-        initiator = activityreport.technical_lead.user.profile.full_name
-        user_role = 'Technical Lead'
+ 
     elif uid ==3:
         subject = 'ACN Report Approval Status changed'
         initiator = activityreport.mel_lead.user.profile.full_name
@@ -1519,7 +1439,7 @@ def send_activityreport_notify(id, uid):
                 }
     html_message = render_to_string("report/partial/activityreport_mail.html", context=context)
     plain_message = strip_tags(html_message)
-    recipient_list = [activityreport.user.email, activityreport.mel_lead.user.email, activityreport.technical_lead.user.email,  activityreport.finance_lead.user.email]
+    recipient_list = [activityreport.user.email, activityreport.mel_lead.user.email,   activityreport.finance_lead.user.email]
         
     message = EmailMultiAlternatives(
         subject = subject, 
@@ -1531,11 +1451,11 @@ def send_activityreport_notify(id, uid):
     message.attach_alternative(html_message, "text/html")
     message.send()
     
-    if uid !=5 and activityreport.approval_status == '75% Approved':
+    if uid !=5 and activityreport.approval_status == '66.7% Approved':
         subject = 'Request for ACN Report Final Approval'
         html_message = render_to_string("report/partial/activityreport_mail.html", context=context)
         plain_message = strip_tags(html_message)
-        recipient_list = [activityreport.user.email, activityreport.technical_lead.user.email, activityreport.mel_lead.user.email ,activityreport.program_lead.user.email, activityreport.finance_lead.user.email]
+        recipient_list = [activityreport.user.email,  activityreport.mel_lead.user.email ,activityreport.program_lead.user.email, activityreport.finance_lead.user.email]
         
         message = EmailMultiAlternatives(
             subject = subject, 
@@ -1546,3 +1466,80 @@ def send_activityreport_notify(id, uid):
         
         message.attach_alternative(html_message, "text/html")
         message.send()
+
+@login_required(login_url='login')    
+def add_activityreport_impact_dis(request, id):
+    impact_dis = ActivityDisaggregate.objects.get(id=id)
+    impact = ActivityImpact.objects.get(pk=impact_dis.impact_id)
+    activity = Activity.objects.get(id=impact.activity_id)
+    
+    
+    activityreport = ActivityReport.objects.get(activity_id=activity.id)
+    if request.method == "POST":
+       
+        form = ActivityReportImpactDisForm(request.POST)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.disaggregate = impact_dis
+            instance.activityimpact = impact
+            instance.activityreport = activityreport
+            instance.save()
+            return HttpResponseClientRefresh()
+        else:
+            form = ActivityReportImpactDisForm(request.POST)
+            return render(request, 'report/partial/report_activitydisaggregate_form.html', {
+            'form': form,
+            'impact': impact,
+            'impact_dis' :impact_dis,
+                })
+                      
+    form = ActivityReportImpactDisForm()
+    return render(request, 'report/partial/report_activitydisaggregate_form.html', {
+        'form': form,
+        'impact': impact,
+        'impact_dis' :impact_dis,
+    })
+        
+@login_required(login_url='login')    
+def edit_activityreport_impact_dis(request, pk):
+    activityreport_impact_dis = get_object_or_404(ActivityReportDisaggregate, pk=pk)
+
+    impact_dis = ActivityDisaggregate.objects.get(id=activityreport_impact_dis.disaggregate_id)
+    impact = ActivityImpact.objects.get(pk=impact_dis.impact_id)
+    activity = Activity.objects.get(id=impact.activity_id)
+    
+    
+    activityreport = ActivityReport.objects.get(activity_id=activity.id)
+ 
+    if request.method == "POST":
+       
+        form = ActivityReportImpactDisForm(request.POST, instance=activityreport_impact_dis)
+        if form.is_valid():
+            instance = form.save()
+            return HttpResponseClientRefresh()
+        else:
+            form = ActivityReportImpactDisForm(request.POST,instance=activityreport_impact_dis)
+            return render(request, 'report/partial/report_activitydisaggregate_forme.html', {
+                'form': form,
+                'impact': impact,
+                'impact_dis' :impact_dis,
+                'activityreport_impact_dis': activityreport_impact_dis,
+            })
+           
+                
+    form = ActivityReportImpactDisForm(instance=activityreport_impact_dis)
+    return render(request, 'report/partial/report_activitydisaggregate_forme.html', {
+        'form': form,
+        'impact': impact,
+        'impact_dis' :impact_dis,
+        'activityreport_impact_dis':activityreport_impact_dis,
+    })
+
+
+
+@login_required(login_url='login') 
+def delete_activityreport_impact_dis(request, pk):
+    report_impact_dis = get_object_or_404(ActivityReportDisaggregate, pk=pk)
+    instance = report_impact_dis
+    report_impact_dis.delete()
+    return HttpResponseClientRefresh()

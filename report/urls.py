@@ -50,9 +50,9 @@ htmxpatterns = [
  path('activityreport_submit_document/<int:id>/', views.activityreport_submit_document, name='activityreport_submit_document'),
  path('icnreport_approvalp/<int:id>/<int:did>/', views.icnreport_approvalp, name='icnreport_approvalp'),
  path('icnreport_approvalf/<int:id>/<int:did>/', views.icnreport_approvalf, name='icnreport_approvalf'),
- path('icnreport_approvalt/<int:id>/<int:did>/', views.icnreport_approvalt, name='icnreport_approvalt'),
+ #path('icnreport_approvalt/<int:id>/<int:did>/', views.icnreport_approvalt, name='icnreport_approvalt'),
  path('icnreport_approvalm/<int:id>/<int:did>/', views.icnreport_approvalm, name='icnreport_approvalm'),
- path('activityreport_approvalt/<int:id>/<int:did>/', views.activityreport_approvalt, name='activityreport_approvalt'),
+ #path('activityreport_approvalt/<int:id>/<int:did>/', views.activityreport_approvalt, name='activityreport_approvalt'),
  path('activityreport_approvalm/<int:id>/<int:did>/', views.activityreport_approvalm, name='activityreport_approvalm'),
  path('activityreport_approvalp/<int:id>/<int:did>/', views.activityreport_approvalp, name='activityreport_approvalp'),
  path('activityreport_approvalf/<int:id>/<int:did>/', views.activityreport_approvalf, name='activityreport_approvalf'),
@@ -79,6 +79,10 @@ htmxpatterns = [
  path('edit_activityreport_impact/<int:pk>/', views.edit_activityreport_impact, name='edit_activityreport_impact'),
  path('icnreport_impact/<int:pk>/remove/', views.icnreport_remove_impact, name='icnreport_remove_impact'),
  path('activityreport_impact/<int:pk>/remove', views.remove_activityreport_impact, name='remove_activityreport_impact'),
+ 
+ path('add_activityreport_impact_dis/<int:id>/', views.add_activityreport_impact_dis, name='add_activityreport_impact_dis'),
+ path('edit_activityreport_impact_dis/<int:pk>/', views.edit_activityreport_impact_dis, name='edit_activityreport_impact_dis'),
+ path('delete_activityreportimpact_dis/<int:pk>/', views.delete_activityreport_impact_dis, name='delete_activityreport_impact_dis'),
 ]
 
 urlpatterns += htmxpatterns

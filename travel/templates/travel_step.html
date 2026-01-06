@@ -178,6 +178,7 @@ span.nmbr {
     background-color: #fbfcff;
   
 }
+
 </style>
 
 {% endblock %}
@@ -194,7 +195,7 @@ span.nmbr {
             <div class="clearfix"></div>
 
             <div class="row">
-              <div class="col-md-3 col-sm-3 list-group overflow-auto" style="max-height: 600px;  border-radius:2px; scrollbar-width: thin; ">
+              <div class="col-md-3 col-sm-3 list-group overflow-auto" style="max-height: 650.5px;  border-radius:2px; scrollbar-width: thin;   position: relative; ">
                 <div class="x_panel">
                   <div class="x_title">
                     <h2>Travel Requests</h2>
@@ -228,7 +229,7 @@ span.nmbr {
              <ul class="nav nav-tabs  list-unstyled msg_list" >
              {% for list in trequests %}
            
-                    <li "nav-item" style="width:100%" class="{% if  request.resolver_match.kwargs.id == list.id %}nav-link active {% endif %}"aria-selected="{% if list.id|stringformat:"i" in  request.path %}true {% else %}false {% endif %}">
+                    <li "nav-item" style="width:100%" class="{% if  request.resolver_match.kwargs.id == list.id %}nav-link active {% endif %}"aria-selected="{% if  request.resolver_match.kwargs.id == list.id %}true {% else %}false {% endif %}">
                       <a style="width:100%" class="nav-link" href = "/travel/request/{{list.id}}/detail/" >
                         <span >
                                                        <img class="img-responsive  img-circle profile_img " src="{% static 'images/user.png' %}" alt="avatar" title="{{ list.user.profile.full_name}}" style="width: 30px; height:30px; margin-top: 0px; margin-bottom:1px; margin-left: 0px;margin-right: 0px;">
@@ -247,6 +248,7 @@ span.nmbr {
                           <i class="fa fa-calendar"></i> {{list.departure_date}} -  {{list.return_date}}
                         </span>
                       </a>
+                      
                     </li>
                 
                     {% endfor %}
@@ -269,7 +271,7 @@ span.nmbr {
                      <ul class="nav nav-tabs wizard">
               <li  class="{% if 'detail' in request.path or 'new' in request.path or 'edit' in request.path %}active{% elif trequest.get_finance_total == 100.00   %}completed{% endif %}"><a href="{% if trequest %}/travel/request/{{trequest.id}}/detail/{% else %}/travel/request/new/{% endif %}">Travel <small>Information</small></a></li>
               <li class="{% if 'cost' in request.path %}active{% elif not trequest or trequest.get_finance_total != 100.00  %}nav-link disabled{% elif trequest.travel_days == trequest.acc_days and trequest.travel_days2 == trequest.pd_days %}completed{% endif %}"><a href="/travel/request/{{trequest.id}}/cost/" >Estimated Cost</a></li></a></li>
-              <li class="{% if 'review' in request.path  %}active{% elif trequest.travel_days != trequest.acc_days or trequest.travel_days2 != trequest.pd_days %}nav-link disabled{% elif trequest.requestsubmit.status_id == 2 %}completed{%endif %}"><a href="/travel/request/{{trequest.id}}/review/">Review & Submit</a></li>
+              <li class="{% if 'review' in request.path  %}active{% elif not trequest or trequest.travel_days != trequest.acc_days or trequest.travel_days2 != trequest.pd_days %}nav-link disabled{% elif trequest.requestsubmit.status_id == 2 %}completed{%endif %}"><a href="/travel/request/{{trequest.id}}/review/">Review & Submit</a></li>
               <li class="{% if 'approval' in request.path  %}active{% elif trequest.requestsubmit.status_id != 2 %}nav-link disabled{% elif trequest.requestsubmit.submitapproval_b.approval_status_id == 3 and trequest.requestsubmit.submitapproval_f.approval_status_id == 3 and trequest.requestsubmit.submitapproval_s.approval_status_id == 3%}completed{%endif %}"><a href="/travel/request/{{trequest.id}}/approval/"> Approval</a></li>
              
 
@@ -298,7 +300,16 @@ span.nmbr {
     <script src="{% static 'vendors/pnotify/dist/pnotify.buttons.js' %}"></script>
     <script src="{% static 'vendors/pnotify/dist/pnotify.nonblock.js' %}"></script>
 
-{% endblock %}
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script>
+// Wait for the document to be ready (if using jQuery)
+$(document).ready(function() {
+  // Listen for the 'shown.bs.dropdown' event on the dropdown container
+  $('.dropdown.nav-link.active').on('shown.bs.dropdown', function() {
+    // Find the active item within the scrollable menu and focus it
+    $(this).find('.nav-tabs li.active a').focus();
+  });
+});
+</script>
+{% endblock content_page_js %}
