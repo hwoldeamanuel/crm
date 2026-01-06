@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import Portfolio_Category, Portfolio_Type, Region, Zone, Woreda, Feedback_Resolution, Country, FieldOffice, Approvalt_Status, Approvalf_Status, Submission_Status, Travel_Cost,Fund, Lin_Code, Feedback_Category, Feedback_Channel, Informant_Age, Informant_Gender, Informed_Consent, Informant_Status,Feedback_Status,Feedback_Response_Type
 # Register your models here.
-
+#kflkdsjf
 admin.site.register(Portfolio_Type)
 admin.site.register(Portfolio_Category)
 admin.site.register(Region)
