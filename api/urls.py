@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import *
-
+# habtamu changes
 urlpatterns = [
     path('region/', RegionList.as_view()),
     path('region/<int:pk>/', RegionDetail.as_view()),
