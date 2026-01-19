@@ -1,4 +1,6 @@
 # # ERP System with apps including
+# Django/PostgreSQL/Bootstrap/css/js/htmx/chartjs
+hosted on Azure App Services
 # Concept Note Managment System
 # Fleet Managment System
 # Travel approval System
