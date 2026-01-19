@@ -1,4 +1,4 @@
-# ERP System with apps including
+# ERP System with multiple apps:
 ### Django/PostgreSQL/Bootstrap/css/js/htmx/chartjs
 ### hosted on Azure App Services
 ### Concept Note Managment System
