@@ -7,4 +7,5 @@
 ### CARM Feedback management System
 
 Screenshot 1
-<img width="1886" height="1075" alt="image" src="https://github.com/user-attachments/assets/035a44fe-a821-4728-9349-b15c7ac1b5e7" />
+<img width="1801" height="987" alt="image" src="https://github.com/user-attachments/assets/60cbf447-1d13-4ad6-80a0-ce71c8754bab" />
+
